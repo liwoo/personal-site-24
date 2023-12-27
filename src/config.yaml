@@ -1,6 +1,6 @@
 site:
-  name: AstroWind
-  site: 'https://astrowind.vercel.app'
+  name: Chienda
+  site: 'https://chienda.com'
   base: '/'
   trailingSlash: false
 
@@ -9,22 +9,22 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: AstroWind
-    template: '%s — AstroWind'
-  description: "\U0001F680 Suitable for Startups, Small Business, Sass Websites, Professional Portfolios, Marketing Websites, Landing Pages & Blogs."
+    default: Chienda
+    template: '%s — Chienda'
+  description: "Welcome to my Digital Garden. I'm Jeremiah Chienda, a software engineer and a writer. I write about software, productivity, and life."
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: AstroWind
+    site_name: Chienda
     images:
       - url: '~/assets/images/default.png'
         width: 1200
         height: 628
     type: website
   twitter:
-    handle: '@onwidget'
-    site: '@onwidget'
+    handle: '@li_woo'
+    site: '@li_woo'
     cardType: summary_large_image
 
 i18n:
@@ -71,7 +71,7 @@ ui:
   tokens:
     default:
       fonts:
-        sans: InterVariable
+        sans: Raleway
         serif: var(--ph-font-sans)
         heading: var(--ph-font-sans)
       colors:
@@ -91,10 +91,10 @@ ui:
     dark:
       fonts: {}
       colors:
-        default: rgb(247, 248, 248)
+        default: rgb(23, 23, 23)
         heading: rgb(247, 248, 248)
         muted: rgb(200, 188, 208)
-        bgPage: rgb(3 6 32)
+        bgPage: rgb(23 23 23)
         primary: rgb(29 78 216)
         secondary: rgb(30 58 138)
         accent: rgb(135 77 2267)
