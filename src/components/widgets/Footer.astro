@@ -38,7 +38,7 @@ const { socialLinks = [], links = [], footNote = '', theme = 'light', cryptoLink
     >
       <div class="col-span-12 lg:col-span-3">
         <Image
-          class="mx-auto rounded-full bg-gray-500 shadow-lg"
+          class="mx-auto rounded-full bg-gray-500 shadow-lg hidden sm:block"
           width={200}
           height={200}
           widths={[400, 768]}
@@ -69,9 +69,9 @@ const { socialLinks = [], links = [], footNote = '', theme = 'light', cryptoLink
         ))
       }
       <div class="col-span-6 md:col-span-3 lg:col-span-3 text-right flex flex-col gap-y-1">
-        <div class="flex items-center gap-x-2 justify-end">
-          <Mug className='stroke-default' />
-          <h2>Wanna buy me a Coffee?</h2>
+        <div class="items-center gap-x-2 justify-end flex">
+          <Mug className='stroke-default hidden md:block' />
+          <h2 class="text-sm lg:text-lg">Wanna buy me a Coffee?</h2>
         </div>
         <h4 class="text-xs text-muted">I accept the following Crypto:</h4>
         {

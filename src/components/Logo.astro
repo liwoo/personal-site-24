@@ -1,9 +1,14 @@
 ---
-import { SITE } from '~/utils/config';
+import image from '~/assets/images/dp.png';
+import Image from '~/components/common/Image.astro';
 ---
 
-<span
-  class="self-center ml-2 rtl:ml-0 rtl:mr-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white"
->
-  🚀 {SITE?.name}
-</span>
+<Image
+  class="mx-auto rounded-full bg-gray-500 shadow-lg hidden sm:block border-2 border-primary"
+  width={40}
+  height={40}
+  widths={[400, 768]}
+  layout="fixed"
+  src={image}
+  alt="Profile Picture"
+/>
