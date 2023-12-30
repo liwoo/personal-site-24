@@ -1,0 +1,30 @@
+---
+import type { Link } from '~/types';
+
+type Props = {
+  logos?: Array<Link>;
+};
+
+const { logos = [] } = Astro.props;
+---
+
+{
+  logos?.length ? (
+    <div class="flex overflow-hidden space-x-16 group">
+      <ul class="flex space-x-16 animate-loop-scroll">
+        {logos.map(({ icon, text }) => (
+          <li>
+            <img src={`/src/assets/images/logos/png/${icon}-light.png`} width="200" height="200" class="max-w-none" alt={text} />
+          </li>
+        ))}
+      </ul>
+      <ul class="flex space-x-16 animate-loop-scroll" aria-hidden="true">
+        {logos.map(({ icon, text }) => (
+          <li>
+            <img src={`/src/assets/images/logos/png/${icon}-light.png`} width="200" height="200" class="max-w-none" alt={text} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  ) : null
+}

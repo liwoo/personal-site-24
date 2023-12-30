@@ -43,9 +43,9 @@ const {
 const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 ---
 
-<header id="header" class="container">
+<header id="header">
   <div class="absolute inset-0"></div>
-  <div class="relative z-20 text-default py-4 lg:py-12 px-3 md:px-6 mx-auto w-full md:flex md:justify-between">
+  <div class="fixed z-20 itemx-center inset-x-0 container-lg text-default py-4 lg:py-12 px-3 md:px-6 mx-auto w-full md:flex md:justify-between">
     <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
       <a class="flex items-center" href={getHomePermalink()}>
         <Logo />
@@ -55,7 +55,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       </div>
     </div>
     <nav
-      class="items-center w-ful md:w-auto hidden md:flex text-muted overflow-y-auto overflow-x-hidden md:overflow-y-visible md:overflow-x-auto md:mx-6"
+      class="items-center w-full md:w-auto hidden md:flex text-muted overflow-y-auto overflow-x-hidden md:overflow-y-visible md:overflow-x-auto md:mx-6"
       aria-label="Main navigation"
     >
       <ul
@@ -105,7 +105,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     <div
       class:list={[
         { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
-        'hidden md:self-center flex md:flex items-center md:mb-0 fixed w-full md:w-auto md:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 md:p-0',
+        'hidden bg-page md:self-center flex md:flex items-center md:mb-0 fixed w-full md:w-auto md:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 md:p-0',
       ]}
     >
       <div class="items-center flex justify-between w-full md:w-auto">

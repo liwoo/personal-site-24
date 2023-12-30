@@ -4,14 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import image from '~/assets/images/dp.png';
 import Image from '~/components/common/Image.astro';
 import Mug from '~/components/icons/Mug.astro';
-
-interface Link {
-  text?: string;
-  href?: string;
-  ariaLabel?: string;
-  icon?: string;
-  color?: string;
-}
+import type { Link } from '~/types';
 
 interface Links {
   title?: string;

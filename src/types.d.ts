@@ -223,6 +223,14 @@ export interface Stats extends Headline, Widget {
   stats?: Array<Stat>;
 }
 
+export interface Link {
+  text?: string;
+  href?: string;
+  ariaLabel?: string;
+  icon?: string;
+  color?: string;
+}
+
 export interface Pricing extends Headline, Widget {
   prices?: Array<Price>;
 }

@@ -36,23 +36,34 @@
   .btn-tertiary {
     @apply btn border-none shadow-none text-muted hover:text-gray-900 dark:text-gray-400 dark:hover:text-white;
   }
+
+  .underline {
+    /* background-image: url('../images/underline.svg'); */
+    @apply bg-[url('../images/underline-bright.svg')] dark:bg-[url(../images/underline.svg)] bg-no-repeat bg-[center_bottom_-0.1rem] bg-contain;
+  }
+
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6
+  }
+
+  .container-lg {
+    @apply max-w-[60rem] mx-auto px-4 sm:px-6
+  }
+  
+  .bitcoin {
+    @apply bg-[#FF914D]
+  }
+  
+  .ethereum {
+    @apply bg-[#627EEA]
+  }
+  
+  .solana {
+    @apply bg-[#66F9A1]
+  }
 }
 
-.container {
-  @apply max-w-7xl mx-auto px-4 sm:px-6
-}
 
-.bitcoin {
-  @apply bg-[#FF914D]
-}
-
-.ethereum {
-  @apply bg-[#627EEA]
-}
-
-.solana {
-  @apply bg-[#66F9A1]
-}
 
 #header.scroll > div:first-child {
   @apply bg-page md:bg-white/90 md:backdrop-blur-md;

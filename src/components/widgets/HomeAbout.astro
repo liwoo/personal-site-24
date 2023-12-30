@@ -1,0 +1,61 @@
+---
+import Headline from '~/components/ui/Headline.astro';
+import LogoCloud from './LogoCloud.astro';
+import type { Link } from '~/types';
+
+const logos: Array<Link> = [
+    {
+        text: 'Bestseller',
+        icon: 'bestseller',
+    },
+    {
+        text: 'Irembo',
+        icon: 'irembo',
+    },
+    {
+        text: 'UNDP',
+        icon: 'undp',
+    },
+    {
+        text: 'Bestseller',
+        icon: 'bestseller',
+    },
+    {
+        text: 'Bestseller',
+        icon: 'bestseller',
+    },
+    {
+        text: 'Bestseller',
+        icon: 'bestseller',
+    },
+    {
+        text: 'Bestseller',
+        icon: 'bestseller',
+    },
+      {
+        text: 'Bestseller',
+        icon: 'bestseller',
+    },
+    {
+        text: 'Bestseller',
+        icon: 'bestseller',
+    },
+    {
+        text: 'Bestseller',
+        icon: 'bestseller',
+    },
+    {
+        text: 'Bestseller',
+        icon: 'bestseller',
+    },
+]
+
+---
+
+<div class="container" id="about">
+  <Headline
+    tagline="You're in Great Company"
+    subtitle="Over the last 10 years, I've had the great priviledge of working with and for some amazing organizations"
+  />
+  <LogoCloud logos={logos} />
+</div>
