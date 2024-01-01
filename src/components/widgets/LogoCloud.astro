@@ -6,25 +6,67 @@ type Props = {
 };
 
 const { logos = [] } = Astro.props;
+const logosLength = logos.length;
+const randomizedLogos = logos.sort(() => Math.random() - 0.5);
+const topLogos = randomizedLogos.slice(0, logosLength / 2);
+const bottomLogos = randomizedLogos.slice(logosLength / 2, logosLength);
 ---
 
 {
   logos?.length ? (
-    <div class="flex overflow-hidden space-x-16 group">
-      <ul class="flex space-x-16 animate-loop-scroll">
-        {logos.map(({ icon, text }) => (
-          <li>
-            <img src={`/src/assets/images/logos/png/${icon}-light.png`} width="200" height="200" class="max-w-none" alt={text} />
-          </li>
-        ))}
-      </ul>
-      <ul class="flex space-x-16 animate-loop-scroll" aria-hidden="true">
-        {logos.map(({ icon, text }) => (
-          <li>
-            <img src={`/src/assets/images/logos/png/${icon}-light.png`} width="200" height="200" class="max-w-none" alt={text} />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <div class="flex overflow-hidden space-x-16 group">
+        <ul class="flex space-x-16 animate-loop-scroll">
+          {topLogos.map(({ icon, text }) => (
+            <li>
+              <img
+                data-img-type
+                src={`/src/assets/images/logos/png/${icon}-light.png`}
+                class="max-w-none w-28 h-28 lg:w-48 lg:h-48"
+                alt={text}
+              />
+            </li>
+          ))}
+        </ul>
+        <ul class="flex space-x-16 animate-loop-scroll" aria-hidden="true">
+          {topLogos.map(({ icon, text }) => (
+            <li>
+              <img
+                data-img-type
+                src={`/src/assets/images/logos/png/${icon}-light.png`}
+                class="max-w-none w-28 h-28 lg:w-48 lg:h-48"
+                alt={text}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="flex overflow-hidden space-x-16 group">
+        <ul class="flex space-x-16 animate-loop-scroll-reverse">
+          {bottomLogos.map(({ icon, text }) => (
+            <li>
+              <img
+                data-img-type
+                src={`/src/assets/images/logos/png/${icon}-light.png`}
+                class="max-w-none w-28 h-28 lg:w-48 lg:h-48"
+                alt={text}
+              />
+            </li>
+          ))}
+        </ul>
+        <ul class="flex space-x-16 animate-loop-scroll-reverse" aria-hidden="true">
+          {bottomLogos.map(({ icon, text }) => (
+            <li>
+              <img
+                data-img-type
+                src={`/src/assets/images/logos/png/${icon}-light.png`}
+                class="max-w-none w-28 h-28 lg:w-48 lg:h-48"
+                alt={text}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   ) : null
 }

@@ -10,11 +10,27 @@ import { UI } from '~/utils/config';
   window.basic_script = true;
 
   function applyTheme(theme) {
+    toggleCompanyLogo(theme);
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
+  }
+
+  function toggleCompanyLogo(theme) {
+    const companyLogo = document.querySelectorAll('[data-img-type]');
+    
+    if (theme === 'dark') {
+      for (let i = 0; i < companyLogo.length; i++) {
+        companyLogo[i].src = companyLogo[i].src.replace('dark', 'light');
+      }
+    } else {
+      for (let i= 0; i < companyLogo.length; i++) {
+        companyLogo[i].src = companyLogo[i].src.replace('light', 'dark');
+      }
+    }
+    
   }
 
   const initTheme = function () {
@@ -69,6 +85,7 @@ import { UI } from '~/utils/config';
       }
       document.documentElement.classList.toggle('dark');
       localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+      toggleCompanyLogo(localStorage.theme);
     });
 
     attachEvent('[data-aw-social-share]', 'click', function (_, elem) {
