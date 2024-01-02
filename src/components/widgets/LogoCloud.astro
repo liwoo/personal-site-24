@@ -1,6 +1,5 @@
 ---
 import type { ImageMetadata } from 'astro';
-import { Image } from 'astro:assets';
 
 import type { Link } from '~/types';
 
@@ -24,10 +23,18 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
         <div class="flex overflow-hidden space-x-16 group">
           <ul class="flex space-x-16 animate-loop-scroll">
             {topLogos.map(async ({ icon, text }) => {
-              const src = (await images[`/src/assets/images/logos/png/${icon}-light.png`]()).default.src;
+              const srcDark = (await images[`/src/assets/images/logos/png/${icon}-dark.png`]()).default.src;
+              const srcLight = (await images[`/src/assets/images/logos/png/${icon}-light.png`]()).default.src;
               return (
                 <li>
-                  <img data-img-type src={src} class="max-w-none w-28 h-28 lg:w-48 lg:h-48" alt={text ?? ''} />
+                  <img
+                    data-img-type
+                    src={srcLight}
+                    data-img-dark={srcDark}
+                    data-img-light={srcLight}
+                    class="max-w-none w-28 h-28 lg:w-48 lg:h-48"
+                    alt={text ?? ''}
+                  />
                 </li>
               );
             })}
@@ -35,9 +42,16 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
           <ul class="flex space-x-16 animate-loop-scroll" aria-hidden="true">
             {topLogos.map(async ({ icon, text }) => {
               const src = (await images[`/src/assets/images/logos/png/${icon}-light.png`]()).default.src;
+              const srcDark = (await images[`/src/assets/images/logos/png/${icon}-dark.png`]()).default.src;
               return (
                 <li>
-                  <img data-img-type src={src} class="max-w-none w-28 h-28 lg:w-48 lg:h-48" alt={text ?? ''} />
+                  <img
+                    data-img-type
+                    src={src}
+                    data-img-alt={srcDark}
+                    class="max-w-none w-28 h-28 lg:w-48 lg:h-48"
+                    alt={text ?? ''}
+                  />
                 </li>
               );
             })}
@@ -46,20 +60,36 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
         <div class="flex overflow-hidden space-x-16 group">
           <ul class="flex space-x-16 animate-loop-scroll-reverse">
             {bottomLogos.map(async ({ icon, text }) => {
-              const src = (await images[`/src/assets/images/logos/png/${icon}-light.png`]()).default.src;
+              const srcDark = (await images[`/src/assets/images/logos/png/${icon}-dark.png`]()).default.src;
+              const srcLight = (await images[`/src/assets/images/logos/png/${icon}-light.png`]()).default.src;
               return (
                 <li>
-                  <img data-img-type src={src} class="max-w-none w-28 h-28 lg:w-48 lg:h-48" alt={text ?? ''} />
+                  <img
+                    data-img-type
+                    src={srcLight}
+                    data-img-dark={srcDark}
+                    data-img-light={srcLight}
+                    class="max-w-none w-28 h-28 lg:w-48 lg:h-48"
+                    alt={text ?? ''}
+                  />
                 </li>
               );
             })}
           </ul>
           <ul class="flex space-x-16 animate-loop-scroll-reverse" aria-hidden="true">
             {bottomLogos.map(async ({ icon, text }) => {
-              const src = (await images[`/src/assets/images/logos/png/${icon}-light.png`]()).default.src;
+              const srcDark = (await images[`/src/assets/images/logos/png/${icon}-dark.png`]()).default.src;
+              const srcLight = (await images[`/src/assets/images/logos/png/${icon}-light.png`]()).default.src;
               return (
                 <li>
-                  <img data-img-type src={src} class="max-w-none w-28 h-28 lg:w-48 lg:h-48" alt={text ?? ''} />
+                  <img
+                    data-img-type
+                    src={srcLight}
+                    data-img-dark={srcDark}
+                    data-img-light={srcLight}
+                    class="max-w-none w-28 h-28 lg:w-48 lg:h-48"
+                    alt={text ?? ''}
+                  />
                 </li>
               );
             })}
@@ -70,20 +100,36 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
       <div class="flex lg:hidden overflow-hidden space-x-16 group">
         <ul class="flex space-x-16 animate-loop-scroll-fast">
           {logos.map(async ({ icon, text }) => {
-            const src = (await images[`/src/assets/images/logos/png/${icon}-light.png`]()).default.src;
+            const srcDark = (await images[`/src/assets/images/logos/png/${icon}-dark.png`]()).default.src;
+            const srcLight = (await images[`/src/assets/images/logos/png/${icon}-light.png`]()).default.src;
             return (
               <li>
-                <img data-img-type src={src} class="max-w-none w-28 h-28 lg:w-48 lg:h-48" alt={text ?? ''} />
+                <img
+                  data-img-type
+                  src={srcLight}
+                  data-img-dark={srcDark}
+                  data-img-light={srcLight}
+                  class="max-w-none w-28 h-28 lg:w-48 lg:h-48"
+                  alt={text ?? ''}
+                />
               </li>
             );
           })}
         </ul>
         <ul class="flex space-x-16 animate-loop-scroll-fast" aria-hidden="true">
           {logos.map(async ({ icon, text }) => {
-            const src = (await images[`/src/assets/images/logos/png/${icon}-light.png`]()).default.src;
+            const srcDark = (await images[`/src/assets/images/logos/png/${icon}-dark.png`]()).default.src;
+            const srcLight = (await images[`/src/assets/images/logos/png/${icon}-light.png`]()).default.src;
             return (
               <li>
-                <img data-img-type src={src} class="max-w-none w-28 h-28 lg:w-48 lg:h-48" alt={text ?? ''} />
+                <img
+                  data-img-type
+                  src={srcLight}
+                  data-img-dark={srcDark}
+                  data-img-light={srcLight}
+                  class="max-w-none w-28 h-28 lg:w-48 lg:h-48"
+                  alt={text ?? ''}
+                />
               </li>
             );
           })}

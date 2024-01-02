@@ -23,11 +23,11 @@ import { UI } from '~/utils/config';
     
     if (theme === 'dark') {
       for (let i = 0; i < companyLogo.length; i++) {
-        companyLogo[i].src = companyLogo[i].src.replace('dark', 'light');
+        companyLogo[i].src = companyLogo[i].src = companyLogo[i].dataset.imgLight;
       }
     } else {
       for (let i= 0; i < companyLogo.length; i++) {
-        companyLogo[i].src = companyLogo[i].src.replace('light', 'dark');
+        companyLogo[i].src = companyLogo[i].src = companyLogo[i].dataset.imgDark;
       }
     }
     
