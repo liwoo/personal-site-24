@@ -4,6 +4,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import HomeHero from '~/components/widgets/HomeHero.astro';
 import HomeAbout from '~/components/widgets/HomeAbout.astro';
 import { footerData } from '~/navigation';
+import HomeArticles from '~/components/widgets/HomeArticles.astro';
 
 const metadata = {
   ignoreTitleTemplate: true,
@@ -13,9 +14,10 @@ const metadata = {
 <Layout metadata={metadata}>
   <HomeHero socialLinks={footerData.socialLinks} title="Software Engineer" name="Jeremiah Chienda">
     <Fragment slot="description">
-      Hi 👋🏽, my name is Jeremiah. I'm <span class="underline">extreeemely</span> good at building Software, speaking at
-      events about Blockchain and Software Engineering, plus I make some dope Christian Rap!
+      Hi 👋🏽, my name is Jeremiah. I'm <span class="underlined">extreeemely</span> good at building Software, <span class="hidden md:inline">speaking at
+        events about Blockchain and Software Engineering, </span>plus I make some dope Christian Rap!
     </Fragment>
   </HomeHero>
   <HomeAbout />
+  <HomeArticles />
 </Layout>

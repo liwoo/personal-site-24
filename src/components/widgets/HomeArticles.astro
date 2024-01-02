@@ -1,0 +1,21 @@
+---
+import BlogListItem from './BlogListItem.astro';
+
+// type Props = {
+
+// }
+
+// const {} = Astro.props
+---
+
+<div class="flex flex-col lg:flex-row container-lg my-8 gap-x-8">
+  <div class="flex-1">
+    <BlogListItem
+      date="December 15, 2023"
+      title="How I build my new website in Astro"
+      excerpt="When we released the first version of cosmOS last year, it was written in Go. Go is a wonderful programming language with a lot of benefits, but it’s been a while since I’ve seen an article on the front page of Hacker News about rewriting some important tool in Go"
+      slug='/how-i-build-my-new-website-in-astro'
+    />
+  </div>
+  <div class="flex-1">Widgets Here</div>
+</div>

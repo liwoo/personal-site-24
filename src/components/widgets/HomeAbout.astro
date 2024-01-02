@@ -2,6 +2,7 @@
 import Headline from '~/components/ui/Headline.astro';
 import LogoCloud from './LogoCloud.astro';
 import { logos } from '~/company-logos';
+import Button from '~/components/ui/Button.astro';
 ---
 
 <div class="container" id="about">
@@ -10,4 +11,7 @@ import { logos } from '~/company-logos';
     subtitle="Over the last 10 years, I've had the great priviledge of working with and for some amazing organizations"
   />
   <LogoCloud logos={logos} />
+  <div class="flex justify-center py-8 mb-8 border-b border-muted">
+    <Button variant="tertiary" href="/about">View my Bio</Button>
+  </div>
 </div>

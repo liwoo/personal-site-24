@@ -34,11 +34,23 @@
   }
 
   .btn-tertiary {
-    @apply btn border-none shadow-none text-muted hover:text-gray-900 dark:text-gray-400 dark:hover:text-white;
+    @apply btn border-none bg-transparent hover:bg-transparent text-secondary text-lg hover:text-primary;
+    &::after {
+      content: '\279E';
+      @apply ml-2 rotate-[135deg] -scale-x-100;
+    }
+
   }
 
-  .underline {
-    /* background-image: url('../images/underline.svg'); */
+  .btn-link {
+    @apply cursor-pointer text-secondary hover:text-primary;
+    &::after {
+      content: '\279E';
+      @apply ml-2;
+    }
+  }
+
+  .underlined {
     @apply bg-[url('../images/underline-bright.svg')] dark:bg-[url(../images/underline.svg)] bg-no-repeat bg-[center_bottom_-0.1rem] bg-contain;
   }
 
