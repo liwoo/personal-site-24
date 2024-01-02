@@ -1,21 +1,44 @@
 ---
 import BlogListItem from './BlogListItem.astro';
+import Headline from '~/components/ui/Headline.astro';
+import { APP_BLOG } from '~/utils/config';
+import { findLatestPosts } from '~/utils/blog';
+import FormContainer from '~/components/ui/Form.astro';
+import type { Input } from '~/types';
 
-// type Props = {
+type Props = {
+  count?: number;
+};
 
-// }
-
-// const {} = Astro.props
+const { count = 4 } = Astro.props;
+const posts = APP_BLOG.isEnabled ? await findLatestPosts({ count }) : [];
+const signupInputs: Input[] = [
+  {
+    name: 'email',
+    label: 'Email',
+    type: 'email',
+    placeholder: 'Enter your email address to signup',
+  },
+];
 ---
 
-<div class="flex flex-col lg:flex-row container-lg my-8 gap-x-8">
-  <div class="flex-1">
-    <BlogListItem
-      date="December 15, 2023"
-      title="How I build my new website in Astro"
-      excerpt="When we released the first version of cosmOS last year, it was written in Go. Go is a wonderful programming language with a lot of benefits, but it’s been a while since I’ve seen an article on the front page of Hacker News about rewriting some important tool in Go"
-      slug='/how-i-build-my-new-website-in-astro'
-    />
+<div>
+  <Headline
+    tagline="Fresh from the Blog"
+    subtitle="My goal is to help you think about Sofware Engineering like a Senior Engineer. I write mostly about React and .NET, but a lot of the content is applicable to any language or framework."
+  />
+  <div class="flex flex-col lg:flex-row container-lg my-8 gap-x-8">
+    <div class="flex-1">
+      {posts.map((post) => <BlogListItem post={post} />)}
+    </div>
+    <div class="flex-1">
+      <FormContainer
+        title="Don't get left behind!"
+        inputs={signupInputs}
+        description="Subscribe and get notified whenever I publish a new article and receive exclusive content."
+        disclaimer={{ label: 'No spam. Unsubscribe at any time.' }}
+        button="Signup"
+      />
+    </div>
   </div>
-  <div class="flex-1">Widgets Here</div>
 </div>

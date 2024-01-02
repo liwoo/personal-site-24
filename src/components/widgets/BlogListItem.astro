@@ -1,24 +1,25 @@
 ---
+import type { Post } from '~/types';
+import { getFormattedDate } from '~/utils/utils';
 import Button from '../ui/Button.astro';
 type Props = {
-  title: string;
-  date: string;
-  excerpt: string;
-  slug: string;
+  post: Post;
 };
 
-const { title, date, excerpt, slug } = Astro.props;
+const { post } = Astro.props;
 ---
 
-<div class="flex flex-col gap-y-2 rounded-xl transition-all ease-in delay-25 hover:dark:bg-[#0f0f0f] hover:bg-[#fafafa] p-4">
+<div
+  class="flex flex-col gap-y-2 rounded-xl transition-all ease-in delay-25 hover:dark:bg-[#1e1e1e] hover:bg-[#e0e0e0] p-4"
+>
   <div class="w-1/2">
-    <p class="text-muted">{date}</p>
+    <time datetime={String(post.publishDate)} class="inline-block text-muted">{getFormattedDate(post.publishDate)}</time>
     <div class="flex my-2">
       <div class="flex-1 border-t border-default"></div>
       <div class="flex-1 border-t border-muted"></div>
     </div>
   </div>
-  <h3 class="text-xl">{title}</h3>
-  <p class="text-muted leading-6 line-clamp-3">{excerpt}</p>
-  <Button variant="link" href={slug}>Read More</Button>
+  <h3 class="text-xl">{post.title}</h3>
+  <p class="text-muted leading-6 line-clamp-2">{post.excerpt}</p>
+  <Button variant="link" href={post.slug}>Read More</Button>
 </div>
