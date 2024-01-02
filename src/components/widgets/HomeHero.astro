@@ -2,28 +2,31 @@
 import Button from '~/components/ui/Button.astro';
 import type { Link } from '~/types';
 import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
 
 export interface Props {
   id?: string;
   name?: string;
   title?: string;
   tagline?: string;
-  socialLinks?: Array<Link>
+  socialLinks?: Array<Link>;
   description?: string;
-  actions?: Array<{ variant: 'primary', target: '_blank', text: 'Hire me', href: '/' }>;
+  actions?: Array<{ variant: 'primary'; target: '_blank'; text: 'Hire me'; href: '/' }>;
 }
 
 const { id, title, name, socialLinks = [], description = Astro.slots.render('description') } = Astro.props;
-const heroBg = "https://res.cloudinary.com/tiyeni/video/upload/v1704153326/hero.mp4";
+const heroBg = 'https://res.cloudinary.com/tiyeni/video/upload/v1704153326/hero.mp4';
+// const heroBgMobile =
+//   'https://res.cloudinary.com/tiyeni/image/upload/v1704158128/jefferson-santos-9SoCnyQmkzI-unsplash_1.png';
 ---
 
-<section class="not-prose flex flex-col justify-end h-lvh" {...id ? { id } : {}}>
+<section class="not-prose flex flex-col justify-end h-lvh bg-[url(https://res.cloudinary.com/tiyeni/image/upload/v1704158128/jefferson-santos-9SoCnyQmkzI-unsplash_1.png)] bg-no-repeat object-contain bg-center" {...id ? { id } : {}}>
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-    <video autoplay muted loop id="hero-video" class="h-lvh w-full object-cover">
+    <video autoplay muted loop id="hero-video" class="hidden md:block h-lvh w-full object-cover">
       <source src={heroBg} type="video/mp4" />
     </video>
     <div
-      class="absolute h-lvh inset-0 bg-gradient-to-b from-orange-200 via-orange-100 to-amber-100 dark:from-teal-300 dark:to-teal-950 mix-blend-multiply"
+      class="absolute h-lvh inset-0 bg-gradient-to-b from-orange-200 via-orange-100 to-amber-100 dark:from-teal-300 dark:to-teal-950 mix-blend-darken dark:mix-blend-multiply"
     >
     </div>
   </div>
@@ -31,7 +34,7 @@ const heroBg = "https://res.cloudinary.com/tiyeni/video/upload/v1704153326/hero.
   <div
     class="absolute flex flex-col justify-center items-center gap-y-4 inset-y-0 right-0 w-full md:w-2/3 lg:w-1/2 xl:w-1/3"
   >
-    <div class="bg-page p-8 ml-8 lg:m-0 rounded-tl-xl rounded-bl-xl text-2xl bg-page">
+    <div class="bg-page p-8 ml-8 lg:m-0 rounded-tl-xl rounded-bl-xl text-2xl">
       <h1
         class="text-transparent bg-clip-text font-semibold bg-gradient-to-b from-[#836F28] to-[#4B3511] dark:from-[#FFDBA3] dark:to-[#836F28]"
         set:html={description}
