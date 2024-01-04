@@ -39,7 +39,6 @@
       content: '\279E';
       @apply ml-2 rotate-[135deg] -scale-x-100;
     }
-
   }
 
   .btn-link {
@@ -55,27 +54,25 @@
   }
 
   .container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6
+    @apply max-w-7xl mx-auto px-4 sm:px-6;
   }
 
   .container-lg {
-    @apply max-w-[60rem] mx-auto px-4 sm:px-6
+    @apply max-w-[60rem] mx-auto px-4 sm:px-6;
   }
-  
+
   .bitcoin {
-    @apply bg-[#FF914D]
+    @apply bg-[#FF914D];
   }
-  
+
   .ethereum {
-    @apply bg-[#627EEA]
+    @apply bg-[#627EEA];
   }
-  
+
   .solana {
-    @apply bg-[#66F9A1]
+    @apply bg-[#66F9A1];
   }
 }
-
-
 
 #header.scroll > div:first-child {
   @apply bg-page md:bg-white/90 md:backdrop-blur-md;

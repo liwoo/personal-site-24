@@ -1,0 +1,45 @@
+---
+
+---
+<>
+<div class="grid md:hidden grid-cols-12 grid-rows-8 gap-2 -scale-x-100">
+    {
+      Array.from({ length: 78 }).map((_, i) => (
+        <div
+          data-square={`sq-${i + 1}`}
+          class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75"
+        />
+      ))
+    }
+  </div>
+<div class="hidden md:grid lg:hidden grid-cols-8 grid-rows-4 gap-4 -scale-x-100">
+  {
+    Array.from({ length: 45 }).map((_, i) => (
+      <div
+        data-square={`sq-${i + 1}`}
+        class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75"
+      />
+    ))
+  }
+</div>
+<div class="hidden lg:grid xl:hidden grid-cols-10 grid-rows-8 gap-4 -scale-x-100">
+  {
+    Array.from({ length: 66 }).map((_, i) => (
+      <div
+        data-square={`sq-${i + 1}`}
+        class="about-squared h-10 w-10 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75"
+      />
+    ))
+  }
+</div>
+<div class="hidden xl:grid grid-cols-12 grid-rows-8 gap-4 -scale-x-100">
+    {
+      Array.from({ length: 78 }).map((_, i) => (
+        <div
+          data-square={`sq-${i + 1}`}
+          class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75"
+        />
+      ))
+    }
+  </div>
+</>

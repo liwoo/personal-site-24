@@ -206,6 +206,7 @@ export interface Form {
   description?: string;
   inline?: boolean;
   title?: string;
+  icon?: string;
 }
 
 // WIDGETS

@@ -8,6 +8,8 @@ module.exports = {
         'loop-scroll': 'loop-scroll 50s linear infinite',
         'loop-scroll-fast': 'loop-scroll-fast 30s linear infinite',
         'loop-scroll-reverse': 'loop-scroll-reverse 50s linear infinite',
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
       keyframes: {
         'loop-scroll': {
@@ -22,6 +24,14 @@ module.exports = {
           from: { transform: 'translateX(-100%)' },
           to: { transform: 'translateX(0)' },
         },
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
       },  
       colors: {
         primary: 'var(--aw-color-primary)',
@@ -29,6 +39,8 @@ module.exports = {
         accent: 'var(--aw-color-accent)',
         default: 'var(--aw-color-text-default)',
         muted: 'var(--aw-color-text-muted)',
+        destructive: 'var(--aw-color-destructive)',
+        card: 'var(--aw-color-card-bg)',
       },
       fontFamily: {
         sans: ['var(--aw-font-sans)', ...defaultTheme.fontFamily.sans],
@@ -37,6 +49,6 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [require('@tailwindcss/typography'), require("tailwindcss-animate")],
   darkMode: 'class',
 };

@@ -5,6 +5,9 @@ import { APP_BLOG } from '~/utils/config';
 import { findLatestPosts } from '~/utils/blog';
 import FormContainer from '~/components/ui/Form.astro';
 import type { Input } from '~/types';
+import Envelope from '../icons/Envelope.astro';
+import { Calendly } from '~/components/widgets/Calendly.tsx';
+import Button from '../ui/Button.astro';
 
 type Props = {
   count?: number;
@@ -25,20 +28,38 @@ const signupInputs: Input[] = [
 <div>
   <Headline
     tagline="Fresh from the Blog"
-    subtitle="My goal is to help you think about Sofware Engineering like a Senior Engineer. I write mostly about React and .NET, but a lot of the content is applicable to any language or framework."
+    subtitle="My goal is to help you think like a Senior Engineer. I write mostly about React and .NET, but a lot of the content is applicable to any language or framework."
   />
   <div class="flex flex-col lg:flex-row container-lg my-8 gap-x-8">
     <div class="flex-1">
       {posts.map((post) => <BlogListItem post={post} />)}
     </div>
-    <div class="flex-1">
+    <div class="flex-1 my-4 lg:my-0 flex flex-col gap-y-8">
       <FormContainer
-        title="Don't get left behind!"
+        title="Don't miss out on some great content!"
         inputs={signupInputs}
         description="Subscribe and get notified whenever I publish a new article and receive exclusive content."
         disclaimer={{ label: 'No spam. Unsubscribe at any time.' }}
         button="Signup"
-      />
+      >
+        <Fragment slot="icon">
+          <Envelope className="stroke-default" />
+        </Fragment>
+      </FormContainer>
+      <div class="text-center flex flex-col gap-y-3">
+        <h4>Let's hang out for a 1:1 👋🏽</h4>
+        <p class="text-muted text-sm w-2/3 mx-auto">
+          Im happy to take 30 minutes out of my schedule to provide mentorship, pair programming, qna, or just chill and
+          talk tech!
+        </p>
+        <Calendly client:visible />
+        <div>
+          <Button variant="primary">Schedule a Call</Button>
+        </div>
+      </div>
     </div>
+  </div>
+  <div class="container flex justify-center mb-8">
+    <Button href="/blog" variant="tertiary">View all my Articles</Button>
   </div>
 </div>

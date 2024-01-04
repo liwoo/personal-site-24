@@ -2,14 +2,14 @@
 import type { Form } from '~/types';
 import Button from '~/components/ui/Button.astro';
 
-const { inputs, textarea, button = 'Contact us', description = '', inline = true, title = 'Contact' } = Astro.props as Form;
+const { inputs, textarea, button = 'Contact us', description = '', inline = true, title = 'Contact', icon = Astro.slots.render('icon') } = Astro.props as Form;
 ---
 
 <form class="md:w-2/3 md:mx-auto lg:w-full flex flex-col rounded-lg dark:bg-[#1e1e1e] bg-[#e0e0e0] p-4 gap-y-2">
   {
     title && (
       <div>
-        <p class="font-semibold">{title}</p>
+        <p class="font-semibold flex items-center gap-x-2"><span set:html={icon}></span> {title}</p>
       </div>
     )
   }

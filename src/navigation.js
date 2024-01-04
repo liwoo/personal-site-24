@@ -4,11 +4,11 @@ export const headerData = {
   links: [
     {
       text: 'About',
-      href: '#',
+      href: '/about',
     },
     {
       text: 'Aritcles',
-      href: '#',
+      href: '/blog',
     },
     {
       text: 'Projects',
@@ -27,9 +27,9 @@ export const footerData = {
     {
       title: 'Product',
       links: [
-        { text: 'Home', href: '#' },
-        { text: 'About', href: '#' },
-        { text: 'Articles', href: '#' },
+        { text: 'Home', href: '/' },
+        { text: 'About', href: '/about' },
+        { text: 'Articles', href: '/blog' },
       ],
     },
     {
