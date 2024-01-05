@@ -3,12 +3,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 export function Bio() {
   return (
     <Tabs defaultValue="pitch">
-      <TabsList className="grid w-2/3 bg-card rounded-xl text-muted grid-cols-3">
+      <TabsList className="grid w-full lg:w-2/3 bg-card rounded-xl text-muted grid-cols-3">
         <TabsTrigger value="pitch">Elavator Pitch</TabsTrigger>
         <TabsTrigger value="brief">Brief Profile</TabsTrigger>
         <TabsTrigger value="full">Full Bio</TabsTrigger>
       </TabsList>
-      <TabsContent value="brief" className="leading-7 text-lg text-muted py-4">
+      <TabsContent value="brief" className="leading-7 text-lg text-default py-4">
         <div className="flex">
           <div className="w-1/4">Img Here</div>
           <div className="w-3/4 flex flex-col gap-y-4 ">
@@ -17,16 +17,17 @@ export function Bio() {
               multiple industries worldwide.
             </p>
             <p>
-              He currently works with Danish-based Bestseller, where he helps make brands such as Jack and Jones and
-              Vero Moda accessible to millions of worldwide customers across physical and online retail stores such as
-              Asos and Zalando.
+              He currently works with <a href='https://irembo.com/' className='underline'>Irembo</a>, where he helps build the next generation of <a href='https://irembo.gov.rw/' className='underline'>Government Services</a> in Rwanda for more 
+              than 12M citizens.
             </p>
             <p>
-              Before that, he worked with One Acre Fund to improve harvests of 1M+ Farmers across 9 countries in Africa;
-              the Ministry of Health in Malawi and more.
+              Before that, he had a brief sting with Danish-based <a href='https://bestseller.com/' className='underline'>Bestseller</a>, after having helped more than <a href="https://oneacrefund.org/our-impact" className='underline'>1M farmers accross 9 African countries</a> improve their agricultural yields while at <a href='https://oneacrefund.org/' className='underline'>One Acre Fund</a>
             </p>
             <p>
-              Jeremiah is also co-founder of Doorbell Malawi which is looking to disrupt the consumer goods retail
+              Having been born and raised in Malawi, Jeremiah, during his time at <a href='https://www.facebook.com/Baobabhealthtrust/' className='underline'>Baobab Health Trust</a> where he worked with the <a href='https://www.kuunika.org/' className='underline'>Ministry of Health</a> to usher in a <a href='https://zipatala.health.gov.mw/' className='underline'>National Facility Registry</a>.
+            </p>
+            <p>
+              Jeremiah is also co-founder of <a href='https://www.doorbell.mw/' className='underline'>Doorbell Malawi</a> which is looking to disrupt the consumer goods retail
               industry in the country.
             </p>
             <p>
@@ -36,7 +37,7 @@ export function Bio() {
           </div>
         </div>
       </TabsContent>
-      <TabsContent value="pitch" className="leading-7 text-lg text-muted flex flex-col gap-y-4 my-4">
+      <TabsContent value="pitch" className="leading-7 text-lg text-default flex flex-col gap-y-4 my-4">
         <p>
           A Full Stack Engineer with 7+ years of experience leading multinational Engineering teams accross HealthTech,
           FinTech, AgriTech and GovTech in Africa.
