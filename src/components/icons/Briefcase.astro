@@ -1,0 +1,19 @@
+---
+import { twMerge } from 'tailwind-merge';
+export interface Props {
+  className?: string;
+  fill?: string;
+}
+
+const { className, fill = '#fff' } = Astro.props;
+---
+
+<svg class={twMerge(className, "w-5")} fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37 31"
+  ><rect x="1.509" y="7" width="33.997" height="20" rx="11.5" stroke-width="2"></rect><rect
+    x="10.288"
+    y="1"
+    width="16.718"
+    height="6"
+    rx="3"
+    stroke-width="2"></rect><circle cx="20.288" cy="19" r="2" fill={fill}></circle></svg
+>

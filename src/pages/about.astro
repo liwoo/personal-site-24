@@ -3,6 +3,9 @@ import { Bio } from '~/components/widgets/Bio.tsx';
 import Hero2 from '~/components/widgets/Hero2.astro';
 import Layout from '~/layouts/PageLayout.astro';
 import WorkExperience from '~/components/widgets/cells/WorkExperience.astro';
+import Briefcase from '~/components/icons/Briefcase.astro';
+import { workExperience } from '~/data/work-experience';
+import Button from '~/components/ui/Button.astro';
 
 const metadata = {
   title: 'About us',
@@ -22,20 +25,22 @@ const metadata = {
     </Fragment>
   </Hero2>
 
-  <div class="flex relative container my-12 gap-x-4">
-    <div class="w-3/5">
+  <div class="flex flex-col lg:flex-row relative container my-12 gap-x-4">
+    <div class="w-full lg:w-3/5">
       <Bio client:visible />
+      <Button href="/contact" variant="tertiary">Get in Touch</Button>
     </div>
-    <div class="w-2/5">
+    <div class="w-full md:w-2/3 md:mx-auto lg:w-2/5 mt-8 lg:mt-0">
       <div class="w-6/8 mx-auto flex flex-col rounded-xl bg-card py-4 px-8">
-        <h3 class="mb-8 font-semibold flex items-center gap-x-2">Professional History</h3>
-        <WorkExperience
-          title="Irembo"
-          position="Senior Software Engineer"
-          duration="2019 - Present"
-          location="Kigali, RW"
-          image="irembo"
-        />
+        <h3 class="mb-8 font-semibold flex items-center gap-x-2">
+          <span><Briefcase className="stroke-default" /></span> Professional History
+        </h3>
+        <div class="flex flex-col gap-y-6">
+          {workExperience.map((experience) => <WorkExperience {...experience} />)}
+        </div>
+        <div class="mx-auto my-8">
+          <Button href="https://linkedin.com/in/jchienda" variant="primary">View LinkedIn Profile</Button>
+        </div>
       </div>
     </div>
   </div>

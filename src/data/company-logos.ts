@@ -1,4 +1,4 @@
-import type { Link } from "./types";
+import type { Link } from "../types";
 
 export const logos: Array<Link> = [
     {

@@ -209,6 +209,14 @@ export interface Form {
   icon?: string;
 }
 
+export interface WorkExperience {
+  title: string;
+  position: string;
+  image: string;
+  location: string;
+  duration: string;
+};
+
 // WIDGETS
 export interface Hero extends Headline, Widget {
   content?: string;
