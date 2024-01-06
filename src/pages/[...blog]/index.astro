@@ -11,6 +11,10 @@ import { getCanonical, getPermalink } from '~/utils/permalinks';
 import { getStaticPathsBlogPost, blogPostRobots } from '~/utils/blog';
 import { findImage } from '~/utils/images';
 import type { MetaData } from '~/types';
+import Hero2 from '~/components/widgets/Hero2.astro';
+import { Icon } from 'astro-icon/components';
+
+import { getFormattedDate } from '~/utils/utils';
 
 export const prerender = true;
 
@@ -45,6 +49,35 @@ const metadata = merge(
 ---
 
 <Layout metadata={metadata}>
-  <SinglePost post={{ ...post, image: image }} url={url} />
-  <ToBlogLink />
+  <Hero2>
+    <Fragment slot="title">
+      <ToBlogLink />
+      {post.title}
+    </Fragment>
+
+    <Fragment slot="subtitle">{post.excerpt}</Fragment>
+    <Fragment slot="content">
+      <div class="flex justify-between flex-col sm:flex-row mt-0 mb-2 text-secondary">
+        <p>
+          <Icon name="tabler:clock" class="w-4 h-4 inline-block -mt-0.5 text-secondary" />
+          <time datetime={String(post.publishDate)} class="inline-block">{getFormattedDate(post.publishDate)}</time>
+          {
+            post.category && (
+              <>
+                {' '}
+                ·{' '}
+                <a class="capitalize hover:underline inline-block" href={getPermalink(post.category, 'category')}>
+                  {post.category.replaceAll('-', ' ')}
+                </a>
+              </>
+            )
+          }
+          {post.readingTime && <> · {post.readingTime} min read</>}
+        </p>
+      </div>
+    </Fragment>
+  </Hero2>
+  <div class="relative">
+    <SinglePost post={{ ...post, image: image }} url={url} />
+  </div>
 </Layout>

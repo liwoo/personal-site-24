@@ -33,11 +33,18 @@
     @apply btn;
   }
 
-  .btn-tertiary {
+  .btn-tertiary, .btn-tertiary-blank {
     @apply btn border-none bg-transparent hover:bg-transparent text-secondary text-lg hover:text-primary;
     &::after {
       content: '\279E';
       @apply ml-2 rotate-[135deg] -scale-x-100;
+    }
+  }
+
+  .btn-tertiary-blank {
+    @apply text-muted;
+    &::after {
+      content: '';
     }
   }
 

@@ -2,12 +2,12 @@
 import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
 
 import Layout from '~/layouts/PageLayout.astro';
-import BlogList from '~/components/blog/List.astro';
-import Headline from '~/components/blog/Headline.astro';
 import Pagination from '~/components/blog/Pagination.astro';
 // import PostTags from "~/components/blog/Tags.astro";
 
 import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
+import Hero2 from '~/components/widgets/Hero2.astro';
+import BlogListItem from '~/components/widgets/BlogListItem.astro';
 
 export const prerender = true;
 
@@ -36,13 +36,21 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
-    <Headline
-      subtitle="A statically generated blog example with news, tutorials, resources and other interesting content related to AstroWind"
-    >
-      The Blog
-    </Headline>
-    <BlogList posts={page.data} />
+  <Hero2>
+    <Fragment slot="title">Blog &<span class="underlined">Articles</span></Fragment>
+
+    <Fragment slot="subtitle">My freestyle got a little rust coz all of my free time I be learning Rust and Go / Used to be a top 4 guy now I just celebrate my wins like Arsenal</Fragment>
+    <Fragment slot="content">
+      <a href="https://getalinafe.com">&gt;&gt; Liwu, Verdansk Freestyle</a>
+    </Fragment>
+  </Hero2>
+  <div class="container mt-8">
+    Search and filter Here
+  </div>
+  <section class="py-12 sm:py-16 lg:py-20 container-lg relative">
+    <div class="flex flex-col gap-y-4 lg:gap-y-8">
+    {page.data.map((post) => <BlogListItem post={post} extended />)}
+    </div>
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
     <!--
       <PostTags tags={allCategories} class="mb-2" title="Search by Categories:" isCategory />
