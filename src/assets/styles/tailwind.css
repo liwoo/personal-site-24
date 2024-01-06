@@ -33,7 +33,7 @@
     @apply btn;
   }
 
-  .btn-tertiary, .btn-tertiary-blank {
+  .btn-tertiary {
     @apply btn border-none bg-transparent hover:bg-transparent text-secondary text-lg hover:text-primary;
     &::after {
       content: '\279E';
@@ -42,7 +42,7 @@
   }
 
   .btn-tertiary-blank {
-    @apply text-muted;
+    @apply btn border-none bg-transparent hover:bg-transparent text-muted text-lg hover:text-primary;
     &::after {
       content: '';
     }
