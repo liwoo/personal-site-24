@@ -42,7 +42,7 @@ const { Content } = post;
         <SocialShare url={url} text={post.title} class="mt-5 sm:mt-1 align-middle text-gray-500 dark:text-slate-600" />
     </div>
     <div
-      class="mx-auto px-6 sm:px-6 max-w-3xl prose prose-lg lg:prose-xl dark:prose-invert prose-headings:text-primary prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-secondary prose-img:rounded-md prose-img:shadow-lg mt-8 prose-headings:scroll-mt-[80px] prose-blockquote:bg-card prose-blockquote:p-4 prose-blockquote:border-secondary"
+      class="mx-auto px-6 sm:px-6 max-w-3xl prose prose-lg lg:prose-xl dark:prose-invert prose-headings:text-primary prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-secondary prose-img:rounded-md prose-img:shadow-lg mt-8 prose-headings:scroll-mt-[80px] prose-blockquote:bg-card prose-blockquote:p-4 prose-blockquote:border-secondary prose-h3:text-default prose-h4:text-muted"
     >
       {Content ? <Content /> : <Fragment set:html={post.content || ''} />}
     </div>
