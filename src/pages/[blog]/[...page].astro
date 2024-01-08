@@ -1,38 +1,32 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import Pagination from '~/components/blog/Pagination.astro';
-// import PostTags from "~/components/blog/Tags.astro";
 
-import { blogListRobots, findLatestPosts,  getPostsLength} from '~/utils/blog';
+import { blogListRobots, findLatestPosts, getPostsLength } from '~/utils/blog';
 import Hero2 from '~/components/widgets/Hero2.astro';
 import BlogListItem from '~/components/widgets/BlogListItem.astro';
+import Button from '~/components/ui/Button.astro';
 
 export const prerender = false;
 const POSTS_PER_PAGE = 5;
 
-// export const getStaticPaths = (async ({ paginate }) => {
-//   return await getStaticPathsBlogList({ paginate });
-// }) satisfies GetStaticPaths;
-
-// type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-
-// const { page } = Astro.props as Props;
-
-const params = Astro.url.searchParams.get('q');
-
 const postsLength = await getPostsLength();
 
-//calculate current page from POSTS_PER_PAGE and postsLength
-const currentPage = 1;
+//get number after /blog if it exists
+const currentPageStr = Astro.url.pathname.match(/\/blog\/(\d+)/)?.[1];
+let currentPage: number;
+try {
+  currentPage = currentPageStr ? parseInt(currentPageStr) : 1;
+} catch (e) {
+  currentPage = 1;
+}
 
-// const allCategories = await findCategories();
-// const allTags = await findTags();
+const shouldFetchMore = currentPage * POSTS_PER_PAGE < postsLength;
 
 const metadata = {
-  // title: `Blog${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
-  title: 'Blog',
+  title: `Blog${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
   robots: {
-    // index: blogListRobots?.index && currentPage === 1,
+    index: blogListRobots?.index && currentPage === 1,
     follow: blogListRobots?.follow,
   },
   openGraph: {
@@ -40,7 +34,7 @@ const metadata = {
   },
 };
 
-const posts = await findLatestPosts({count: POSTS_PER_PAGE});
+const posts = await findLatestPosts({ count: POSTS_PER_PAGE, offset: (currentPage - 1) * POSTS_PER_PAGE });
 ---
 
 <Layout metadata={metadata}>
@@ -51,11 +45,15 @@ const posts = await findLatestPosts({count: POSTS_PER_PAGE});
       just celebrate my wins like Arsenal
     </Fragment>
     <Fragment slot="content">
-      <a href="https://www.youtube.com/watch?v=EvM0_D7IPUI&lc=UgwHHYDfhpnd8SAWMsJ4AaABAg">&gt;&gt; Liwu, Verdansk Freestyle</a>
+      <a href="https://www.youtube.com/watch?v=EvM0_D7IPUI&lc=UgwHHYDfhpnd8SAWMsJ4AaABAg"
+        >&gt;&gt; Liwu, Verdansk Freestyle</a
+      >
     </Fragment>
   </Hero2>
-  <div class="container mt-8 items-center flex flex-col md:flex-row-reverse gap-y-8 md:gap-y-0 justify-between relative z-20">
-    <div class="">Filters Here</div>
+  <div
+    class="container mt-8 items-center flex flex-col md:flex-row-reverse gap-y-8 md:gap-y-0 justify-between relative z-10"
+  >
+    <div class="">Page: {currentPage} {shouldFetchMore && <span>Fetch More</span>}</div>
     <div class="w-2/3 md:w-1/2 lg:w-1/4">
       <input
         type="text"
@@ -70,7 +68,10 @@ const posts = await findLatestPosts({count: POSTS_PER_PAGE});
     <div class="flex flex-col gap-y-4 lg:gap-y-8" id="server-posts">
       {posts.map((post) => <BlogListItem post={post} extended />)}
     </div>
-    <!-- <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} /> -->
+    <Pagination
+      prevUrl={currentPage == 1 ? undefined : `blog/${currentPage - 1}`}
+      nextUrl={shouldFetchMore ? `/blog/${currentPage + 1}` : undefined}
+    />
     <!--
       <PostTags tags={allCategories} class="mb-2" title="Search by Categories:" isCategory />
       <PostTags tags={allTags}  title="Search by Tags:" />
