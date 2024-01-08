@@ -51,7 +51,9 @@ const metadata = merge(
 <Layout metadata={metadata}>
   <Hero2>
     <Fragment slot="title">
-      <ToBlogLink />
+      <div class="z-30 relative">
+        <ToBlogLink />
+      </div>
       {post.title}
     </Fragment>
 
