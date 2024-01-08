@@ -1,0 +1,79 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Pagination from '~/components/blog/Pagination.astro';
+// import PostTags from "~/components/blog/Tags.astro";
+
+import { blogListRobots, findLatestPosts,  getPostsLength} from '~/utils/blog';
+import Hero2 from '~/components/widgets/Hero2.astro';
+import BlogListItem from '~/components/widgets/BlogListItem.astro';
+
+export const prerender = false;
+const POSTS_PER_PAGE = 5;
+
+// export const getStaticPaths = (async ({ paginate }) => {
+//   return await getStaticPathsBlogList({ paginate });
+// }) satisfies GetStaticPaths;
+
+// type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+// const { page } = Astro.props as Props;
+
+const params = Astro.url.searchParams.get('q');
+
+const postsLength = await getPostsLength();
+
+//calculate current page from POSTS_PER_PAGE and postsLength
+const currentPage = 1;
+
+// const allCategories = await findCategories();
+// const allTags = await findTags();
+
+const metadata = {
+  // title: `Blog${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
+  title: 'Blog',
+  robots: {
+    // index: blogListRobots?.index && currentPage === 1,
+    follow: blogListRobots?.follow,
+  },
+  openGraph: {
+    type: 'blog',
+  },
+};
+
+const posts = await findLatestPosts({count: POSTS_PER_PAGE});
+---
+
+<Layout metadata={metadata}>
+  <Hero2>
+    <Fragment slot="title">Blog & <span class="underlined">Articles</span></Fragment>
+    <Fragment slot="subtitle">
+      My freestyle got a little rust coz all of my free time I be learning Rust and Go / Used to be a top 4 guy now I
+      just celebrate my wins like Arsenal
+    </Fragment>
+    <Fragment slot="content">
+      <a href="https://www.youtube.com/watch?v=EvM0_D7IPUI&lc=UgwHHYDfhpnd8SAWMsJ4AaABAg">&gt;&gt; Liwu, Verdansk Freestyle</a>
+    </Fragment>
+  </Hero2>
+  <div class="container mt-8 items-center flex flex-col md:flex-row-reverse gap-y-8 md:gap-y-0 justify-between relative z-20">
+    <div class="">Filters Here</div>
+    <div class="w-2/3 md:w-1/2 lg:w-1/4">
+      <input
+        type="text"
+        name="search"
+        id="search-blog"
+        placeholder="Search from all my articles and blogs"
+        class="py-3 px-4 block w-full text-md rounded-lg bg-card"
+      />
+    </div>
+  </div>
+  <section class="py-12 sm:py-16 lg:py-20 container-lg relative">
+    <div class="flex flex-col gap-y-4 lg:gap-y-8" id="server-posts">
+      {posts.map((post) => <BlogListItem post={post} extended />)}
+    </div>
+    <!-- <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} /> -->
+    <!--
+      <PostTags tags={allCategories} class="mb-2" title="Search by Categories:" isCategory />
+      <PostTags tags={allTags}  title="Search by Tags:" />
+    -->
+  </section>
+</Layout>

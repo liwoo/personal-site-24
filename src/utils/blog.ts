@@ -140,6 +140,26 @@ export const findPostsBySlugs = async (slugs: Array<string>): Promise<Array<Post
   }, []);
 };
 
+export const getPostsLength = async (): Promise<number> => {
+  const posts = await fetchPosts();
+  return posts.length;
+}
+
+/** */
+export const findPostsByQuery = async (query: string): Promise<Array<Post>> => {
+  if (!query) return [];
+
+  const posts = await fetchPosts();
+
+  return posts.filter((post) => {
+    return (
+      post.title.toLowerCase().includes(query.toLowerCase()) ||
+      post.excerpt?.toLowerCase().includes(query.toLowerCase()) ||
+      post.tags?.some((tag) => tag.toLowerCase().includes(query.toLowerCase())) 
+    );
+  });
+}
+
 /** */
 export const findPostsByIds = async (ids: Array<string>): Promise<Array<Post>> => {
   if (!Array.isArray(ids)) return [];

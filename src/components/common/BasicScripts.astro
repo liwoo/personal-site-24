@@ -20,17 +20,16 @@ import { UI } from '~/utils/config';
 
   function toggleCompanyLogo(theme) {
     const companyLogo = document.querySelectorAll('[data-img-type]');
-    
+
     if (theme === 'dark') {
       for (let i = 0; i < companyLogo.length; i++) {
         companyLogo[i].src = companyLogo[i].src = companyLogo[i].dataset.imgLight;
       }
     } else {
-      for (let i= 0; i < companyLogo.length; i++) {
+      for (let i = 0; i < companyLogo.length; i++) {
         companyLogo[i].src = companyLogo[i].src = companyLogo[i].dataset.imgDark;
       }
     }
-    
   }
 
   const initTheme = function () {
@@ -59,6 +58,25 @@ import { UI } from '~/utils/config';
   const onLoad = function () {
     let lastKnownScrollPosition = window.scrollY;
     let ticking = true;
+
+    const searchBlog = document.getElementById('search-blog');
+    if (searchBlog) {
+      searchBlog.addEventListener('keyup', () => {
+        const searchValue = searchBlog.value.toLowerCase();
+        const url = new URL(window.location.href);
+        if (searchValue === '') {
+          url.searchParams.delete('q');
+        } else {
+          url.searchParams.set('q', searchValue);
+        }
+        window.history.replaceState({}, '', url);
+        //toggle visibility of #server-posts
+        const serverPosts = document.getElementById('server-posts');
+        if (serverPosts) {
+          serverPosts.classList.toggle('hidden', searchValue !== '');
+        }
+      });
+    }
 
     attachEvent('#header nav', 'click', function () {
       document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
@@ -115,6 +133,15 @@ import { UI } from '~/utils/config';
           return;
       }
 
+      //attach an input change event
+      attachEvent('input', 'change', function (e) {
+        console.log(e.target);
+        const input = e.target;
+        if (input.value) {
+          href += `&${input.name}=${encodeURIComponent(input.value)}`;
+        }
+      });
+
       const newlink = document.createElement('a');
       newlink.target = '_blank';
       newlink.href = href;
@@ -143,6 +170,7 @@ import { UI } from '~/utils/config';
       }
     });
   };
+
   const onPageShow = function () {
     document.documentElement.classList.add('motion-safe:scroll-smooth');
     const elem = document.querySelector('[data-aw-toggle-menu]');

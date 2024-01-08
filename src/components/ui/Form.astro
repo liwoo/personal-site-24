@@ -2,14 +2,24 @@
 import type { Form } from '~/types';
 import Button from '~/components/ui/Button.astro';
 
-const { inputs, textarea, button = 'Contact us', description = '', inline = true, title = 'Contact', icon = Astro.slots.render('icon') } = Astro.props as Form;
+const {
+  inputs,
+  textarea,
+  button = 'Contact us',
+  description = '',
+  inline = true,
+  title = 'Contact',
+  icon = Astro.slots.render('icon'),
+} = Astro.props as Form;
 ---
 
 <form class="md:w-2/3 md:mx-auto lg:w-full flex flex-col rounded-lg dark:bg-[#1e1e1e] bg-[#e0e0e0] p-4 gap-y-2">
   {
     title && (
       <div>
-        <p class="font-semibold flex items-center gap-x-2"><span set:html={icon}></span> {title}</p>
+        <p class="font-semibold flex items-center gap-x-2">
+          <span set:html={icon} /> {title}
+        </p>
       </div>
     )
   }
@@ -38,7 +48,7 @@ const { inputs, textarea, button = 'Contact us', description = '', inline = true
                   id={name}
                   autocomplete={autocomplete}
                   placeholder={placeholder}
-                  class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+                  class="py-3 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
                 />
               </div>
             )
