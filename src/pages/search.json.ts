@@ -26,3 +26,11 @@ export const POST: APIRoute = async ({ request }) => {
     { status: 200 }
   );
 };
+
+export const GET: APIRoute = ({ params, request }) => {
+  return new Response(
+    JSON.stringify({
+      message: 'This was a GET!',
+    }),
+  );
+};
