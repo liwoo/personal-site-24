@@ -21,7 +21,9 @@ export default defineConfig({
   base: SITE.base,
   trailingSlash: SITE.trailingSlash ? 'always' : 'never',
   output: 'hybrid',
-  adapter: vercel(),
+  adapter: vercel({
+    edgeMiddleware: true
+  }),
   integrations: [tailwind({
     applyBaseStyles: false
   }), sitemap(), mdx(), icon({
