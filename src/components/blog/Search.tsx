@@ -31,7 +31,7 @@ export function SearchBlog() {
     if (query !== undefined) {
       const fetchPosts = async () => {
         const body = JSON.stringify({ query, postType });
-        await fetch('/api/search.json', {
+        await fetch('/search.json', {
           method: 'POST',
           body,
         })
