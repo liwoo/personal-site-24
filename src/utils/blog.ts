@@ -161,6 +161,17 @@ export const findPostsByQuery = async (query: string): Promise<Array<Post>> => {
 }
 
 /** */
+export const findPostsByCategory = async (category: string): Promise<Array<Post>> => {
+  if (!category) return [];
+
+  const posts = await fetchPosts();
+
+  return posts.filter((post) => {
+    return post.category?.toLowerCase() === category.toLowerCase();
+  });
+}
+
+/** */
 export const findPostsByIds = async (ids: Array<string>): Promise<Array<Post>> => {
   if (!Array.isArray(ids)) return [];
 

@@ -1,11 +1,12 @@
 import type { APIRoute } from 'astro';
-import { findPostsByQuery } from '~/utils/blog';
+import { findPostsByCategory, findPostsByQuery } from '~/utils/blog';
 
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.json();
 
   const query = data.query;
-  if (!query) {
+  const postType = data.postType;
+  if (!query || !postType) {
     return new Response(
       JSON.stringify({
         message: 'Missing query',
@@ -13,9 +14,9 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 400 }
     );
   }
-  const allPosts = await findPostsByQuery(query);
+  const allPosts = postType === 'Search' ? await findPostsByQuery(query) : await findPostsByCategory(query);
   const total = allPosts.length;
-  const posts = allPosts.slice(0, 4);
+  const posts = allPosts.slice(0, 5);
   // Do something with the data, then return a success response
   return new Response(
     JSON.stringify({

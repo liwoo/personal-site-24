@@ -5,7 +5,7 @@ export const workExperience: Array<WorkExperience> = [
         title: "Irembo",
         location: "Kigali, RW",
         position: "Senior Software Engineer",
-        duration: "Aug 2024 - Present",
+        duration: "Aug 2023 - Present",
         image: "irembo",
     },
     {

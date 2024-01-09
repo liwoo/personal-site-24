@@ -40,6 +40,13 @@ export function ListItem({ post, extended = false }: ListItemProps) {
             {post.readingTime} Minute Read
           </p>
         )}
+
+        
+        <div className='my-4'>
+          {extended && post.category && (
+            <a href={`/category/${post.category}`} className="text-sm text-primary hover:text-default hover:bg-page my-2 bg-card p-2 rounded-lg">{post.category?.toLocaleUpperCase()}</a>
+          )}
+        </div>
       </div>
       <div className="flex flex-col gap-y-2 w-full">
         <a href={getPermalink(post.permalink, 'post')} data-astro-prefetch>
