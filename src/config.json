@@ -3,7 +3,7 @@
     "name": "Chienda",
     "site": "https://chienda.com",
     "base": "/",
-    "trailingSlash": false,
+    "trailingSlash": true,
     "googleSiteVerificationId": "orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M"
   },
   "metadata": {
