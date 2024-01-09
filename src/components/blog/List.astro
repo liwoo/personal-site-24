@@ -1,20 +1,15 @@
 ---
-import Item from '~/components/blog/ListItem.astro';
-import type { Post } from '~/types';
+import { findLatestPosts } from '~/utils/blog';
+import BlogListItem from '../widgets/BlogListItem.astro';
 
 export interface Props {
-  posts: Array<Post>;
+  count: number;
+  currentPage: number;
 }
 
-const { posts } = Astro.props;
+const { count, currentPage } = Astro.props;
+const posts = await findLatestPosts({ count, offset: (currentPage - 1) * count });
 ---
-
-<ul>
-  {
-    posts.map((post) => (
-      <li class="mb-12 md:mb-20">
-        <Item post={post} />
-      </li>
-    ))
-  }
+<ul class="flex flex-col gap-y-4 lg:gap-y-8" id="server-posts">
+  {posts.map((post) => <li><BlogListItem post={post} extended /></li>)}
 </ul>

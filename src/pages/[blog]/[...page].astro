@@ -2,10 +2,9 @@
 import Layout from '~/layouts/PageLayout.astro';
 import Pagination from '~/components/blog/Pagination.astro';
 
-import { blogListRobots, findLatestPosts, getPostsLength } from '~/utils/blog';
+import { blogListRobots, getPostsLength } from '~/utils/blog';
 import Hero2 from '~/components/widgets/Hero2.astro';
-import BlogListItem from '~/components/widgets/BlogListItem.astro';
-import Button from '~/components/ui/Button.astro';
+import List from '~/components/blog/List.astro';
 
 export const prerender = false;
 const POSTS_PER_PAGE = 5;
@@ -34,7 +33,6 @@ const metadata = {
   },
 };
 
-const posts = await findLatestPosts({ count: POSTS_PER_PAGE, offset: (currentPage - 1) * POSTS_PER_PAGE });
 ---
 
 <Layout metadata={metadata}>
@@ -65,11 +63,9 @@ const posts = await findLatestPosts({ count: POSTS_PER_PAGE, offset: (currentPag
     </div>
   </div>
   <section class="py-12 sm:py-16 lg:py-20 container-lg relative">
-    <div class="flex flex-col gap-y-4 lg:gap-y-8" id="server-posts">
-      {posts.map((post) => <BlogListItem post={post} extended />)}
-    </div>
+    <List count={POSTS_PER_PAGE} currentPage={currentPage} />
     <Pagination
-      prevUrl={currentPage == 1 ? undefined : `blog/${currentPage - 1}`}
+      prevUrl={currentPage == 1 ? undefined : currentPage === 2 ? "blog" : `blog/${currentPage - 1}`}
       nextUrl={shouldFetchMore ? `/blog/${currentPage + 1}` : undefined}
     />
     <!--
