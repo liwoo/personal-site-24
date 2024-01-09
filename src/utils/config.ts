@@ -69,7 +69,7 @@ export interface AnalyticsConfig {
 }
 
 
-const configAbsPath = path.join(process.cwd(), 'src/config.yaml');
+const configAbsPath = path.join(process.cwd(), 'public', 'config.yaml');
 
 const config = yaml.load(fs.readFileSync(configAbsPath, 'utf8')) as {
   site?: SiteConfig;
