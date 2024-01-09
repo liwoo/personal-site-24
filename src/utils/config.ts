@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import yaml from 'js-yaml';
 import merge from 'lodash.merge';
 
@@ -67,7 +68,10 @@ export interface AnalyticsConfig {
   };
 }
 
-const config = yaml.load(fs.readFileSync('src/config.yaml', 'utf8')) as {
+
+const configAbsPath = path.join(process.cwd(), 'src/config.yaml');
+
+const config = yaml.load(fs.readFileSync(configAbsPath, 'utf8')) as {
   site?: SiteConfig;
   metadata?: MetaDataConfig;
   i18n?: I18NConfig;
