@@ -78,6 +78,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
                             'first:rounded-t last:rounded-b md:hover:bg-gray-100 hover:text-link dark:hover:text-white dark:hover:bg-gray-700 py-2 px-5 block whitespace-no-wrap',
                             { 'aw-link-active': href2 === currentPath },
                           ]}
+                          data-astro-prefetch
                           href={href2}
                         >
                           {text2}
@@ -92,6 +93,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
                     'hover:text-primary px-4 py-4 md:py-1 flex items-centers',
                     { 'aw-link-active': href === currentPath },
                   ]}
+                  data-astro-prefetch
                   href={href}
                 >
                   {text}
