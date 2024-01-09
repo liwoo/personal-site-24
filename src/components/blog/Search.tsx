@@ -30,11 +30,7 @@ export function SearchBlog() {
   useEffect(() => {
     if (query !== undefined) {
       const fetchPosts = async () => {
-        const body = JSON.stringify({ query, postType });
-        await fetch('/search.json', {
-          method: 'POST',
-          body,
-        })
+        await fetch(`/search.json?query=${query}&postType=${postType}`)
           .then((res) => res.json())
           .then((data: { posts: Array<Post>; total: number }) => {
             setSearchResult(data.posts);
