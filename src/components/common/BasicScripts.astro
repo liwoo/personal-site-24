@@ -80,6 +80,11 @@ import { UI } from '~/utils/config';
         if (pagination) {
           pagination.classList.toggle('hidden', searchValue !== '');
         }
+
+        const clientPosts = document.getElementById('client-posts');
+        if (clientPosts) {
+          clientPosts.classList.toggle('hidden', searchValue === '');
+        }
       });
     }
 

@@ -37,14 +37,21 @@ const { Content } = post;
         )
       }
     </header>
-    <div class="mx-auto px-6 sm:px-6 max-w-3xl mt-8 flex justify-between flex-col sm:flex-row relative">
-      <PostTags tags={post.tags} class="mr-5 rtl:mr-0 rtl:ml-5" />
-        <SocialShare url={url} text={post.title} class="mt-5 sm:mt-1 align-middle text-gray-500 dark:text-slate-600" />
+    <div
+      class="mx-auto px-6 sm:px-6 max-w-3xl w-1/2 mt-8 flex justify-between flex-col items-center sm:flex-row z-20 sticky top-0 lg:top-10 bg-card/80 py-4 lg:py-2 backdrop-blur-xl"
+    >
+      <PostTags tags={post.tags} class="hidden lg:block mr-5 rtl:mr-0 rtl:ml-5" />
+      <SocialShare
+        url={url}
+        text={post.title}
+        class="mt-5 sm:mt-1 align-middle flex justify-center items-center text-default"
+      />
     </div>
     <div
       class="mx-auto px-6 sm:px-6 max-w-3xl prose prose-lg lg:prose-xl dark:prose-invert prose-headings:text-primary prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-secondary prose-img:rounded-md prose-img:shadow-lg mt-8 prose-headings:scroll-mt-[80px] prose-blockquote:bg-card prose-blockquote:p-4 prose-blockquote:border-secondary prose-h3:text-default prose-h4:text-muted"
     >
       {Content ? <Content /> : <Fragment set:html={post.content || ''} />}
     </div>
+    <PostTags tags={post.tags} class="lg:hidden mr-5 my-4 rtl:mr-0 rtl:ml-5" />
   </article>
 </section>

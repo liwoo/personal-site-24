@@ -49,4 +49,12 @@ if (_image !== null && typeof _image === 'object') {
 }
 ---
 
-{!image ? <Fragment /> : <img src={image.src} {...image.attributes} />}
+{
+  !image ? (
+    <Fragment />
+  ) : (
+    <div class="relative">
+      <img src={image.src} {...image.attributes} class="" />
+    </div>
+  )
+}

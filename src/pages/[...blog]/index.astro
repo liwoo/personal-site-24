@@ -51,17 +51,17 @@ const metadata = merge(
 <Layout metadata={metadata}>
   <Hero2>
     <Fragment slot="title">
-      <div class="z-30 relative">
+      <div class="z-10 relative">
         <ToBlogLink />
       </div>
       {post.title}
     </Fragment>
 
-    <Fragment slot="subtitle">{post.excerpt}</Fragment>
+    <Fragment slot="subtitle" class="relative z-20">{post.excerpt}</Fragment>
     <Fragment slot="content">
-      <div class="flex justify-between flex-col sm:flex-row mt-0 mb-2 text-secondary">
+      <div class="flex justify-between flex-col sm:flex-row mt-0 mb-2 text-secondary z-10 relative">
         <p>
-          <Icon name="tabler:clock" class="w-4 h-4 inline-block -mt-0.5 text-secondary" />
+          {'⏰ '}
           <time datetime={String(post.publishDate)} class="inline-block">{getFormattedDate(post.publishDate)}</time>
           {
             post.category && (

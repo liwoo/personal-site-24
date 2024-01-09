@@ -8,6 +8,7 @@ import type { Input } from '~/types';
 import Envelope from '../icons/Envelope.astro';
 import { Calendly } from '~/components/widgets/Calendly.tsx';
 import Button from '../ui/Button.astro';
+import { ListItem } from '../blog/ListItem';
 
 type Props = {
   count?: number;
@@ -32,7 +33,7 @@ const signupInputs: Input[] = [
   />
   <div class="flex flex-col lg:flex-row container-lg my-8 gap-x-8">
     <div class="flex-1 flex flex-col gap-y-4">
-      {posts.map((post) => <BlogListItem post={post} />)}
+      {posts.map((post) => <ListItem post={post} />)}
     </div>
     <div class="flex-1 my-4 lg:my-0 flex flex-col gap-y-8">
       <FormContainer

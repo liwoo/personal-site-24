@@ -3,9 +3,10 @@ import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
 import { blogTagRobots, getStaticPathsBlogTag } from '~/utils/blog';
 
 import Layout from '~/layouts/PageLayout.astro';
-import BlogList from '~/components/blog/List.astro';
-import Headline from '~/components/blog/Headline.astro';
 import Pagination from '~/components/blog/Pagination.astro';
+import {ListItem} from '~/components/blog/ListItem.tsx';
+import Hero2 from '~/components/widgets/Hero2.astro';
+import ToBlogLink from '~/components/blog/ToBlogLink.astro';
 
 export const prerender = true;
 
@@ -29,9 +30,16 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="px-4 md:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
-    <Headline>Tag: {tag}</Headline>
-    <BlogList posts={page.data} />
+  <Hero2>
+    <Fragment slot="title">
+      <div class="z-30 relative">
+        <ToBlogLink />
+      </div>
+      Tag: <span class="underlined">{tag}</span>
+    </Fragment>
+  </Hero2>
+  <section class="container-lg my-32 flex flex-col justify-between relative z-10">
+    {page.data.map((post) => <ListItem post={post} />)}
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
   </section>
 </Layout>

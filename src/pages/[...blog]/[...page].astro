@@ -8,6 +8,7 @@ import Pagination from '~/components/blog/Pagination.astro';
 import { blogListRobots, getStaticPathsBlogList} from '~/utils/blog';
 import Hero2 from '~/components/widgets/Hero2.astro';
 import { ListItem } from '~/components/blog/ListItem.tsx';
+import { SearchBlog } from '~/components/blog/Search';
 
 export const prerender = true;
 
@@ -65,6 +66,7 @@ const metadata = {
     <div class="flex flex-col gap-y-4 lg:gap-y-8" id="server-posts">
       {page.data.map((post) => <ListItem post={post} extended />)}
     </div>
+    <div class="hidden" id="client-posts"><SearchBlog client:only /></div>
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
     <!--
       <PostTags tags={allCategories} class="mb-2" title="Search by Categories:" isCategory />

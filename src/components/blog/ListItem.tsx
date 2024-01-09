@@ -8,17 +8,26 @@ interface ListItemProps {
   extended?: boolean;
 }
 
+const getFormattedDateClient = (date: Date) => {
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
 export function ListItem({ post, extended = false }: ListItemProps) {
+  const window = globalThis.window;
   return (
     <div
       className={twMerge(
-        extended ? 'flex-col md:flex-row gap-x-4' : 'flex-col',
-        'group flex gap-y-2 h-52 rounded-xl transition-all ease-in delay-25 hover:dark:bg-[#1e1e1e] hover:bg-[#e0e0e0] p-4'
+        extended ? 'flex-col md:flex-row gap-x-4 lg:h-52' : 'flex-col',
+        'group flex gap-y-2 rounded-xl transition-all ease-in delay-25 hover:dark:bg-[#1e1e1e] hover:bg-[#e0e0e0] p-4'
       )}
     >
       <div className="w-1/2">
         <time dateTime={String(post.publishDate)} className="inline-block text-muted">
-          {getFormattedDate(post.publishDate)}
+          {window ? getFormattedDateClient(post.publishDate) : getFormattedDate(post.publishDate)}
         </time>
         <div className="flex my-2">
           <div className="flex-1 border-t border-default"></div>
@@ -33,7 +42,9 @@ export function ListItem({ post, extended = false }: ListItemProps) {
         )}
       </div>
       <div className="flex flex-col gap-y-2 w-full">
-        <h3 className="text-xl">{post.title}</h3>
+        <a href={getPermalink(post.permalink, 'post')} data-astro-prefetch>
+          <h3 className="text-xl">{post.title}</h3>
+        </a>
         <p className="text-muted leading-6 line-clamp-2">{post.excerpt}</p>
         <a className="btn-link" href={post.slug}>
           Read More
@@ -50,7 +61,7 @@ export function ListItem({ post, extended = false }: ListItemProps) {
                 width={400}
                 loading="lazy"
               />
-              <div className='group-hover:bg-primary transition-all ease-in-out duration-75 w-full h-32 -mt-2 ml-2 rounded-lg' />
+              <div className="bg-card group-hover:bg-primary transition-all ease-in-out duration-300 w-full h-32 -mt-2 ml-2 rounded-lg" />
             </a>
           )}
         </div>
