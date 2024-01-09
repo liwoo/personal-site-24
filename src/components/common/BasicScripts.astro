@@ -75,6 +75,11 @@ import { UI } from '~/utils/config';
         if (serverPosts) {
           serverPosts.classList.toggle('hidden', searchValue !== '');
         }
+
+        const pagination = document.getElementById('pagination');
+        if (pagination) {
+          pagination.classList.toggle('hidden', searchValue !== '');
+        }
       });
     }
 

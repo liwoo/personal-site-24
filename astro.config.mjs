@@ -1,7 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { defineConfig, squooshImageService } from 'astro/config';
-import vercel from '@astrojs/vercel/serverless';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
@@ -19,8 +18,7 @@ export default defineConfig({
   site: SITE.site,
   base: SITE.base,
   trailingSlash: SITE.trailingSlash ? 'always' : 'never',
-  output: 'hybrid',
-  adapter: vercel(),
+  output: 'static',
   integrations: [tailwind({
     applyBaseStyles: false
   }), sitemap(), mdx(), icon({

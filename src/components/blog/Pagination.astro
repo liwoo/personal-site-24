@@ -15,7 +15,7 @@ const { prevUrl, nextUrl, prevText = 'Newer posts', nextText = 'Older posts' } =
 
 {
   (prevUrl || nextUrl) && (
-    <div class="container flex">
+    <div class="container flex" id="pagination">
       <div class="flex flex-row mx-auto container justify-between my-8 lg:my-12">
         <Button
           variant="secondary"
