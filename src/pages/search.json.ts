@@ -29,6 +29,7 @@ export const POST: APIRoute = async ({ request }) => {
 
 export const GET: APIRoute = async ({ request }) => {
   //TODO: Protect this Endpoint!!!!!
+  console.log(request);
   const queryParam = new URL(request.url).searchParams;
   const query = queryParam.get('query');
   const postType = queryParam.get('postType');
