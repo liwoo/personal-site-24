@@ -22,7 +22,8 @@ export default defineConfig({
   trailingSlash: SITE.trailingSlash ? 'always' : 'never',
   output: 'server',
   adapter: vercel({
-    edgeMiddleware: true
+    edgeMiddleware: true,
+    webAnalytics: true
   }),
   integrations: [tailwind({
     applyBaseStyles: false
