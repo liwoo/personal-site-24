@@ -1,6 +1,3 @@
-import fs from 'fs';
-import path from 'path';
-import yaml from 'js-yaml';
 import merge from 'lodash.merge';
 
 import type { MetaData } from '~/types';
@@ -69,9 +66,11 @@ export interface AnalyticsConfig {
 }
 
 
-const configAbsPath = path.join(process.cwd(), 'public', 'config.yaml');
+import configPath from '../config.json';
 
-const config = yaml.load(fs.readFileSync(configAbsPath, 'utf8')) as {
+// const configAbsPath = path.join(process.cwd(), 'public', 'config.yaml');
+
+const config = configPath as {
   site?: SiteConfig;
   metadata?: MetaDataConfig;
   i18n?: I18NConfig;
