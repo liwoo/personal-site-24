@@ -68,6 +68,10 @@
     @apply max-w-[60rem] mx-auto px-4 sm:px-6;
   }
 
+  .container-article {
+    @apply mx-auto px-6 sm:px-6 max-w-3xl;
+  }
+
   .bitcoin {
     @apply bg-[#FF914D];
   }
