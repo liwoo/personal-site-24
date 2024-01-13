@@ -1,4 +1,8 @@
-# 🚀 AstroWind
+# Chienda.com 💻
+#### A portfolio website for Jeremiah Chienda
+
+<!-- [![Top Langs](https://github-stats-puce-pi.vercel.app/api/top-langs/?username=liwoo)](https://github.com/anuraghazra/github-readme-stats) -->
+
 
 <img src="https://raw.githubusercontent.com/onwidget/.github/main/resources/astrowind/lighthouse-score.png" align="right"
      alt="AstroWind Lighthouse Score" width="100" height="358">
