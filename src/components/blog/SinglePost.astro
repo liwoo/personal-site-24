@@ -53,7 +53,9 @@ const { Content } = post;
     >
       {Content ? <Content /> : <Fragment set:html={post.content || ''} />}
     </div>
-    <PostTags tags={post.tags} class="lg:hidden mr-5 my-4 rtl:mr-0 rtl:ml-5" />
+    <div class="container-article">
+      <PostTags tags={post.tags} class="lg:hidden mr-5 my-4 rtl:mr-0 rtl:ml-5" />
+    </div>
     <Bio />
   </article>
 </section>

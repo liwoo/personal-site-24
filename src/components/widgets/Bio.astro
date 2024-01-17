@@ -2,6 +2,10 @@
 import { TwitterTweetEmbed } from 'react-twitter-embed';
 ---
 
-<div class="container-lg flex flex-col items-center">
-  <TwitterTweetEmbed client:visible tweetId={'933354946111705097'} options={{width: '100%'}} />
+<div class="container-article my-8 border-t border-muted py-8">
+  <TwitterTweetEmbed 
+    client:visible 
+    placeholder={"Loading Tweet"}
+    options={{theme: 'dark'}}
+    tweetId={'1746224748067987458'} />
 </div>
