@@ -1,11 +1,5 @@
 ---
-import { TwitterTweetEmbed } from 'react-twitter-embed';
+import Tweet from './Tweet';
 ---
 
-<div class="container-article my-8 border-t border-muted py-8">
-  <TwitterTweetEmbed 
-    client:visible 
-    placeholder={"Loading Tweet"}
-    options={{theme: 'dark'}}
-    tweetId={'1746224748067987458'} />
-</div>
+<Tweet client:load tweetId={'1746224748067987458'} />
