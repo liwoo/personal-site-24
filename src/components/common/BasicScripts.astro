@@ -11,11 +11,39 @@ import { UI } from '~/utils/config';
 
   function applyTheme(theme) {
     toggleCompanyLogo(theme);
+    toggleTweetCard();
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
+  }
+
+  function toggleTweetCard() {
+    const html = document.querySelector('html');
+    const tweetCards = document.querySelectorAll('.tweets');
+
+    const ovserver = new MutationObserver((mutations) => {
+      //listen to html class changes
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          tweetCards.forEach((tweetCard) => {
+            // tweetCard.classList.toggle('hidden', true);
+            if (html.classList.contains('dark') && tweetCard.classList.contains('dark')) {
+              tweetCard.classList.toggle('hidden', false);
+            } else if (!html.classList.contains('dark') && tweetCard.classList.contains('light')) {
+              tweetCard.classList.toggle('hidden', false);
+            } else {
+              tweetCard.classList.toggle('hidden', true);
+            }
+          });
+        }
+      });
+    });
+
+    ovserver.observe(html, {
+      attributes: true,
+    });
   }
 
   function toggleCompanyLogo(theme) {

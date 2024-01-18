@@ -13,6 +13,7 @@
     "lint:eslint": "eslint . --ext .js,.ts,.astro"
   },
   "dependencies": {
+    "@astro-community/astro-embed-twitter": "^0.5.3",
     "@astrojs/react": "^3.0.9",
     "@astrojs/rss": "^4.0.1",
     "@astrojs/sitemap": "^3.0.3",
