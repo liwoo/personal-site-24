@@ -151,13 +151,16 @@ export const findPostsByQuery = async (query: string): Promise<Array<Post>> => {
 
   const posts = await fetchPosts();
 
-  return posts.filter((post) => {
+  const filtered = posts.filter((post) => {
     return (
       post.title.toLowerCase().includes(query.toLowerCase()) ||
       post.excerpt?.toLowerCase().includes(query.toLowerCase()) ||
       post.tags?.some((tag) => tag.toLowerCase().includes(query.toLowerCase())) 
     );
   });
+
+  //return first 5 results
+  return filtered.slice(0, 5)
 }
 
 /** */

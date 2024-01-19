@@ -1,0 +1,34 @@
+---
+import { ListItem } from '~/components/blog/ListItem';
+import Pagination from '~/components/blog/Pagination.astro';
+import type { Post } from '~/types';
+import { findLatestPosts } from '~/utils/blog';
+import { getPostsLength } from '~/utils/blog';
+import { findPostsByQuery } from '~/utils/blog';
+export const partial = true;
+//get Astro params
+const params = Astro.url.searchParams;
+const q = params.get('q');
+let posts: Post[] = [];
+let postCount = 6;
+let isSearch = q !== null && q !== '';
+if (isSearch) {
+  postCount = 5;
+  posts = await findPostsByQuery(q!);
+} else {
+  postCount = await getPostsLength();
+  posts = await findLatestPosts({ count: postCount, offset: 0 });
+}
+---
+
+{
+  isSearch && (
+    <div>
+      Search Results for <span class="text-default italic">"{q}"</span>{" - "}({posts.length})
+    </div>
+  )
+}
+<div class="flex flex-col">
+  {posts.map((post) => <ListItem post={post} extended />)}
+</div>
+{postCount > 5 && <Pagination nextUrl={'/blog/2'} />}

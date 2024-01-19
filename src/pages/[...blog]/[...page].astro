@@ -8,7 +8,6 @@ import Pagination from '~/components/blog/Pagination.astro';
 import { blogListRobots, getStaticPathsBlogList} from '~/utils/blog';
 import Hero2 from '~/components/widgets/Hero2.astro';
 import { ListItem } from '~/components/blog/ListItem.tsx';
-import { SearchBlog } from '~/components/blog/Search';
 import { Categories } from '~/components/blog/CategoryToggle';
 
 export const prerender = true;
@@ -58,22 +57,19 @@ const metadata = {
     <div class="w-full md:w-1/2 lg:w-1/4">
       <input
         type="text"
-        name="search"
-        id="search-blog"
+        name="q"
+        hx-get="/blog/search"
+        hx-trigger="keyup changed delay:500ms, search"
+        hx-target="#server-posts"
         placeholder="🔍  Search from all my articles and blogs"
         class="py-3 px-4 block w-full text-md rounded-lg bg-card"
       />
     </div>
   </div>
-  <section class="py-12 sm:py-16 lg:py-20 container-lg relative">
-    <div class="flex flex-col gap-y-4 lg:gap-y-8" id="server-posts">
+  <section class="py-12 sm:py-16 lg:py-20 container-lg relative" id="server-posts">
+    <div class="flex flex-col gap-y-4 lg:gap-y-8">
       {page.data.map((post) => <ListItem post={post} extended />)}
     </div>
-    <div class="hidden" id="client-posts"><SearchBlog client:only /></div>
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
-    <!--
-      <PostTags tags={allCategories} class="mb-2" title="Search by Categories:" isCategory />
-      <PostTags tags={allTags}  title="Search by Tags:" />
-    -->
   </section>
 </Layout>

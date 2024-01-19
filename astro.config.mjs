@@ -4,6 +4,7 @@ import { defineConfig, squooshImageService } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
+import htmx from 'astro-htmx';
 import vercel from '@astrojs/vercel/serverless';
 import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
@@ -29,7 +30,7 @@ export default defineConfig({
   }),
   integrations: [tailwind({
     applyBaseStyles: false
-  }), sitemap(), mdx(), icon({
+  }), htmx(), sitemap(), mdx(), icon({
     include: {
       tabler: ['*'],
       'flat-color-icons': ['template', 'gallery', 'approval', 'document', 'advertising', 'currency-exchange', 'voice-presentation', 'business-contact', 'database']
