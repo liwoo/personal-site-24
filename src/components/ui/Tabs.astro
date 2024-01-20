@@ -1,0 +1,45 @@
+---
+import { clsx } from 'clsx';
+type Tab = {
+  action: string;
+  label: string;
+};
+
+type Props = {
+  tabs: Tab[];
+  activeTab: string;
+  swapTarget: string;
+};
+
+const { tabs, activeTab, swapTarget } = Astro.props;
+---
+
+<div class="bg-card rounded-lg p-1">
+  <div>
+    <nav class="flex space-x-4 justify-around" aria-label="Tabs">
+      {
+        tabs.map((tab) => (
+          <button
+            hx-get={tab.action}
+            hx-target={swapTarget}
+            hx-trigger="click"
+            class={clsx(
+              tab.label.toLowerCase() === activeTab.toLowerCase() ? 'bg-page' : '',
+              `w-1/${tabs.length} py-2 text-sm font-medium text-center rounded-md`,
+              'text-muted hover:text-muted rounded-md py-2 text-sm font-medium'
+            )}
+          >
+            <form>
+              <input type="hidden" name="activeTab" value={tab.label} />
+              <input type="hidden" name="swapTarget" value={swapTarget} />
+              <input type="hidden" name="tabs" value={JSON.stringify(tabs)} />
+              <span hx-post="/blog/tabs" hx-trigger="click" hx-target="#blog-tabs">
+                {tab.label}
+              </span>
+            </form>
+          </button>
+        ))
+      }
+    </nav>
+  </div>
+</div>

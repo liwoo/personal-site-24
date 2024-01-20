@@ -44,8 +44,8 @@ export function Categories() {
         <TabsTrigger onClick={() => resetUrl()} value="all">
           All
         </TabsTrigger>
-        <TabsTrigger onClick={() => changeUrl('tech')} value="tech">
-          Tech
+        <TabsTrigger value="tech">
+          <span hx-get="/blog/search?q=maui" hx-target="#server-posts" hx-trigger="click">Tech</span>
         </TabsTrigger>
         <TabsTrigger onClick={() => changeUrl('videos')} value="video">
           Videos

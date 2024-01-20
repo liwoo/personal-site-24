@@ -22,13 +22,25 @@ if (isSearch) {
 ---
 
 {
-  isSearch && (
+  isSearch && posts.length > 0 && (
     <div>
-      Search Results for <span class="text-default italic">"{q}"</span>{" - "}({posts.length})
+      Search Results for <span class="text-default italic">"{q}"</span>
+      {' - '}({posts.length})
     </div>
   )
 }
-<div class="flex flex-col">
-  {posts.map((post) => <ListItem post={post} extended />)}
-</div>
+{
+  posts.length > 0 ? (
+    <div class="flex flex-col">
+      {posts.map((post) => (
+        <ListItem post={post} extended />
+      ))}
+    </div>
+  ) : (
+    <div class="flex flex-col justify-center items-center my-8 gap-y-2">
+      <p class="text-6xl">📭</p>
+      <p class="text-lg text-muted">No results found.</p>
+    </div>
+  )
+}
 {postCount > 5 && <Pagination nextUrl={'/blog/2'} />}
