@@ -26,16 +26,16 @@ const { tabs, activeTab, swapTarget } = Astro.props;
             class={clsx(
               tab.label.toLowerCase() === activeTab.toLowerCase() ? 'bg-page' : '',
               `w-1/${tabs.length} py-2 text-sm font-medium text-center rounded-md`,
-              'text-muted hover:text-muted rounded-md py-2 text-sm font-medium'
+              'text-muted hover:text-muted rounded-md text-sm font-medium'
             )}
           >
             <form>
               <input type="hidden" name="activeTab" value={tab.label} />
               <input type="hidden" name="swapTarget" value={swapTarget} />
               <input type="hidden" name="tabs" value={JSON.stringify(tabs)} />
-              <span hx-post="/blog/tabs" hx-trigger="click" hx-target="#blog-tabs">
+              <div hx-post="/blog/tabs" hx-trigger="click" hx-target="#blog-tabs">
                 {tab.label}
-              </span>
+              </div>
             </form>
           </button>
         ))

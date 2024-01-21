@@ -38,19 +38,19 @@ const metadata = {
 
 const tabs = [
   {
-    action: '/blog/search?q=',
+    action: '/blog/search?s=',
     label: 'All',
   },
   {
-    action: '/blog/search?q=tech',
+    action: '/blog/search?c=tech',
     label: 'Tech',
   },
   {
-    action: '/blog/search?q=videos',
+    action: '/blog/search?c=videos',
     label: 'Videos',
   },
   {
-    action: '/blog/search?q=general',
+    action: '/blog/search?c=general',
     label: 'General',
   },
 ];
@@ -77,15 +77,20 @@ const tabs = [
       <Tabs swapTarget="#server-posts" tabs={tabs} activeTab="all" />
     </div>
     <div class="w-full md:w-1/2 lg:w-1/4">
-      <input
-        type="text"
-        name="q"
-        hx-get="/blog/search"
-        hx-trigger="keyup changed delay:500ms, search"
-        hx-target="#server-posts"
-        placeholder="🔍  Search from all my articles and blogs"
-        class="py-3 px-4 block w-full text-md rounded-lg bg-card"
-      />
+      <form hx-post="/blog/tabs" hx-trigger="click" hx-target="#blog-tabs">
+        <input type="hidden" name="activeTab" value={"all"} />
+        <input type="hidden" name="swapTarget" value={"#server-posts"} />
+        <input type="hidden" name="tabs" value={JSON.stringify(tabs)} />
+        <input
+          type="text"
+          name="q"
+          hx-get="/blog/search"
+          hx-trigger="keyup changed delay:500ms, search"
+          hx-target="#server-posts"
+          placeholder="🔍  Search from all my articles and blogs"
+          class="py-3 px-4 block w-full text-md rounded-lg bg-card"
+        />
+      </form>
     </div>
   </div>
   <section class="py-12 sm:py-16 lg:py-20 container-lg relative" id="server-posts" hx-swap-oob="true">

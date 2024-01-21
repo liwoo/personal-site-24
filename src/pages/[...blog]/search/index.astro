@@ -2,19 +2,23 @@
 import { ListItem } from '~/components/blog/ListItem';
 import Pagination from '~/components/blog/Pagination.astro';
 import type { Post } from '~/types';
-import { findLatestPosts } from '~/utils/blog';
+import { findLatestPosts, findPostsByCategory } from '~/utils/blog';
 import { getPostsLength } from '~/utils/blog';
 import { findPostsByQuery } from '~/utils/blog';
 export const partial = true;
 //get Astro params
 const params = Astro.url.searchParams;
 const q = params.get('q');
+const c = params.get('c');
 let posts: Post[] = [];
 let postCount = 6;
-let isSearch = q !== null && q !== '';
+const isSearch = q !== null && q !== '';
+const isCategory = c !== null && c !== '';
 if (isSearch) {
   postCount = 5;
   posts = await findPostsByQuery(q!);
+} else if (isCategory) {
+  posts = await findPostsByCategory(c!);
 } else {
   postCount = await getPostsLength();
   posts = await findLatestPosts({ count: postCount, offset: 0 });
@@ -30,6 +34,13 @@ if (isSearch) {
   )
 }
 {
+  isCategory && posts.length > 0 && (
+    <div>
+      Latest from Category: <span class="text-default font-bold">{c.toLocaleUpperCase()}</span>
+    </div>
+  )
+}
+{
   posts.length > 0 ? (
     <div class="flex flex-col">
       {posts.map((post) => (
@@ -39,8 +50,10 @@ if (isSearch) {
   ) : (
     <div class="flex flex-col justify-center items-center my-8 gap-y-2">
       <p class="text-6xl">📭</p>
-      <p class="text-lg text-muted">No results found.</p>
+      <p class="text-lg text-muted">
+        No results found for {isCategory ? c.toLocaleUpperCase() : `Search Results :"${q}"`}
+      </p>
     </div>
   )
 }
-{postCount > 5 && <Pagination nextUrl={'/blog/2'} />}
+{postCount > 6 && <Pagination nextUrl={'/blog/2'} />}

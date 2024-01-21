@@ -169,9 +169,11 @@ export const findPostsByCategory = async (category: string): Promise<Array<Post>
 
   const posts = await fetchPosts();
 
-  return posts.filter((post) => {
+  const filtered = posts.filter((post) => {
     return post.category?.toLowerCase() === category.toLowerCase();
   });
+
+  return filtered.slice(0, 10)
 }
 
 /** */
