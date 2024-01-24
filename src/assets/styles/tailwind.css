@@ -135,3 +135,7 @@
 .dd *:first-child {
   margin-top: 0;
 }
+
+.aw-link-active {
+  @apply text-primary;
+}

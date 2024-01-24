@@ -1,5 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import Tweet from './Tweet';
+import setup from '~/assets/images/setup.png';
+import vertical from '~/assets/images/vertical.png';
 
 export function Bio() {
   return (
@@ -10,9 +12,9 @@ export function Bio() {
         <TabsTrigger value="full">Full Bio</TabsTrigger>
       </TabsList>
       <TabsContent value="full" className="leading-7 text-lg text-default py-4">
-        <div className="flex">
-          <div className="w-1/4">Img Here</div>
-          <div className="w-3/4 flex flex-col gap-y-4 ">
+        <div className="flex flex-col md:flex-row gap-y-6 md:gap-x-6">
+          <div className="w-full md:w-1/2 lg:w-1/3"><img src={vertical.src} alt='Vertical Image of Jeremiah' /></div>
+          <div className="w-full md:w-1/2 lg:w-2/3 flex flex-col gap-y-4 ">
             <p>
               Jeremiah is a seasoned and passionate Software Engineer with 7 years of professional experience across
               multiple industries worldwide.
@@ -72,6 +74,7 @@ export function Bio() {
         </div>
       </TabsContent>
       <TabsContent value="brief" className="leading-7 text-lg text-default flex flex-col gap-y-4 my-4">
+        <img src={setup.src} alt='Jeremiahs desk setup' />
         <p>
           A Full Stack Engineer with 7+ years of experience leading multinational Engineering teams accross HealthTech,
           FinTech, AgriTech and GovTech in Africa.
