@@ -25,7 +25,7 @@ const { tabs, activeTab, swapTarget } = Astro.props;
             hx-trigger="click"
             class={clsx(
               tab.label.toLowerCase() === activeTab.toLowerCase() ? 'bg-page' : '',
-              `w-1/${tabs.length} py-2 text-sm font-medium text-center rounded-md`,
+              `w-1/${tabs.length}`, `py-2 text-sm font-medium text-center rounded-md`,
               'text-muted hover:text-muted rounded-md text-sm font-medium'
             )}
           >
