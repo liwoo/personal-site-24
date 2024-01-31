@@ -25,29 +25,43 @@ export function ListItem({ post, extended = false }: ListItemProps) {
         'group flex gap-y-2 rounded-xl transition-all ease-in delay-25 hover:dark:bg-[#1e1e1e] hover:bg-[#e0e0e0] p-4'
       )}
     >
-      <div className="w-1/2">
-        <time dateTime={String(post.publishDate)} className="inline-block text-muted">
-          {window ? getFormattedDateClient(post.publishDate) : getFormattedDate(post.publishDate)}
-        </time>
-        <div className="flex my-2">
-          <div className="flex-1 border-t border-default"></div>
-          <div className="flex-1 border-t border-muted"></div>
+      <div className="w-full md:w-1/2 flex md:flex-col justify-between md:justify-start items-center md:items-start">
+        <div className={"w-1/2 md:w-full"}>
+          <time dateTime={String(post.publishDate)} className="inline-block text-muted">
+            {window ? getFormattedDateClient(post.publishDate) : getFormattedDate(post.publishDate)}
+          </time>
+          <div className="flex my-2">
+            <div className="flex-1 border-t border-default"></div>
+            <div className="flex-1 border-t border-muted"></div>
+          </div>
         </div>
-        {extended && (
-          <p className="text-muted text-sm">
-            {`⏰ `}
-            {/* <Icon nameName="tabler:clock" class="w-4 h-4 inline-block -mt-0.5 text-secondary" /> */}
-            {post.readingTime} Minute Read
-          </p>
-        )}
 
-        
-        <div className='my-4'>
-          {extended && post.category && (
-            <a href={`/category/${post.category}`} className="text-sm text-primary hover:text-default hover:bg-page my-2 bg-card p-2 rounded-lg">{post.category?.toLocaleUpperCase()}</a>
+        <div>
+          {extended && (
+            <p className="text-muted text-sm">
+              {`⏰ `}
+              {/* <Icon nameName="tabler:clock" class="w-4 h-4 inline-block -mt-0.5 text-secondary" /> */}
+              {post.readingTime} Minute Read
+            </p>
           )}
+          <div className='my-4 hidden md:block'>
+            {extended && post.category && (
+              <a href={`/category/${post.category}`}
+                 className="text-sm text-primary hover:text-default hover:bg-page my-2 bg-card p-2 rounded-lg">{post.category?.toLocaleUpperCase()}</a>
+            )}
+          </div>
         </div>
+
+
       </div>
+
+      <div className='my-1 block md:hidden'>
+        {extended && post.category && (
+          <a href={`/category/${post.category}`}
+             className="text-sm text-primary hover:text-default hover:bg-page my-2 bg-card p-2 rounded-lg">{post.category?.toLocaleUpperCase()}</a>
+        )}
+      </div>
+
       <div className="flex flex-col gap-y-2 w-full">
         <a href={getPermalink(post.permalink, 'post')} data-astro-prefetch>
           <h3 className="text-xl">{post.title}</h3>
@@ -68,7 +82,8 @@ export function ListItem({ post, extended = false }: ListItemProps) {
                 width={400}
                 loading="lazy"
               />
-              <div className="bg-card group-hover:bg-primary transition-all ease-in-out duration-300 w-full h-32 -mt-2 ml-2 rounded-lg" />
+              <div
+                className="bg-card group-hover:bg-primary transition-all ease-in-out duration-300 w-full h-32 -mt-2 ml-2 rounded-lg"/>
             </a>
           )}
         </div>
