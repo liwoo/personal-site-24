@@ -157,7 +157,7 @@ export interface Testimonial {
 }
 
 export interface Input {
-  type: HTMLInputTypeAttribute;
+  type: HTMLInputTypeAttribute | 'select'
   name: string;
   label?: string;
   autocomplete?: string;
@@ -215,7 +215,7 @@ export interface WorkExperience {
   image: string;
   location: string;
   duration: string;
-};
+}
 
 // WIDGETS
 export interface Hero extends Headline, Widget {

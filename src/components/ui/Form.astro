@@ -42,7 +42,19 @@ const {
                     {label}
                   </label>
                 )}
-                <input
+                {
+                  type = 'select' ?
+                    <select
+                      name={name}
+                      id={name}
+                      autocomplete={autocomplete}
+                      class="py-3 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
+                    >
+                      <option value="1">Option 1</option>
+                      <option value="2">Option 2</option>
+                    </select>
+                    :
+                    <input
                   type={type}
                   name={name}
                   id={name}
@@ -50,6 +62,8 @@ const {
                   placeholder={placeholder}
                   class="py-3 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
                 />
+                }
+               
               </div>
             )
         )
