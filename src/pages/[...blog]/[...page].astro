@@ -1,6 +1,5 @@
 ---
 import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
-import FormContainer from '~/components/ui/Form.astro';
 
 import Layout from '~/layouts/PageLayout.astro';
 import Pagination from '~/components/blog/Pagination.astro';
@@ -10,7 +9,7 @@ import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
 import Hero2 from '~/components/widgets/Hero2.astro';
 import { ListItem } from '~/components/blog/ListItem.tsx';
 import Tabs from '~/components/ui/Tabs.astro';
-import Envelope from '~/components/icons/Envelope.astro';
+import SignupForm from '~/components/widgets/SignupForm.astro';
 export const prerender = true;
 
 export const getStaticPaths = (async ({ paginate }) => {
@@ -55,21 +54,6 @@ const tabs = [
     label: 'General',
   },
 ];
-
-const signupInputs: Input[] = [
-  {
-    name: 'Category',
-    label: 'Category',
-    type: 'select',
-    placeholder: 'Enter your category...',
-  },
-  {
-    name: 'email',
-    label: 'Email',
-    type: 'email',
-    placeholder: 'Enter your email address to signup',
-  },
-];
 ---
 
 <Layout metadata={metadata}>
@@ -86,7 +70,7 @@ const signupInputs: Input[] = [
     </Fragment>
   </Hero2>
   <div
-    class="container mt-8 items-center flex flex-col md:flex-row-reverse gap-x-4 gap-y-8 md:gap-y-0 justify-between relative z-10"
+    class="container mt-8 items-center flex flex-col md:flex-row-reverse gap-y-8 gap-x-4 md:gap-y-0 justify-between relative z-10"
   >
     <div class="w-full lg:w-1/3" id="blog-tabs" hx-swap-oob="true">
       <!-- <Categories client:only /> -->
@@ -94,8 +78,8 @@ const signupInputs: Input[] = [
     </div>
     <div class="w-full md:w-1/2 lg:w-1/4">
       <form hx-post="/blog/tabs" hx-trigger="click" hx-target="#blog-tabs">
-        <input type="hidden" name="activeTab" value={'all'} />
-        <input type="hidden" name="swapTarget" value={'#server-posts'} />
+        <input type="hidden" name="activeTab" value={"all"} />
+        <input type="hidden" name="swapTarget" value={"#server-posts"} />
         <input type="hidden" name="tabs" value={JSON.stringify(tabs)} />
         <input
           type="text"
@@ -114,18 +98,7 @@ const signupInputs: Input[] = [
       {page.data.map((post) => <ListItem post={post} extended />)}
     </div>
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
-    <div class="my-20">
-      <FormContainer
-        title="Stay up to date with my Posts"
-        inputs={signupInputs}
-        description="Subscribe and get notified whenever I publish a new article concerning the latest developments in Software Engineering, a Youtube Video or just some thoughts about politics or Faith!"
-        disclaimer={{ label: 'No spam. Unsubscribe at any time.' }}
-        button="Signup"
-      >
-        <Fragment slot="icon">
-          <Envelope className="stroke-default" />
-        </Fragment>
-      </FormContainer>
-    </div>
+
+    <SignupForm />
   </section>
 </Layout>

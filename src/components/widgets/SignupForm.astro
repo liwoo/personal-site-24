@@ -1,0 +1,40 @@
+---
+import type { Input } from '~/types';
+import FormContainer from '~/components/ui/Form.astro';
+import Envelope from '~/components/icons/Envelope.astro';
+
+const signupInputs: Input[] = [
+  {
+    name: 'Category',
+    label: 'Category',
+    type: 'select',
+    dropdownOptions: [
+      { label: 'All Categories', value: 'all' },
+      { label: 'Tech', value: 'tech' },
+      { label: 'Videos', value: 'videos' },
+      { label: 'General', value: 'general' },
+    ],
+    placeholder: 'Enter your category...',
+  },
+  {
+    name: 'email',
+    label: 'Email',
+    type: 'email',
+    placeholder: 'Enter your email address to signup',
+  },
+];
+---
+
+<div class="my-20">
+  <FormContainer
+    title="Stay up to date with my Posts"
+    inputs={signupInputs}
+    description="Get notified whenever I publish a new article concerning the latest in Software Engineering, a Youtube Video or just some thoughts about politics or Faith!"
+    disclaimer={{ label: 'No spam. Unsubscribe at any time.' }}
+    button="Signup"
+  >
+    <Fragment slot="icon">
+      <Envelope className="stroke-default" />
+    </Fragment>
+  </FormContainer>
+</div>

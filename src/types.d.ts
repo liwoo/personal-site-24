@@ -160,8 +160,15 @@ export interface Input {
   type: HTMLInputTypeAttribute | 'select'
   name: string;
   label?: string;
+  dropdownOptions?: Array<DrowpdownOption>;
   autocomplete?: string;
   placeholder?: string;
+}
+
+export interface DrowpdownOption {
+  isDefault?: boolean;
+  label: string;
+  value: string;
 }
 
 export interface Textarea {

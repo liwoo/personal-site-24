@@ -34,7 +34,7 @@ const {
     {
       inputs &&
         inputs.map(
-          ({ type = 'text', name, label = '', autocomplete = 'on', placeholder = '' }) =>
+          ({ type = 'text', name, label = '', autocomplete = 'on', placeholder = '', dropdownOptions = [] }) =>
             name && (
               <div class="w-full">
                 {label && !inline && (
@@ -42,28 +42,27 @@ const {
                     {label}
                   </label>
                 )}
-                {
-                  type = 'select' ?
-                    <select
-                      name={name}
-                      id={name}
-                      autocomplete={autocomplete}
-                      class="py-3 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
-                    >
-                      <option value="1">Option 1</option>
-                      <option value="2">Option 2</option>
-                    </select>
-                    :
-                    <input
-                  type={type}
-                  name={name}
-                  id={name}
-                  autocomplete={autocomplete}
-                  placeholder={placeholder}
-                  class="py-3 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
-                />
-                }
-               
+                {type == 'select' ? (
+                  <select
+                    name={name}
+                    id={name}
+                    autocomplete={autocomplete}
+                    class="form-select w-full py-3 px-4 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
+                  >
+                    {dropdownOptions.map((option) => (
+                      <option value={option.value}>{option.label}</option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type={type}
+                    name={name}
+                    id={name}
+                    autocomplete={autocomplete}
+                    placeholder={placeholder}
+                    class="py-3 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
+                  />
+                )}
               </div>
             )
         )

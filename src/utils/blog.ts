@@ -145,6 +145,16 @@ export const getPostsLength = async (): Promise<number> => {
   return posts.length;
 }
 
+export const getPostsFromTags = async (tags: Array<string>): Promise<Array<Post>> => {  
+  const posts = await fetchPosts();
+
+  const found = posts.filter((post) => {
+    return post.tags?.some((tag) => tags.includes(tag));
+  });
+
+  return found.slice(0, 3)
+}
+
 /** */
 export const findPostsByQuery = async (query: string): Promise<Array<Post>> => {
   if (!query) return [];

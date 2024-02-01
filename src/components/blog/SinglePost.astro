@@ -5,6 +5,8 @@ import SocialShare from '~/components/common/SocialShare.astro';
 
 import type { Post } from '~/types';
 import Bio from '../widgets/Bio.astro';
+import SignupForm from '../widgets/SignupForm.astro';
+import Related from './Related.astro';
 
 export interface Props {
   post: Post;
@@ -57,5 +59,10 @@ const { Content } = post;
       <PostTags tags={post.tags} class="lg:hidden mr-5 my-4 rtl:mr-0 rtl:ml-5" />
     </div>
     <Bio />
+    <div class="container-lg">
+      <SignupForm />
+
+      <Related tags={post.tags} postId={post.id} />
+    </div>
   </article>
 </section>

@@ -1,0 +1,27 @@
+---
+import { getPostsFromTags } from '~/utils/blog';
+import { ListItem } from './ListItem';
+
+type Props = {
+  tags?: string[];
+  postId?: string;
+};
+
+const { tags = [], postId = 1 } = Astro.props;
+
+const articles = await getPostsFromTags(tags);
+const filtered = articles.filter((article) => article.id !== postId);
+---
+
+{
+  filtered.length ? (
+    <div>
+      <h3 class="text-xl text-center my-4">You may also be interested in</h3>
+      <div class="grid grid-cols-2 grid-gap-4">
+        {filtered.map((article) => (
+          <ListItem post={article} />
+        ))}
+      </div>
+    </div>
+  ) : null
+}
