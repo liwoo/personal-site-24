@@ -12,7 +12,6 @@ type Props = {
 };
 
 const { tabs, activeTab, swapTarget } = Astro.props;
-const width = `w-1/${tabs.length}`;
 ---
 
 <div class="bg-card rounded-lg p-1">
@@ -21,11 +20,12 @@ const width = `w-1/${tabs.length}`;
       {
         tabs.map((tab) => (
           <button
+            style=`width: ${1/tabs.length * 100}%;`
             hx-get={tab.action}
             hx-target={swapTarget}
             hx-trigger="click"
             class={clsx(
-              tab.label.toLowerCase() === activeTab.toLowerCase() ? 'bg-page' : '', 'py-2 text-sm font-medium text-center rounded-md text-muted hover:text-muted', width,
+              tab.label.toLowerCase() === activeTab.toLowerCase() ? 'bg-page' : '', 'py-2 text-sm font-medium text-center rounded-md text-muted hover:text-muted',
             )}
           >
             <form>
