@@ -1,0 +1,79 @@
+---
+import Hero2 from '~/components/widgets/Hero2.astro';
+import Layout from '~/layouts/PageLayout.astro';
+import Tabs from '~/components/ui/Tabs.astro';
+import ProjectCard from '~/components/widgets/ProjectCards.astro';
+import Headline from '~/components/ui/Headline.astro';
+import ThemedImage from '~/components/ui/ThemedImage.astro';
+
+export const prerender = true;
+
+const metadata = {
+  title: 'My Projects',
+};
+
+const tabs = [
+  {
+    action: '/blog/search?s=',
+    label: 'All',
+  },
+  {
+    action: '/blog/search?c=tech',
+    label: 'Mobile',
+  },
+  {
+    action: '/blog/search?c=videos',
+    label: 'Websites',
+  },
+  {
+    action: '/blog/search?c=general',
+    label: 'Web Apps',
+  },
+  {
+    action: '/blog/search?c=general',
+    label: 'API Only',
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <Hero2>
+    <Fragment slot="title">My <span class="underlined">Portfolio</span></Fragment>
+
+    <Fragment slot="subtitle">
+      Too many people spending time on these apps / Guess I'm so weird I be spending time making Apps / Don't @ me snap
+      me, I'm crafty with these rap sheets /
+    </Fragment>
+    <Fragment slot="content">
+      <a href="">&gt;&gt; Liwu, UMP Cypha 2018</a>
+    </Fragment>
+  </Hero2>
+
+  <div class="container mt-8 items-start flex flex-col gap-y-8 gap-x-4 md:gap-y-0 justify-start relative z-10">
+    <div class="w-full lg:w-2/3" id="blog-tabs" hx-swap-oob="true">
+      <!-- <Categories client:only /> -->
+      <Tabs swapTarget="#server-posts" tabs={tabs} activeTab="all" />
+    </div>
+  </div>
+  <section class="py-12 sm:py-16 lg:py-20 container-lg relative" id="server-projects">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 lg:gap-y-8">
+      <ProjectCard />
+      <ProjectCard />
+      <!-- {page.data.map((post) => <ListItem post={post} extended />)} -->
+    </div>
+
+    <div class="my-8 lg:my-12">
+      <Headline
+        tagline="My Tech Stack"
+        subtitle="I've had fun over the years working with some cool technologies.  Here are some that have really suck with me"
+      />
+      <div class="w-full grid grid-cols-5 gap-x-6">
+        <ThemedImage alt={'Svelte'} src={'svelte'} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} />
+      </div>
+    </div>
+  </section>
+</Layout>

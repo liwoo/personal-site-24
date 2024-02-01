@@ -12,7 +12,7 @@ export const headerData = {
     },
     {
       text: 'Projects',
-      href: '#',
+      href: '/projects',
     },
     {
       text: 'Contact',
@@ -35,7 +35,7 @@ export const footerData = {
     {
       title: 'Platform',
       links: [
-        { text: 'Projects', href: '#' },
+        { text: 'Projects', href: '/projects' },
         { text: 'Music', href: '#' },
         { text: 'Speaking', href: '#' },
       ],
