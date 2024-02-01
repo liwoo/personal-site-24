@@ -1,6 +1,7 @@
 ---
 import type { Form } from '~/types';
 import Button from '~/components/ui/Button.astro';
+import clsx from 'clsx';
 
 const {
   inputs,
@@ -30,7 +31,7 @@ const {
       </div>
     )
   }
-  <div class="flex items-center gap-x-4">
+  <div class={clsx("grid grid-cols-2 gap-4 items-center", inputs ? `md:grid-cols-${inputs.length + 1}`: "")}>
     {
       inputs &&
         inputs.map(
@@ -47,7 +48,7 @@ const {
                     name={name}
                     id={name}
                     autocomplete={autocomplete}
-                    class="form-select w-full py-3 px-4 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
+                    class="form-select w-full py-2 px-4 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
                   >
                     {dropdownOptions.map((option) => (
                       <option value={option.value}>{option.label}</option>
@@ -60,7 +61,7 @@ const {
                     id={name}
                     autocomplete={autocomplete}
                     placeholder={placeholder}
-                    class="py-3 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
+                    class="py-2 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
                   />
                 )}
               </div>
@@ -70,7 +71,7 @@ const {
     {
       button && (
         <div>
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" class="w-full">
             {button}
           </Button>
         </div>

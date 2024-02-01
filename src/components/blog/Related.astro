@@ -17,7 +17,7 @@ const filtered = articles.filter((article) => article.id !== postId);
   filtered.length ? (
     <div>
       <h3 class="text-xl text-center my-4">You may also be interested in</h3>
-      <div class="grid grid-cols-2 grid-gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 grid-gap-4">
         {filtered.map((article) => (
           <ListItem post={article} />
         ))}
