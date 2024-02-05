@@ -11,6 +11,6 @@ const { title = 'JavaScript', level = 75 } = Astro.props;
   <h4>{title}</h4>
   <div class="w-full relative h-8">
     <div class="h-full w-full absolute rounded bg-primary opacity-20"></div>
-    <div style=`width: ${level}%;` class="h-full animate-slide-left absolute bg-primary"></div>
+    <div style=`width: ${level}%;` class="h-full absolute bg-primary" data-animation="animate-slide-left"></div>
   </div>
 </div>

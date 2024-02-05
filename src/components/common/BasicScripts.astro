@@ -19,6 +19,28 @@ import { UI } from '~/utils/config';
     }
   }
 
+  //toggle animation classes on view
+  function toggleAnimationOnView() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const animation = entry.target.dataset.animation;
+          entry.target.classList.add(animation);
+        }
+
+        if (!entry.isIntersecting) {
+          const animation = entry.target.dataset.animation;
+          entry.target.classList.remove(animation);
+        }
+      });
+    });
+
+    //select all with data-animation
+    document.querySelectorAll('[data-animation]').forEach((elem) => {
+      observer.observe(elem);
+    });
+  }
+
   function toggleTweetCard() {
     const html = document.querySelector('html');
     const tweetCards = document.querySelectorAll('.tweets');
@@ -84,6 +106,7 @@ import { UI } from '~/utils/config';
   }
 
   const onLoad = function () {
+    toggleAnimationOnView();
     let lastKnownScrollPosition = window.scrollY;
     let ticking = true;
 
