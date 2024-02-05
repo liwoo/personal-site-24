@@ -5,6 +5,7 @@ import Tabs from '~/components/ui/Tabs.astro';
 import ProjectCard from '~/components/widgets/ProjectCards.astro';
 import Headline from '~/components/ui/Headline.astro';
 import ThemedImage from '~/components/ui/ThemedImage.astro';
+import Skill from '~/components/widgets/Skill.astro';
 
 export const prerender = true;
 
@@ -28,10 +29,6 @@ const tabs = [
   {
     action: '/blog/search?c=general',
     label: 'Web Apps',
-  },
-  {
-    action: '/blog/search?c=general',
-    label: 'API Only',
   },
 ];
 ---
@@ -67,13 +64,36 @@ const tabs = [
         tagline="My Tech Stack"
         subtitle="I've had fun over the years working with some cool technologies.  Here are some that have really suck with me"
       />
-      <div class="w-full grid grid-cols-5 gap-x-6">
-        <ThemedImage alt={'Svelte'} src={'svelte'} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} />
+      <div class="w-full grid grid-cols-3 md:grid-cols-5 gap-6">
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
       </div>
+    </div>
+
+    <div class="my-20 lg:my-28">
+        <select class="mx-auto form-select py-2 px-12 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card">
+            <option value="mobile">Programming Languages</option>
+            <option value="websites">Frameworks</option>
+        </select>
+        <div>
+            <Skill />
+            <Skill level={25} />
+            <Skill level={20} />
+            <Skill level={10} />
+        </div>
     </div>
   </section>
 </Layout>

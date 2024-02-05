@@ -10,8 +10,13 @@ module.exports = {
         'loop-scroll-reverse': 'loop-scroll-reverse 50s linear infinite',
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "slide-left": "slide-left 1.5s ease-in-out",
       },
       keyframes: {
+        'slide-left': {
+          from: { clipPath: 'inset(0 1000% 0 0);'},
+          to: { clipPath: 'inset(0 0 0 0);' }
+        },
         'loop-scroll': {
           from: { transform: 'translateX(0)' },
           to: { transform: 'translateX(-100%)' },

@@ -1,0 +1,16 @@
+---
+type Props = {
+  title?: string;
+  level?: number;
+};
+
+const { title = 'JavaScript', level = 75 } = Astro.props;
+---
+
+<div class="my-8 flex items-center gap-x-8">
+  <h4>{title}</h4>
+  <div class="w-full relative h-8">
+    <div class="h-full w-full absolute rounded bg-primary opacity-20"></div>
+    <div style=`width: ${level}%;` class="h-full animate-slide-left absolute bg-primary"></div>
+  </div>
+</div>

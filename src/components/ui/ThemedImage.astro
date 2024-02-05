@@ -1,13 +1,15 @@
 ---
 import type { ImageMetadata } from 'astro';
+import clsx from 'clsx';
 
 type Props = {
   src: string;
   alt: string;
+  small?: boolean;
 };
 
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/logos/png/*.{jpeg,jpg,png,gif}');
-const { src, alt } = Astro.props;
+const { src, alt, small = false } = Astro.props;
 
 const srcDark = (await images[`/src/assets/images/logos/png/${src}-dark.png`]()).default.src;
 const srcLight = (await images[`/src/assets/images/logos/png/${src}-light.png`]()).default.src;
@@ -15,7 +17,7 @@ const srcLight = (await images[`/src/assets/images/logos/png/${src}-light.png`](
 
 <img
   src={srcLight}
-  class="max-w-none w-28 h-28 lg:w-48 lg:h-48"
+  class={clsx(small ? "h-20 w-20 lg:h-28 lg:w-28" : "h-28 w-28 lg:w-48 lg:h-48","max-w-none opacity-70 hover:opacity-100")}
   alt={alt ?? ''}
   {...{ 'data-img-type': true, 'data-img-dark': srcDark, 'data-img-light': srcLight }}
 />
