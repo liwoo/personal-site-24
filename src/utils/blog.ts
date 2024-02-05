@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import type { Post } from '~/types';
 import { APP_BLOG } from '~/utils/config';
 import { cleanSlug, trimSlash, BLOG_BASE, POST_PERMALINK_PATTERN, CATEGORY_BASE, TAG_BASE } from './permalinks';
+import { techStack } from '~/data/stack';
 
 const generatePermalink = async ({
   id,
@@ -207,6 +208,7 @@ export const findLatestPosts = async ({ count, offset = 0 }: { count?: number, o
 
   return posts ? posts.slice(offset, offset + _count) : [];
 };
+
 
 /** */
 export const getStaticPathsBlogList = async ({ paginate }: { paginate: PaginateFunction }) => {

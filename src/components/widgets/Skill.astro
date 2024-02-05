@@ -8,7 +8,7 @@ const { title = 'JavaScript', level = 75 } = Astro.props;
 ---
 
 <div class="my-8 flex items-center gap-x-8">
-  <h4>{title}</h4>
+  <h4 class="w-1/4 lg:w-1/6">{title}</h4>
   <div class="w-full relative h-8">
     <div class="h-full w-full absolute rounded bg-primary opacity-20"></div>
     <div style=`width: ${level}%;` class="h-full absolute bg-primary" data-animation="animate-slide-left"></div>

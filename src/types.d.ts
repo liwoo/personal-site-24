@@ -224,6 +224,15 @@ export interface WorkExperience {
   duration: string;
 }
 
+export type StackCategory = 'Language' | 'Framework' | 'Infrastructure' | 'Other' ;
+
+export interface TechStack {
+  title: string;
+  logo?: string;
+  category: StackCategory;
+  experience: number;
+}
+
 // WIDGETS
 export interface Hero extends Headline, Widget {
   content?: string;

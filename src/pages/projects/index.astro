@@ -1,4 +1,5 @@
 ---
+import type { GetStaticPaths } from "astro";
 import Hero2 from '~/components/widgets/Hero2.astro';
 import Layout from '~/layouts/PageLayout.astro';
 import Tabs from '~/components/ui/Tabs.astro';
@@ -6,12 +7,18 @@ import ProjectCard from '~/components/widgets/ProjectCards.astro';
 import Headline from '~/components/ui/Headline.astro';
 import ThemedImage from '~/components/ui/ThemedImage.astro';
 import Skill from '~/components/widgets/Skill.astro';
+import { techStack } from '~/data/stack';
 
 export const prerender = true;
 
 const metadata = {
   title: 'My Projects',
 };
+
+export const getStaticPaths = (() => {
+  return [];
+}) satisfies GetStaticPaths;
+
 
 const tabs = [
   {
@@ -64,35 +71,28 @@ const tabs = [
         tagline="My Tech Stack"
         subtitle="I've had fun over the years working with some cool technologies.  Here are some that have really suck with me"
       />
-      <div class="w-full grid grid-cols-3 md:grid-cols-5 gap-6">
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
-        <ThemedImage alt={'Svelte'} src={'svelte'} small={true} />
+      <div class="w-full grid grid-cols-3 md:grid-cols-5 gap-y-20">
+        {
+            techStack.filter(stack => stack.logo !== undefined).map((stack) => (
+                <ThemedImage alt={stack.title} src={stack.logo!} small={true} />
+            ))
+        }
       </div>
     </div>
 
-    <div class="my-20 lg:my-28">
-        <select class="mx-auto form-select py-2 px-12 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card">
-            <option value="mobile">Programming Languages</option>
-            <option value="websites">Frameworks</option>
+    <div class="my-20 lg:my-28 w-full lg:w-3/4 lg:mx-auto">
+        <select name="stack" hx-post="/projects/stack" hx-target="#stack" hx-trigger="change" class="mx-auto form-select py-2 px-12 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card">
+            <option value="Language">Programming Languages</option>
+            <option value="Framework">Frameworks</option>
+            <option value="Infrastructure">Infrasructure</option>
+            <option value="Other">Other Interests</option>
         </select>
-        <div>
-            <Skill />
-            <Skill level={25} />
-            <Skill level={20} />
-            <Skill level={10} />
+        <div id="stack">
+           {
+            techStack.filter(stack => stack.category.toLocaleLowerCase() === "language").sort((a,b) => b.experience - a.experience).map((stack) => (
+                <Skill title={stack.title} level={stack.experience / 8 * 100} />
+            ))
+           }
         </div>
     </div>
   </section>

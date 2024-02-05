@@ -17,7 +17,7 @@ const srcLight = (await images[`/src/assets/images/logos/png/${src}-light.png`](
 
 <img
   src={srcLight}
-  class={clsx(small ? "h-20 w-20 lg:h-28 lg:w-28" : "h-28 w-28 lg:w-48 lg:h-48","max-w-none opacity-70 hover:opacity-100")}
+  class={clsx(small ? "h-20 w-20 lg:h-24 lg:w-24" : "h-28 w-28 lg:w-48 lg:h-48","max-w-none opacity-70 hover:opacity-100")}
   alt={alt ?? ''}
   {...{ 'data-img-type': true, 'data-img-dark': srcDark, 'data-img-light': srcLight }}
 />
