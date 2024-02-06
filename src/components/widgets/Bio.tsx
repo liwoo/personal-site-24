@@ -60,11 +60,11 @@ export function Bio() {
               .
             </p>
             <p>
-              Jeremiah is also co-founder of{' '}
+              Jeremiah is also Board Director of{' '}
               <a href="https://www.doorbell.mw/" className="underline">
                 Doorbell Malawi
               </a>{' '}
-              which is looking to disrupt the consumer goods retail industry in the country.
+              where provides Technical mentorship to one of the most exciting tech-enabled startup disrupting the consumer goods retail industry in the country.
             </p>
             <p>
               He holds a Masters of Engineering Degree from Doshisha University in Japan and a Bachelors of Science from

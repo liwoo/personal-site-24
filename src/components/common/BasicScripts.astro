@@ -23,12 +23,18 @@ import { UI } from '~/utils/config';
   function toggleAnimationOnView() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
+        const shouldReset = entry.target.dataset.reset;
+
         if (entry.isIntersecting) {
           const animation = entry.target.dataset.animation;
           entry.target.classList.add(animation);
         }
 
-        if (!entry.isIntersecting) {
+        if (entry.isIntersecting && !shouldReset) {
+          observer.unobserve(entry.target);
+        }
+
+        if (!entry.isIntersecting && shouldReset) {
           const animation = entry.target.dataset.animation;
           entry.target.classList.remove(animation);
         }
