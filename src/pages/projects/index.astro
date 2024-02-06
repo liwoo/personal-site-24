@@ -8,6 +8,7 @@ import Headline from '~/components/ui/Headline.astro';
 import ThemedImage from '~/components/ui/ThemedImage.astro';
 import Skill from '~/components/widgets/Skill.astro';
 import { techStack } from '~/data/stack';
+import { shuffle } from "~/utils";
 
 export const prerender = true;
 
@@ -71,13 +72,19 @@ const tabs = [
         tagline="My Tech Stack"
         subtitle="I've had fun over the years working with some cool technologies.  Here are some that have really suck with me"
       />
-      <div class="w-full grid grid-cols-3 md:grid-cols-5 gap-y-20">
+      <div class="hidden w-full md:grid grid-cols-4 md:grid-cols-5 gap-y-20">
         {
-            techStack.filter(stack => stack.logo !== undefined).map((stack) => (
+            shuffle(techStack.filter(stack => stack.logo !== undefined).map((stack) => (
                 <ThemedImage alt={stack.title} src={stack.logo!} small={true} />
-            ))
+            )).slice(0, 10))
         }
       </div>
+      <div class="w-full grid md:hidden grid-cols-4 md:grid-cols-5 gap-y-20">
+        {
+            shuffle(techStack.filter(stack => stack.logo !== undefined).map((stack) => (
+                <ThemedImage alt={stack.title} src={stack.logo!} small={true} />
+            )).slice(0, 12))
+        }
     </div>
 
     <div class="my-20 lg:my-28 w-full lg:w-3/4 lg:mx-auto">
