@@ -1,0 +1,22 @@
+---
+import Hero2 from "~/components/widgets/Hero2.astro";
+import Layout from "~/layouts/Layout.astro";
+
+const {project} = Astro.params;
+const metadata = {
+  title: project,
+};
+---
+<Layout metadata={metadata}>
+    <Hero2>
+      <Fragment slot="title">My <span class="underlined">Portfolio</span></Fragment>
+  
+      <Fragment slot="subtitle">
+        Too many people spending time on these apps / Guess I'm so weird I be spending time making Apps / Don't @ me snap
+        me, I'm crafty with these rap sheets /
+      </Fragment>
+      <Fragment slot="content">
+        <a href="">&gt;&gt; Liwu, UMP Cypha 2018</a>
+      </Fragment>
+    </Hero2>
+</Layout>

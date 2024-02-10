@@ -10,7 +10,7 @@ type Props = {
     slug?: string,
 }
 
-const { thumbnail = "https://res.cloudinary.com/tiyeni/image/upload/v1690905871/thumbnail_ben_weber_r_kr_Wsc_Xjv_Q_unsplash_988be45867.jpg", title = "MyMTL Mobile App", company = "Malawi Telecommunications Limited", logo = "irembo", slug = "/my-mtl"} = Astro.props
+const { thumbnail = "https://res.cloudinary.com/tiyeni/image/upload/v1690905871/thumbnail_ben_weber_r_kr_Wsc_Xjv_Q_unsplash_988be45867.jpg", title = "MyMTL Mobile App", company = "Malawi Telecommunications Limited", logo = "irembo", slug = "/projects/my-mtl"} = Astro.props
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/logos/png/*.{jpeg,jpg,png,gif}');
 const imagePath = `/src/assets/images/logos/png/${logo}-symbol.png`;
 if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: "src/assets/*.{jpeg,jpg,png,gif}"`);

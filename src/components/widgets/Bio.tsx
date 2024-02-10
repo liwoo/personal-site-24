@@ -60,7 +60,7 @@ export function Bio() {
               .
             </p>
             <p>
-              Jeremiah is also Board Director of{' '}
+              Jeremiah is also a Board Member of{' '}
               <a href="https://www.doorbell.mw/" className="underline">
                 Doorbell Malawi
               </a>{' '}
