@@ -3,38 +3,49 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 type Props = {
-    thumbnail?: string,
-    title?: string,
-    company?: string,
-    logo?: string,
-    slug?: string,
-}
+  thumbnail?: string;
+  title?: string;
+  company?: string;
+  logo?: string;
+  slug?: string;
+};
 
-const { thumbnail = "https://res.cloudinary.com/tiyeni/image/upload/v1690905871/thumbnail_ben_weber_r_kr_Wsc_Xjv_Q_unsplash_988be45867.jpg", title = "MyMTL Mobile App", company = "Malawi Telecommunications Limited", logo = "irembo", slug = "/projects/my-mtl"} = Astro.props
+const {
+  thumbnail = 'https://res.cloudinary.com/tiyeni/image/upload/v1690905871/thumbnail_ben_weber_r_kr_Wsc_Xjv_Q_unsplash_988be45867.jpg',
+  title = 'MyMTL Mobile App',
+  company = 'Malawi Telecommunications Limited',
+  logo = 'irembo',
+  slug = '/projects/my-mtl',
+} = Astro.props;
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/logos/png/*.{jpeg,jpg,png,gif}');
 const imagePath = `/src/assets/images/logos/png/${logo}-symbol.png`;
 if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: "src/assets/*.{jpeg,jpg,png,gif}"`);
 ---
+
 <div class="p-4 hover:bg-card rounded-lg transition-all ease-in-out duration-200">
-    <a href={slug} data-astro-prefetch>
-        <Image
-          src={thumbnail}
-          class="w-full h-64 rounded object-cover shadow-primary bg-gray-400 dark:bg-slate-700"
-          alt={title}
-          height={500}
-          width={500}
-          loading="lazy"
-        />
-        <!-- <div
+  <a href={`/projects/${slug}`} data-astro-prefetch>
+    <Image
+      src={thumbnail}
+      class="w-full h-64 rounded object-cover shadow-primary bg-gray-400 dark:bg-slate-700"
+      alt={title}
+      height={500}
+      width={500}
+      loading="lazy"
+    />
+    <!-- <div
           class="bg-card group-hover:bg-primary transition-all ease-in-out duration-300 w-full h-32 -mt-2 ml-2 rounded-lg"/> -->
-      </a>
-      <div class="flex gap-x-4 my-6">
-        <div>
-            <Image src={images[imagePath]()} alt={title} class="w-12 h-12 rounded-full border-4 border-slate-200 dark:border-slate-700" />
-        </div>
-        <div>
-            <h2 class="text-lg font-semibold text-primary">{title}</h2>
-            <h4 class="text-md">{company}</h4>
-        </div>
+    <div class="flex gap-x-4 my-6">
+      <div>
+        <Image
+          src={images[imagePath]()}
+          alt={title}
+          class="w-12 h-12 rounded-full border-4 border-slate-200 dark:border-slate-700"
+        />
       </div>
+      <div>
+        <h2 class="text-lg font-semibold text-primary">{title}</h2>
+        <h4 class="text-md">{company}</h4>
+      </div>
+    </div>
+  </a>
 </div>

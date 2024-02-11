@@ -1,5 +1,5 @@
 ---
-import type { GetStaticPaths } from "astro";
+import type { GetStaticPaths } from 'astro';
 import Hero2 from '~/components/widgets/Hero2.astro';
 import Layout from '~/layouts/PageLayout.astro';
 import Tabs from '~/components/ui/Tabs.astro';
@@ -8,7 +8,9 @@ import Headline from '~/components/ui/Headline.astro';
 import ThemedImage from '~/components/ui/ThemedImage.astro';
 import Skill from '~/components/widgets/Skill.astro';
 import { techStack } from '~/data/stack';
-import { shuffle } from "~/utils";
+import { shuffle } from '~/utils';
+import ProjectCards from '~/components/widgets/ProjectCards.astro';
+import { projects } from '~/data/projects';
 
 export const prerender = true;
 
@@ -19,7 +21,6 @@ const metadata = {
 export const getStaticPaths = (() => {
   return [];
 }) satisfies GetStaticPaths;
-
 
 const tabs = [
   {
@@ -62,9 +63,17 @@ const tabs = [
   </div>
   <section class="py-12 sm:py-16 lg:py-20 container-lg relative" id="server-projects">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 lg:gap-y-8">
-      <ProjectCard />
-      <ProjectCard />
-      <!-- {page.data.map((post) => <ListItem post={post} extended />)} -->
+      {
+        projects.map((project) => (
+          <ProjectCard
+            company={project.company?.name}
+            slug={project.slug}
+            title={project.title}
+            logo={project.company?.logo}
+            thumbnail={project.image?.src}
+          />
+        ))
+      }
     </div>
 
     <div class="my-8 lg:my-12">
@@ -74,33 +83,47 @@ const tabs = [
       />
       <div class="hidden w-full md:grid grid-cols-4 md:grid-cols-5 gap-y-20">
         {
-            shuffle(techStack.filter(stack => stack.logo !== undefined).map((stack) => (
-                <ThemedImage alt={stack.title} src={stack.logo!} small={true} />
-            )).slice(0, 10))
+          shuffle(
+            techStack
+              .filter((stack) => stack.logo !== undefined)
+              .map((stack) => <ThemedImage alt={stack.title} src={stack.logo!} small={true} />)
+              .slice(0, 10)
+          )
         }
       </div>
       <div class="w-full grid md:hidden grid-cols-4 md:grid-cols-5 gap-y-20">
         {
-            shuffle(techStack.filter(stack => stack.logo !== undefined).map((stack) => (
-                <ThemedImage alt={stack.title} src={stack.logo!} small={true} />
-            )).slice(0, 12))
+          shuffle(
+            techStack
+              .filter((stack) => stack.logo !== undefined)
+              .map((stack) => <ThemedImage alt={stack.title} src={stack.logo!} small={true} />)
+              .slice(0, 12)
+          )
         }
-    </div>
+      </div>
 
-    <div class="my-20 lg:my-28 w-full lg:w-3/4 lg:mx-auto">
-        <select name="stack" hx-post="/projects/stack" hx-target="#stack" hx-trigger="change" class="mx-auto form-select py-2 px-12 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card">
-            <option value="Language">Programming Languages</option>
-            <option value="Framework">Frameworks</option>
-            <option value="Infrastructure">Infrasructure</option>
-            <option value="Other">Other Interests</option>
+      <div class="my-20 lg:my-28 w-full lg:w-3/4 lg:mx-auto">
+        <select
+          name="stack"
+          hx-post="/projects/stack"
+          hx-target="#stack"
+          hx-trigger="change"
+          class="mx-auto form-select py-2 px-12 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
+        >
+          <option value="Language">Programming Languages</option>
+          <option value="Framework">Frameworks</option>
+          <option value="Infrastructure">Infrasructure</option>
+          <option value="Other">Other Interests</option>
         </select>
         <div id="stack">
-           {
-            techStack.filter(stack => stack.category.toLocaleLowerCase() === "language").sort((a,b) => b.experience - a.experience).map((stack) => (
-                <Skill title={stack.title} level={stack.experience / 8 * 100} />
-            ))
-           }
+          {
+            techStack
+              .filter((stack) => stack.category.toLocaleLowerCase() === 'language')
+              .sort((a, b) => b.experience - a.experience)
+              .map((stack) => <Skill title={stack.title} level={(stack.experience / 8) * 100} />)
+          }
         </div>
+      </div>
     </div>
   </section>
 </Layout>

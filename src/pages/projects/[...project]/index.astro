@@ -1,22 +1,30 @@
 ---
-import Hero2 from "~/components/widgets/Hero2.astro";
-import Layout from "~/layouts/Layout.astro";
+import ToBlogLink from '~/components/blog/ToBlogLink.astro';
+import Hero2 from '~/components/widgets/Hero2.astro';
+import { projects } from '~/data/projects';
+import Layout from '~/layouts/Layout.astro';
 
-const {project} = Astro.params;
+const { project } = Astro.params;
+const projectDetails = projects.find((p) => p.slug === project);
+//
+const notFoundDetails = 'Sorry, we could not find the project you are looking for.';
 const metadata = {
-  title: project,
+  title: projectDetails?.title ?? 'Project Not Found',
 };
 ---
+
 <Layout metadata={metadata}>
-    <Hero2>
-      <Fragment slot="title">My <span class="underlined">Portfolio</span></Fragment>
-  
-      <Fragment slot="subtitle">
-        Too many people spending time on these apps / Guess I'm so weird I be spending time making Apps / Don't @ me snap
-        me, I'm crafty with these rap sheets /
-      </Fragment>
-      <Fragment slot="content">
-        <a href="">&gt;&gt; Liwu, UMP Cypha 2018</a>
-      </Fragment>
-    </Hero2>
+  <Hero2>
+    <Fragment slot="title">
+      <div class="z-10 relative">
+        <ToBlogLink />
+      </div>
+      {projectDetails?.title ?? 'Project Not Found'}
+    </Fragment>
+
+    <Fragment slot="subtitle">{projectDetails?.subtitle ?? notFoundDetails}</Fragment>
+    <Fragment slot="content">
+      <a href={projectDetails?.projectLink}>&gt;&gt; View Project</a>
+    </Fragment>
+  </Hero2>
 </Layout>

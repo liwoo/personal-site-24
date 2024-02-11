@@ -58,6 +58,41 @@ export interface MetaData {
   twitter?: MetaDataTwitter;
 }
 
+export interface Project {
+  title?: string;
+  company?: Company;
+  subtitle?: string;
+  description?: string;
+  slug?: string;
+  image?: Image;
+  projectLink?: string;
+  sourceLink?: string;
+  duration?: string;
+  role?: string;
+  category?: 'app' | 'website' | 'webApp' | 'api';
+  stack?: Array<string>;
+  methods?: Array<Method>;
+  testimony?: Testimony;
+}
+
+export interface Company {
+  name?: string;
+  logo?: string;
+}
+
+export interface Method {
+  title?: string;
+  description?: string;
+}
+
+export interface Testimony {
+  name?: string;
+  job?: string;
+  image?: Image;
+  company?: string;
+  testimony?: string;
+}
+
 export interface MetaDataRobots {
   index?: boolean;
   follow?: boolean;
