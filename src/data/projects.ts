@@ -3,7 +3,8 @@ import type { Project } from '~/types';
 export const projects: Project[] = [
   {
     title: 'Master Health Facility Registry',
-    subtitle: "Malawi's implementation of OpenHIEs Facility Registry, as part of the Interoperability Layer; implemented in collaboration with the Ministry of Health.",
+    subtitle:
+      "Malawi's implementation of OpenHIEs Facility Registry, as part of the Interoperability Layer; implemented in collaboration with the Ministry of Health.",
     description:
       'At its very core, the MFL is a comprehensive database of all the Health Facilities in the country (Malawi). From Private Hospitals to Village Clinics, the system keeps track of resources, utilities and services available in each one of these facilities just to mention a few.',
     slug: 'zipatala',
@@ -57,7 +58,8 @@ export const projects: Project[] = [
   },
   {
     title: 'Centenary Bank Malawi Website',
-    subtitle: 'A modern, sleek and blazingly fast website for Centenary Bank Malawi, redesigned and developed after Centenary Bank acquired MyBucks Bank.',
+    subtitle:
+      'A modern, sleek and blazingly fast website for Centenary Bank Malawi, redesigned and developed after Centenary Bank acquired MyBucks Bank.',
     description:
       "The website was designed to be a modern, responsive, and user-friendly platform for the bank's customers. It includes a comprehensive set of features, such as a loan calculator, branch locator, and a secure online banking portal. The website was built with a focus on performance, ensuring a seamless user experience across all devices achieving a Lighthouse score of 95+ across all metrics.",
     slug: 'centenary-bank',
@@ -76,32 +78,32 @@ export const projects: Project[] = [
     category: 'website',
     methods: [
       {
-        title: 'Stakeholder Collaboration',
+        title: 'Requirements Gathering',
         description:
-          "Engaged with Project Managers, District Health Officers, and Development Partners to gather comprehensive requirements. Facilitated open communication channels, ensuring every stakeholder's voice was heard and integrated into the project vision.",
+          "Conducted in-depth discussions with Centenary Bank stakeholders to identify and prioritize key website features. This process involved analyzing the bank's needs and customer feedback to ensure the final product would meet their expectations and enhance user experience.",
       },
       {
-        title: 'Technical Feasibility and FHIR Standardization',
+        title: 'Website Design',
         description:
-          'Collaborated closely with the OpenHIE community to align the Registry with FHIR standards. Conducted thorough research and feasibility studies to ensure technical viability and future scalability.',
+          "Developed the website design from initial mockups to high-fidelity FIGMA files. This phase focused on creating a user-friendly interface that aligns with the bank's branding and ethos. The design process was iterative, allowing for feedback and refinements to ensure the highest quality outcome.",
       },
       {
-        title: 'Agile Design and Implementation',
+        title: 'Implementation',
         description:
-          'Implemented Agile methodologies for project management. Organized and led design and implementation sprints, ensuring adherence to deadlines while maintaining flexibility to adapt to changing project needs.',
+          'Managed the website implementation process, including creating a detailed schedule and conducting regular check-ins. This method ensured that the project stayed on track and any issues were promptly addressed. Emphasis was placed on efficient development practices to meet the project timeline.',
       },
       {
-        title: 'Community Engagement',
+        title: 'Training',
         description:
-          'Initiated and led community workshops to populate the Registry with accurate data. Worked in close collaboration with Ministry members, facilitating community involvement and ensuring the long-term success and relevance of the Registry.',
+          "Provided comprehensive training to the Centenary Bank staff on how to use the new content management system (CMS). This training ensured that the bank's team was fully equipped to manage and update the website independently, maintaining its relevance and effectiveness over time.",
       },
     ],
     testimony: {
       name: 'Lindani Simwaka',
       job: 'Marketing Manager',
       image: {
-        src: 'https://res.cloudinary.com/tiyeni/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1707633691/Bessie_Nyirenda_Mrs.jpg',
-        alt: 'Bessie Nyirenda',
+        src: 'https://res.cloudinary.com/tiyeni/image/upload/v1707735947/lindani.jpg',
+        alt: 'Linda Simwaka',
       },
       company: 'Centenary Bank',
       testimony:

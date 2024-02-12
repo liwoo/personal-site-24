@@ -1,8 +1,10 @@
 ---
+import Image from '~/components/common/Image.astro';
 import ToBlogLink from '~/components/blog/ToBlogLink.astro';
 import Hero2 from '~/components/widgets/Hero2.astro';
 import { projects } from '~/data/projects';
-import Layout from '~/layouts/Layout.astro';
+import Layout from '~/layouts/PageLayout.astro';
+import Button from '~/components/ui/Button.astro';
 
 const { project } = Astro.params;
 const projectDetails = projects.find((p) => p.slug === project);
@@ -17,7 +19,7 @@ const metadata = {
   <Hero2>
     <Fragment slot="title">
       <div class="z-10 relative">
-        <ToBlogLink />
+        <ToBlogLink text="Back to Projects" link="/projects" />
       </div>
       {projectDetails?.title ?? 'Project Not Found'}
     </Fragment>
@@ -27,4 +29,109 @@ const metadata = {
       <a href={projectDetails?.projectLink}>&gt;&gt; View Project</a>
     </Fragment>
   </Hero2>
+  <section class="py-8 lg:py-12 mx-auto">
+    <article>
+      <header>
+        {
+          projectDetails?.image ? (
+            <Image
+              src={projectDetails.image.src}
+              class="max-w-full lg:max-w-[900px] mx-auto mb-6 sm:rounded-md bg-gray-400 dark:bg-slate-700"
+              widths={[400, 900]}
+              sizes="(max-width: 900px) 400px, 900px"
+              alt={projectDetails.image.alt}
+              width={900}
+              height={506}
+              loading="eager"
+              decoding="async"
+            />
+          ) : (
+            <div class="max-w-3xl mx-auto px-4 sm:px-6">
+              <div class="border-t dark:border-slate-700" />
+            </div>
+          )
+        }
+      </header>
+      {
+        projectDetails && projectDetails.sourceLink && (
+          <div class="my-8 w-full flex justify-center">
+            <Button href={projectDetails.sourceLink}>View Source Code</Button>
+          </div>
+        )
+      }
+      {
+        projectDetails ? (
+          <table class="project-table container-article w-full my-4 table-auto border-separate border-spacing-y-12">
+            <tbody>
+              <tr>
+                <td class="font-bold pr-4">Duration:</td>
+                <td class="text-muted">{projectDetails?.duration}</td>
+              </tr>
+              <tr>
+                <td class="font-bold pr-4">Role:</td>
+                <td class="text-muted">{projectDetails?.role}</td>
+              </tr>
+              <tr>
+                <td class="font-bold pr-4">Stack:</td>
+                <td class="text-muted">
+                  {projectDetails?.stack?.map((stack) => (
+                    <span class="mr-4">{stack}</span>
+                  ))}
+                </td>
+              </tr>
+              <tr>
+                <td class="font-bold pr-4">Project Description:</td>
+                <td class="text-muted">{projectDetails?.description}</td>
+              </tr>
+              <tr>
+                <td class="font-bold pr-4">Process:</td>
+                <td class="text-muted">
+                  {projectDetails?.methods?.map((method, i) => (
+                    <div class="flex items-top gap-x-8 mb-4">
+                      <div class="flex h-12 w-12 items-center justify-center bg-card rounded-full">{i + 1}</div>
+                      <div class="w-full">
+                        <h3 class="mb-2 font-bold">{method.title}</h3>
+                        <p>{method.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        ) : (
+          <div class="max-w-3xl mx-auto px-4 sm:px-6">
+            <div class="border-t dark:border-slate-700" />
+            <h5>Not Found</h5>
+          </div>
+        )
+      }
+      {
+        projectDetails && projectDetails.testimony && (
+          <div class="container-lg">
+            <div class="relative p-8 bg-card mx-auto rounded-lg w-full md:w-2/3 lg:w-1/2">
+              <div class="flex gap-x-6">
+                <div>
+                  <Image
+                    src={projectDetails.testimony.image?.src}
+                    alt={projectDetails.testimony.image?.alt}
+                    class="w-20 h-20 rounded-full border-4 border-slate-200 dark:border-slate-700"
+                  />
+                </div>
+                <div>
+                  <h4 class="mb-2 font-bold">{projectDetails.testimony.name}</h4>
+                  <h5 class="text-muted">{projectDetails.testimony.job}</h5>
+                  <p class="text-primary">{projectDetails.testimony.company}</p>
+                </div>
+              </div>
+              <div class="my-4 relative">
+                <p class="absolute text-8xl text-muted opacity-20">"</p>
+                <p class="text-muted mt-2">{projectDetails.testimony.testimony}</p>
+                </div>
+            </div>
+          </div>
+        )
+      }
+    </article>
+  </section>
 </Layout>
