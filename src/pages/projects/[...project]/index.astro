@@ -61,31 +61,31 @@ const metadata = {
       }
       {
         projectDetails ? (
-          <table class="project-table container-article w-full my-4 table-auto border-separate border-spacing-y-12">
-            <tbody>
-              <tr>
-                <td class="font-bold pr-4">Duration:</td>
-                <td class="text-muted">{projectDetails?.duration}</td>
-              </tr>
-              <tr>
-                <td class="font-bold pr-4">Role:</td>
+          <div class="project-table container-article w-full my-4 table-auto border-separate border-spacing-y-12">
+            <div>
+              <div>
+                <h2 class="font-bold pr-4 md:w-1/4 mb-2">Duration:</h2>
+                <h3 class="text-muted">{projectDetails?.duration}</h3>
+              </div>
+              <div>
+                <h2 class="font-bold pr-4 md:w-1/4 mb-2">Role:</h2>
                 <td class="text-muted">{projectDetails?.role}</td>
-              </tr>
-              <tr>
-                <td class="font-bold pr-4">Stack:</td>
-                <td class="text-muted">
+              </div>
+              <div>
+                <h2 class="font-bold pr-4 md:w-1/4 mb-2">Stack:</h2>
+                <div class="text-muted">
                   {projectDetails?.stack?.map((stack) => (
                     <span class="mr-4">{stack}</span>
                   ))}
-                </td>
-              </tr>
-              <tr>
-                <td class="font-bold pr-4">Project Description:</td>
-                <td class="text-muted">{projectDetails?.description}</td>
-              </tr>
-              <tr>
-                <td class="font-bold pr-4">Process:</td>
-                <td class="text-muted">
+                </div>
+              </div>
+              <div>
+                <h2 class="font-bold pr-4 md:w-1/4 mb-2">Project Description:</h2>
+                <h3 class="text-muted md:w-3/4">{projectDetails?.description}</h3>
+              </div>
+              <div>
+                <h2 class="font-bold pr-4 w-1/4 mb-2">Process:</h2>
+                <div class="text-muted md:w-3/4">
                   {projectDetails?.methods?.map((method, i) => (
                     <div class="flex items-top gap-x-8 mb-4">
                       <div class="flex h-12 w-12 items-center justify-center bg-card rounded-full">{i + 1}</div>
@@ -95,10 +95,10 @@ const metadata = {
                       </div>
                     </div>
                   ))}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </div>
+              </div>
+            </div>
+          </>
         ) : (
           <div class="max-w-3xl mx-auto px-4 sm:px-6">
             <div class="border-t dark:border-slate-700" />

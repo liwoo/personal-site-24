@@ -85,8 +85,8 @@
   }
 }
 
-.project-table > tbody > tr > td {
-  vertical-align: top;
+.project-table > div > div {
+  @apply flex items-start flex-col my-8 md:flex-row;
 }
 
 #header.scroll > div:first-child {
