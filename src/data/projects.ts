@@ -170,4 +170,63 @@ export const projects: Project[] = [
         "Liwu's work on the GetAlinafe.com website was a game changer. As a manager, I've seen how crucial online presence is for artists. Liwu [Jeremiah] not only created a stunning website but also captured the essence of the 'Alinafe' album. The smooth streaming and downloading options significantly boosted our digital engagement. This website has not just been a platform, but a key player in elevating Liwu's music career. The impact on our audience reach and interaction has been phenomenal.",
     },
   },
+  {
+    title: 'Doorbell Mobile App',
+    subtitle:
+      'A mobile app that allows users to order food and groceries from their favorite stores and restaurants and have them delivered to their doorstep.',
+    description:
+      "Doorbell is Malawi's leading on-demand delivery service, connecting customers with their favorite restaurants and stores. The app was designed to be user-friendly, intuitive, and efficient, allowing customers to place orders with just a few taps. The app also includes a comprehensive set of features, such as real-time order tracking, secure payment options, and a seamless communication channel with delivery agents.",
+    slug: 'doorbell',
+    company: {
+      name: 'Doorbell',
+      logo: 'doorbell',
+    },
+    image: {
+      src: 'https://res.cloudinary.com/tiyeni/image/upload/v1707861291/doorbell.jpg',
+      alt: 'Doorbell',
+    },
+    projectLink: 'https://doorbell.mw/',
+    duration: 'Oct 2020 - Present',
+    role: 'Technology Director',
+    stack: ['Flutter', 'Node.js', 'GraphQL', 'Golang'],
+    category: 'app',
+    methods: [
+      {
+        title: 'Intuitive User Interface Design',
+        description:
+          'Crafted a user-friendly interface for the Doorbell app, enabling customers to effortlessly place orders. The design focused on simplicity and ease of navigation, ensuring a seamless experience from browsing to order placement.',
+      },
+      {
+        title: 'Real-Time Order Tracking System',
+        description:
+          'Integrated a real-time tracking feature, allowing customers to monitor their orders from pickup to delivery. This feature provided transparency and peace of mind, enhancing the overall customer experience.',
+      },
+      {
+        title: 'Secure Payment Integration',
+        description:
+          'Implemented a variety of secure payment options to cater to different customer preferences. This included credit/debit cards, mobile money, and other digital payment methods, ensuring convenience and security in transactions.',
+      },
+      {
+        title: 'Seamless Communication with Delivery Agents',
+        description:
+          'Established a direct and efficient communication channel within the app between customers and delivery agents. This feature enabled quick resolution of queries and special instructions, improving service efficiency.',
+      },
+      {
+        title: 'Performance Optimization and Scalability',
+        description:
+          "Focused on optimizing the app's performance for a fast, responsive, and reliable user experience. Ensured scalability to handle increasing user loads and maintain smooth operation during peak demand times.",
+      },
+    ],
+    testimony: {
+      name: 'Chisomo Kajamu',
+      job: 'CEO & Co-Founder',
+      image: {
+        src: 'https://res.cloudinary.com/tiyeni/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1707863190/kajamu.jpg',
+        alt: 'Chisomo Kajamu',
+      },
+      company: 'Doorbell',
+      testimony:
+        "Jeremiah has been instrumental in the development and growth of Doorbell. His technical expertise and leadership have been invaluable in shaping the app's user experience and functionality. His commitment to excellence and innovation has been a driving force behind Doorbell's success. We are proud to have him as a key member of our team and look forward to achieving even greater milestones together.",
+    },
+  },
 ];
