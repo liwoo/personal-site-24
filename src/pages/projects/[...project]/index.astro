@@ -112,13 +112,15 @@ const metadata = {
             <div class="relative p-8 bg-card mx-auto rounded-lg w-full md:w-2/3 lg:w-1/2">
               <div class="flex gap-x-6">
                 <div>
-                  <Image
-                    src={projectDetails.testimony.image?.src}
-                    alt={projectDetails.testimony.image?.alt}
-                    class="w-20 h-20 rounded-full border-4 border-slate-200 dark:border-slate-700"
-                  />
+                  <div class="w-20 h-20 rounded-full">
+                    <Image
+                      src={projectDetails.testimony.image?.src}
+                      alt={projectDetails.testimony.image?.alt}
+                      class="rounded-full border-4 border-slate-200 dark:border-slate-700"
+                    />
+                  </div>
                 </div>
-                <div class="w-full">
+                <div>
                   <h4 class="mb-2 font-bold">{projectDetails.testimony.name}</h4>
                   <h5 class="text-muted">{projectDetails.testimony.job}</h5>
                   <p class="text-primary">{projectDetails.testimony.company}</p>
