@@ -16,7 +16,7 @@ export const headerData = {
     },
     {
       text: 'Contact',
-      href: '#',
+      href: '/contact',
     },
   ],
   actions: [{ text: 'Download', href: 'https://github.com/onwidget/astrowind', target: '_blank' }],
@@ -36,7 +36,7 @@ export const footerData = {
       title: 'Platform',
       links: [
         { text: 'Projects', href: '/projects' },
-        { text: 'Music', href: '#' },
+        { text: 'Music', href: 'https://getalinafe.com' },
         { text: 'Speaking', href: '#' },
       ],
     },
@@ -45,7 +45,7 @@ export const footerData = {
       links: [
         { text: 'Tech Stack', href: '#' },
         { text: 'NFTs', href: '#' },
-        { text: 'Contacts', href: '#' },
+        { text: 'Contacts', href: '/contact' },
       ],
     },
   ],
@@ -55,7 +55,7 @@ export const footerData = {
     { text: 'Privacy Policy', href: getPermalink('/privacy') },
   ],
   socialLinks: [
-    { ariaLabel: 'X', icon: 'tabler:brand-x', href: 'https://x.com/li_woo' },
+    { ariaLabel: 'X', icon: 'tabler:brand-x', href: 'https://x.com/liwucodes' },
     { ariaLabel: 'Github', icon: 'tabler:brand-github', href: 'https://github.com/liwoo' },
     { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: 'https://linkedin.com/in/jchienda' },
     { ariaLabel: 'YouTube', icon: 'tabler:brand-youtube', href: '#' },
