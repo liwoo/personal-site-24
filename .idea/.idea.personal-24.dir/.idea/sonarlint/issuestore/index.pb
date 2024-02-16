@@ -76,3 +76,5 @@ S
 #src/components/icons/Envelope.astro,d/0/d045246b6d6790faa3498b4edf9188781a8e83b6
 Q
 !src/components/icons/Envelope.tsx,2/3/2341105dbf847579479e99dfb80f2f7777ccef80
+R
+"src/components/widgets/Hero2.astro,7/a/7a59913095123aaef456c389b13f126ebd091f4d

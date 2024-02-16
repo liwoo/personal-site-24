@@ -55,37 +55,97 @@ const tree: DecisionTree = {
               level: 2,
               order: 1,
               title: "School Staff",
-              input: {
-                id: "schoolStaff",
-                inputType: "text",
-                required: true,
-                name: "schoolName",
-                placeholder: "Enter School Name"
-              }
+              staggerInputs: true,
+              options: [
+                {
+                  level: 3,
+                  order: 1,
+                  title: "School Staff Name",
+                  input: {
+                    id: "schoolStaff",
+                    inputType: "text",
+                    required: true,
+                    name: "schoolStaffName",
+                    placeholder: "Enter School Name"
+                  }
+                },
+                {
+                  level: 3,
+                  order: 2,
+                  title: "School Staff Email",
+                  input: {
+                    id: "schoolStaffEmail",
+                    inputType: "email",
+                    required: true,
+                    name: "schoolStaffEmail",
+                    placeholder: "Enter School Email"
+                  }
+                }
+              ]
             },
             {
               level: 2,
               order: 2,
-              title: "Coding/Tech Club President",
-              input: {
-                id: "techClubPresident",
-                inputType: "text",
-                required: true,
-                name: "techClubName",
-                placeholder: "Enter Tech Club Name"
-              }
+              title: "Tech Club President",
+              staggerInputs: true,
+              options: [
+                {
+                  level: 3,
+                  order: 1,
+                  title: "Tech Club President Name",
+                  input: {
+                    id: "techPresident",
+                    inputType: "text",
+                    required: true,
+                    name: "techPresident",
+                    placeholder: "Enter Tech Club President Name"
+                  }
+                },
+                {
+                  level: 3,
+                  order: 2,
+                  title: "Tech Club President Email",
+                  input: {
+                    id: "techPresidentEmail",
+                    inputType: "email",
+                    required: true,
+                    name: "techPresidentEmail",
+                    placeholder: "Enter Tech President Email"
+                  }
+                }
+              ]
             },
             {
               level: 2,
               order: 3,
               title: "Event Organizer",
-              input: {
-                id: "eventOrganizer",
-                inputType: "text",
-                required: true,
-                name: "organizationName",
-                placeholder: "Enter Organization Name"
-              }
+              staggerInputs: true,
+              options: [
+                {
+                  level: 3,
+                  order: 1,
+                  title: "Event Organizer Name",
+                  input: {
+                    id: "eventOrganizer",
+                    inputType: "text",
+                    required: true,
+                    name: "eventOrganizer",
+                    placeholder: "Enter Event Organizer Name"
+                  }
+                },
+                {
+                  level: 3,
+                  order: 2,
+                  title: "Event Organizer Email",
+                  input: {
+                    id: "eventOrganizer",
+                    inputType: "email",
+                    required: true,
+                    name: "eventOrganizer",
+                    placeholder: "Enter Event Organizer Name"
+                  }
+                }
+              ]
             }
           ]
         },
@@ -515,7 +575,7 @@ const DynamicForm = () => {
     <form
       className="md:w-2/3 md:mx-auto lg:w-full flex flex-col rounded-lg dark:bg-[#1e1e1e] bg-[#e0e0e0] p-4 gap-y-2 my-8">
       <div className={"flex"}>
-        <Envelope className={"ml-4"}/>
+        <Envelope className={"mr-4"}/>
         <p className="font-semibold flex items-center gap-x-2">
           {tree.title}
         </p>

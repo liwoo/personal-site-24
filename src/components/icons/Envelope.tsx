@@ -2,7 +2,7 @@ import {twMerge} from "tailwind-merge";
 
 export default function Envelope({className = "w-5 h-5"}: {className?: string}) {
   return (
-    <svg className={twMerge(className, 'w-5')} fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 25"
+    <svg className={twMerge(className, 'w-5 stroke-default')} fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 25"
     >
       <rect x="1" y="1" width="39" height="23" rx="11.5" strokeWidth="2"></rect>
       <path
