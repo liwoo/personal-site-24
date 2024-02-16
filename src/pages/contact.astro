@@ -3,70 +3,58 @@ import Layout from '~/layouts/PageLayout.astro';
 import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Hero2 from "../components/widgets/Hero2.astro";
+import clsx from "clsx";
+import Button from "../components/ui/Button.astro";
+import Contact from "../components/widgets/Contact.tsx";
 
 const metadata = {
   title: 'Contact',
 };
+
+const form = {
+  title: "Let's do some amazing stuff together!",
+  description: "Feel free to select from any of the options below to figure out how best I can be of value to you"
+}
 ---
 
 <Layout metadata={metadata}>
-  <Hero2 />
+  <Hero2/>
 
- <div class="w-full flex justify-end">
-   <div class="w-1/2 -mt-48">
-     <ContactUs
-       title="Drop us a message today!"
-       subtitle="For quicker answers, explore our FAQs section. You may find the solution you're looking  for right there! If not, our support team is delighted to help you."
-       inputs={[
-         {
-           type: 'text',
-           name: 'name',
-           label: 'Name',
-         },
-         {
-           type: 'email',
-           name: 'email',
-           label: 'Email',
-         },
-       ]}
-       textarea={{
-         label: 'Message',
-       }}
-       disclaimer={{
-         label:
-           'By submitting this contact form, you acknowledge and agree to the collection of your personal information.',
-       }}
-       description="Our support team typically responds within 24 business hours."
-     />
-   </div>
-   <div class="w-1/2">
-     <Features2
-       columns={2}
-       title="We are here to help!"
-       items={[
-         {
-           title: 'General support',
-           description: `Chat with us for inquiries related to account management, website navigation, payment issues, accessing purchased templates or general questions about the website's functionality.`,
-         },
-         {
-           title: 'Contact sales',
-           description:
-             'Chat with us for questions about purchases, customization options, licensing for commercial use, inquiries about specific template, etc.',
-         },
-         {
-           title: 'Technical support',
-           description:
-             'Chat with us when facing issues like template installation, problems editing difficulties, compatibility issues with software or download errors, or other technical challenges related to using the templates.',
-         },
-         {
-           title: 'Phone',
-           description: '+1 (234) 567-890',
-           icon: 'tabler:headset',
-         }
-       ]}
-     />
-   </div>
- </div> 
+  <div class="container w-full flex justify-end">
+    <div class="w-full lg:w-2/5 lg:-mt-18 z-10">
+     <Contact client:load />
+    </div>
+    <div class="w-full lg:w-3/5">
+      <Features2
+        columns={2}
+        subtitle="Here are some things I am particularly good at"
+        items={[
+          {
+            title: 'Consulting',
+            description: "I help companies of all sizes navigate complex Automation problems including Requirements Gathering, Software Development and more",
+            icon: 'tabler:briefcase',
+          },
+          {
+            title: 'Speaking',
+            description:
+              "I will speak at your organization or conference on a wide area of Engineering topics, including Blockchain, Fintech, AI and the African Tech Ecosystem at large",
+            icon: 'tabler:presentation',
+          },
+          {
+            title: 'Research',
+            description:
+              "I conduct high-quality Research to gain deeper insights on the technology issues you care about, using modern data-gathering, analysis and presentation techniques",
+            icon: 'tabler:test-pipe',
+          },
+          {
+            title: 'Training',
+            description: "I have helped organizations imporove their teams' competencies on various Software Engineering topics, such as Continuous Integration, Automated Tested and more.",
+            icon: 'tabler:school',
+          }
+        ]}
+      />
+    </div>
+  </div>
 
-  
+
 </Layout>

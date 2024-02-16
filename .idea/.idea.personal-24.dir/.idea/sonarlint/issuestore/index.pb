@@ -48,3 +48,21 @@ T
 $src/pages/[...blog]/tabs/index.astro,2/a/2af858f00dd46ac44fbba2456750373f8dbf751a
 P
  src/components/blog/ListItem.tsx,3/c/3c8caa0981a0b1daeed2d9b85ada159cfa863e37
+G
+src/pages/contact.astro,9/3/93a5211d63f4d028b275ea8d5716924837731596
+F
+src/data/navigation.js,4/5/45e25e0c143f52e3026162ee7e28d7309dac3ad8
+N
+src/pages/projects/index.astro,7/6/7654ed7122f1f3124178478932d98516c8757b1a
+V
+&src/components/widgets/Features2.astro,d/4/d4dc4049f9b55361b4aee5be45dc448d2bb6d9de
+Q
+!src/components/ui/ItemGrid2.astro,c/8/c8cae76dd8d66377c03cae60ddf63f21bcf855b5
+P
+ src/components/ui/Headline.astro,9/d/9d1c4c5d41635839b7f689a725c42239cbe8631c
+T
+$src/components/widgets/Contact.astro,a/7/a758bd18d935790947360ec1401bee7182a27c4a
+L
+src/components/ui/Form.astro,4/5/451c3d9ef0c95c4007001c1fbe98956ce3232573
+R
+"src/components/widgets/Contact.tsx,b/6/b61cf232f6ca7b2e95c7c1557e9fa58576057e98
