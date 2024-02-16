@@ -339,8 +339,10 @@ const tree: DecisionTree = {
             options: [
               {value: "northAmerica", label: "North America"},
               {value: "europe", label: "Europe"},
-              {value: "asia", label: "Asia"},
-              // ... other regions
+              {value: "australia", label: "Australia"},
+              {value: "kenya", label: "Kenya"},
+              {value: "malawi", label: "Malawi"},
+              {value: "rsa", label: "South Africa"},
             ]
           }
         },
@@ -383,7 +385,7 @@ const tree: DecisionTree = {
 
 const DynamicForm = () => {
   // State to manage the current path and selections
-  const [currentPath, setCurrentPath] = useState<Path | null>();
+  const [currentPath, setCurrentPath] = useState<Path | undefined>();
   const [selectedOptions, setSelectedOptions] = useState({});
 
   // Event handler for changing paths (e.g., Speaking Engagement or Consultancy)
@@ -528,7 +530,9 @@ const DynamicForm = () => {
           className="form-select w-full py-2 px-4 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
           onChange={handlePathChange}
         >
-          <option>Select Option</option>
+          {currentPath == undefined &&
+            <option value={undefined}>Select Option</option>
+          }
           {Object.keys(tree.paths).map((path) => (
             <option key={path} value={path}>{path}</option>
           ))}
