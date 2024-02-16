@@ -20,7 +20,7 @@ const metadata = merge(
     description: projectDetails.description,
     openGraph: {
       type: 'project',
-      images: [{url: projectDetails.image}]
+      images: [{url: projectDetails.image.src}]
     }
   }
 ) as MetaData;
