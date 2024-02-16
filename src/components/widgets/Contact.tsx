@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
+import Envelope from "~/components/icons/Envelope.tsx";
 
-type Path = "Speaking Engagement" | "Consultancy";
+type Path = "Speaking Engagement" | "Consultancy" | "New Career Opportunity";
 
 interface Input {
   id: string;
@@ -9,6 +10,7 @@ interface Input {
   placeholder?: string;
   min?: number;
   max?: number;
+  required: boolean;
   options?: InputOption[]; // Include this if your input can have options like a select dropdown
 }
 
@@ -56,6 +58,7 @@ const tree: DecisionTree = {
               input: {
                 id: "schoolStaff",
                 inputType: "text",
+                required: true,
                 name: "schoolName",
                 placeholder: "Enter School Name"
               }
@@ -67,6 +70,7 @@ const tree: DecisionTree = {
               input: {
                 id: "techClubPresident",
                 inputType: "text",
+                required: true,
                 name: "techClubName",
                 placeholder: "Enter Tech Club Name"
               }
@@ -78,6 +82,7 @@ const tree: DecisionTree = {
               input: {
                 id: "eventOrganizer",
                 inputType: "text",
+                required: true,
                 name: "organizationName",
                 placeholder: "Enter Organization Name"
               }
@@ -91,6 +96,7 @@ const tree: DecisionTree = {
           input: {
             id: "topicSelection",
             inputType: "select",
+            required: true,
             name: "topic",
             options: [
               {"value": "ai", "label": "AI"},
@@ -118,6 +124,7 @@ const tree: DecisionTree = {
               input: {
                 id: "preferredDate",
                 inputType: "date",
+                required: true,
                 name: "preferredDate",
                 placeholder: "Select Preferred Date"
               }
@@ -128,12 +135,25 @@ const tree: DecisionTree = {
               title: "Preferred Time",
               input: {
                 id: "preferredTime",
+                required: true,
                 inputType: "time",
                 name: "preferredTime",
                 placeholder: "Select Preferred Time"
               }
             },
           ]
+        },
+        {
+          level: 1,
+          order: 4,
+          title: "Additional Notes",
+          input: {
+            id: "additionalNotes",
+            required: false,
+            inputType: "textArea",
+            name: "additionalNotes",
+            placeholder: "Let me know if you have additional comments"
+          }
         },
         // Add more top-level options as needed
       ]
@@ -151,6 +171,7 @@ const tree: DecisionTree = {
               title: "Individual with a cool idea",
               input: {
                 id: "individualName",
+                required: true,
                 inputType: "text",
                 name: "individualName",
                 placeholder: "Enter Your Name"
@@ -162,6 +183,7 @@ const tree: DecisionTree = {
               title: "A Company Project Manager",
               input: {
                 id: "companyName",
+                required: true,
                 inputType: "text",
                 name: "companyName",
                 placeholder: "Enter Company Name"
@@ -177,6 +199,7 @@ const tree: DecisionTree = {
             id: "helpWith",
             inputType: "select",
             name: "helpWith",
+            required: true,
             options: [
               {value: "techCoFounder", label: "A Tech Co-founder"},
               {value: "infoSystemDesign", label: "Designing an Information System"},
@@ -187,7 +210,9 @@ const tree: DecisionTree = {
               {value: "eCommerceSystem", label: "Building an E-Commerce System"},
               {value: "smartContract", label: "Building a Smart Contract"},
               {value: "projectRevamp", label: "Revamping an Existing Project"},
-              {value: "codebaseAudit", label: "Auditing our Codebase"}
+              {value: "codebaseAudit", label: "Auditing our Codebase"},
+              {value: "research", label: "Conducting Research and Presenting Findings"},
+              {value: "training", label: "Training a Team on an Engineering Topic"}
             ]
           }
         },
@@ -197,6 +222,7 @@ const tree: DecisionTree = {
           title: "Project Details",
           input: {
             id: "projectDetails",
+            required: true,
             inputType: "textArea",
             name: "projectDetails",
             placeholder: "Tell us more about your project"
@@ -214,6 +240,7 @@ const tree: DecisionTree = {
               title: "Budget Start",
               input: {
                 id: "budgetStart",
+                required: false,
                 inputType: "number",
                 name: "budgetStart",
                 min: 0,
@@ -226,6 +253,7 @@ const tree: DecisionTree = {
               title: "Budget End",
               input: {
                 id: "budgetEnd",
+                required: false,
                 inputType: "number",
                 name: "budgetEnd",
                 min: 0,
@@ -240,13 +268,116 @@ const tree: DecisionTree = {
           title: "Contact Details",
           input: {
             id: "email",
+            required: true,
             inputType: "email",
             name: "email",
             placeholder: "Enter your Email Here"
           }
         }
       ]
-    }
+    },
+    "New Career Opportunity": {
+      options: [
+        {
+          level: 1,
+          order: 1,
+          title: "Recruiter Details",
+          staggerInputs: true,
+          options: [
+            {
+              level: 2,
+              order: 1,
+              title: "Recruiter's Name",
+              input: {
+                id: "recruiterName",
+                required: true,
+                inputType: "text",
+                name: "recruiterName",
+                placeholder: "Enter Your Name"
+              }
+            },
+            {
+              level: 2,
+              order: 2,
+              title: "Recruiter's Email",
+              input: {
+                id: "recruiterEmail",
+                inputType: "email",
+                required: true,
+                name: "recruiterEmail",
+                placeholder: "Enter Your Email"
+              }
+            },
+          ]
+        },
+        {
+          level: 1,
+          order: 2,
+          title: "Job Preferences",
+          input: {
+            id: "jobTypePreference",
+            inputType: "select",
+            required: true,
+            name: "jobTypePreference",
+            options: [
+              {value: "developer", label: "Developer"},
+              {value: "manager", label: "Manager"},
+              {value: "consultant", label: "Consultant"},
+              // ... other job types
+            ]
+          }
+        },
+        {
+          level: 1,
+          order: 3,
+          title: "Region",
+          input: {
+            id: "jobRegion",
+            inputType: "select",
+            required: true,
+            name: "jobRegion",
+            options: [
+              {value: "northAmerica", label: "North America"},
+              {value: "europe", label: "Europe"},
+              {value: "asia", label: "Asia"},
+              // ... other regions
+            ]
+          }
+        },
+        {
+          level: 1,
+          order: 4,
+          title: "Job Type",
+          input: {
+            id: "jobType",
+            inputType: "select",
+            required: true,
+            name: "jobType",
+            options: [
+              {value: "fullTime", label: "Full-Time"},
+              {value: "partTime", label: "Part-Time"},
+              {value: "contract", label: "Contract"}
+            ]
+          }
+        },
+        {
+          level: 1,
+          order: 5,
+          title: "Location",
+          input: {
+            id: "jobLocation",
+            required: true,
+            inputType: "select",
+            name: "jobLocation",
+            options: [
+              {value: "onSite", label: "On-Site"},
+              {value: "remote", label: "Remote"},
+              {value: "hybrid", label: "Hybrid"}
+            ]
+          }
+        },
+      ]
+    },
   }
 };
 
@@ -347,10 +478,9 @@ const DynamicForm = () => {
             key={optionKey}
             type={input.inputType}
             name={input.name}
-            required={true}
+            required={input.required}
             placeholder={input.placeholder}
             className="py-2 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
-            onChange={(e) => handleInputChange(optionKey, e)}
           />
         );
       case 'select':
@@ -359,7 +489,6 @@ const DynamicForm = () => {
             key={optionKey}
             name={input.name}
             className="form-select w-full py-2 px-4 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
-            onChange={(e) => handleInputChange(optionKey, e)}
           >
             {input.options?.map(opt => (
               <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -383,7 +512,8 @@ const DynamicForm = () => {
   return (
     <form
       className="md:w-2/3 md:mx-auto lg:w-full flex flex-col rounded-lg dark:bg-[#1e1e1e] bg-[#e0e0e0] p-4 gap-y-2 my-8">
-      <div>
+      <div className={"flex"}>
+        <Envelope className={"ml-4"}/>
         <p className="font-semibold flex items-center gap-x-2">
           {tree.title}
         </p>
@@ -409,7 +539,7 @@ const DynamicForm = () => {
 
         {/* Submit Button */}
         <div>
-          <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button type="submit" className="w-full btn-primary">
             Enquire Availability
           </button>
         </div>
