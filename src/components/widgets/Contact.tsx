@@ -603,7 +603,7 @@ const DynamicForm = () => {
 
         {/* Submit Button */}
         <div>
-          <button type="submit" className="w-full btn-primary">
+          <button type="submit" className="w-full btn-primary" disabled={currentPath == undefined}>
             Enquire Availability
           </button>
         </div>

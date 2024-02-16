@@ -12,6 +12,7 @@ const projectDetails = projects.find((p) => p.slug === project);
 const notFoundDetails = 'Sorry, we could not find the project you are looking for.';
 const metadata = {
   title: projectDetails?.title ?? 'Project Not Found',
+  images: [projectDetails.image]
 };
 ---
 
