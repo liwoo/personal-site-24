@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Envelope from "~/components/icons/Envelope.tsx";
 
-type Path = "Speaking Engagement" | "Consultancy" | "New Career Opportunity";
+type Path = "Speaking Engagement" | "Consultancy" | "New Career Opportunity" | "General Enquiries";
 
 interface Input {
   id: string;
@@ -44,6 +44,71 @@ const tree: DecisionTree = {
   title: "Let's do some amazing stuff together!",
   description: "Feel free to select from any of the options below to figure out how best I can be of value to you",
   paths: {
+    "General Enquiries": {
+      options: [
+        {
+          level: 1,
+          order: 1,
+          title: "Contact Information",
+          staggerInputs: true,
+          options: [
+            {
+              level: 2,
+              order: 1,
+              title: "Your Name",
+              input: {
+                id: "enquirerName",
+                required: false,
+                inputType: "text",
+                name: "enquirerName",
+                placeholder: "Enter Your Name"
+              }
+            },
+            {
+              level: 2,
+              order: 2,
+              title: "Email Address",
+              input: {
+                id: "enquirerEmail",
+                required: true,
+                inputType: "email",
+                name: "enquirerEmail",
+                placeholder: "Enter Your Email Address"
+              }
+            }
+          ]
+        },
+        {
+          level: 1,
+          order: 2,
+          title: "Nature of Inquiry",
+          input: {
+            id: "inquiryType",
+            required: true,
+            inputType: "select",
+            name: "inquiryType",
+            options: [
+              {value: "feedback", label: "Feedback"},
+              {value: "question", label: "Question"},
+              {value: "complaint", label: "Complaint"},
+              {value: "other", label: "Other"}
+            ]
+          }
+        },
+        {
+          level: 1,
+          order: 3,
+          title: "Message",
+          input: {
+            required: true,
+            id: "enquirerMessage",
+            inputType: "textArea",
+            name: "enquirerMessage",
+            placeholder: "Enter your message here"
+          }
+        }
+      ]
+    },
     "Speaking Engagement": {
       options: [
         {
@@ -445,7 +510,7 @@ const tree: DecisionTree = {
 
 const DynamicForm = () => {
   // State to manage the current path and selections
-  const [currentPath, setCurrentPath] = useState<Path | undefined>();
+  const [currentPath, setCurrentPath] = useState<Path | undefined>("General Enquiries");
   const [selectedOptions, setSelectedOptions] = useState({});
 
   // Event handler for changing paths (e.g., Speaking Engagement or Consultancy)
