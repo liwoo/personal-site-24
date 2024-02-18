@@ -98,3 +98,7 @@ V
 .env,3/c/3c84dcdc6bbe3d7817c49dcdc327b926fea1808a
 <
 .env.example,d/4/d4dae00d11854b35292c2b8a30515a9a0aa2d871
+X
+(src/components/common/BasicScripts.astro,9/4/948954e2a104fb066e3aa4760f7fac78134656c5
+\
+,src/components/common/SiteVerification.astro,f/7/f7d61c135078edbb73c677364ce29ad456093c67
