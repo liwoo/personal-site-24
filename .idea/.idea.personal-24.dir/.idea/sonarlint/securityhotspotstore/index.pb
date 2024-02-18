@@ -94,3 +94,7 @@ N
 src/assets/styles/tailwind.css,5/a/5a696ba038b6be805167484b416c40321782c9a3
 V
 &src/components/widgets/HomeAbout.astro,5/5/5573b70bcbb8071391e11caa62325a0cba45a1be
+4
+.env,3/c/3c84dcdc6bbe3d7817c49dcdc327b926fea1808a
+<
+.env.example,d/4/d4dae00d11854b35292c2b8a30515a9a0aa2d871
