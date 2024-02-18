@@ -6,6 +6,7 @@ import Hero2 from "../components/widgets/Hero2.astro";
 import clsx from "clsx";
 import Button from "../components/ui/Button.astro";
 import Contact from "../components/widgets/Contact.tsx";
+import Headline from "../components/ui/Headline.astro";
 
 const metadata = {
   title: 'Contact',
@@ -55,8 +56,12 @@ const form = {
       />
     </div>
   </div>
-  <div class="container flex justify-center my-12">
-    <Button href="#" variant="tertiary">Book a 1:1 With Me Here</Button>
+  <div class="container flex flex-col justify-center items-center my-12">
+    <Headline
+      tagline="Need some mentorship?"
+      subtitle="I have dedicated some time from my busy schedule for technical mentorship mostly in form of Pair Programming"
+    />
+    <Button href="#" variant="tertiary">Book a 30 Minute 1:1 With Me Here (It's Free :)</Button>
   </div>
 
 </Layout>

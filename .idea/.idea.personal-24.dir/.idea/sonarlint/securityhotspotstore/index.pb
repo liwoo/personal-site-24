@@ -92,3 +92,5 @@ E
 src/pages/about.astro,f/6/f6c9e465e0fb0ab6d933f5161c166c47c3958ee0
 N
 src/assets/styles/tailwind.css,5/a/5a696ba038b6be805167484b416c40321782c9a3
+V
+&src/components/widgets/HomeAbout.astro,5/5/5573b70bcbb8071391e11caa62325a0cba45a1be

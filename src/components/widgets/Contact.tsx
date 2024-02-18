@@ -362,7 +362,7 @@ const tree: DecisionTree = {
             {
               level: 2,
               order: 1,
-              title: "Budget Start",
+              title: "Budget Start (USD)",
               input: {
                 id: "budgetStart",
                 required: false,
@@ -375,7 +375,7 @@ const tree: DecisionTree = {
             {
               level: 2,
               order: 2,
-              title: "Budget End",
+              title: "Budget End (USD)",
               input: {
                 id: "budgetEnd",
                 required: false,
@@ -555,7 +555,7 @@ const DynamicForm = () => {
               const subOptionKey = `${optionKey}-${subOption.title}`;
               return (
                 <div key={subOptionKey}>
-                  <label htmlFor={subOptionKey}>{subOption.title}</label>
+                  <label htmlFor={subOptionKey}>{subOption.input && subOption.input.required && <span className={"text-primary"}>*</span>} {subOption.title}</label>
                   {subOption.input ? renderInput(subOption.input, subOptionKey) : null}
                 </div>
               );
@@ -565,7 +565,7 @@ const DynamicForm = () => {
       } else {
         return (
           <div key={optionKey}>
-            <label htmlFor={optionKey}>{option.title}</label>
+            <label htmlFor={optionKey}>{option.input && option.input.required && <span className={"text-primary"}>*</span>} {option.title}</label>
             {option.input
               ? renderInput(option.input, optionKey)
               : (
@@ -638,6 +638,7 @@ const DynamicForm = () => {
 
   return (
     <form
+      method={"POST"}
       className="md:w-2/3 md:mx-auto lg:w-full flex flex-col rounded-lg dark:bg-[#1e1e1e] bg-[#e0e0e0] p-4 gap-y-2 my-8">
       <div className={"flex"}>
         <Envelope className={"mr-4"}/>
@@ -658,6 +659,7 @@ const DynamicForm = () => {
           {currentPath == undefined &&
             <option value={undefined}>Select Option</option>
           }
+          {/*Make sure current path is defined*/}
           {Object.keys(tree.paths).map((path) => (
             <option key={path} value={path}>{path}</option>
           ))}
@@ -669,8 +671,9 @@ const DynamicForm = () => {
         {/* Submit Button */}
         <div>
           <button type="submit" className="w-full btn-primary" disabled={currentPath == undefined}>
-            Enquire Availability
+            {currentPath == "General Enquiries" ? `Submit Enquiry` : `Enquire Availability`}
           </button>
+          <p className={"text-primary my-4"}>* Required</p>
         </div>
       </div>
     </form>
