@@ -102,3 +102,5 @@ X
 (src/components/common/BasicScripts.astro,9/4/948954e2a104fb066e3aa4760f7fac78134656c5
 \
 ,src/components/common/SiteVerification.astro,f/7/f7d61c135078edbb73c677364ce29ad456093c67
+T
+$src/components/widgets/Recaptcha.tsx,9/e/9eed51443dfc933be9649d43fca9ab23697cffed

@@ -1,5 +1,15 @@
-import React, {useState} from 'react';
+import React, {
+  type FormEvent,
+  type LegacyRef,
+  type MutableRefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import Envelope from "~/components/icons/Envelope.tsx";
+import {GoogleReCaptcha, useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import {Hand} from "lucide-react";
 
 type Path = "Speaking Engagement" | "Consultancy" | "New Career Opportunity" | "General Enquiries";
 
@@ -509,6 +519,8 @@ const tree: DecisionTree = {
 };
 
 const DynamicForm = () => {
+  const {executeRecaptcha} = useGoogleReCaptcha();
+
   // State to manage the current path and selections
   const [currentPath, setCurrentPath] = useState<Path | undefined>("General Enquiries");
   const [selectedOptions, setSelectedOptions] = useState({});
@@ -572,6 +584,7 @@ const DynamicForm = () => {
               ? renderInput(option.input, optionKey)
               : (
                 <select
+                  required={true}
                   id={optionKey}
                   name={optionKey}
                   className="form-select w-full py-2 px-4 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
@@ -616,6 +629,7 @@ const DynamicForm = () => {
         return (
           <select
             key={optionKey}
+            required={input.required}
             name={input.name}
             className="form-select w-full py-2 px-4 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
           >
@@ -628,6 +642,7 @@ const DynamicForm = () => {
         return (
           <textarea
             key={optionKey}
+            required={input.required}
             name={input.name}
             placeholder={input.placeholder}
             className="py-2 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
@@ -637,52 +652,75 @@ const DynamicForm = () => {
         return null;
     }
   };
+  const [token, setToken] = useState<string>();
+  const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
+  
+  const formRef = useRef<HTMLFormElement | undefined>();
 
+  const onVerify = useCallback((token: string) => {
+    setToken(token);
+  }, []);
+  
+  const onSubmitForm = (e: FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(formRef.current);
+    if (formData) {
+      const data = Object.fromEntries(formData);
+      console.log({ data })
+      //TODO: Send data to backend
+    }
+  }
+  
   return (
-    <form
-      method={"POST"}
-      id={"contact-form"}
-      className="md:w-2/3 md:mx-auto lg:w-full flex flex-col rounded-lg dark:bg-[#1e1e1e] bg-[#e0e0e0] p-4 gap-y-2 my-8">
-      <div className={"flex"}>
-        <Envelope className={"mr-4"}/>
-        <p className="font-semibold flex items-center gap-x-2">
-          {tree.title}
-        </p>
-      </div>
-      <div>
-        <p className="text-muted">{tree.description}</p>
-      </div>
-      <div className="grid grid-cols-1 gap-4 items-center my-4">
-        {/* Path Selection */}
-        <select
-          name="category"
-          className="form-select w-full py-2 px-4 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
-          onChange={handlePathChange}
-        >
-          {currentPath == undefined &&
-            <option value={undefined}>Select Option</option>
-          }
-          {/*Make sure current path is defined*/}
-          {Object.keys(tree.paths).map((path) => (
-            <option key={path} value={path}>{path}</option>
-          ))}
-        </select>
-
-        {/* Render dynamic fields based on the current path */}
-        {currentPath && renderOptions(tree.paths[currentPath].options)}
-
-        {/* Submit Button */}
-        <div>
-          <button type="submit" className="g-recaptcha w-full btn-primary" disabled={currentPath == undefined}
-                  data-sitekey={`reCAPTCHA_${import.meta.env.PUBLIC_RECAPTCHA_KEY}`}
-                  data-callback='onSubmit'
-                  data-action='submit'>
-            {currentPath == "General Enquiries" ? `Submit Enquiry` : `Enquire Availability`}
-          </button>
-          <p className={"text-primary my-4"}>* Required</p>
+    <>
+      <GoogleReCaptcha
+        onVerify={onVerify}
+        refreshReCaptcha={refreshReCaptcha}
+      />
+      <form
+        ref={formRef}
+        onSubmit={onSubmitForm}
+        method={"POST"}
+        className="md:w-2/3 md:mx-auto lg:w-full flex flex-col rounded-lg dark:bg-[#1e1e1e] bg-[#e0e0e0] p-4 gap-y-2 my-8">
+        <div className={"flex"}>
+          <Envelope className={"mr-4"}/>
+          <p className="font-semibold flex items-center gap-x-2">
+            {tree.title}
+          </p>
         </div>
-      </div>
-    </form>
+        <div>
+          <p className="text-muted">{tree.description}</p>
+        </div>
+        <div className="grid grid-cols-1 gap-4 items-center my-4">
+          {/* Path Selection */}
+          <select
+            name="category"
+            className="form-select w-full py-2 px-4 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
+            onChange={handlePathChange}
+          >
+            {currentPath == undefined &&
+              <option value={undefined}>Select Option</option>
+            }
+            {/*Make sure current path is defined*/}
+            {Object.keys(tree.paths).map((path) => (
+              <option key={path} value={path}>{path}</option>
+            ))}
+          </select>
+
+          {/* Render dynamic fields based on the current path */}
+          {currentPath && renderOptions(tree.paths[currentPath].options)}
+
+          {/* Submit Button */}
+          <div>
+            <button type="submit" className="w-full btn-primary"
+                    disabled={currentPath == undefined}>
+              {currentPath == "General Enquiries" ? `Submit Enquiry` : `Enquire Availability`}
+            </button>
+            <p className={"text-primary my-4"}>* Required</p>
+          </div>
+        </div>
+      </form>
+    </>
   );
 };
 

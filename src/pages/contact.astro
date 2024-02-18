@@ -1,11 +1,9 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Hero2 from "../components/widgets/Hero2.astro";
-import clsx from "clsx";
 import Button from "../components/ui/Button.astro";
-import Contact from "../components/widgets/Contact.tsx";
+import Recaptcha from "../components/widgets/Recaptcha.tsx";
 import Headline from "../components/ui/Headline.astro";
 
 const metadata = {
@@ -23,7 +21,7 @@ const form = {
 
   <div class="container w-full flex flex-col-reverse md:flex-row justify-end">
     <div class="w-full lg:w-2/5 lg:-mt-18 z-10">
-     <Contact client:load />
+      <Recaptcha client:load />
     </div>
     <div class="w-full lg:w-3/5">
       <Features2
