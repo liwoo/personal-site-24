@@ -1,4 +1,4 @@
-export async function POST({ request }) {
+export async function POST({request}) {
   const data = await request.json();
 
   const recaptchaURL = 'https://www.google.com/recaptcha/api/siteverify';
@@ -6,8 +6,8 @@ export async function POST({ request }) {
     'Content-Type': 'application/x-www-form-urlencoded'
   };
   const requestBody = new URLSearchParams({
-    secret: "YOUR_SITE_SECRET_KEY",   // This can be an environment variable
-    response: data.token          // The token passed in from the client
+    secret: import.meta.env.RECAPTCHA_SERVER_KEY,   
+    response: data.token         
   });
 
   const response = await fetch(recaptchaURL, {
@@ -15,10 +15,26 @@ export async function POST({ request }) {
     headers: requestHeaders,
     body: requestBody.toString()
   });
-  
-  const responseData = await response.json();
-  
-  console.log(responseData);
 
-  // return new Response(JSON.stringify(responseData), { status: 200 });
+  const responseData = await response.json();
+
+  if (response.status < 200 || response.status > 299) {
+    console.log({responseData});
+    return new Response(JSON.stringify(responseData), {status: response.status});
+  }
+
+  const score = responseData.score;
+
+  if (!score) {
+    console.error({message: "Could not find a Score from Recaptach"})
+    return new Response(JSON.stringify(responseData), {status: 403});
+  }
+
+  if (score > 0.8) {
+    return new Response(JSON.stringify({message: "success"}), {status: 200});
+  }
+  else {
+    console.error({score})
+    return new Response(JSON.stringify({message: "error"}), {status: 403});
+  }
 }

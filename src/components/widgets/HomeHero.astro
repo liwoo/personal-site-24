@@ -14,18 +14,18 @@ export interface Props {
 }
 
 const { id, title, name, socialLinks = [], description = Astro.slots.render('description') } = Astro.props;
-const heroBg = 'https://res.cloudinary.com/tiyeni/video/upload/v1704153326/hero.mp4';
+const heroBg = 'https://res.cloudinary.com/tiyeni/video/upload/v1708369573/web-hero.mp4';
 // const heroBgMobile =
 //   'https://res.cloudinary.com/tiyeni/image/upload/v1704158128/jefferson-santos-9SoCnyQmkzI-unsplash_1.png';
 ---
 
-<section class="not-prose flex flex-col justify-end h-lvh bg-[url(https://res.cloudinary.com/tiyeni/image/upload/v1704158128/jefferson-santos-9SoCnyQmkzI-unsplash_1.png)] bg-no-repeat object-contain bg-center" {...id ? { id } : {}}>
+<section class="not-prose flex flex-col justify-end h-lvh bg-[url(https://res.cloudinary.com/tiyeni/image/upload/v1708370360/web-hero-2.jpg)] bg-no-repeat bg-cover bg-center">
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
     <video autoplay muted loop id="hero-video" class="hidden md:block h-lvh w-full object-cover">
       <source src={heroBg} type="video/mp4" />
     </video>
     <div
-      class="absolute h-lvh inset-0 bg-gradient-to-b from-orange-200 via-orange-100 to-amber-100 dark:from-teal-300 dark:to-teal-950 mix-blend-darken dark:mix-blend-multiply"
+      class="absolute h-lvh inset-0 bg-gradient-to-b from-orange-200 via-orange-100 to-amber-100 dark:from-teal-300 dark:to-teal-950 mix-blend-hue dark:mix-blend-multiply"
     >
     </div>
   </div>

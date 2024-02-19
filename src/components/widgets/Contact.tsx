@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import Envelope from "~/components/icons/Envelope.tsx";
 import {GoogleReCaptcha, useGoogleReCaptcha} from "react-google-recaptcha-v3";
-import {Hand} from "lucide-react";
+import {useToast} from "~/components/ui/use-toast.tsx";
 
 type Path = "Speaking Engagement" | "Consultancy" | "New Career Opportunity" | "General Enquiries";
 
@@ -654,23 +654,56 @@ const DynamicForm = () => {
   };
   const [token, setToken] = useState<string>();
   const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
-  
+
   const formRef = useRef<HTMLFormElement | undefined>();
 
   const onVerify = useCallback((token: string) => {
     setToken(token);
   }, []);
-  
-  const onSubmitForm = (e: FormEvent) => {
+
+  const clearForm = () => {
+    formRef.current?.reset();
+  }
+
+  const { toast } = useToast()
+
+  const onSubmitForm = async (e: FormEvent) => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
     if (formData) {
       const data = Object.fromEntries(formData);
-      console.log({ data })
-      //TODO: Send data to backend
+
+      try {
+        const response = await fetch('/submit-contact', {
+          method: "POST",
+          body: JSON.stringify({data, token})
+        });
+
+        const json = await response.json();
+        if (response.status === 200) {
+          toast({
+            variant: "success",
+            title: "Form Submitted!",
+            description: "Thank you for getting in touch with me. I'll get back to you in the next 24-48 hours",
+          })
+          clearForm();
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Hmmm 🤔",
+            description: "Something happened while processing your Form. Please try again later.",
+          })
+        }
+      } catch (err) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "An unknown error happened on our side. If it continues, please reach out to me directly",
+        })
+      }
     }
   }
-  
+
   return (
     <>
       <GoogleReCaptcha

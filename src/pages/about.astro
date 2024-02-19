@@ -6,12 +6,15 @@ import WorkExperience from '~/components/widgets/cells/WorkExperience.astro';
 import Briefcase from '~/components/icons/Briefcase.astro';
 import { workExperience } from '~/data/work-experience';
 import Button from '~/components/ui/Button.astro';
+import {Link} from "lucide-react";
 
 export const prerender = true;
 
 const metadata = {
   title: 'About us',
 };
+
+const linkedIn = "https://linkedin.com/in/jchienda";
 ---
 
 <Layout metadata={metadata}>
@@ -41,7 +44,7 @@ const metadata = {
           {workExperience.map((experience) => <WorkExperience {...experience} />)}
         </div>
         <div class="mx-auto my-8">
-          <Button href="https://linkedin.com/in/jchienda" variant="primary">View LinkedIn Profile</Button>
+          <Button href={} variant="primary">View LinkedIn Profile</Button>
         </div>
       </div>
     </div>
