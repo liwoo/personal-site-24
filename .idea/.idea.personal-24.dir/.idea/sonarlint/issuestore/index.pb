@@ -116,3 +116,7 @@ O
 src/components/ui/use-toast.tsx,7/0/7070d3e85460debdbdb7d68bdfc7166314ff82db
 U
 %src/components/widgets/HomeHero.astro,8/d/8d0feceba5dffeb1bc173a099d53999357bcb2cd
+V
+&src/assets/images/underline-bright.svg,a/7/a77f38d314adfeea64b41f24bb69631987f561fd
+B
+src/utils/email.ts,3/1/31bc42c0492405f232e8091b13dbe64d59a1c071

@@ -1,3 +1,5 @@
+import {convertDataToHtml, sendEmail} from "~/utils/email.ts";
+
 export async function POST({request}) {
   const data = await request.json();
 
@@ -31,6 +33,8 @@ export async function POST({request}) {
   }
 
   if (score > 0.8) {
+    const html = convertDataToHtml(data.data);
+    await sendEmail("Personal Website Feedback Form", html)
     return new Response(JSON.stringify({message: "success"}), {status: 200});
   }
   else {
