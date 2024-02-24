@@ -2,7 +2,7 @@ import {GoogleReCaptchaProvider} from "react-google-recaptcha-v3";
 import Contact from "~/components/widgets/Contact.tsx";
 import {Toaster} from "~/components/ui/toaster.tsx";
 
-export default function Recaptcha() {
+export default function ContactWithRecaptcha() {
   return (
     <GoogleReCaptchaProvider
       scriptProps={{

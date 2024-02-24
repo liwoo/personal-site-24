@@ -1,7 +1,8 @@
 ---
-import type { Form } from '~/types';
+import type {Form} from '~/types';
 import Button from '~/components/ui/Button.astro';
 import clsx from 'clsx';
+import SignUptWithRecaptcha from "../widgets/SignUpWithRecaptcha";
 
 const {
   inputs,
@@ -14,12 +15,12 @@ const {
 } = Astro.props as Form;
 ---
 
-<form class="md:w-2/3 md:mx-auto lg:w-full flex flex-col rounded-lg dark:bg-[#1e1e1e] bg-[#e0e0e0] p-4 gap-y-2">
+<div class="md:w-2/3 md:mx-auto lg:w-full flex flex-col rounded-lg dark:bg-[#1e1e1e] bg-[#e0e0e0] p-4 gap-y-2">
   {
     title && (
       <div>
         <p class="font-semibold flex items-center gap-x-2">
-          <span set:html={icon} /> {title}
+          <span set:html={icon}/> {title}
         </p>
       </div>
     )
@@ -31,53 +32,7 @@ const {
       </div>
     )
   }
-  <div class={clsx("grid grid-cols-2 gap-4 items-center", inputs ? `md:grid-cols-${inputs.length + 1}`: "")}>
-    {
-      inputs &&
-        inputs.map(
-          ({ type = 'text', name, label = '', autocomplete = 'on', placeholder = '', dropdownOptions = [] }) =>
-            name && (
-              <div class="w-full">
-                {label && !inline && (
-                  <label for={name} class="block text-sm font-medium">
-                    {label}
-                  </label>
-                )}
-                {type == 'select' ? (
-                  <select
-                    name={name}
-                    id={name}
-                    autocomplete={autocomplete}
-                    class="form-select w-full py-2 px-4 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
-                  >
-                    {dropdownOptions.map((option) => (
-                      <option value={option.value}>{option.label}</option>
-                    ))}
-                  </select>
-                ) : (
-                  <input
-                    type={type}
-                    name={name}
-                    id={name}
-                    autocomplete={autocomplete}
-                    placeholder={placeholder}
-                    class="py-2 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
-                  />
-                )}
-              </div>
-            )
-        )
-    }
-    {
-      button && (
-        <div>
-          <Button variant="primary" type="submit" class="w-full">
-            {button}
-          </Button>
-        </div>
-      )
-    }
-  </div>
+  <SignUptWithRecaptcha inputs={inputs} buttonLabel={button} client:visible />
   {
     textarea && (
       <div>
@@ -94,23 +49,4 @@ const {
       </div>
     )
   }
-  <!-- {
-    disclaimer && (
-      <div class="flex items-start">
-        <div class="flex">
-          <input
-            id="disclaimer"
-            name="disclaimer"
-            type="checkbox"
-            class="cursor-pointer mt-1 py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
-          />
-        </div>
-        <div class="ml-3">
-          <label for="disclaimer" class="cursor-pointer select-none text-sm text-gray-600 dark:text-gray-400">
-            {disclaimer.label}
-          </label>
-        </div>
-      </div>
-    )
-  } -->
-</form>
+</div>

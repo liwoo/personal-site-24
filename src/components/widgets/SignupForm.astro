@@ -5,7 +5,7 @@ import Envelope from '~/components/icons/Envelope.astro';
 
 const signupInputs: Input[] = [
   {
-    name: 'Category',
+    name: 'category',
     label: 'Category',
     type: 'select',
     dropdownOptions: [
@@ -15,6 +15,12 @@ const signupInputs: Input[] = [
       { label: 'General', value: 'general' },
     ],
     placeholder: 'Enter your category...',
+  },
+  {
+    name: 'name',
+    label: 'Name',
+    type: 'text',
+    placeholder: 'Enter your name',
   },
   {
     name: 'email',

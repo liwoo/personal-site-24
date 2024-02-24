@@ -1,6 +1,6 @@
 {
   "site": {
-    "name": "Chienda",
+    "name": "Jeremiah Chienda",
     "site": "https://personal-site-24.vercel.app/",
     "base": "/",
     "trailingSlash": false,
@@ -8,8 +8,8 @@
   },
   "metadata": {
     "title": {
-      "default": "Chienda",
-      "template": "%s — Chienda"
+      "default": "Jeremiah Chienda",
+      "template": "%s — Jeremiah Chienda"
     },
     "description": "Welcome to my Digital Garden. I'm Jeremiah Chienda, a software engineer and a writer. I write about software, productivity, and life.",
     "robots": {
@@ -17,7 +17,7 @@
       "follow": true
     },
     "openGraph": {
-      "site_name": "Chienda",
+      "site_name": "Jeremiah Chienda",
       "images": [
         {
           "url": "~/assets/images/default.png",

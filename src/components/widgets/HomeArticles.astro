@@ -17,6 +17,12 @@ const { count = 4 } = Astro.props;
 const posts = APP_BLOG.isEnabled ? await findLatestPosts({ count }) : [];
 const signupInputs: Input[] = [
   {
+    name: 'name',
+    label: 'Name',
+    type: 'text',
+    placeholder: 'Enter your name',
+  },
+  {
     name: 'email',
     label: 'Email',
     type: 'email',
@@ -30,22 +36,24 @@ const signupInputs: Input[] = [
     tagline="Fresh from the Blog"
     subtitle="My goal is to help you think like a Senior Engineer. I write mostly about React, Flutter and .NET, but you can apply it to any stack 👾"
   />
+  <div class="container-article my-20">
+    <FormContainer
+      title="Don't miss out on some great content!"
+      inputs={signupInputs}
+      description="Subscribe and get notified whenever I publish a new article and receive exclusive content."
+      disclaimer={{ label: 'No spam. Unsubscribe at any time.' }}
+      button="Signup"
+    >
+      <Fragment slot="icon">
+        <Envelope className="stroke-default" />
+      </Fragment>
+    </FormContainer>
+  </div>
   <div class="flex flex-col lg:flex-row container-lg my-8 gap-x-8">
     <div class="flex-1 flex flex-col gap-y-4">
       {posts.map((post) => <ListItem post={post} />)}
     </div>
     <div class="flex-1 my-4 lg:my-0 flex flex-col gap-y-8">
-      <FormContainer
-        title="Don't miss out on some great content!"
-        inputs={signupInputs}
-        description="Subscribe and get notified whenever I publish a new article and receive exclusive content."
-        disclaimer={{ label: 'No spam. Unsubscribe at any time.' }}
-        button="Signup"
-      >
-        <Fragment slot="icon">
-          <Envelope className="stroke-default" />
-        </Fragment>
-      </FormContainer>
       <div class="text-center flex flex-col gap-y-3">
         <h4>Let's hang out for a 1:1 👋🏽</h4>
         <p class="text-muted text-sm w-2/3 mx-auto">

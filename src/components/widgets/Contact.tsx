@@ -10,6 +10,7 @@ import React, {
 import Envelope from "~/components/icons/Envelope.tsx";
 import {GoogleReCaptcha, useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import {useToast} from "~/components/ui/use-toast.tsx";
+import {clsx} from "clsx";
 
 type Path = "Speaking Engagement" | "Consultancy" | "New Career Opportunity" | "General Enquiries";
 
@@ -519,8 +520,6 @@ const tree: DecisionTree = {
 };
 
 const DynamicForm = () => {
-  const {executeRecaptcha} = useGoogleReCaptcha();
-
   // State to manage the current path and selections
   const [currentPath, setCurrentPath] = useState<Path | undefined>("General Enquiries");
   const [selectedOptions, setSelectedOptions] = useState({});
@@ -535,18 +534,6 @@ const DynamicForm = () => {
   const handleInputChange = (optionKey: string, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
     const newValue = event.target.value;
     setSelectedOptions(prev => ({...prev, [optionKey]: newValue}));
-  };
-
-  const handleSelectChange = (optionKey: string, event: React.ChangeEvent<HTMLSelectElement>) => {
-    // Update the selected option and reset any child selections
-    const newSelection = event.target.value;
-    const newSelectedOptions = {...selectedOptions, [optionKey]: newSelection};
-    Object.keys(selectedOptions).forEach(key => {
-      if (key.startsWith(optionKey + '-')) {
-        delete newSelectedOptions[key];
-      }
-    });
-    setSelectedOptions(newSelectedOptions);
   };
 
   // Function to recursively render select dropdowns based on the current selection
@@ -654,6 +641,7 @@ const DynamicForm = () => {
   };
   const [token, setToken] = useState<string>();
   const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
 
   const formRef = useRef<HTMLFormElement | undefined>();
 
@@ -665,10 +653,11 @@ const DynamicForm = () => {
     formRef.current?.reset();
   }
 
-  const { toast } = useToast()
+  const {toast} = useToast()
 
   const onSubmitForm = async (e: FormEvent) => {
     e.preventDefault();
+    setFormLoading(true);
     const formData = new FormData(formRef.current);
     if (formData) {
       const data = Object.fromEntries(formData);
@@ -679,7 +668,6 @@ const DynamicForm = () => {
           body: JSON.stringify({data, token})
         });
 
-        const json = await response.json();
         if (response.status === 200) {
           toast({
             variant: "success",
@@ -700,6 +688,9 @@ const DynamicForm = () => {
           title: "Error",
           description: "An unknown error happened on our side. If it continues, please reach out to me directly",
         })
+      } finally {
+        setFormLoading(false);
+        setRefreshReCaptcha(true);
       }
     }
   }
@@ -714,7 +705,7 @@ const DynamicForm = () => {
         ref={formRef}
         onSubmit={onSubmitForm}
         method={"POST"}
-        className="md:w-2/3 md:mx-auto lg:w-full flex flex-col rounded-lg dark:bg-[#1e1e1e] bg-[#e0e0e0] p-4 gap-y-2 my-8">
+        className={clsx(formLoading ? "opacity-20" : "", "md:w-2/3 md:mx-auto lg:w-full flex flex-col rounded-lg dark:bg-[#1e1e1e] bg-[#e0e0e0] p-4 gap-y-2 my-8")}>
         <div className={"flex"}>
           <Envelope className={"mr-4"}/>
           <p className="font-semibold flex items-center gap-x-2">
@@ -746,7 +737,7 @@ const DynamicForm = () => {
           {/* Submit Button */}
           <div>
             <button type="submit" className="w-full btn-primary"
-                    disabled={currentPath == undefined}>
+                    disabled={currentPath == undefined || formLoading}>
               {currentPath == "General Enquiries" ? `Submit Enquiry` : `Enquire Availability`}
             </button>
             <p className={"text-primary my-4"}>* Required</p>

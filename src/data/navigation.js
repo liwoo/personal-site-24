@@ -58,7 +58,7 @@ export const footerData = {
     { ariaLabel: 'X', icon: 'tabler:brand-x', href: 'https://x.com/liwucodes' },
     { ariaLabel: 'Github', icon: 'tabler:brand-github', href: 'https://github.com/liwoo' },
     { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: 'https://linkedin.com/in/jchienda' },
-    { ariaLabel: 'YouTube', icon: 'tabler:brand-youtube', href: '#' },
+    { ariaLabel: 'YouTube', icon: 'tabler:brand-youtube', href: 'https://www.youtube.com/@liwucodes' },
   ],
   cryptoLinks: [
     { ariaLabel: 'Bitcoin', icon: 'tabler:currency-bitcoin', href: 'https://x.com/li_woo', color: 'bitcoin' },
