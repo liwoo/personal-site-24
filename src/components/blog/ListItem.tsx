@@ -77,7 +77,7 @@ export function ListItem({ post, extended = false }: ListItemProps) {
             <a href={getPermalink(post.permalink, 'post')} data-astro-prefetch>
               <img
                 src={post.image}
-                className="w-full absolute md:h-full rounded shadow-primary bg-gray-400 dark:bg-slate-700"
+                className="w-full absolute md:h-full rounded shadow-primary bg-gray-400 dark:bg-slate-700 object-center object-cover"
                 alt={post.title}
                 width={400}
                 loading="lazy"

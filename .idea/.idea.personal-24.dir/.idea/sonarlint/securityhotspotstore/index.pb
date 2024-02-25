@@ -136,3 +136,25 @@ F
 src/utils/recaptcha.ts,a/7/a7bb34e13b76ac894beca5cc52d5d26eee7ebdbe
 H
 src/pages/signup-form.ts,1/2/12920acd2decbd5d44d0eadeeb0dc2b67a449bee
+E
+src/content/config.ts,4/9/496767fa61cf67c9209a6aad4b8caf1006985c72
+`
+0src/content/post/astrowind-template-in-depth.mdx,0/4/046ed126ea47497824ead8672fdd91a1488d6360
+S
+#src/content/post/learn-code-in-2021,9/1/916a246615d754e06e111280c28af5169cd5db9c
+W
+'src/content/post/learn-code-in-2021.mdx,0/9/09a95d519b0d363777cc6d45604004547b1e148c
+`
+0src/content/post/markdown-elements-demo-post.mdx,2/3/235923cee8889cd0cd6b090186a56cc752655298
+g
+7src/content/post/useful-resources-to-create-websites.md,d/c/dc6e881e91d9aef11613a8dbbd1765579b2c7963
+l
+<src/content/post/how-to-customize-astrowind-to-your-brand.md,a/8/a89e54565402f8c1176feb617aa0e931bec0d560
+o
+?src/content/post/get-started-website-with-astro-tailwind-css.md,d/8/d80767f7414b9f2683706b91cd266a277bba997c
+P
+ src/content/post/top-5-tech-2021,0/d/0d59f59547c603b6607c0c0565722c972aa29a2d
+T
+$src/content/post/top-5-tech-2021.mdx,c/c/cc29b752ec2871b30324af956af395d7c721f799
+T
+$src/content/post/no-sql-modeling.mdx,4/3/4353ae3a4f0c660d2a2680114d6c1588d7f195dd
