@@ -11,10 +11,6 @@ tags:
 metadata:
   canonical: https://chienda.com/learn-code-in-2021
 ---
-
-import DListItem from '~/components/ui/DListItem.astro';
-import ToggleTheme from '~/components/common/ToggleTheme.astro';
-
 >Liwu, can I start a coding career in 2021?  And from the title of this article, you might have probably guessed my answer to this: heck yes!
 
 Now, I understand that there is a lot of information out there about Software Development.  So much information that it may feel intimidating and overwhelming even to give it a try.  Perhaps you think that you will have too much catching up to do, and it may take you forever to get to a place where you are comfortable building a website or a mobile app of your own. As much as I do not promise any quick results, I strongly feel that for those looking to change careers and become an active participator in this Digital Economy we’re living in, now is the perfect time to learn to program.  Here’s why:

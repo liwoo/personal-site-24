@@ -166,3 +166,27 @@ b
 2src/content/post/7-javascript-alternatives-2021.md,a/2/a2af15c61beb711170f5b0f4e279209739e9d19d
 Z
 *src/content/post/the-day-the-dollar-die.md,4/d/4d96791c9d2ecafb515bb3d64a66d9cf16070556
+C
+src/pages/404.astro,f/7/f73a8ff2af5a970ea19163a6e52d4abd41c5629d
+H
+src/pages/services.astro,7/8/78e88442f158a750c5508cca36f7c3983e56bf15
+H
+src/utils/directories.ts,b/e/beaa04bfb80de790e8b3d95af81dde05310bf113
+C
+src/utils/tasks.mjs,1/e/1e8c29a46189bb168d8146ad437e992db293cfe6
+T
+$src/pages/landing/subscription.astro,1/c/1c9538da6820ba0982397c89f01a3faec6ce52b4
+P
+ src/layouts/MarkdownLayout.astro,7/3/73a4e0986a6c2cce73255d03bcc5fe3350557d29
+O
+src/layouts/LandingLayout.astro,5/9/593fe4e2f74cb05c5a41c3d7ff3cc48d924cb08e
+O
+src/assets/images/underline.svg,e/7/e76dd33c6820e7fb65c8a75ae67aa8ae2f8cb694
+V
+&src/content/post/learn-code-in-2021.md,d/5/d581a11c80f557d471454e1de1839aea3d82007e
+e
+5src/content/post/health-interoperability-in-malawi.md,5/9/593696971eff2c8390367251eb733871b6c11f6a
+N
+src/content/post/ssr-vs-csr.md,b/7/b7a0924ed10b62e62d1619df19e254fe81793ebe
+Y
+)src/content/post/6-accessibility-hacks.md,b/c/bc078d3fe3acdfd15e0068a6545a0d2a886f0d99

@@ -2,16 +2,18 @@
 publishDate: 2022-03-11T00:00:00Z
 title: The Day the Dollar Die - How Cryptocurrency Saved this [Fictional] Struggling African Economy
 excerpt: The year is 2026.  A few years ago, what had started as seemingly simple economic mismanagement in Sri-Lancashire turned out to be a precursor to yet another worldwide financial meltdown.  Soon, many more developing and developed countries suffered similar fates.
-image: https://res.cloudinary.com/tiyeni/image/upload/v1708872885/dollar-dies.webp
+image: https://res.cloudinary.com/tiyeni/image/upload/v1708876650/blockchain-market.webp
 category: General
 tags:
   - fiction
   - blockchain
   - cryptocurrency
 metadata:
-  canonical: https://chienda.com/7-javascript-alternatives-2021
+  canonical: https://chienda.com/the-day-the-dollar-die
 ---
-For a long time, many could tell that the traditional financial systems stacked together like a flimsy house of cards were reaching a tipping point. Complexities in modern-day macroeconomics couldn’t keep up with the overly simplified global financial architecture designed after the First World War. Few saw this more clearly than Dr. Charles Dambo. The newly elected visionary leader of the Zambezi Republic understood the gaping problems of the current financial structures and was finally in a position to do something about them.
+It soon became clear that the traditional financial systems were all stacked together like a flimsy house of cards.  And there were reaching a tipping point. Complexities in modern-day macroeconomics could not keep up with the overly simplified global financial architecture designed after the First World War. 
+
+Few saw this more clearly than Dr. Charles Dambo. The newly elected visionary leader of the Zambezi Republic understood the gaping problems of the current financial structures and was now finally in a position to do something about it.
 
 Going against solid advice from his DC colleagues, the former World Bank Lead Economist shocked many by drafting and eventually passing a slew of crypto-friendly laws soon after becoming president and self-appointed Minister of Economics.  
 
