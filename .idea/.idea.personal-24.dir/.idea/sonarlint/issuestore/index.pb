@@ -158,3 +158,11 @@ T
 $src/content/post/top-5-tech-2021.mdx,c/c/cc29b752ec2871b30324af956af395d7c721f799
 T
 $src/content/post/no-sql-modeling.mdx,4/3/4353ae3a4f0c660d2a2680114d6c1588d7f195dd
+9
+	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+X
+(src/content/post/nosql-data-modelling.md,7/5/75a42386d47576ecc8aec9b93316ebf468529220
+b
+2src/content/post/7-javascript-alternatives-2021.md,a/2/a2af15c61beb711170f5b0f4e279209739e9d19d
+Z
+*src/content/post/the-day-the-dollar-die.md,4/d/4d96791c9d2ecafb515bb3d64a66d9cf16070556

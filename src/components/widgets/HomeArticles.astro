@@ -8,13 +8,15 @@ import Envelope from '../icons/Envelope.astro';
 import { Calendly } from '~/components/widgets/Calendly.tsx';
 import Button from '../ui/Button.astro';
 import { ListItem } from '../blog/ListItem';
+import {findPostsByCategory} from "../../utils/blog";
 
 type Props = {
   count?: number;
 };
 
 const { count = 4 } = Astro.props;
-const posts = APP_BLOG.isEnabled ? await findLatestPosts({ count }) : [];
+const posts = APP_BLOG.isEnabled ? await findPostsByCategory('tech') : [];
+const postSubset = posts.length > count ? posts.slice(0, count) : posts;
 const signupInputs: Input[] = [
   {
     name: 'name',
@@ -51,7 +53,7 @@ const signupInputs: Input[] = [
   </div>
   <div class="flex flex-col lg:flex-row container-lg my-8 gap-x-8">
     <div class="flex-1 flex flex-col gap-y-4">
-      {posts.map((post) => <ListItem post={post} />)}
+      {postSubset.map((post) => <ListItem post={post} />)}
     </div>
     <div class="flex-1 my-4 lg:my-0 flex flex-col gap-y-8">
       <div class="text-center flex flex-col gap-y-3">

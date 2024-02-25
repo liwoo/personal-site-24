@@ -1,7 +1,7 @@
 ---
 publishDate: 2021-01-04T00:00:00Z
 title: Top 5 Technologies for Developers in 2021
-excerpt: I get a log of people asking me if it's too late to learn coding. The answer is always unequivocally no. Here are five reasons why.
+excerpt: 2021 is already off to a flying start, and if you are a Software Developer, you probably have set some goals to upgrade your programming stack this year.
 image: https://res.cloudinary.com/tiyeni/image/upload/v1708837228/top-5-tech-21.jpg
 category: Tech
 tags:
@@ -16,7 +16,7 @@ Happy (Belated) New Year!
 ![Happy New Year](http://blog.edmdesigner.com/content/images/2016/06/firework-gif1.gif)
 Source: [1stforeverything.com](https://1stforeverything.com)
 
-2021 is already off to a flying start, and if you are a Software Developer, you probably have set some goals to upgrade your programming stack this year.  Choosing what to spend your time on can be demanding as you may not know in advance how that investment will pay off.  Luckily for you, I have done some background work and picked up some technologies I think you should be looking at. Let’s get straight into it.
+Choosing what to spend your time on can be demanding as you may not know in advance how that investment will pay off.  Luckily for you, I have done some background work and picked up some technologies I think you should be looking at. Let’s get straight into it.
 
 ### 5. GraphQL
 #### Difficulty: 🟢

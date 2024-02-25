@@ -80,7 +80,7 @@ export async function signupToNewsletter(email: string, name: string, category?:
 
   if (category) {
     contactData.contacts[0]["custom_fields"] = {
-      [categoryId]: category ?? "all"
+      [categoryId]: category ?? "tech"
     };
   }
 
