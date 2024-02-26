@@ -44,7 +44,7 @@ export const footerData = {
       title: 'Support',
       links: [
         { text: 'Tech Stack', href: '#' },
-        { text: 'NFTs', href: '#' },
+        { text: 'Old Site', href: 'https://old.chienda.com' },
         { text: 'Contacts', href: '/contact' },
       ],
     },
@@ -61,9 +61,9 @@ export const footerData = {
     { ariaLabel: 'YouTube', icon: 'tabler:brand-youtube', href: 'https://www.youtube.com/@liwucodes' },
   ],
   cryptoLinks: [
-    { ariaLabel: 'Bitcoin', icon: 'tabler:currency-bitcoin', href: 'https://x.com/li_woo', color: 'bitcoin' },
-    { ariaLabel: 'Ethereum', icon: 'tabler:currency-ethereum', href: 'https://github.com/liwoo', color: 'ethereum' },
-    { ariaLabel: 'Solana', icon: 'tabler:currency-solana', href: 'https://linkedin.com/in/jchienda', color: 'solana' },
+    { ariaLabel: 'Bitcoin', icon: 'tabler:currency-bitcoin', href: '#', color: 'bitcoin' },
+    { ariaLabel: 'Ethereum', icon: 'tabler:currency-ethereum', href: '#', color: 'ethereum' },
+    { ariaLabel: 'Solana', icon: 'tabler:currency-solana', href: '#', color: 'solana' },
   ],
   footNote: `
     © 2024. Crafted with ❤️ by Jeremiah Chienda. All rights reserved.
