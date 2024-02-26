@@ -98,8 +98,6 @@ X
 (src/components/common/BasicScripts.astro,9/4/948954e2a104fb066e3aa4760f7fac78134656c5
 \
 ,src/components/common/SiteVerification.astro,f/7/f7d61c135078edbb73c677364ce29ad456093c67
-T
-$src/components/widgets/Recaptcha.tsx,9/e/9eed51443dfc933be9649d43fca9ab23697cffed
 K
 src/pages/submit-contact.ts,0/b/0b546a2b92c4ed8bd6f1b1fd5e7a75c1a696cc4d
 K
@@ -114,8 +112,6 @@ V
 &src/assets/images/underline-bright.svg,a/7/a77f38d314adfeea64b41f24bb69631987f561fd
 B
 src/utils/email.ts,3/1/31bc42c0492405f232e8091b13dbe64d59a1c071
-G
-src/pages/pricing.astro,c/0/c04bae5fbfdd2d33ee9ac23d1d3480469a20b2c6
 B
 src/pages/terms.md,2/8/28fcc100fbbebd6d98d52df3eef524b39030fe41
 D
@@ -130,8 +126,6 @@ _
 /src/components/widgets/ContactWithRecaptcha.tsx,4/2/4284f152a95da3a64a63c007144070384ca29b7c
 ^
 .src/components/widgets/SignUpWithRecaptcha.tsx,d/2/d2c9f4d95c72167bd1e83a3d8c530be23900e09c
-G
-src/pages/sigup-form.ts,7/7/77bab1ee1946f037f865b8d5649a6be72a54a132
 F
 src/utils/recaptcha.ts,a/7/a7bb34e13b76ac894beca5cc52d5d26eee7ebdbe
 H
@@ -140,10 +134,6 @@ E
 src/content/config.ts,4/9/496767fa61cf67c9209a6aad4b8caf1006985c72
 `
 0src/content/post/astrowind-template-in-depth.mdx,0/4/046ed126ea47497824ead8672fdd91a1488d6360
-S
-#src/content/post/learn-code-in-2021,9/1/916a246615d754e06e111280c28af5169cd5db9c
-W
-'src/content/post/learn-code-in-2021.mdx,0/9/09a95d519b0d363777cc6d45604004547b1e148c
 `
 0src/content/post/markdown-elements-demo-post.mdx,2/3/235923cee8889cd0cd6b090186a56cc752655298
 g
@@ -152,12 +142,6 @@ l
 <src/content/post/how-to-customize-astrowind-to-your-brand.md,a/8/a89e54565402f8c1176feb617aa0e931bec0d560
 o
 ?src/content/post/get-started-website-with-astro-tailwind-css.md,d/8/d80767f7414b9f2683706b91cd266a277bba997c
-P
- src/content/post/top-5-tech-2021,0/d/0d59f59547c603b6607c0c0565722c972aa29a2d
-T
-$src/content/post/top-5-tech-2021.mdx,c/c/cc29b752ec2871b30324af956af395d7c721f799
-T
-$src/content/post/no-sql-modeling.mdx,4/3/4353ae3a4f0c660d2a2680114d6c1588d7f195dd
 9
 	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 X
@@ -169,17 +153,11 @@ Z
 C
 src/pages/404.astro,f/7/f73a8ff2af5a970ea19163a6e52d4abd41c5629d
 H
-src/pages/services.astro,7/8/78e88442f158a750c5508cca36f7c3983e56bf15
-H
 src/utils/directories.ts,b/e/beaa04bfb80de790e8b3d95af81dde05310bf113
 C
 src/utils/tasks.mjs,1/e/1e8c29a46189bb168d8146ad437e992db293cfe6
-T
-$src/pages/landing/subscription.astro,1/c/1c9538da6820ba0982397c89f01a3faec6ce52b4
 P
  src/layouts/MarkdownLayout.astro,7/3/73a4e0986a6c2cce73255d03bcc5fe3350557d29
-O
-src/layouts/LandingLayout.astro,5/9/593fe4e2f74cb05c5a41c3d7ff3cc48d924cb08e
 O
 src/assets/images/underline.svg,e/7/e76dd33c6820e7fb65c8a75ae67aa8ae2f8cb694
 V
@@ -194,7 +172,5 @@ Q
 !src/components/CustomStyles.astro,c/5/c566676655dee05a8d09c47c16f078d698c66e2e
 V
 &src/content/post/stop-undercharging.md,7/e/7e51f4cfb226c1aa5a7d2c3a2a1173cad123a84e
-N
-src/content/post/evs-in-malawi,a/4/a480493fb6f074a15cdefd70f8f0f65b98ca8aad
 Q
 !src/content/post/evs-in-malawi.md,4/5/451bbd9123a78e0d9a6f16245f50c608502b74f9
