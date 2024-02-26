@@ -11,7 +11,7 @@ tags:
 metadata:
   canonical: https://chienda.com/the-day-the-dollar-die
 ---
-It soon became clear that the traditional financial systems were all stacked together like a flimsy house of cards.  And there were reaching a tipping point. Complexities in modern-day macroeconomics could not keep up with the overly simplified global financial architecture designed after the First World War. 
+It quickly became clear that the traditional financial systems were all stacked together like a flimsy house of cards.  And there were reaching a tipping point. Complexities in modern-day macroeconomics could not keep up with the overly simplified global financial architecture designed after the First World War. 
 
 Few saw this more clearly than Dr. Charles Dambo. The newly elected visionary leader of the Zambezi Republic understood the gaping problems of the current financial structures and was now finally in a position to do something about it.
 

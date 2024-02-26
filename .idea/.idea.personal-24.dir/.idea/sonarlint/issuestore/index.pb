@@ -190,3 +190,11 @@ N
 src/content/post/ssr-vs-csr.md,b/7/b7a0924ed10b62e62d1619df19e254fe81793ebe
 Y
 )src/content/post/6-accessibility-hacks.md,b/c/bc078d3fe3acdfd15e0068a6545a0d2a886f0d99
+Q
+!src/components/CustomStyles.astro,c/5/c566676655dee05a8d09c47c16f078d698c66e2e
+V
+&src/content/post/stop-undercharging.md,7/e/7e51f4cfb226c1aa5a7d2c3a2a1173cad123a84e
+N
+src/content/post/evs-in-malawi,a/4/a480493fb6f074a15cdefd70f8f0f65b98ca8aad
+Q
+!src/content/post/evs-in-malawi.md,4/5/451bbd9123a78e0d9a6f16245f50c608502b74f9

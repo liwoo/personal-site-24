@@ -14,7 +14,7 @@ From its [inception](https://home.cern/science/computing/birth-web/short-history
 
 Yet, as the web evolved and [JavaScript frameworks](https://medium.com/dailyjs/the-deepest-reason-why-modern-javascript-frameworks-exist-933b86ebc445) began to dominate, we saw a shift. There was a move away from native web markup towards the world of "Components". The result? Web developers started abstracting their sites to the point where the underlying HTML became just a [messy stew of div tags](https://www.hackterms.com/div%20soup). And let me tell you, maestro, that's a [tragedy for accessibility](https://www.a11ymatters.com/article/dont-use-divs-for-everything/).
 
-## Why Care about Accessiblity in the first place
+## Why Care about Accessibility in the first place
 
 So you've heard this buzz word being thrown around by all the leaders. But what does it actually mean?
 

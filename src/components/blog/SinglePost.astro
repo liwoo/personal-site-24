@@ -51,7 +51,7 @@ const { Content } = post;
       />
     </div>
     <div
-      class="container-article prose prose-lg lg:prose-xl dark:prose-invert prose-headings:text-primary prose-img:w-full prose-img:border-4 prose-img:border-card prose-img:hover:border-primary prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-secondary prose-img:rounded-md prose-img:shadow-lg mt-8 prose-headings:scroll-mt-[80px] prose-blockquote:bg-card prose-blockquote:p-4 prose-blockquote:border-secondary prose-h3:text-default prose-h4:text-muted"
+      class="container-article prose prose-lg lg:prose-xl prose-pre:shadow-xl code-block prose-pre:pt-12 dark:prose-invert prose-headings:text-primary prose-img:w-full prose-img:border-4 prose-img:border-card prose-img:hover:border-primary prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-secondary prose-img:rounded-md prose-img:shadow-lg mt-8 prose-headings:scroll-mt-[80px] prose-blockquote:bg-card prose-blockquote:p-4 prose-blockquote:border-secondary prose-h3:text-default prose-h4:text-muted"
     >
       {Content ? <Content /> : <Fragment set:html={post.content || ''} />}
     </div>

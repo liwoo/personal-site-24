@@ -111,6 +111,11 @@
   padding: 0 5px;
 }
 
+.code-block pre:before {
+  content: '🔴 ⚪️ 🟢';
+  @apply absolute -mt-8 text-xs
+}
+
 .dropdown:hover .dropdown-menu {
   display: block;
 }
