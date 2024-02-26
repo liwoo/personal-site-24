@@ -2,7 +2,7 @@
 publishDate: 2023-11-28T00:00:00Z
 title: Should You Buy an EV in Malawi?
 excerpt: No lining up on the fuel queue.  No buying expensive spare parts every two months. The only things you have to maintain are you braking, suspension, body and electronics!
-image: https://res.cloudinary.com/tiyeni/image/upload/v1708921132/liwu-ev.jpg
+image: https://res.cloudinary.com/tiyeni/image/upload/w_1000,ar_16:9,c_fill,g_auto,e_sharpen/v1708921132/liwu-ev.jpg
 category: General
 tags:
   - vehicles
