@@ -3,10 +3,10 @@ publishDate: 2021-01-14T00:00:00Z
 title: Five Reasons why it's not too late to learn coding in 2021
 excerpt: I get a log of people asking me if it's too late to learn coding. The answer is always unequivocally no. Here are five reasons why.
 image: https://res.cloudinary.com/tiyeni/image/upload/v1708836254/learn-coding.jpg
-category: Tech
+category: General
 tags:
   - coding
-  - beginner
+  - tech
   - career
 metadata:
   canonical: https://chienda.com/learn-code-in-2021
