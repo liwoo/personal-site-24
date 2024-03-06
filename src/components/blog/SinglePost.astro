@@ -2,6 +2,7 @@
 import Image from '~/components/common/Image.astro';
 import PostTags from '~/components/blog/Tags.astro';
 import SocialShare from '~/components/common/SocialShare.astro';
+import { Icon } from 'astro-icon/components';
 
 import type { Post } from '~/types';
 import Bio from '../widgets/Bio.astro';
@@ -56,6 +57,14 @@ const { Content } = post;
       {Content ? <Content /> : <Fragment set:html={post.content || ''} />}
     </div>
     <div class="container-article">
+      <div class="my-8 lg:w-1/2">
+        <!--Discuss on X Button-->
+        {post.commentLink && (
+          <a href={post.commentLink} class="btn flex gap-x-3 items-center">
+            Discuss on <Icon name="tabler:brand-x" class="w-5 h-5" />
+          </a>
+        )}
+      </div>
       <PostTags tags={post.tags} class="lg:hidden mr-5 my-4 rtl:mr-0 rtl:ml-5" />
     </div>
     <Bio />

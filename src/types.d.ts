@@ -16,6 +16,8 @@ export interface Post {
   /**  */
   updateDate?: Date;
 
+  commentLink?: string;
+
   /**  */
   title: string;
   /** Optional summary of post content. */
