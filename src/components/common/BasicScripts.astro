@@ -18,6 +18,30 @@ import { UI } from '~/utils/config';
       document.documentElement.classList.remove('dark');
     }
   }
+  
+  function animateHeroGrid() {
+    //eg data-square="sq-1"
+    const squares = document.querySelectorAll('[data-square]');
+    //
+    // squares.forEach((square) => {
+    //   // const currentOpacity = square.classList.add('opacity-100');
+    //   const timePeriod = Math.floor(Math.random() * 1500) + 500;
+    //   console.log({currentOpacity});
+    // 
+    // })
+    //
+    //randomly flick the opacity of 20 square within 2 seconds
+    // setInterval(() => {
+    //   const randomSquares = Array.from({ length: 20 }, () => squares[Math.floor(Math.random() * squares.length)]);
+    //   randomSquares.forEach((square) => {
+    //     const currentOpacity = square.style.opacity;
+    //     square.style.opacity = 100;
+    //     setTimeout(() => {
+    //       square.style.opacity = currentOpacity;
+    //     }, 500);
+    //   });
+    // }, 2000);
+  }
 
   //toggle animation classes on view
   function toggleAnimationOnView() {
@@ -112,6 +136,7 @@ import { UI } from '~/utils/config';
   }
 
   const onLoad = function () {
+    animateHeroGrid();
     toggleAnimationOnView();
     let lastKnownScrollPosition = window.scrollY;
     let ticking = true;
@@ -255,6 +280,7 @@ import { UI } from '~/utils/config';
 
   document.addEventListener('astro:after-swap', () => {
     initTheme();
+    animateHeroGrid();
     onLoad();
     onPageShow();
   });

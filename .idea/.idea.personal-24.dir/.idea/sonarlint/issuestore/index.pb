@@ -174,3 +174,5 @@ V
 &src/content/post/stop-undercharging.md,7/e/7e51f4cfb226c1aa5a7d2c3a2a1173cad123a84e
 Q
 !src/content/post/evs-in-malawi.md,4/5/451bbd9123a78e0d9a6f16245f50c608502b74f9
+P
+ src/components/ui/HeroGrid.astro,c/9/c9eb97e79b633510b4f7773d947d2003930e2ea7

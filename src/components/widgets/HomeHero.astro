@@ -15,8 +15,6 @@ export interface Props {
 
 const { id, title, name, socialLinks = [], description = Astro.slots.render('description') } = Astro.props;
 const heroBg = 'https://res.cloudinary.com/tiyeni/video/upload/v1708369573/web-hero.mp4';
-// const heroBgMobile =
-//   'https://res.cloudinary.com/tiyeni/image/upload/v1704158128/jefferson-santos-9SoCnyQmkzI-unsplash_1.png';
 ---
 
 <section class="not-prose flex flex-col justify-end h-lvh bg-[url(https://res.cloudinary.com/tiyeni/image/upload/v1708370360/web-hero-2.jpg)] bg-no-repeat bg-cover bg-center">
@@ -39,9 +37,9 @@ const heroBg = 'https://res.cloudinary.com/tiyeni/video/upload/v1708369573/web-h
         set:html={description}
       />
     </div>
-    <Button href="/#about" variant="primary">Find out More</Button>
+    <Button href="/#blog-section" variant="primary">Find out More</Button>
   </div>
-  <div class="relative container mb-20">
+  <div class="relative container lg:mb-20">
     <div class="text-white dark:text-primary left-0 bottom-10">
       <h2 class="text-2xl font-semibold" set:text={name} />
       <h3 class="uppercase" set:text={title} />
