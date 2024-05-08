@@ -4,7 +4,6 @@ import type { CollectionEntry } from 'astro:content';
 import type { Post } from '~/types';
 import { APP_BLOG } from '~/utils/config';
 import { cleanSlug, trimSlash, BLOG_BASE, POST_PERMALINK_PATTERN, CATEGORY_BASE, TAG_BASE } from './permalinks';
-import { techStack } from '~/data/stack';
 
 const generatePermalink = async ({
   id,
@@ -146,17 +145,17 @@ export const findPostsBySlugs = async (slugs: Array<string>): Promise<Array<Post
 export const getPostsLength = async (): Promise<number> => {
   const posts = await fetchPosts();
   return posts.length;
-}
+};
 
-export const getPostsFromTags = async (tags: Array<string>): Promise<Array<Post>> => {  
+export const getPostsFromTags = async (tags: Array<string>): Promise<Array<Post>> => {
   const posts = await fetchPosts();
 
   const found = posts.filter((post) => {
     return post.tags?.some((tag) => tags.includes(tag));
   });
 
-  return found.slice(0, 3)
-}
+  return found.slice(0, 3);
+};
 
 /** */
 export const findPostsByQuery = async (query: string): Promise<Array<Post>> => {
@@ -168,13 +167,13 @@ export const findPostsByQuery = async (query: string): Promise<Array<Post>> => {
     return (
       post.title.toLowerCase().includes(query.toLowerCase()) ||
       post.excerpt?.toLowerCase().includes(query.toLowerCase()) ||
-      post.tags?.some((tag) => tag.toLowerCase().includes(query.toLowerCase())) 
+      post.tags?.some((tag) => tag.toLowerCase().includes(query.toLowerCase()))
     );
   });
 
   //return first 5 results
-  return filtered.slice(0, 5)
-}
+  return filtered.slice(0, 5);
+};
 
 /** */
 export const findPostsByCategory = async (category: string): Promise<Array<Post>> => {
@@ -186,8 +185,8 @@ export const findPostsByCategory = async (category: string): Promise<Array<Post>
     return post.category?.toLowerCase() === category.toLowerCase();
   });
 
-  return filtered.slice(0, 10)
-}
+  return filtered.slice(0, 10);
+};
 
 /** */
 export const findPostsByIds = async (ids: Array<string>): Promise<Array<Post>> => {
@@ -204,13 +203,18 @@ export const findPostsByIds = async (ids: Array<string>): Promise<Array<Post>> =
 };
 
 /** */
-export const findLatestPosts = async ({ count, offset = 0 }: { count?: number, offset?: number }): Promise<Array<Post>> => {
+export const findLatestPosts = async ({
+  count,
+  offset = 0,
+}: {
+  count?: number;
+  offset?: number;
+}): Promise<Array<Post>> => {
   const _count = count || 4;
   const posts = await fetchPosts();
 
   return posts ? posts.slice(offset, offset + _count) : [];
 };
-
 
 /** */
 export const getStaticPathsBlogList = async ({ paginate }: { paginate: PaginateFunction }) => {

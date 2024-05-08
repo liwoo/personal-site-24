@@ -7,7 +7,7 @@ export const headerData = {
       href: '/about',
     },
     {
-      text: 'Aritcles',
+      text: 'Articles',
       href: '/blog',
     },
     {
