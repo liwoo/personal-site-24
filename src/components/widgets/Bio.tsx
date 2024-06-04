@@ -13,14 +13,16 @@ export function Bio() {
       </TabsList>
       <TabsContent value="full" className="leading-7 text-lg text-default py-4">
         <div className="flex flex-col md:flex-row gap-y-6 md:gap-x-6">
-          <div className="w-full md:w-1/2 lg:w-1/3"><img src={vertical.src} alt='Vertical Image of Jeremiah' /></div>
+          <div className="w-full md:w-1/2 lg:w-1/3">
+            <img src={vertical.src} alt="Vertical Image of Jeremiah" />
+          </div>
           <div className="w-full md:w-1/2 lg:w-2/3 flex flex-col gap-y-4 ">
             <p>
-              Jeremiah is a seasoned and passionate Software Engineer with 7 years of professional experience across
+              Jeremiah is a seasoned and passionate Software Engineer with 8 years of professional experience across
               multiple industries worldwide.
             </p>
             <p>
-              He currently works with{' '}
+              He is currently an AI Engineer at{' '}
               <a href="https://irembo.com/" className="underline">
                 Irembo
               </a>
@@ -64,17 +66,20 @@ export function Bio() {
               <a href="https://www.doorbell.mw/" className="underline">
                 Doorbell Malawi
               </a>{' '}
-              where provides Technical mentorship to one of the most exciting tech-enabled startup disrupting the consumer goods retail industry in the country.
+              where provides Technical mentorship to one of the most exciting tech-enabled startup disrupting the
+              consumer goods retail industry in the country.
             </p>
             <p>
-              He holds a Masters of Engineering Degree from Doshisha University in Japan and a Bachelors of Science from
-              the University of Malawi.
+              He holds a Masters of Engineering Degree from{' '}
+              <a href="https://www.doshisha.ac.jp/en/">Doshisha University in Japan</a> with a focus on Natural Language
+              Processing (NLP) and a Bachelors of Science from the{' '}
+              <a href="https://mubas.ac.mw/">Malawi University of Business and Applied Science</a>.
             </p>
           </div>
         </div>
       </TabsContent>
       <TabsContent value="brief" className="leading-7 text-lg text-default flex flex-col gap-y-4 my-4">
-        <img src={setup.src} alt='Jeremiahs desk setup' />
+        <img src={setup.src} alt="Jeremiahs desk setup" />
         <p>
           A Full Stack Engineer with 7+ years of experience leading multinational Engineering teams accross HealthTech,
           FinTech, AgriTech and GovTech in Africa.
