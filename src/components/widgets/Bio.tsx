@@ -22,7 +22,7 @@ export function Bio() {
               multiple industries worldwide.
             </p>
             <p>
-              He is currently an AI Engineer at{' '}
+              He is currently working on applying Generative AI at{' '}
               <a href="https://irembo.com/" className="underline">
                 Irembo
               </a>
@@ -47,7 +47,11 @@ export function Bio() {
               </a>
             </p>
             <p>
-              Having been born and raised in Malawi, Jeremiah, during his time at{' '}
+              Having been born and raised in Malawi, Jeremiah developed the National{' '}
+              <a href="https://zipatala.health.gov.mw/" className="underline">
+                Master Facility Registry
+              </a>{' '}
+              during his time at{' '}
               <a href="https://www.facebook.com/Baobabhealthtrust/" className="underline">
                 Baobab Health Trust
               </a>{' '}
@@ -55,9 +59,16 @@ export function Bio() {
               <a href="https://www.kuunika.org/" className="underline">
                 Ministry of Health
               </a>{' '}
-              to usher in a{' '}
-              <a href="https://zipatala.health.gov.mw/" className="underline">
-                National Facility Registry
+              .
+            </p>
+            <p>
+              He holds a Masters of Engineering Degree from{' '}
+              <a href="https://www.doshisha.ac.jp/en/" className="underline">
+                Doshisha University in Japan
+              </a>{' '}
+              with a focus on Natural Language Processing (NLP) and a Bachelors of Science from the{' '}
+              <a href="https://mubas.ac.mw/" className="underline">
+                Malawi University of Business and Applied Science
               </a>
               .
             </p>
@@ -68,12 +79,6 @@ export function Bio() {
               </a>{' '}
               where provides Technical mentorship to one of the most exciting tech-enabled startup disrupting the
               consumer goods retail industry in the country.
-            </p>
-            <p>
-              He holds a Masters of Engineering Degree from{' '}
-              <a href="https://www.doshisha.ac.jp/en/">Doshisha University in Japan</a> with a focus on Natural Language
-              Processing (NLP) and a Bachelors of Science from the{' '}
-              <a href="https://mubas.ac.mw/">Malawi University of Business and Applied Science</a>.
             </p>
           </div>
         </div>
