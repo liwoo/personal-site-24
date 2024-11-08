@@ -1,15 +1,14 @@
 ---
-publishDate: 2017-01-29T00:00:00Z
-title: NLP With Me: Regex
+publishDate: 2024-11-03T00:00:00Z
+title: NLP with me - Part 1 - Regular Expressions
 excerpt: It turns out that Regular Expressions are the building blocks of what we refer to as AI. But where does the connection between AI and Regex come from? And how can we use Regex to solve NLP problems? In this post, we look at the basics of Regular Expressions and how they can be used in Natural Language Processing.
 category: Tech
 draft: ture
 tags:
-  - nlp
-  - research
+  - career
   - ai
 metadata:
-  canonical: https://chienda.com/nlp-regex
+  canonical: https://chienda.com/accidental-ai-engineer
 ---
 
 > This article is part of a series on Natural Language Processing, which I've compiled as part of my learning from [insert book here]. You can find the rest of the series [here](https://chienda.com/tags/nlp).
