@@ -1,0 +1,25 @@
+<div id="trends-widget-container" style="width: 100%; height: 400px;"></div>
+
+<script is:inline src="https://ssl.gstatic.com/trends_nrtr/3898_RC01/embed_loader.js"></script>
+
+<script is:inline>
+  // This script renders the static Google Trends widget
+  trends.embed.renderExploreWidget(
+    'TIMESERIES',
+    {
+      comparisonItem: [
+        {
+          keyword: '/m/0mkz',
+          geo: '',
+          time: '2014-10-09 2024-11-09',
+        },
+      ],
+      category: 0,
+      property: '',
+    },
+    {
+      exploreQuery: 'date=2014-10-09%202024-11-09&q=%2Fm%2F0mkz&hl=en',
+      guestPath: 'https://trends.google.com:443/trends/embed/',
+    }
+  );
+</script>
