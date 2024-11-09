@@ -46,6 +46,7 @@
     "react-day-picker": "^8.10.0",
     "react-dom": "^18.2.0",
     "react-google-recaptcha-v3": "^1.10.1",
+    "react-responsive": "^10.0.0",
     "react-twitter-embed": "^4.0.4",
     "recharts": "^2.13.3",
     "typescript-esbuild": "^0.3.2",

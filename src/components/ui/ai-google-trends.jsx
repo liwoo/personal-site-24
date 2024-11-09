@@ -2,6 +2,7 @@
 import { ResponsiveContainer, LineChart, Line, XAxis, CartesianGrid, Tooltip } from 'recharts';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '~/components/ui/card';
 import { TrendingUp } from 'lucide-react';
+import { useMediaQuery } from 'react-responsive';
 
 const chartData = [
   { month: '2014-10', value: 7 },
@@ -129,6 +130,13 @@ const chartData = [
 ];
 
 const GoogleTrendsChart = () => {
+  const isMobile = useMediaQuery({
+    query: '(max-width: 640px)',
+  });
+  const isTablet = useMediaQuery({
+    query: '(max-width: 768px)',
+  });
+  const interval = isMobile ? 36 : isTablet ? 24 : 12;
   return (
     <Card className="[--chart-1:var(--primary)]">
       <CardHeader>
@@ -144,7 +152,7 @@ const GoogleTrendsChart = () => {
                 tickLine={false}
                 axisLine={false}
                 tickMargin={10}
-                interval={12}
+                interval={interval}
                 tickFormatter={(value) => value.slice(0, 4)}
               />
               <Tooltip
@@ -173,7 +181,7 @@ const GoogleTrendsChart = () => {
           Trending up over time <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing interest in "Artificial Intelligence" from Google Trends.
+          Showing interest in "Artificial Intelligence" from Google Trends from the time I first started working in AI
         </div>
       </CardFooter>
     </Card>
