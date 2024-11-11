@@ -14,13 +14,19 @@ metadata:
   canonical: https://chienda.com/rag-is-all-you-need
 ---
 
+---
+
+_This is the first part of a series of articles on RAG. In this series, we'll explore the RAG framework and why I believe its all you need for LLM-based question answering systems in 95% of use cases. Feel free to skip over to other parts in the series for more techical breakdowns_
+
+---
+
 The other day I asked ChatGPT give me a breakdown of my Family Tree. To be fair, it actually gave me a helpful response:
 
 > To give you a breakdown of your family tree, I’ll need to gather some information from you. Here’s a general structure of what’s typically included in a family tree: ...
 
-It's very clear from this response that ChatGPT doesn't have access to my personal information. But what if I wanted to ask about something more sensitive, like my bank statements or passport records? How would ChatGPT respond then?
+It's very clear from this response that ChatGPT doesn't have access to my personal information - [or does it](https://openai.com/index/new-ways-to-manage-your-data-in-chatgpt/) 🤔? But what if I wanted to ask about something more sensitive, like my bank statements or passport records? How would ChatGPT respond then?
 
-These are the type of use cases that most businesses will be interested in. They want to use the power of AI, or more precisely - large language models (LLMs) - to help them with natural language tasks that involve their private data. These tasks will typically include:
+These are the type of [use cases that most businesses will be interested in](https://softblues.io/blog/top-llm-applications-in-business/). They want to use the power of AI, or more precisely - large language models (LLMs) - to help them with natural language tasks that involve their private data. These tasks will typically include:
 
 - **Answering questions about private data**: For example, "How long does it take for my driver's license to expire in Malawi?"
 - **Generating text based on private data**: For example, "Write a summary of my last 3 bank statements."
