@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="100c5af7-5ec9-4818-b7ae-381668e1b134" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/content/post/components/tender-winner-callout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/content/post/the-telala-effect.mdx" beforeDir="false" afterPath="$PROJECT_DIR$/src/content/post/the-telala-effect.mdx" afterDir="false" />
-    </list>
+    <list default="true" id="100c5af7-5ec9-4818-b7ae-381668e1b134" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -77,7 +73,7 @@
       <option name="presentableId" value="Default" />
       <updated>1735984439457</updated>
       <workItem from="1735984440804" duration="1924000" />
-      <workItem from="1735997650973" duration="303000" />
+      <workItem from="1735997650973" duration="546000" />
     </task>
     <servers />
   </component>
