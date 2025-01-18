@@ -2,7 +2,7 @@
 publishDate: 2024-09-11T00:00:00Z
 title: RAG is all you need - Part 2
 excerpt: Ever stared at your computer screen, wondering how the heck these AI models actually understand what we're saying? Like, how does ChatGPT know that when I say chair, it's more related to table than basketball? Well, buckle up, because we're about to dive into one of the coolest parts of modern AI engineering - vector search! 🚀
-image: /public/images/rag-pipeline-illustration.jpg
+image: https://minio-api.dartsmw.com/chienda.com/political-rag.png
 category: Tech
 draft: false
 tags:
@@ -12,6 +12,9 @@ tags:
   - ai
 canonical: https://chienda.com/rag-is-all-you-need-2
 ---
+import { Image } from 'astro:assets';
+import vector from '~/assets/images/rag/vector-space.svg';
+import pipeline from '~/assets/images/rag/rag-pipeline.svg';
 
 ---
 
@@ -33,7 +36,11 @@ Now, if I throw in the word "chair" and ask you which one's most related... you'
 
 But here's where it gets interesting! If I asked you why, you might start talking about how chairs and tables go together during meals, or how they're both made of wood. But wait - basketballs boards are made of wood too! And technically, you sit near lamps all the time... See how messy this gets? 😅
 
-![Objects in Vector Space](/public/images/vector-space.svg)
+<Image
+  src={vector}
+  alt="Vector Illustration of embedded words"
+  height={400}
+/>
 
 NLP researchers have been cooking up better and better ways to handle these nuanced relationships. They started with pretty basic stuff like [bag-of-words](https://machinelearningmastery.com/gentle-introduction-bag-words-model/) (kinda naive, if you ask me), but then [BERT](https://www.techtarget.com/searchenterpriseai/definition/BERT-language-model) came along and... boom!💥
 
@@ -144,7 +151,11 @@ So here's how the whole thing actually works in practice. When someone asks a qu
 3. Use cosine similarity (which is actually a pretty simple algorithm) to find matches
 4. Pull back maybe the top 10 most relevant chunks of information
 
-![Basic RAG Pipeline](/public/images/rag-pipeline.svg)
+<Image
+  src={pipeline}
+  alt="RAG Pipeline illustration"
+  height={400}
+/>
 
 Now, there's actually a whole science to storing these embeddings! It depends on stuff like:
 - Which LLM you're using
