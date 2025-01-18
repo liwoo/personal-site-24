@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="100c5af7-5ec9-4818-b7ae-381668e1b134" name="Changes" comment="" />
+    <list default="true" id="100c5af7-5ec9-4818-b7ae-381668e1b134" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/images/rag-pipeline-illustration.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/rag-pipeline.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/vector-space.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/content/post/rag-is-all-you-need-2.mdx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,6 +51,12 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/images" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="dev" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
@@ -73,7 +85,8 @@
       <option name="presentableId" value="Default" />
       <updated>1735984439457</updated>
       <workItem from="1735984440804" duration="1924000" />
-      <workItem from="1735997650973" duration="1982000" />
+      <workItem from="1735997650973" duration="13360000" />
+      <workItem from="1737195616559" duration="13000" />
     </task>
     <servers />
   </component>
