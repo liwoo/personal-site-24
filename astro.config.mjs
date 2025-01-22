@@ -12,6 +12,9 @@ import tasks from './src/utils/tasks';
 import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin } from './src/utils/frontmatter.mjs';
 import { ANALYTICS, SITE } from './src/utils/config.ts';
 import react from "@astrojs/react";
+import mdxMermaid from 'mdx-mermaid';
+import {Mermaid} from 'mdx-mermaid/lib/Mermaid'
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const whenExternalScripts = (items = []) => ANALYTICS.vendors.googleAnalytics.id && ANALYTICS.vendors.googleAnalytics.partytown ? Array.isArray(items) ? items.map(item => item()) : [items()] : [];
 
@@ -44,7 +47,17 @@ export default defineConfig({
     service: squooshImageService()
   },
   markdown: {
-    remarkPlugins: [readingTimeRemarkPlugin],
+    remarkPlugins: [readingTimeRemarkPlugin, [mdxMermaid, {
+      output: 'svg',
+      // Additional mermaid options if needed
+      mermaidConfig: {
+        theme: 'default',
+        themeVariables: {
+          // Your theme customizations
+        }
+      }
+    }]],
+    components: {mermaid: Mermaid, Mermaid},
     rehypePlugins: [responsiveTablesRehypePlugin]
   },
   vite: {
