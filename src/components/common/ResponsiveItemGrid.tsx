@@ -85,7 +85,7 @@ const ResponsiveItemGrid: React.FC<ResponsiveItemGridProps> = ({
 
       <button
         onClick={prevSlide}
-        className="absolute z-50 left-4 top-8 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 p-2 rounded-full shadow-lg"
+        className="absolute z-10 left-4 top-8 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 p-2 rounded-full shadow-lg"
         aria-label="Previous slide"
       >
         <ChevronLeft className="w-6 h-6" />
@@ -93,7 +93,7 @@ const ResponsiveItemGrid: React.FC<ResponsiveItemGridProps> = ({
 
       <button
         onClick={nextSlide}
-        className="absolute z-50 right-4 top-8 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 p-2 rounded-full shadow-lg"
+        className="absolute z-10 right-4 top-8 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 p-2 rounded-full shadow-lg"
         aria-label="Next slide"
       >
         <ChevronRight className="w-6 h-6" />
