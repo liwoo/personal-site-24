@@ -1,6 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import Features2 from '~/components/widgets/Features2.astro';
+import ResponsiveItemGrid from '~/components/common/ResponsiveItemGrid'
 import Hero2 from "../components/widgets/Hero2.astro";
 import Button from "../components/ui/Button.astro";
 import ContactWithRecaptcha from "../components/widgets/ContactWithRecaptcha.tsx";
@@ -24,9 +24,9 @@ const form = {
       <ContactWithRecaptcha client:load />
     </div>
     <div class="w-full lg:w-3/5">
-      <Features2
+      <ResponsiveItemGrid
+        client:load
         columns={2}
-        subtitle="Here are some things I can help you with"
         items={[
           {
             title: 'Consulting',
