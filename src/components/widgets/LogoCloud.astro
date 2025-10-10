@@ -51,15 +51,15 @@ const bottomLogos = randomizedLogos.slice(logosLength / 2, logosLength);
         </div>
       </div>
 
-      <div class="flex lg:hidden overflow-hidden space-x-16 group logo-row">
-        <ul class="flex space-x-16 animate-loop-scroll-fast">
+      <div class="flex lg:hidden overflow-hidden space-x-8 group logo-row">
+        <ul class="flex space-x-8 animate-loop-scroll-fast">
           {logos.map(({ icon, text }) => (
             <li class="logo-item">
               <ThemedImage alt={text ?? ''} src={icon ?? ''} />
             </li>
           ))}
         </ul>
-        <ul class="flex space-x-16 animate-loop-scroll-fast" aria-hidden="true">
+        <ul class="flex space-x-8 animate-loop-scroll-fast" aria-hidden="true">
           {logos.map(({ icon, text }) => (
             <li class="logo-item">
               <ThemedImage alt={text ?? ''} src={icon ?? ''} />
