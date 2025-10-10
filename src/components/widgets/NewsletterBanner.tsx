@@ -12,7 +12,7 @@ function NewsletterBannerContent() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-40 bg-gradient-to-r from-accent to-accent/80 text-white shadow-lg">
+      <div className="fixed top-0 left-0 right-0 z-40 bg-card shadow-lg">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center py-3 gap-4">
             <div className="flex items-center gap-3">

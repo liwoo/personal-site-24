@@ -16,20 +16,18 @@ const name: string = 'Liwu';
 ---
 
 <Layout metadata={metadata}>
-  <div class="overflow-x-hidden">
-    <HomeHero socialLinks={footerData.socialLinks} title="Software Engineer" name="Jeremiah Chienda">
-      <Fragment slot="description">
-        Hi 👋🏽, I'm Jeremiah. My <span class="underlined">superpower</span> is talking to computers<span
-          class="hidden md:inline">. I also speak @ events on AI, Blockchain & Software Engineering</span
-        ><span class="hidden sm:inline">, and I make dope Gospel Rap</span>!
-      </Fragment>
-    </HomeHero>
-    <div class="scroll-fade-in">
-      <HomeAbout />
-    </div>
-    <div class="scroll-fade-in">
-      <HomeArticles />
-    </div>
+  <HomeHero socialLinks={footerData.socialLinks} title="Software Engineer" name="Jeremiah Chienda">
+    <Fragment slot="description">
+      Hi 👋🏽, I'm Jeremiah. My <span class="underlined">superpower</span> is talking to computers<span
+        class="hidden md:inline">. I also speak @ events on AI, Blockchain & Software Engineering</span
+      ><span class="hidden sm:inline">, and I make dope Gospel Rap</span>!
+    </Fragment>
+  </HomeHero>
+  <div class="scroll-fade-in">
+    <HomeAbout />
+  </div>
+  <div class="scroll-fade-in">
+    <HomeArticles />
   </div>
 </Layout>
 
