@@ -1,28 +1,40 @@
-import sgMail from '@sendgrid/mail';
+import { Resend } from 'resend';
 
-// Set your SendGrid API key
-sgMail.setApiKey(import.meta.env.SENDGRID_KEY);
+// Initialize Resend client
+const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
-// Define your email details
-const to = "jeremiah@chienda.com";
-const from = import.meta.env.VERIFIED_SENDGRID_SENDER
+// Default email configuration
+const defaultTo = "jeremiah@chienda.com";
+const defaultFrom = import.meta.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 
-// Async function to send the email
-export async function sendEmail(subject: string, html: string) {
+// Send email via Resend
+export async function sendEmail(
+  subject: string,
+  html: string,
+  to: string = defaultTo,
+  from: string = defaultFrom
+) {
+  if (!import.meta.env.RESEND_API_KEY) {
+    throw new Error('Resend API key is not configured');
+  }
+
   try {
-    await sgMail.send({
-      to,
+    const { data, error } = await resend.emails.send({
       from,
+      to,
       subject,
       html
     });
-    console.log(`Email with subject ${subject} sent successfully!`);
-  } catch (error) {
-    console.error(error);
 
-    if (error.response) {
-      console.error(error.response.body);
+    if (error) {
+      throw error;
     }
+
+    console.log(`Email sent successfully to ${to} with subject: ${subject}`);
+    return data;
+  } catch (error) {
+    console.error('Failed to send email:', error);
+    throw new Error(`Resend API Error: ${error.message || 'Unknown error'}`);
   }
 }
 
@@ -41,64 +53,85 @@ export function convertDataToHtml(data: Record<string, string>): string {
 
 
 export async function sendConfirmationEmail(email: string, name: string, category?: string) {
-  const templateId = import.meta.env.SENDGRID_WELCOME_TEMPLATE_ID;
-  const dynamicTemplateData = {
-    name,
-    category: category ? category.toUpperCase() : "All"
-  };
-  
-  const msg = {
-    to: email,
-    from: import.meta.env.VERIFIED_SENDGRID_SENDER,
-    templateId,
-    dynamicTemplateData
-  };
-  
+  const from = import.meta.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+
+  if (!import.meta.env.RESEND_API_KEY) {
+    throw new Error('Resend API key is not configured');
+  }
+
+  // Build welcome email HTML
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h1>Welcome, ${name}!</h1>
+      <p>Thank you for signing up for our newsletter.</p>
+      <p>You're now subscribed to updates in the <strong>${category ? category.toUpperCase() : 'All'}</strong> category.</p>
+      <p>We're excited to keep you informed with our latest content!</p>
+      <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+      <p style="color: #666; font-size: 14px;">If you have any questions, feel free to reach out.</p>
+    </div>
+  `;
+
   try {
-    await sgMail.send(msg);
+    const { data, error } = await resend.emails.send({
+      from,
+      to: email,
+      subject: `Welcome to our newsletter, ${name}!`,
+      html
+    });
+
+    if (error) {
+      throw error;
+    }
+
     console.log(`Confirmation email sent to ${email}`);
+    return data;
   } catch (error) {
-    console.error(error);
+    console.error('Failed to send confirmation email:', error);
+    throw new Error(`Failed to send confirmation email: ${error.message || 'Unknown error'}`);
   }
 }
 
 export async function signupToNewsletter(email: string, name: string, category?: string) {
-  const sendgridAPIKey = import.meta.env.SENDGRID_KEY;
-  const marketingContacts = "https://api.sendgrid.com/v3/marketing/contacts";
-  const listId = import.meta.env.SENDGRID_CONTACT_LIST;
-  const categoryId = import.meta.env.SENDGRID_CONTACT_CATEGORY;
+  const resendApiKey = import.meta.env.RESEND_API_KEY;
+  const audienceId = import.meta.env.RESEND_AUDIENCE_ID;
 
-  const contactData = {
-    list_ids: [listId],
-    contacts: [
-      {
-        email: email,
-        first_name: name,
+  if (!resendApiKey) {
+    throw new Error('Resend API key is not configured');
+  }
+
+  try {
+    // Add contact to Resend audience if audience ID is configured
+    if (audienceId) {
+      const response = await fetch('https://api.resend.com/audiences/' + audienceId + '/contacts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${resendApiKey}`
+        },
+        body: JSON.stringify({
+          email,
+          first_name: name,
+          unsubscribed: false,
+          data: category ? { category } : undefined
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Resend Audience API Error:', errorData);
+        // Don't throw here - still send confirmation email even if audience add fails
+        console.warn(`Could not add ${email} to Resend audience, but will still send confirmation`);
+      } else {
+        console.log(`Successfully added ${email} to Resend audience`);
       }
-    ]
-  };
+    }
 
-  if (category) {
-    contactData.contacts[0]["custom_fields"] = {
-      [categoryId]: category ?? "tech"
-    };
+    // Send confirmation email
+    await sendConfirmationEmail(email, name, category);
+
+    return { success: true, email, name };
+  } catch (error) {
+    console.error('Failed to signup to newsletter:', error);
+    throw error;
   }
-
-  const response = await fetch(marketingContacts, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${sendgridAPIKey}`
-    },
-    body: JSON.stringify(contactData)
-  });
-
-  const responseData = await response.json();
-
-  if (response.status < 200 || response.status > 299) {
-    console.error({responseData: JSON.stringify(responseData)});
-    throw new Error("Could not signup to newsletter");
-  }
-
-  await sendConfirmationEmail(email, name, category);
 }

@@ -14,12 +14,14 @@ export interface Props {
 }
 
 const { id, title, name, socialLinks = [], description = Astro.slots.render('description') } = Astro.props;
-const heroBg = 'https://res.cloudinary.com/tiyeni/video/upload/v1708369573/web-hero.mp4';
+const heroBg = 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/web-hero.m4v';
 ---
 
-<section class="not-prose flex flex-col justify-end h-lvh bg-[url(https://res.cloudinary.com/tiyeni/image/upload/v1708370360/web-hero-2.jpg)] bg-no-repeat bg-cover bg-center">
+<section
+  class="not-prose flex flex-col justify-end h-lvh bg-[url(https://res.cloudinary.com/tiyeni/image/upload/v1708370360/web-hero-2.jpg)] bg-no-repeat bg-cover bg-center"
+>
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-    <video autoplay muted loop id="hero-video" class="hidden md:block h-lvh w-full object-cover">
+    <video autoplay muted loop playsinline id="hero-video" class="hidden md:block h-lvh w-full object-cover">
       <source src={heroBg} type="video/mp4" />
     </video>
     <div
@@ -68,3 +70,46 @@ const heroBg = 'https://res.cloudinary.com/tiyeni/video/upload/v1708369573/web-h
     </div>
   </div>
 </section>
+
+<script>
+  // Force video restart on every page load
+  document.addEventListener('astro:page-load', () => {
+    const video = document.getElementById('hero-video') as HTMLVideoElement;
+    if (video) {
+      // Force reload the video source to ensure it plays
+      const source = video.querySelector('source');
+      const currentSrc = source?.src;
+
+      if (currentSrc) {
+        video.load(); // Reload video element
+        video.currentTime = 0;
+
+        // Use setTimeout to ensure the video starts after the page transition
+        setTimeout(() => {
+          video.play().catch(err => console.log('Video autoplay failed:', err));
+        }, 100);
+      }
+    }
+  });
+
+  // Handle tab visibility changes
+  document.addEventListener('visibilitychange', () => {
+    const video = document.getElementById('hero-video') as HTMLVideoElement;
+    if (video) {
+      if (document.hidden) {
+        video.pause();
+      } else {
+        video.currentTime = 0;
+        video.play().catch(err => console.log('Video autoplay failed:', err));
+      }
+    }
+  });
+
+  // Fallback for initial page load
+  window.addEventListener('load', () => {
+    const video = document.getElementById('hero-video') as HTMLVideoElement;
+    if (video && video.paused) {
+      video.play().catch(err => console.log('Video autoplay failed on load:', err));
+    }
+  });
+</script>
