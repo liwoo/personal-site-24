@@ -2,7 +2,7 @@
 publishDate: 2023-11-28T00:00:00Z
 title: Should You Buy an EV in Malawi?
 excerpt: No lining up on the fuel queue.  No buying expensive spare parts every two months. The only things you have to maintain are you braking, suspension, body and electronics!
-image: https://res.cloudinary.com/tiyeni/image/upload/w_1000,ar_16:9,c_fill,g_auto,e_sharpen/v1708921132/liwu-ev.jpg
+image: https://minio-api.dartsmw.com/chienda.com/liwu-ev-ai.jpg
 commentLink: https://x.com/liwucodes/status/1761990844439998731?s=46
 category: General
 tags:
@@ -69,12 +69,12 @@ Today, [Tesla is by far the top dog in Electric Car sales and innovation](https:
 
 Here's a chart showing Global plug-in electric vehicle market share in 2023, by main manufacturer:
 
-![EV Sales 2023](https://res.cloudinary.com/tiyeni/image/upload/v1709708983/ev-sales.png)
+![EV Sales 2023](https://minio-api.dartsmw.com/chienda.com/ev-sales.png)
 Source: [Statista](https://www.statista.com/statistics/541390/global-sales-of-plug-in-electric-vehicle-manufacturers/)
 
 I've actually test driven a couple of [BYDs](https://www.byd.com/eu) myself, and even though [Xeng Peng](https://www.xpeng.com/) is the true symbol of Luxury, the value for money on these Chinese vehicles is becoming harder and harder to ignore, especially when you consider that there's very little competitive advantage that your traditional German models bring to the table when it comes to EVs.
 
-![Me with a BYD](https://res.cloudinary.com/tiyeni/image/upload/v1709709613/kabisa_ev.jpg)
+![Me with a BYD](https://minio-api.dartsmw.com/chienda.com/liwu-ev.jpg)
 [Kabisa](https://www.gokabisa.com/) is a Rwandan-based EV supplier making waves in the region.
 
 ## The Challenge

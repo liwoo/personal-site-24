@@ -1,7 +1,7 @@
 ---
 
 ---
-<>
+<div class="hero-grid-container">
 <div class="grid md:hidden grid-cols-12 grid-rows-8 gap-2 -scale-x-100">
     {
       Array.from({ length: 78 }).map((_, i) => (
@@ -42,4 +42,75 @@
       ))
     }
   </div>
-</>
+</div>
+
+<style>
+  .about-squared {
+    transition: opacity 150ms ease-in-out;
+  }
+
+  .about-squared.disco-active {
+    opacity: 0.3 !important;
+    animation: disco-pulse 300ms ease-in-out;
+  }
+
+  @keyframes disco-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+</style>
+
+<script>
+  function startDiscoAnimation() {
+    const squares = document.querySelectorAll('.about-squared');
+    if (!squares.length) return;
+
+    let animationInterval;
+    const animationDuration = 3000; // 3 seconds
+    const startTime = Date.now();
+
+    // Function to randomly light up squares
+    function discoStep() {
+      // Clear all active states
+      squares.forEach(square => square.classList.remove('disco-active'));
+
+      // Randomly select squares to light up (between 5-15 squares)
+      const numSquares = Math.floor(Math.random() * 10) + 5;
+      const indices = new Set();
+
+      while (indices.size < numSquares && indices.size < squares.length) {
+        indices.add(Math.floor(Math.random() * squares.length));
+      }
+
+      indices.forEach(index => {
+        squares[index].classList.add('disco-active');
+      });
+
+      // Check if 3 seconds have passed
+      if (Date.now() - startTime >= animationDuration) {
+        clearInterval(animationInterval);
+        // Clear all animations
+        squares.forEach(square => square.classList.remove('disco-active'));
+      }
+    }
+
+    // Start the animation with random intervals between 50-150ms
+    function scheduleNext() {
+      discoStep();
+      if (Date.now() - startTime < animationDuration) {
+        const nextDelay = Math.random() * 100 + 50;
+        animationInterval = setTimeout(scheduleNext, nextDelay);
+      }
+    }
+
+    // Start immediately
+    scheduleNext();
+  }
+
+  // Run on page load
+  document.addEventListener('DOMContentLoaded', startDiscoAnimation);
+
+  // Also run on Astro page transitions
+  document.addEventListener('astro:page-load', startDiscoAnimation);
+</script>

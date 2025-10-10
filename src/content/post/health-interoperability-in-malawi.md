@@ -2,7 +2,7 @@
 publishDate: 2019-07-31T00:00:00Z
 title: Malawi’s Grand Plan to Achieve Digital Health Interoperability 
 excerpt: Thanks to the newly implemented Malawi Digital Health Interoperability Layer, the doctor treating Blessings was able to securely access his medical history from Chinsansu, ensuring smooth diagnosis and continuum of care.
-image: https://res.cloudinary.com/tiyeni/image/upload/v1708876133/woman-with-tech.webp
+image: https://minio-api.dartsmw.com/chienda.com/woman-with-tech.jpg
 category: General
 tags:
   - digital-health

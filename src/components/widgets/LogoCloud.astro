@@ -15,35 +15,35 @@ const bottomLogos = randomizedLogos.slice(logosLength / 2, logosLength);
 
 {
   logos?.length ? (
-    <>
+    <div class="logo-cloud-container">
       <div class="hidden lg:block">
-        <div class="flex overflow-hidden space-x-16 group">
+        <div class="flex overflow-hidden space-x-16 group logo-row">
           <ul class="flex space-x-16 animate-loop-scroll">
             {topLogos.map(({ icon, text }) => (
-              <li>
+              <li class="logo-item">
                 <ThemedImage alt={text ?? ''} src={icon ?? ''} />
               </li>
             ))}
           </ul>
           <ul class="flex space-x-16 animate-loop-scroll" aria-hidden="true">
             {topLogos.map(({ icon, text }) => (
-              <li>
+              <li class="logo-item">
                 <ThemedImage alt={text ?? ''} src={icon ?? ''} />
               </li>
             ))}
           </ul>
         </div>
-        <div class="flex overflow-hidden space-x-16 group">
+        <div class="flex overflow-hidden space-x-16 group logo-row delay-100">
           <ul class="flex space-x-16 animate-loop-scroll-reverse">
             {bottomLogos.map(({ icon, text }) => (
-              <li>
+              <li class="logo-item">
                 <ThemedImage alt={text ?? ''} src={icon ?? ''} />
               </li>
             ))}
           </ul>
           <ul class="flex space-x-16 animate-loop-scroll-reverse" aria-hidden="true">
             {bottomLogos.map(({ icon, text }) => (
-              <li>
+              <li class="logo-item">
                 <ThemedImage alt={text ?? ''} src={icon ?? ''} />
               </li>
             ))}
@@ -51,22 +51,94 @@ const bottomLogos = randomizedLogos.slice(logosLength / 2, logosLength);
         </div>
       </div>
 
-      <div class="flex lg:hidden overflow-hidden space-x-16 group">
+      <div class="flex lg:hidden overflow-hidden space-x-16 group logo-row">
         <ul class="flex space-x-16 animate-loop-scroll-fast">
           {logos.map(({ icon, text }) => (
-            <li>
+            <li class="logo-item">
               <ThemedImage alt={text ?? ''} src={icon ?? ''} />
             </li>
           ))}
         </ul>
         <ul class="flex space-x-16 animate-loop-scroll-fast" aria-hidden="true">
           {logos.map(({ icon, text }) => (
-            <li>
+            <li class="logo-item">
               <ThemedImage alt={text ?? ''} src={icon ?? ''} />
             </li>
           ))}
         </ul>
       </div>
-    </>
+    </div>
   ) : null
 }
+
+<style>
+  .logo-row {
+    opacity: 0;
+    transition: opacity 0.8s ease-out;
+  }
+
+  .logo-row.is-visible {
+    opacity: 1;
+  }
+
+  .logo-row.delay-100 {
+    transition-delay: 0.15s;
+  }
+
+  .logo-item {
+    opacity: 0;
+    animation: fadeInLogo 0.6s ease-out forwards;
+  }
+
+  .logo-row.is-visible .logo-item {
+    animation-play-state: running;
+  }
+
+  @keyframes fadeInLogo {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .logo-item:nth-child(1) { animation-delay: 0.1s; }
+  .logo-item:nth-child(2) { animation-delay: 0.15s; }
+  .logo-item:nth-child(3) { animation-delay: 0.2s; }
+  .logo-item:nth-child(4) { animation-delay: 0.25s; }
+  .logo-item:nth-child(5) { animation-delay: 0.3s; }
+  .logo-item:nth-child(6) { animation-delay: 0.35s; }
+  .logo-item:nth-child(7) { animation-delay: 0.4s; }
+  .logo-item:nth-child(8) { animation-delay: 0.45s; }
+</style>
+
+<script>
+  const observerCallback = (entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      }
+    });
+  };
+
+  const observerOptions = {
+    threshold: 0.2,
+    rootMargin: '0px',
+  };
+
+  const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+  const initAnimations = () => {
+    const logoRows = document.querySelectorAll('.logo-row');
+    logoRows.forEach((row) => observer.observe(row));
+  };
+
+  // Initial load
+  initAnimations();
+
+  // Re-observe on Astro page transitions
+  document.addEventListener('astro:page-load', initAnimations);
+</script>

@@ -2,7 +2,7 @@
 publishDate: 2021-07-14T00:00:00Z
 title: 7 Practical Ways to Write Rich Frontends without Javascript today
 excerpt: Developers have a love-hate relationship with Javascript.  On the one hand, it is a vibrant community that is always evolving in its quest to quench an ever-parching thirst for users to do magic in web browsers.
-image: https://res.cloudinary.com/tiyeni/image/upload/v1708871682/web-tech.jpg
+image: https://minio-api.dartsmw.com/chienda.com/web-tech.jpg
 category: Tech
 tags:
   - frontend

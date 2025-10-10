@@ -61,26 +61,30 @@ const tabs = [
     </div>
   </div> -->
   <section class="py-12 sm:py-16 lg:py-20 container-lg relative" id="server-projects">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 lg:gap-y-8">
+    <div class="projects-grid grid grid-cols-1 md:grid-cols-2 gap-y-4 lg:gap-y-8">
       {
-        projects.map((project) => (
-          <ProjectCard
-            company={project.company?.name}
-            slug={project.slug}
-            title={project.title}
-            logo={project.company?.logo}
-            thumbnail={project.image?.src}
-          />
+        projects.map((project, index) => (
+          <div class="project-card-wrapper" style={`transition-delay: ${0.1 + index * 0.1}s`}>
+            <ProjectCard
+              company={project.company?.name}
+              slug={project.slug}
+              title={project.title}
+              logo={project.company?.logo}
+              thumbnail={project.image?.src}
+            />
+          </div>
         ))
       }
     </div>
 
-    <div class="my-8 lg:my-12">
-      <Headline
-        tagline="My Tech Stack"
-        subtitle="I've had fun over the years working with some cool technologies.  Here are some that have really suck with me"
-      />
-      <div class="hidden w-full md:grid grid-cols-4 md:grid-cols-5 gap-y-20">
+    <div class="stack-section my-8 lg:my-12">
+      <div class="stack-headline">
+        <Headline
+          tagline="My Tech Stack"
+          subtitle="I've had fun over the years working with some cool technologies.  Here are some that have really suck with me"
+        />
+      </div>
+      <div class="stack-logos hidden w-full md:grid grid-cols-4 md:grid-cols-5 gap-y-20">
         {
           shuffle(
             techStack
@@ -90,7 +94,7 @@ const tabs = [
           )
         }
       </div>
-      <div class="w-full grid md:hidden grid-cols-4 md:grid-cols-5 gap-y-20">
+      <div class="stack-logos-mobile w-full grid md:hidden grid-cols-4 md:grid-cols-5 gap-y-20">
         {
           shuffle(
             techStack
@@ -101,7 +105,7 @@ const tabs = [
         }
       </div>
 
-      <div class="my-20 lg:my-28 w-full lg:w-3/4 lg:mx-auto">
+      <div class="stack-selector my-20 lg:my-28 w-full lg:w-3/4 lg:mx-auto">
         <select
           name="stack"
           hx-post="/projects/stack"
@@ -126,3 +130,88 @@ const tabs = [
     </div>
   </section>
 </Layout>
+
+<style>
+  .project-card-wrapper {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .project-card-wrapper.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stack-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  .stack-section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stack-headline,
+  .stack-logos,
+  .stack-logos-mobile,
+  .stack-selector {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .stack-section.is-visible .stack-headline {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.1s;
+  }
+
+  .stack-section.is-visible .stack-logos,
+  .stack-section.is-visible .stack-logos-mobile {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.2s;
+  }
+
+  .stack-section.is-visible .stack-selector {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.3s;
+  }
+</style>
+
+<script>
+  const initProjectsAnimations = () => {
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    };
+
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px',
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observe project cards
+    const projectCards = document.querySelectorAll('.project-card-wrapper');
+    projectCards.forEach((card) => observer.observe(card));
+
+    // Observe stack section
+    const stackSection = document.querySelector('.stack-section');
+    if (stackSection) observer.observe(stackSection);
+  };
+
+  // Initial load
+  window.addEventListener('load', initProjectsAnimations);
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initProjectsAnimations);
+</script>

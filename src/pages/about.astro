@@ -1,5 +1,6 @@
 ---
 import { Bio } from '~/components/widgets/Bio.tsx';
+import { AboutTabs } from '~/components/widgets/AboutTabs.tsx';
 import Hero2 from '~/components/widgets/Hero2.astro';
 import Layout from '~/layouts/PageLayout.astro';
 import WorkExperience from '~/components/widgets/cells/WorkExperience.astro';
@@ -32,7 +33,7 @@ const linkedIn = 'https://linkedin.com/in/jchienda';
 
   <div class="flex flex-col lg:flex-row relative container my-12 gap-x-4 lg:gap-x-12">
     <div class="w-full lg:w-3/5">
-      <Bio client:visible />
+      <AboutTabs client:visible />
       <Button href="/contact" variant="tertiary">Get in Touch</Button>
     </div>
     <div class="w-full md:w-2/3 md:mx-auto lg:w-2/5 mt-8 lg:mt-0">

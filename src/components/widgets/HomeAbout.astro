@@ -6,12 +6,65 @@ import Button from '~/components/ui/Button.astro';
 ---
 
 <div class="container pt-12 lg:pt-20" id="about">
-  <Headline
-    tagline="You're in Great Company"
-    subtitle="Over the last 10 years, I've had the great priviledge of working with and for some amazing organizations"
-  />
-  <LogoCloud logos={logos} />
-  <div class="flex justify-center py-8 mb-8 border-b border-muted">
+  <div class="scroll-fade-in">
+    <Headline
+      tagline="You're in Great Company"
+      subtitle="Over the last 10 years, I've had the great priviledge of working with and for some amazing organizations"
+    />
+  </div>
+  <div class="scroll-fade-in delay-100">
+    <LogoCloud logos={logos} />
+  </div>
+  <div class="scroll-fade-in delay-200 flex justify-center py-8 mb-8 border-b border-muted">
     <Button variant="tertiary" href="/about">View my Bio</Button>
   </div>
 </div>
+
+<style>
+  .scroll-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .scroll-fade-in.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .delay-100 {
+    transition-delay: 0.1s;
+  }
+
+  .delay-200 {
+    transition-delay: 0.2s;
+  }
+</style>
+
+<script>
+  const observerCallback = (entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      }
+    });
+  };
+
+  const observerOptions = {
+    threshold: 0.15,
+    rootMargin: '0px 0px -30px 0px',
+  };
+
+  const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+  const initAnimations = () => {
+    const animatedElements = document.querySelectorAll('#about .scroll-fade-in');
+    animatedElements.forEach((element) => observer.observe(element));
+  };
+
+  // Initial load
+  initAnimations();
+
+  // Re-observe on Astro page transitions
+  document.addEventListener('astro:page-load', initAnimations);
+</script>

@@ -2,7 +2,7 @@
 publishDate: 2019-12-08T00:00:00Z
 title: Stop Undercharging NOW! The Freelancer’s Ultimate Guide to Pricing Software Projects
 excerpt: Ah, the life of a freelancer! Not a week goes by without a fellow developer sliding into my inbox with the million-dollar question - "How much should I charge for this app?"
-image: https://res.cloudinary.com/tiyeni/image/upload/v1708920040/frustrated-male.webp
+image: https://minio-api.dartsmw.com/chienda.com/frustrated-male.jpg
 category: Tech
 tags:
   - freelancing

@@ -2,7 +2,7 @@
 publishDate: 2021-01-04T00:00:00Z
 title: Top 5 Technologies for Developers in 2021
 excerpt: 2021 is already off to a flying start, and if you are a Software Developer, you probably have set some goals to upgrade your programming stack this year.
-image: https://res.cloudinary.com/tiyeni/image/upload/v1708837228/top-5-tech-21.jpg
+image: https://minio-api.dartsmw.com/chienda.com/tech-choices.jpg
 category: Tech
 tags:
   - coding
@@ -23,8 +23,8 @@ Choosing what to spend your time on can be demanding as you may not know in adva
 Created in 2015, [GraphQL](https://graphql.org) is a new way to transport and consume data between servers and clients.  Facebook designed the GraphQL specification specifically for low bandwidth conditions to solve two main problems in the REST specification we use today: [over fetching and under fetching data](https://stackoverflow.com/questions/44564905/what-is-over-fetching-or-under-fetching).  If you are reading this article, you probably live in a country where most of the users you are building apps for face the problem of unstable internet and low bandwidth. GraphQL will help you build apps that appear faster to your users and utilize fewer hardware resources on their devices.
 
 
-![graphql-demo.gif](https://res.cloudinary.com/tiyeni/image/upload/w_720/v1613919308/graphql-demo.gif)
-Navigating a GraphQL query in GraphQL Playground with autocompletion
+![graphql-demo.gif](https://i.giphy.com/media/U8f0u2digiwLvpr19b/source.gif)
+A GraphQL HTTP Roundtrip (Credit: [Danijel Vincijanović](https://dev.to/davinc/graphql-for-beginners-3f1a))
 
 What I love most about GraphQL is the developer experience.  Since the API is strongly-typed from the server-side, tools like [GraphQL Playground](https://github.com/graphql/graphql-playground) (my favorite), [GraphiQL](https://github.com/graphql/graphiql) or [Insomnia](https://insomnia.rest) can provide autocompletion and accurate documentation of the API you will be consuming without needing to call the backend guy! Get started with GraphQL today by consuming the [publicly available Github API](https://docs.github.com/en/graphql) to build an App that lists your most recent Github projects!
 

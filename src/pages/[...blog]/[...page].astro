@@ -68,13 +68,13 @@ const tabs = [
     </Fragment>
   </Hero2>
   <div
-    class="container mt-8 items-center flex flex-col md:flex-row-reverse gap-y-8 gap-x-4 md:gap-y-0 justify-between relative z-10"
+    class="blog-controls container mt-8 items-center flex flex-col md:flex-row-reverse gap-y-8 gap-x-4 md:gap-y-0 justify-between relative z-10"
   >
-    <div class="w-full lg:w-1/3" id="blog-tabs" hx-swap-oob="true">
+    <div class="blog-tabs w-full lg:w-1/3" id="blog-tabs" hx-swap-oob="true">
       <!-- <Categories client:only /> -->
       <Tabs swapTarget="#server-posts" tabs={tabs} activeTab="all" />
     </div>
-    <div class="w-full md:w-1/2 lg:w-1/4">
+    <div class="blog-search w-full md:w-1/2 lg:w-1/4">
       <form hx-post="/blog/tabs" hx-trigger="click" hx-target="#blog-tabs">
         <input type="hidden" name="activeTab" value={"all"} />
         <input type="hidden" name="swapTarget" value={"#server-posts"} />
@@ -92,11 +92,114 @@ const tabs = [
     </div>
   </div>
   <section class="py-12 sm:py-16 lg:py-20 container-lg relative" id="server-posts" hx-swap-oob="true">
-    <div class="flex flex-col gap-y-4 lg:gap-y-8">
-      {page.data.map((post) => <ListItem post={post} extended />)}
+    <div class="blog-list flex flex-col gap-y-4 lg:gap-y-8">
+      {page.data.map((post, index) => (
+        <div class="blog-item" style={`transition-delay: ${0.1 + index * 0.05}s`}>
+          <ListItem post={post} extended />
+        </div>
+      ))}
     </div>
-    <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
+    <div class="blog-pagination">
+      <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
+    </div>
 
-    <SignupForm />
+    <div class="blog-signup">
+      <SignupForm />
+    </div>
   </section>
 </Layout>
+
+<style>
+  .blog-controls {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  .blog-controls.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .blog-search {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.6s ease-out 0.1s, transform 0.6s ease-out 0.1s;
+  }
+
+  .blog-controls.animate-in .blog-search {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .blog-tabs {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
+  }
+
+  .blog-controls.animate-in .blog-tabs {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .blog-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .blog-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .blog-pagination,
+  .blog-signup {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .blog-pagination.is-visible,
+  .blog-signup.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  const initBlogListAnimations = () => {
+    // Immediate animation for controls
+    const blogControls = document.querySelector('.blog-controls');
+
+    setTimeout(() => {
+      blogControls?.classList.add('animate-in');
+    }, 150);
+
+    // Scroll-based animations for list items and other elements
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    };
+
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px',
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    const scrollElements = document.querySelectorAll('.blog-item, .blog-pagination, .blog-signup');
+    scrollElements.forEach((element) => observer.observe(element));
+  };
+
+  // Initial load
+  window.addEventListener('load', initBlogListAnimations);
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initBlogListAnimations);
+</script>

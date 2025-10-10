@@ -13,7 +13,7 @@ export const projects: Project[] = [
       logo: 'bht',
     },
     image: {
-      src: 'https://res.cloudinary.com/tiyeni/image/upload/v1707633393/zipatala.jpg',
+      src: 'https://minio-api.dartsmw.com/chienda.com/zipatala.jpg',
       alt: 'Zipatala.com',
     },
     projectLink: 'https://zipatala.health.gov.mw/',
@@ -48,7 +48,7 @@ export const projects: Project[] = [
       name: 'Bessie Nyirenda',
       job: 'Director',
       image: {
-        src: 'https://res.cloudinary.com/tiyeni/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1707633691/Bessie_Nyirenda_Mrs.jpg',
+        src: 'https://www.escom.mw/wp-content/uploads/2025/03/image-8.jpg',
         alt: 'Bessie Nyirenda',
       },
       company: 'National Bank of Malawi',
@@ -68,7 +68,7 @@ export const projects: Project[] = [
       logo: 'centenary',
     },
     image: {
-      src: 'https://res.cloudinary.com/tiyeni/image/upload/v1707634313/centenary.jpg',
+      src: 'https://minio-api.dartsmw.com/chienda.com/centenary-website.jpg',
       alt: 'Centenary Bank Malawi',
     },
     projectLink: 'https://www.centenarybank.co.mw/',
@@ -102,7 +102,7 @@ export const projects: Project[] = [
       name: 'Lindani Simwaka',
       job: 'Marketing Manager',
       image: {
-        src: 'https://res.cloudinary.com/tiyeni/image/upload/v1707735947/lindani.jpg',
+        src: 'https://minio-api.dartsmw.com/chienda.com/lindani.jpg',
         alt: 'Linda Simwaka',
       },
       company: 'Centenary Bank',
@@ -122,7 +122,7 @@ export const projects: Project[] = [
       logo: 'liwu',
     },
     image: {
-      src: 'https://res.cloudinary.com/tiyeni/image/upload/v1707737952/get-alinafe.jpg',
+      src: 'https://minio-api.dartsmw.com/chienda.com/get-alinafe.jpg',
       alt: 'Get Aliafe',
     },
     projectLink: 'https://getalinafe.com/',
@@ -162,7 +162,7 @@ export const projects: Project[] = [
       name: 'Timothy Mizaya',
       job: 'Senior Pastor',
       image: {
-        src: 'https://res.cloudinary.com/tiyeni/image/upload/v1707738634/1643962222674.jpg',
+        src: 'https://minio-api.dartsmw.com/chienda.com/Screenshot 2025-10-10 at 5.01.11 AM.png',
         alt: 'Timothy Mizaya',
       },
       company: 'Flood Church',
@@ -182,7 +182,7 @@ export const projects: Project[] = [
       logo: 'doorbell',
     },
     image: {
-      src: 'https://res.cloudinary.com/tiyeni/image/upload/v1707861291/doorbell.jpg',
+      src: 'https://minio-api.dartsmw.com/chienda.com/doorbell.jpg',
       alt: 'Doorbell',
     },
     projectLink: 'https://doorbell.mw/',
@@ -221,12 +221,130 @@ export const projects: Project[] = [
       name: 'Chisomo Kajamu',
       job: 'CEO & Co-Founder',
       image: {
-        src: 'https://res.cloudinary.com/tiyeni/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1707863190/kajamu.jpg',
+        src: 'https://minio-api.dartsmw.com/chienda.com/kajamu.jpg',
         alt: 'Chisomo Kajamu',
       },
       company: 'Doorbell',
       testimony:
         "Jeremiah has been instrumental in the development and growth of Doorbell. His technical expertise and leadership have been invaluable in shaping the app's user experience and functionality. His commitment to excellence and innovation has been a driving force behind Doorbell's success. We are proud to have him as a key member of our team and look forward to achieving even greater milestones together.",
+    },
+  },
+  {
+    title: 'Times Presidential Elections Dashboard 2025',
+    subtitle:
+      'Real-time election results dashboard covering the 2025 Malawian Presidential and Parliamentary Elections with minute-by-minute updates and comprehensive historical analysis.',
+    description:
+      'A cutting-edge interactive dashboard that provided comprehensive coverage of the 2025 Malawian elections. The platform delivered real-time election results as they were announced, featuring advanced data visualizations, interactive maps, and detailed breakdowns at national, regional, district, and constituency levels. The dashboard became the primary source for election information, handling millions of requests during the election period while maintaining exceptional performance and accuracy.',
+    slug: 'times-elections-dashboard',
+    company: {
+      name: 'Times Group',
+      logo: 'times',
+    },
+    image: {
+      src: 'https://minio-api.dartsmw.com/chienda.com/times-tv.jpg',
+      alt: 'Times Elections Dashboard',
+    },
+    projectLink: 'https://www.youtube.com/live/_IQyibJ2UHI?si=lGPJJw3y3Dm67YcI',
+    duration: 'Nov 2024 - Sep 2025',
+    role: 'Designer & Developer',
+    stack: ['React', 'Node.js', 'MapBox', 'Tailwind', 'WebSockets'],
+    category: 'webApp',
+    methods: [
+      {
+        title: 'Real-time Data Architecture',
+        description:
+          'Designed and implemented a robust real-time data pipeline using WebSockets to ensure election results were displayed within seconds of official announcements. Built failover mechanisms and data validation layers to guarantee accuracy and reliability during peak traffic.',
+      },
+      {
+        title: 'Interactive Geospatial Visualization',
+        description:
+          'Integrated MapBox to create dynamic, interactive maps showing election results at various administrative levels. Users could drill down from national overviews to specific polling stations, with color-coded visualizations indicating party performance and voter turnout.',
+      },
+      {
+        title: 'Historical Analysis Integration',
+        description:
+          'Developed comprehensive historical comparison features allowing users to analyze voting patterns across multiple election cycles. Implemented sophisticated data models to track demographic trends, swing constituencies, and party performance evolution.',
+      },
+      {
+        title: 'Responsive Design & Performance',
+        description:
+          'Created a fully responsive interface optimized for devices ranging from mobile phones to large broadcast displays. Implemented aggressive caching strategies and CDN distribution to handle millions of concurrent users while maintaining sub-second load times.',
+      },
+      {
+        title: 'Broadcast Integration',
+        description:
+          'Designed special views optimized for live television broadcasts, including animated transitions and presenter-friendly layouts. Worked closely with the Times TV production team to ensure seamless integration with their broadcast systems.',
+      },
+    ],
+    testimony: {
+      name: 'Bayana Chunga',
+      job: 'Station Manager',
+      image: {
+        src: 'https://raysofhopemalawi.org/wp-content/uploads/2023/11/Wayana-Chunga-768x786-1.jpeg',
+        alt: 'Bayana Chunga',
+      },
+      company: 'Times Group',
+      testimony:
+        "Jeremiah's exceptional work on our Elections Dashboard transformed how Malawians experienced the 2025 elections. His innovative approach to real-time data visualization and his deep understanding of both technical and editorial requirements resulted in a platform that not only met but exceeded our ambitious goals. The dashboard became the definitive source for election information, with government officials, international observers, and citizens alike relying on it for accurate, timely updates. His ability to work under intense pressure while maintaining exceptional quality standards was remarkable. This project has set a new benchmark for election coverage in Malawi and across the region.",
+    },
+  },
+  {
+    title: 'MTL Smart App',
+    subtitle:
+      'A comprehensive mobile application for MTL customers to manage their mobile services including airtime top-ups, data bundles, balance checks, and advanced account management features.',
+    description:
+      'The MTL Smart App is a feature-rich mobile application that empowers MTL customers with complete control over their mobile services. Built with security at its core, the app allows users to easily top up airtime, purchase various data bundles, check their balance and data usage, share airtime and bundles with friends and family, and access detailed transaction history. The application features biometric authentication, end-to-end encryption, and fraud detection mechanisms to ensure the highest level of security for financial transactions. With an intuitive interface and real-time updates, the MTL Smart App has become an essential tool for millions of MTL customers across the network.',
+    slug: 'mtl-smart-app',
+    company: {
+      name: 'MTL',
+      logo: 'mtl',
+    },
+    image: {
+      src: 'https://minio-api.dartsmw.com/chienda.com/mtl.jpg',
+      alt: 'MTL Smart App',
+    },
+    projectLink: 'https://www.mtlyanga.mtl.mw/',
+    duration: 'Mar 2023 - Present',
+    role: 'Lead Mobile Engineer',
+    stack: ['Flutter', '.NET', 'Kubernetes', 'PostgreSQL'],
+    category: 'app',
+    methods: [
+      {
+        title: 'Secure Transaction Architecture',
+        description:
+          'Implemented multi-layered security architecture featuring biometric authentication, end-to-end encryption, and real-time fraud detection. Integrated secure payment gateways with PCI-DSS compliance, ensuring all financial transactions are protected against unauthorized access and fraudulent activities.',
+      },
+      {
+        title: 'Real-Time Service Management',
+        description:
+          'Developed a robust real-time system for instant airtime top-ups, bundle purchases, and balance inquiries. Implemented WebSocket connections for live updates, ensuring customers receive immediate confirmation of transactions and accurate account information at all times.',
+      },
+      {
+        title: 'Intuitive User Experience Design',
+        description:
+          'Crafted a user-centric interface that simplifies complex telecommunications operations into intuitive workflows. Conducted extensive user research and testing to ensure the app is accessible to users of all technical backgrounds, from first-time smartphone users to power users.',
+      },
+      {
+        title: 'Advanced Bundle & Airtime Sharing',
+        description:
+          'Created innovative features allowing users to share airtime and data bundles with other MTL users seamlessly. Implemented smart recipient management, transaction history, and scheduling capabilities to enhance the sharing experience and promote community connectivity.',
+      },
+      {
+        title: 'Performance Optimization & Scalability',
+        description:
+          'Optimized the app for performance across various device specifications and network conditions, ensuring smooth operation even on low-end devices or slow networks. Implemented offline capabilities for critical features and built scalable backend infrastructure to handle millions of concurrent users during peak periods.',
+      },
+    ],
+    testimony: {
+      name: 'Kondwani Masiye',
+      job: 'Chief Technology Officer',
+      image: {
+        src: 'https://www.dartsmw.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fmasiye.61ff1d9c.jpg&w=384&q=75',
+        alt: 'Kondwani Masiye',
+      },
+      company: 'MTL',
+      testimony:
+        "Jeremiah's work on the MTL Smart App has been transformative for our customer experience and digital transformation strategy. His technical prowess combined with his deep understanding of our customers' needs resulted in an application that is not only secure and reliable but also incredibly user-friendly. The app has significantly reduced the load on our customer service centers while increasing customer satisfaction scores. His implementation of advanced security features has set new standards in the telecommunications industry in Malawi. The scalability of the solution he architected has allowed us to grow our digital services exponentially. Working with Jeremiah has been a pleasure - his professionalism, innovation, and commitment to excellence are truly exceptional.",
     },
   },
 ];

@@ -2,7 +2,7 @@
 publishDate: 2021-02-07T00:00:00Z
 title: NoSQL Data Modelling Tips for SQL Developers
 excerpt: If you're like me, you probably started building Web Apps during the WAMP era; adapting to this new world of Document Databases feels very weird. For me, it oddly felt like moving from an automatic to a stick shift car. Wait, that should be the other way round I believe...
-image: https://res.cloudinary.com/tiyeni/image/upload/v1708871212/searching.jpg
+image: https://minio-api.dartsmw.com/chienda.com/searching.jpg
 category: Tech
 tags:
   - postgres

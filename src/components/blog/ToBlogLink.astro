@@ -14,7 +14,7 @@ const { textDirection } = I18N;
 const { link, text = "Back to Articles"} = Astro.props;
 ---
 
-<div>
+<div class="blog-link-container">
   <Button variant="subtle" class="px-3 md:px-3" href={link ?? getBlogPermalink()}>
     {
       textDirection === 'rtl' ? (
@@ -25,3 +25,32 @@ const { link, text = "Back to Articles"} = Astro.props;
     } { text }
   </Button>
 </div>
+
+<style>
+  .blog-link-container {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  .blog-link-container.animate-in {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>
+
+<script>
+  const initBlogLinkAnimation = () => {
+    const blogLink = document.querySelector('.blog-link-container');
+
+    setTimeout(() => {
+      blogLink?.classList.add('animate-in');
+    }, 100);
+  };
+
+  // Initial load
+  window.addEventListener('load', initBlogLinkAnimation);
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initBlogLinkAnimation);
+</script>

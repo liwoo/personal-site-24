@@ -29,22 +29,22 @@ const {
   </div>
   <div class="relative container">
     <div class="pt-28 lg:pt-52 lg:flex lg:items-center lg:gap-8">
-      <div class="basis-2/3 lg:text-left pb-10 md:pb-16 mx-auto">
+      <div class="hero2-content basis-2/3 lg:text-left pb-10 md:pb-16 mx-auto">
         {
           tagline && (
             <p
-              class="text-base text-secondary dark:text-blue-200 font-bold tracking-wide uppercase"
+              class="hero2-tagline text-base text-secondary dark:text-blue-200 font-bold tracking-wide uppercase"
               set:html={tagline}
             />
           )
         }
-        {title && <h1 class="text-4xl md:text-5xl font-semibold mb-4 font-heading text-default" set:html={title} />}
+        {title && <h1 class="hero2-title text-4xl md:text-5xl font-semibold mb-4 font-heading text-default" set:html={title} />}
         <div class="max-w-3xl lg:max-w-none">
-          {subtitle && <p class="text-lg text-muted" set:html={subtitle} />}
+          {subtitle && <p class="hero2-subtitle text-lg text-muted" set:html={subtitle} />}
 
           {
             actions && (
-              <div class="max-w-xs sm:max-w-md m-auto mt-6 flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 lg:justify-start lg:m-0 lg:max-w-7xl">
+              <div class="hero2-actions max-w-xs sm:max-w-md m-auto mt-6 flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 lg:justify-start lg:m-0 lg:max-w-7xl">
                 {Array.isArray(actions) ? (
                   actions.map((action) => (
                     <div class="flex w-full sm:w-auto">
@@ -58,9 +58,9 @@ const {
             )
           }
         </div>
-        {content && <p class="text-primary z-10 relative" set:html={content} />}
+        {content && <p class="hero2-content-extra text-primary z-10 relative" set:html={content} />}
       </div>
-      <div class="basis-1/2">
+      <div class="hero2-image basis-1/2">
         {
           image && (
             <div class="relative m-auto max-w-5xl">
@@ -84,3 +84,85 @@ const {
     </div>
   </div>
 </section>
+
+<style>
+  .hero2-content {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  .hero2-content.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .hero2-tagline,
+  .hero2-title,
+  .hero2-subtitle,
+  .hero2-actions,
+  .hero2-content-extra {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .hero2-content.animate-in .hero2-tagline {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.1s;
+  }
+
+  .hero2-content.animate-in .hero2-title {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.2s;
+  }
+
+  .hero2-content.animate-in .hero2-subtitle {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.3s;
+  }
+
+  .hero2-content.animate-in .hero2-actions {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.4s;
+  }
+
+  .hero2-content.animate-in .hero2-content-extra {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.35s;
+  }
+
+  .hero2-image {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.8s ease-out 0.3s, transform 0.8s ease-out 0.3s;
+  }
+
+  .hero2-image.animate-in {
+    opacity: 1;
+    transform: scale(1);
+  }
+</style>
+
+<script>
+  const initHero2Animations = () => {
+    const heroContent = document.querySelector('.hero2-content');
+    const heroImage = document.querySelector('.hero2-image');
+
+    setTimeout(() => {
+      heroContent?.classList.add('animate-in');
+      heroImage?.classList.add('animate-in');
+    }, 150);
+  };
+
+  // Initial load
+  window.addEventListener('load', initHero2Animations);
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initHero2Animations);
+</script>

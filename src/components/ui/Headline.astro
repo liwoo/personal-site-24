@@ -18,18 +18,74 @@ const {
 
 {
   (title || subtitle || tagline) && (
-    <div class={twMerge('mb-8 md:mx-auto md:mb-12 text-center', containerClass)}>
+    <div class={twMerge('mb-8 md:mx-auto md:mb-12 text-center headline-container', containerClass)}>
       {tagline && (
-        <p class="text-base font-bold tracking-wide uppercase" set:html={tagline} />
+        <p class="headline-tagline text-base font-bold tracking-wide uppercase" set:html={tagline} />
       )}
       {title && (
         <h2
-          class={twMerge('font-bold leading-tighter tracking-tighter font-heading text-heading', titleClass)}
+          class={twMerge('headline-title font-bold leading-tighter tracking-tighter font-heading text-heading', titleClass)}
           set:html={title}
         />
       )}
 
-      {subtitle && <p class={twMerge('mt-4 text-muted', subtitleClass)} set:html={subtitle} />}
+      {subtitle && <p class={twMerge('headline-subtitle mt-4 text-muted', subtitleClass)} set:html={subtitle} />}
     </div>
   )
 }
+
+<style>
+  .headline-tagline,
+  .headline-title,
+  .headline-subtitle {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  .headline-container.is-visible .headline-tagline {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0s;
+  }
+
+  .headline-container.is-visible .headline-title {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.1s;
+  }
+
+  .headline-container.is-visible .headline-subtitle {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.2s;
+  }
+</style>
+
+<script>
+  const observerCallback = (entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      }
+    });
+  };
+
+  const observerOptions = {
+    threshold: 0.3,
+    rootMargin: '0px 0px -20px 0px',
+  };
+
+  const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+  const initAnimations = () => {
+    const headlines = document.querySelectorAll('.headline-container');
+    headlines.forEach((headline) => observer.observe(headline));
+  };
+
+  // Initial load
+  initAnimations();
+
+  // Re-observe on Astro page transitions
+  document.addEventListener('astro:page-load', initAnimations);
+</script>

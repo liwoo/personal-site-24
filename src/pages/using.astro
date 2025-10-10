@@ -1,0 +1,259 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero2 from '~/components/widgets/Hero2.astro';
+import Headline from '~/components/ui/Headline.astro';
+
+export const prerender = true;
+
+const metadata = {
+  title: 'My Setup - Using',
+  description: "The tools and equipment I use daily for development, content creation, and work.",
+};
+
+const equipment = [
+  {
+    category: 'Display',
+    items: [
+      {
+        name: 'LG 34WL75C-B',
+        description: '34" Curved UltraWide QHD IPS Monitor',
+        specs: [
+          '3440 x 1440 resolution (21:9 aspect ratio)',
+          'HDR10 support with 99% sRGB color gamut',
+          '1900R curvature for immersive viewing',
+          '3-side virtually borderless design',
+          'Height and tilt adjustable stand',
+        ],
+        image: 'https://www.lg.com/us/images/monitors/md07527963/gallery/large01.jpg',
+      },
+    ],
+  },
+  {
+    category: 'Audio',
+    items: [
+      {
+        name: 'JBL Quantum 200',
+        description: 'Wired Gaming Headphones',
+        specs: [
+          '50mm dynamic drivers with JBL QuantumSOUND Signature',
+          'Memory foam ear cushions with PU leather',
+          'Voice focus directional flip-up boom microphone',
+          'Compatible with PC, PS4, Xbox, Nintendo Switch',
+          '248g lightweight design',
+        ],
+        image: 'https://www.jbl.com/dw/image/v2/BFND_PRD/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw0394d49e/JBL_Quantum_200_ProductImage_Black_Front.png',
+      },
+    ],
+  },
+  {
+    category: 'Computer',
+    items: [
+      {
+        name: 'Apple MacBook Pro M1 Max',
+        description: 'High-Performance Laptop',
+        specs: [
+          'Apple M1 Max chip with 10-core CPU',
+          '32GB unified memory',
+          '1TB SSD storage',
+          '16-inch Liquid Retina XDR display',
+          'Up to 21 hours battery life',
+        ],
+        image: 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp14-spacegray-select-202110?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1632788574000',
+      },
+    ],
+  },
+  {
+    category: 'Webcam',
+    items: [
+      {
+        name: 'Logitech Brio 4K',
+        description: 'Ultra HD Pro Webcam',
+        specs: [
+          '4K Ultra HD video at 30fps (4096 x 2160)',
+          '13 megapixel image sensor',
+          '5x digital zoom with autofocus',
+          'RightLight 3 for optimal lighting',
+          'Windows Hello facial recognition support',
+          'Integrated privacy shutter',
+        ],
+        image: 'https://resource.logitech.com/w_692,c_lpad,ar_4:3,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/webcams/brio/gallery/brio-gallery-1.png',
+      },
+    ],
+  },
+  {
+    category: 'Mouse',
+    items: [
+      {
+        name: 'Logitech G502 Lightspeed',
+        description: 'Wireless Gaming Mouse',
+        specs: [
+          'HERO 25K sensor with up to 25,600 DPI',
+          'LIGHTSPEED wireless with 1ms response time',
+          '11 programmable buttons',
+          'Dual-mode hyper-fast scroll wheel',
+          'Up to 60 hours battery life',
+          'POWERPLAY compatible for continuous charging',
+        ],
+        image: 'https://resource.logitechg.com/w_692,c_lpad,ar_4:3,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/gaming/en/products/g502-lightspeed/gallery/g502-lightspeed-gallery-1.png',
+      },
+    ],
+  },
+  {
+    category: 'Keyboard',
+    items: [
+      {
+        name: 'Logitech Pro X TKL',
+        description: 'TenKeyless Mechanical Gaming Keyboard',
+        specs: [
+          'LIGHTSPEED wireless and Bluetooth connectivity',
+          'GX Red Linear mechanical switches',
+          'Dual-shot PBT keycaps',
+          'LIGHTSYNC RGB lighting',
+          'Ultra-portable tenkeyless design',
+          'Game Mode Lock and media controls',
+        ],
+        image: 'https://resource.logitechg.com/w_692,c_lpad,ar_4:3,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/gaming/en/products/pro-x-tkl/gallery/pro-x-tkl-gallery-1.png',
+      },
+    ],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <Hero2>
+    <Fragment slot="title">My <span class="underlined">Setup</span></Fragment>
+    <Fragment slot="subtitle">
+      The tools and equipment I use daily for software development, content creation, and streaming. Built for performance, comfort, and productivity.
+    </Fragment>
+  </Hero2>
+
+  <section class="py-12 sm:py-16 lg:py-20 container relative">
+    {equipment.map((category, categoryIndex) => (
+      <div class="setup-category mb-16">
+        <div class="setup-category-headline mb-8">
+          <Headline tagline={category.category} />
+        </div>
+        {category.items.map((item, itemIndex) => (
+          <div class="setup-item grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div class="setup-image">
+              <img
+                src={item.image}
+                alt={item.name}
+                class="w-full h-auto rounded-lg shadow-lg object-contain bg-card p-8"
+                loading="lazy"
+              />
+            </div>
+            <div class="setup-details flex flex-col justify-center">
+              <h3 class="text-2xl md:text-3xl font-bold mb-2">{item.name}</h3>
+              <p class="text-lg text-muted mb-4">{item.description}</p>
+              <ul class="space-y-2">
+                {item.specs.map((spec) => (
+                  <li class="flex items-start">
+                    <svg class="w-5 h-5 text-primary mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-default">{spec}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    ))}
+  </section>
+</Layout>
+
+<style>
+  .setup-category {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  .setup-category.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .setup-category-headline {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .setup-category.is-visible .setup-category-headline {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.1s;
+  }
+
+  .setup-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+
+  .setup-category.is-visible .setup-item {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.2s;
+  }
+
+  .setup-image {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .setup-item.is-visible .setup-image {
+    opacity: 1;
+    transform: scale(1);
+    transition-delay: 0.1s;
+  }
+
+  .setup-details {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .setup-item.is-visible .setup-details {
+    opacity: 1;
+    transform: translateX(0);
+    transition-delay: 0.2s;
+  }
+</style>
+
+<script>
+  const initSetupAnimations = () => {
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    };
+
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px',
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observe categories
+    const categories = document.querySelectorAll('.setup-category');
+    categories.forEach((category) => observer.observe(category));
+
+    // Observe individual items
+    const items = document.querySelectorAll('.setup-item');
+    items.forEach((item) => observer.observe(item));
+  };
+
+  // Initial load
+  window.addEventListener('load', initSetupAnimations);
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initSetupAnimations);
+</script>

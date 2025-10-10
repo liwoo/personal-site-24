@@ -23,6 +23,50 @@ const name: string = 'Liwu';
       ><span class="hidden sm:inline">, and I make dope Gospel Rap</span>!
     </Fragment>
   </HomeHero>
-  <HomeAbout />
-  <HomeArticles />
+  <div class="scroll-fade-in">
+    <HomeAbout />
+  </div>
+  <div class="scroll-fade-in">
+    <HomeArticles />
+  </div>
 </Layout>
+
+<style>
+  .scroll-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  .scroll-fade-in.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  const observerCallback = (entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      }
+    });
+  };
+
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px',
+  };
+
+  const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+  // Observe all elements with the scroll-fade-in class
+  const animatedElements = document.querySelectorAll('.scroll-fade-in');
+  animatedElements.forEach((element) => observer.observe(element));
+
+  // Re-observe on Astro page transitions
+  document.addEventListener('astro:page-load', () => {
+    const elements = document.querySelectorAll('.scroll-fade-in');
+    elements.forEach((element) => observer.observe(element));
+  });
+</script>

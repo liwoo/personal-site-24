@@ -2,7 +2,7 @@
 publishDate: 2022-03-11T00:00:00Z
 title: The Day the Dollar Die - How Cryptocurrency Saved this [Fictional] Struggling African Economy
 excerpt: The year is 2026.  A few years ago, what had started as seemingly simple economic mismanagement in Sri-Lancashire turned out to be a precursor to yet another worldwide financial meltdown.  Soon, many more developing and developed countries suffered similar fates.
-image: https://res.cloudinary.com/tiyeni/image/upload/v1708876650/blockchain-market.webp
+image: https://minio-api.dartsmw.com/chienda.com/blockchain-market.jpg
 category: General
 tags:
   - fiction

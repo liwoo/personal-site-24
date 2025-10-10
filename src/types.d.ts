@@ -293,6 +293,8 @@ export interface Link {
   ariaLabel?: string;
   icon?: string;
   color?: string;
+  address?: string;
+  qrCode?: string;
 }
 
 export interface Pricing extends Headline, Widget {

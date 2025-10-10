@@ -43,7 +43,7 @@ export const footerData = {
     {
       title: 'Support',
       links: [
-        { text: 'Tech Stack', href: '#' },
+        { text: 'Using', href: '/using' },
         { text: 'Old Site', href: 'https://old.chienda.com' },
         { text: 'Contacts', href: '/contact' },
       ],
@@ -61,11 +61,29 @@ export const footerData = {
     { ariaLabel: 'YouTube', icon: 'tabler:brand-youtube', href: 'https://www.youtube.com/@liwucodes' },
   ],
   cryptoLinks: [
-    { ariaLabel: 'Bitcoin', icon: 'tabler:currency-bitcoin', href: '#', color: 'bitcoin' },
-    { ariaLabel: 'Ethereum', icon: 'tabler:currency-ethereum', href: '#', color: 'ethereum' },
-    { ariaLabel: 'Solana', icon: 'tabler:currency-solana', href: '#', color: 'solana' },
+    {
+      ariaLabel: 'Bitcoin',
+      icon: 'tabler:currency-bitcoin',
+      color: 'bg-orange-500 hover:bg-orange-600',
+      address: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh', // Replace with your actual Bitcoin address
+      qrCode: 'https://minio-api.dartsmw.com/chienda.com/qr-bitcoin.png', // Optional: Add QR code image
+    },
+    {
+      ariaLabel: 'Ethereum',
+      icon: 'tabler:currency-ethereum',
+      color: 'bg-blue-500 hover:bg-blue-600',
+      address: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb', // Replace with your actual Ethereum address
+      qrCode: 'https://minio-api.dartsmw.com/chienda.com/qr-ethereum.png', // Optional: Add QR code image
+    },
+    {
+      ariaLabel: 'Solana',
+      icon: 'tabler:currency-solana',
+      color: 'bg-purple-500 hover:bg-purple-600',
+      address: '7v91N7iZ9mNicL8WfG6cgSCKyRXydQjLh6UYBWwm6y1Q', // Replace with your actual Solana address
+      qrCode: 'https://minio-api.dartsmw.com/chienda.com/qr-solana.png', // Optional: Add QR code image
+    },
   ],
   footNote: `
-    © 2024. Crafted with ❤️ by Jeremiah Chienda. All rights reserved.
+    © ${new Date().getFullYear()}. Crafted with ❤️ by Jeremiah Chienda. All rights reserved.
   `,
 };

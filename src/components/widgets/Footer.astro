@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import image from '~/assets/images/dp.png';
 import Image from '~/components/common/Image.astro';
 import Mug from '~/components/icons/Mug.astro';
+import { CryptoButton } from '~/components/widgets/CryptoButton';
 import type { Link } from '~/types';
 
 interface Links {
@@ -70,19 +71,29 @@ const { socialLinks = [], links = [], footNote = '', theme = 'light', cryptoLink
         {
           cryptoLinks?.length ? (
             <ul class="flex mb-4 -ml-2 md:ml-4 md:mb-0 rtl:ml-0 rtl:-mr-2 rtl:md:ml-0 rtl:md:mr-4 justify-end">
-              {cryptoLinks.map(({ ariaLabel, href, text, icon, color }) => (
+              {cryptoLinks.map(({ ariaLabel, icon, color, address, qrCode }) => (
                 <li>
-                  <a
-                    class={twMerge(
-                      color,
-                      'text-white mx-2 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-full text-sm p-1 inline-flex items-center'
-                    )}
-                    aria-label={ariaLabel}
-                    href={href}
-                  >
-                    {icon && <Icon name={icon} class="w-5 h-5" />}
-                    <Fragment set:html={text} />
-                  </a>
+                  {address ? (
+                    <CryptoButton
+                      ariaLabel={ariaLabel!}
+                      address={address}
+                      icon={icon!}
+                      color={color || 'bg-gray-500'}
+                      qrCode={qrCode}
+                      client:load
+                    />
+                  ) : (
+                    <a
+                      class={twMerge(
+                        color,
+                        'text-white mx-2 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-full text-sm p-1 inline-flex items-center'
+                      )}
+                      aria-label={ariaLabel}
+                      href="#"
+                    >
+                      {icon && <Icon name={icon} class="w-5 h-5" />}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
