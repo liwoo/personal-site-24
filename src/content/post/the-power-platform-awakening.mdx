@@ -13,6 +13,7 @@ tags:
 canonical: https://chienda.com/code-apps-power-platform
 ---
 
+import Mermaid from '~/components/Mermaid';
 
 ## The Wake-Up Call
 
@@ -70,7 +71,7 @@ This is what matters. The low-code/no-code solution for building small, independ
 
 These apps run on desktop. On web. Power Apps even has a mobile launcher. So if you're out and about, you can launch a Power App that a citizen developer on your team built.
 
-```mermaid
+<Mermaid client:load chart={`
 graph TB
     A[Power Platform] --> B[Power Apps]
     A --> C[Power Automate]
@@ -85,7 +86,7 @@ graph TB
     C --> L[Email Workflows]
     C --> M[Document Processing]
     C --> N[Approvals and Triggers]
-```
+`} />
 
 ## Citizen Developers (Yes, That's a Thing)
 
@@ -155,7 +156,7 @@ Code Apps gives you complete freedom. Customization. Styling. You can use [Fluen
 
 The beauty of all of this is that you get all this power without sacrificing the speed and productivity of traditional Power Apps.
 
-```mermaid
+<Mermaid client:load chart={`
 graph LR
     A[Your React App] --> B[Power Apps Runtime]
     B --> C[Azure AD Auth]
@@ -169,7 +170,7 @@ graph LR
     I --> C
     I --> D
     I --> E
-```
+`} />
 
 ## What You Actually Get
 
