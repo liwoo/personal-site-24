@@ -13,6 +13,7 @@ tags:
 canonical: https://chienda.com/code-apps-power-platform
 ---
 
+
 ## The Wake-Up Call
 
 I recently started work with a Microsoft shop. And now that I'm in, I realize how many other organizations – the boring, enterprise kind – run entirely on Microsoft.
@@ -75,20 +76,15 @@ graph TB
     A --> C[Power Automate]
     A --> D[Authentication]
     A --> E[Storage]
-
-    B --> F[Model-Driven Apps<br/>No-code forms & views]
-    B --> G[Canvas Apps<br/>Low-code drag & drop]
-    B --> H[Code Apps<br/>Pro-code React/TypeScript]
-
+    B --> F[Model-Driven Apps]
+    B --> G[Canvas Apps]
+    B --> H[Code Apps]
     E --> I[SharePoint]
     E --> J[DataVerse]
     E --> K[SQL Server]
-
     C --> L[Email Workflows]
     C --> M[Document Processing]
-    C --> N[Approvals & Triggers]
-
-    style H fill:#4CAF50,stroke:#2E7D32,stroke-width:3px
+    C --> N[Approvals and Triggers]
 ```
 
 ## Citizen Developers (Yes, That's a Thing)
@@ -165,20 +161,14 @@ graph LR
     B --> C[Azure AD Auth]
     B --> D[Dataverse API]
     B --> E[Power Automate]
-
-    D --> F[Strongly Typed Services]
-
-    C --> G[Roles & Permissions]
-    E --> H[Email & Workflows]
-
-    I[Microsoft Handles] --> C
+    C --> F[Roles and Permissions]
+    D --> G[Strongly Typed Services]
+    E --> H[Email and Workflows]
+    I[Microsoft Handles] --> J[Deployment and Hosting]
+    I --> K[Monitoring and Logs]
+    I --> C
     I --> D
     I --> E
-    I --> J[Deployment & Hosting]
-    I --> K[Monitoring & Logs]
-
-    style A fill:#61DAFB,stroke:#20232A
-    style I fill:#FFB900,stroke:#D83B01
 ```
 
 ## What You Actually Get

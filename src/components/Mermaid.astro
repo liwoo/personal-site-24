@@ -1,0 +1,104 @@
+---
+// Client-side Mermaid component that renders on the browser
+const { class: className } = Astro.props;
+const content = await Astro.slots.render('default');
+
+// Extract and clean the text content from rendered HTML
+const cleanContent = content
+  .replace(/<[^>]*>/g, '')     // Remove HTML tags
+  .replace(/&lt;/g, '<')       // Decode HTML entities
+  .replace(/&gt;/g, '>')
+  .replace(/&amp;/g, '&')
+  .replace(/&quot;/g, '"')
+  .replace(/—>/g, '-->')       // Fix em-dash arrows (MDX converts --> to —>)
+  .replace(/–>/g, '-->')       // Fix en-dash arrows
+  .trim();
+---
+
+<pre class:list={["mermaid", className]}>
+{cleanContent}
+</pre>
+
+<script>
+  import mermaid from 'mermaid';
+
+  const renderDiagrams = () => {
+    // Detect if dark mode is enabled
+    const isDark = document.documentElement.classList.contains('dark');
+
+    // Initialize with base theme and explicit color configuration
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        darkMode: isDark,
+        // Background colors
+        primaryColor: isDark ? '#374151' : '#e5e7eb',
+        secondaryColor: isDark ? '#1f2937' : '#f3f4f6',
+        tertiaryColor: isDark ? '#111827' : '#ffffff',
+
+        // Text colors - CRUCIAL for visibility
+        primaryTextColor: isDark ? '#ffffff' : '#111827',
+        secondaryTextColor: isDark ? '#e5e7eb' : '#374151',
+        tertiaryTextColor: isDark ? '#d1d5db' : '#4b5563',
+        textColor: isDark ? '#ffffff' : '#111827',
+
+        // Border colors
+        primaryBorderColor: isDark ? '#9ca3af' : '#6b7280',
+        secondaryBorderColor: isDark ? '#6b7280' : '#9ca3af',
+
+        // Line colors
+        lineColor: isDark ? '#9ca3af' : '#6b7280',
+
+        // Node backgrounds
+        mainBkg: isDark ? '#374151' : '#e5e7eb',
+        secondBkg: isDark ? '#1f2937' : '#f3f4f6',
+
+        // Label backgrounds
+        edgeLabelBackground: isDark ? '#1f2937' : '#ffffff',
+
+        // Font
+        fontFamily: 'ui-sans-serif, system-ui, -apple-system, sans-serif',
+        fontSize: '16px',
+      },
+    });
+  };
+
+  // Initial render
+  document.addEventListener('astro:page-load', () => {
+    renderDiagrams();
+  });
+
+  // Re-render when theme changes
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'class') {
+        // Clear existing renders
+        document.querySelectorAll('.mermaid[data-processed]').forEach(el => {
+          el.removeAttribute('data-processed');
+        });
+        renderDiagrams();
+      }
+    });
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class'],
+  });
+</script>
+
+<style>
+  .mermaid {
+    display: flex;
+    justify-content: center;
+    margin: 2rem auto;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .mermaid :global(svg) {
+    max-width: 100%;
+    height: auto;
+  }
+</style>

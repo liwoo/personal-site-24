@@ -13,7 +13,6 @@ tags:
 canonical: https://chienda.com/ai-agent-use-cases
 ---
 import { Image } from 'astro:assets';
-import {Mermaid} from 'mdx-mermaid/Mermaid'
 import agents from '~/assets/images/agents/agent-architecture.svg';
 import clients from '~/assets/images/agents/client-onboarding.png';
 import leads from '~/assets/images/agents/lead-generation.png';
@@ -45,17 +44,17 @@ For instance, a multi-agent system can be deployed where different specialized a
 - Service request agents for handling applications and reports
 - Ticketing agents for escalating complex issues to human staff
 
-<Mermaid client:load chart={`
+```mermaid
 flowchart TB
     Customer([Customer Entry Point]) --> MainAgent{Main Router Agent}
-    
+
     subgraph "Initial Routing"
         MainAgent -->|General Questions| InquiryAgent[General Inquiry Agent]
         MainAgent -->|Technical Issues| TroubleAgent[Troubleshooting Agent]
         MainAgent -->|Service Applications| ServiceAgent[Service Request Agent]
         MainAgent -->|Complex Problems| TicketAgent[Ticketing Agent]
     end
-    
+
     subgraph "System Integration"
         InquiryAgent --> KB[(Knowledge Base)]
         TroubleAgent --> KB
@@ -63,33 +62,16 @@ flowchart TB
         ServiceAgent --> Status[(Status Tracking)]
         TicketAgent --> Ticketing[(Ticketing System)]
     end
-    
+
     subgraph "Resolution Path"
         KB --> Answer[Question Answered]
         KB --> Solution[Problem Resolved]
         Status --> Request[Service Initiated]
         Ticketing --> Escalation[Ticket Created]
     end
-    
+
     Escalation --> HumanAgent([Human Agent Review])
-    
-    %% Styling
-    style Customer fill:#e1bee7
-    style MainAgent fill:#a8d5ff
-    style InquiryAgent fill:#c8e6c9
-    style TroubleAgent fill:#c8e6c9
-    style ServiceAgent fill:#c8e6c9
-    style TicketAgent fill:#c8e6c9
-    style CRM fill:#ffe0b2
-    style KB fill:#ffe0b2
-    style Ticketing fill:#ffe0b2
-    style Status fill:#ffe0b2
-    style Answer fill:#dcedc8
-    style Solution fill:#dcedc8
-    style Request fill:#dcedc8
-    style Escalation fill:#ffcdd2
-    style HumanAgent fill:#e1bee7
-`}/>
+```
 
 This approach can dramatically reduce the burden on call centers while improving customer satisfaction. Companies currently spending hundreds of thousands of dollars on traditional customer support infrastructure can achieve significant cost savings while maintaining or improving service quality.
 
@@ -137,7 +119,7 @@ Technical Teams can sometimes process hundreds of thousands of log entries into 
 
 AI Agents can dynamically react on new types of errors in a more graceful manner, either sending out alerts as a first step, sending detailed solutions guides to engineers, or even attempting to automatically resolve the issue!
 
-<Mermaid client:load chart={`
+```mermaid
 flowchart TB
     subgraph "Log Monitoring"
         Logs[System Logs] --> LogAgent[Log Analysis Agent]
@@ -148,7 +130,7 @@ flowchart TB
         Detection -->|Yes| Severity{Assess Severity}
         Severity -->|P1/P2| Urgent[Urgent Analysis]
         Severity -->|P3/P4| Standard[Standard Analysis]
-        
+
         Urgent --> Research1[Research Known Issues]
         Standard --> Research2[Research Known Issues]
     end
@@ -156,10 +138,10 @@ flowchart TB
     subgraph "Resolution Phase"
         Research1 --> AutoFix{Can Autofix?}
         Research2 --> AutoFix
-        
+
         AutoFix -->|Yes| PR[Create Pull Request]
         AutoFix -->|No| Report[Generate Analysis Report]
-        
+
         PR --> Review[Engineer Review]
         Report --> Engineer[Assign to Engineer]
     end
@@ -169,16 +151,7 @@ flowchart TB
         Engineer --> UpdateKB
         UpdateKB --> Metrics[Update Metrics]
     end
-
-    style LogAgent fill:#a8d5ff
-    style Detection fill:#ffcdd2
-    style Severity fill:#ffcdd2
-    style Urgent fill:#ffe0b2
-    style Standard fill:#ffe0b2
-    style PR fill:#c8e6c9
-    style Report fill:#c8e6c9
-    style UpdateKB fill:#e1bee7
-`}/>
+```
 
 > Case Study: An East African fintech reducing P1 incident resolution time by 60%
 
