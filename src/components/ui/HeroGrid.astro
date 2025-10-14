@@ -1,8 +1,9 @@
 ---
 
 ---
+
 <div class="hero-grid-container">
-<div class="grid md:hidden grid-cols-6 grid-rows-4 gap-2 -scale-x-100">
+  <div class="grid md:hidden grid-cols-6 grid-rows-4 gap-2 -scale-x-100">
     {
       Array.from({ length: 24 }).map((_, i) => (
         <div
@@ -12,27 +13,27 @@
       ))
     }
   </div>
-<div class="hidden md:grid lg:hidden grid-cols-8 grid-rows-4 gap-4 -scale-x-100">
-  {
-    Array.from({ length: 45 }).map((_, i) => (
-      <div
-        data-square={`sq-${i + 1}`}
-        class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75"
-      />
-    ))
-  }
-</div>
-<div class="hidden lg:grid xl:hidden grid-cols-10 grid-rows-8 gap-4 -scale-x-100">
-  {
-    Array.from({ length: 66 }).map((_, i) => (
-      <div
-        data-square={`sq-${i + 1}`}
-        class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75"
-      />
-    ))
-  }
-</div>
-<div class="hidden xl:grid grid-cols-12 grid-rows-8 gap-4 -scale-x-100">
+  <div class="hidden md:grid lg:hidden grid-cols-8 grid-rows-4 gap-4 -scale-x-100">
+    {
+      Array.from({ length: 45 }).map((_, i) => (
+        <div
+          data-square={`sq-${i + 1}`}
+          class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75"
+        />
+      ))
+    }
+  </div>
+  <div class="hidden lg:grid xl:hidden grid-cols-10 grid-rows-8 gap-4 -scale-x-100">
+    {
+      Array.from({ length: 66 }).map((_, i) => (
+        <div
+          data-square={`sq-${i + 1}`}
+          class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75"
+        />
+      ))
+    }
+  </div>
+  <div class="hidden xl:grid grid-cols-12 grid-rows-8 gap-4 -scale-x-100">
     {
       Array.from({ length: 78 }).map((_, i) => (
         <div
@@ -55,9 +56,15 @@
   }
 
   @keyframes disco-pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
 </style>
 
@@ -73,7 +80,7 @@
     // Function to randomly light up squares
     function discoStep() {
       // Clear all active states
-      squares.forEach(square => square.classList.remove('disco-active'));
+      squares.forEach((square) => square.classList.remove('disco-active'));
 
       // Randomly select squares to light up (between 5-15 squares)
       const numSquares = Math.floor(Math.random() * 10) + 5;
@@ -83,7 +90,7 @@
         indices.add(Math.floor(Math.random() * squares.length));
       }
 
-      indices.forEach(index => {
+      indices.forEach((index) => {
         squares[index].classList.add('disco-active');
       });
 
@@ -91,7 +98,7 @@
       if (Date.now() - startTime >= animationDuration) {
         clearInterval(animationInterval);
         // Clear all animations
-        squares.forEach(square => square.classList.remove('disco-active'));
+        squares.forEach((square) => square.classList.remove('disco-active'));
       }
     }
 

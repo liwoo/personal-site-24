@@ -38,7 +38,14 @@ const {
             />
           )
         }
-        {title && <h1 class="hero2-title text-4xl md:text-5xl font-semibold mb-4 font-heading text-default" set:html={title} />}
+        {
+          title && (
+            <h1
+              class="hero2-title text-4xl md:text-5xl font-semibold mb-4 font-heading text-default"
+              set:html={title}
+            />
+          )
+        }
         <div class="max-w-3xl lg:max-w-none">
           {subtitle && <p class="hero2-subtitle text-lg text-muted" set:html={subtitle} />}
 
@@ -89,7 +96,9 @@ const {
   .hero2-content {
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition:
+      opacity 0.8s ease-out,
+      transform 0.8s ease-out;
   }
 
   .hero2-content.animate-in {
@@ -104,7 +113,9 @@ const {
   .hero2-content-extra {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
   }
 
   .hero2-content.animate-in .hero2-tagline {
@@ -140,7 +151,9 @@ const {
   .hero2-image {
     opacity: 0;
     transform: scale(0.95);
-    transition: opacity 0.8s ease-out 0.3s, transform 0.8s ease-out 0.3s;
+    transition:
+      opacity 0.8s ease-out 0.3s,
+      transform 0.8s ease-out 0.3s;
   }
 
   .hero2-image.animate-in {

@@ -18,16 +18,12 @@ function NewsletterBannerContent() {
             <div className="flex items-center gap-3">
               <Mail className="w-5 h-5 hidden sm:block flex-shrink-0" />
               <p className="text-sm sm:text-base">
-                <span className="font-semibold">Stay updated!</span>{' '}
-                <span className="hidden sm:inline">Join my newsletter for the latest articles and insights.</span>
-                <span className="sm:hidden">Get my latest articles & insights.</span>
+                <span className="font-semibold">Ready to Level Up?</span>{' '}
+                <span className="hidden sm:inline">Join my Newsletter and become a better Engineer</span>
+                <span className="sm:hidden">Subscribe to my Newsletter and Become a better Engineer!</span>
               </p>
             </div>
-            <button
-              type="submit"
-              onClick={handleOpenModal}
-              className="btn btn-primary"
-            >
+            <button type="submit" onClick={handleOpenModal} className="btn btn-primary">
               Signup
             </button>
           </div>

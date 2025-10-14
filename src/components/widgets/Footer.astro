@@ -64,13 +64,13 @@ const { socialLinks = [], links = [], footNote = '', theme = 'light', cryptoLink
       }
       <div class="col-span-6 md:col-span-3 lg:col-span-3 text-right flex flex-col gap-y-1">
         <div class="items-center gap-x-2 justify-end flex">
-          <Mug className='stroke-default hidden md:block' />
+          <Mug className="stroke-default hidden md:block" />
           <h2 class="text-sm lg:text-lg">Wanna buy me a Coffee?</h2>
         </div>
         <h4 class="text-xs text-muted">I accept the following Crypto:</h4>
         {
           cryptoLinks?.length ? (
-            <ul class="flex mb-4 -ml-2 md:ml-4 md:mb-0 rtl:ml-0 rtl:-mr-2 rtl:md:ml-0 rtl:md:mr-4 justify-end">
+            <ul class="flex mb-4 justify-end">
               {cryptoLinks.map(({ ariaLabel, icon, color, address, qrCode }) => (
                 <li>
                   {address ? (

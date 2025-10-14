@@ -59,20 +59,6 @@ export function CryptoButton({ ariaLabel, address, icon, color, qrCode }: Crypto
           <CryptoIcon name={icon} className="w-5 h-5" />
         </button>
 
-        {/* Tooltip */}
-        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-          {isCopied ? (
-            <span className="flex items-center gap-1">
-              <Check className="w-3 h-3" /> Copied!
-            </span>
-          ) : (
-            <span className="flex items-center gap-1">
-              <Copy className="w-3 h-3" /> Copy {ariaLabel} Address
-            </span>
-          )}
-          <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
-        </div>
-
         {/* QR Code Button */}
         {qrCode && (
           <button
@@ -101,9 +87,7 @@ export function CryptoButton({ ariaLabel, address, icon, color, qrCode }: Crypto
             </button>
             <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">{ariaLabel} Address</h3>
             <img src={qrCode} alt={`${ariaLabel} QR Code`} className="w-64 h-64 mx-auto" />
-            <p className="text-xs text-gray-600 dark:text-gray-400 mt-4 break-all text-center max-w-xs">
-              {address}
-            </p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-4 break-all text-center max-w-xs">{address}</p>
             <button
               onClick={handleCopy}
               className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2"
