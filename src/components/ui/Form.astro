@@ -1,8 +1,8 @@
 ---
-import type {Form} from '~/types';
+import type { Form } from '~/types';
 import Button from '~/components/ui/Button.astro';
 import clsx from 'clsx';
-import SignUptWithRecaptcha from "../widgets/SignUpWithRecaptcha";
+import SignUptWithRecaptcha from '../widgets/SignUpWithRecaptcha';
 
 const {
   inputs,
@@ -20,7 +20,7 @@ const {
     title && (
       <div>
         <p class="font-semibold flex items-center gap-x-2">
-          <span set:html={icon}/> {title}
+          <span set:html={icon} /> {title}
         </p>
       </div>
     )

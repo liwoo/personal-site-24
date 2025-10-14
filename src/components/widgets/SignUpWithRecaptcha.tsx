@@ -1,9 +1,9 @@
-import {GoogleReCaptcha, GoogleReCaptchaProvider} from "react-google-recaptcha-v3";
-import {Toaster} from "~/components/ui/toaster.tsx";
-import type {DrowpdownOption, Input} from "~/types";
-import clsx from "clsx";
-import React, {type FormEvent, useCallback, useRef, useState} from "react";
-import {toast} from "~/components/ui/use-toast.tsx";
+import { GoogleReCaptcha, GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { Toaster } from '~/components/ui/toaster.tsx';
+import type { DrowpdownOption, Input } from '~/types';
+import clsx from 'clsx';
+import React, { type FormEvent, useCallback, useRef, useState } from 'react';
+import { toast } from '~/components/ui/use-toast.tsx';
 
 interface SignInProps {
   inputs: Input[];
@@ -11,8 +11,7 @@ interface SignInProps {
   inline?: boolean;
 }
 
-function SignUp({inputs, buttonLabel, inline = true}: SignInProps) {
-
+function SignUp({ inputs, buttonLabel, inline = true }: SignInProps) {
   const formRef = useRef<HTMLFormElement | undefined>();
 
   const [token, setToken] = useState<string>();
@@ -28,35 +27,36 @@ function SignUp({inputs, buttonLabel, inline = true}: SignInProps) {
     const name = form.get('name');
     try {
       const response = await fetch('/signup-form', {
-        method: "POST",
-        body: JSON.stringify({email, category, name, token})
+        method: 'POST',
+        body: JSON.stringify({ email, category, name, token }),
       });
 
       if (response.status === 200) {
         toast({
-          variant: "success",
-          title: "Signed Up! 🎉",
-          description: "You have successfully signed up for my newsletter. You will receive an email shortly to confirm your subscription. Thank you! 🙌",
-        })
+          variant: 'success',
+          title: 'Signed Up! 🎉',
+          description:
+            'You have successfully signed up for my newsletter. You will receive an email shortly to confirm your subscription. Thank you! 🙌',
+        });
         clearForm();
       } else {
         toast({
-          variant: "destructive",
-          title: "Hmmm 🤔",
-          description: "It seems like something went wrong. Please try again or reach out to me directly.",
-        })
+          variant: 'destructive',
+          title: 'Hmmm 🤔',
+          description: 'It seems like something went wrong. Please try again or reach out to me directly.',
+        });
       }
     } catch (err) {
       toast({
-        variant: "destructive",
-        title: "Error",
-        description: "An error occurred while submitting the form. Please try again later.",
-      })
+        variant: 'destructive',
+        title: 'Error',
+        description: 'An error occurred while submitting the form. Please try again later.',
+      });
     } finally {
       setFormLoading(false);
       setRefreshReCaptcha(true);
     }
-  }
+  };
 
   const onVerify = useCallback((token: string) => {
     setToken(token);
@@ -64,20 +64,22 @@ function SignUp({inputs, buttonLabel, inline = true}: SignInProps) {
 
   const clearForm = () => {
     formRef.current?.reset();
-  }
+  };
 
   return (
     <>
-      <GoogleReCaptcha
-        onVerify={onVerify}
-        refreshReCaptcha={refreshReCaptcha}
-      />
-      <form ref={formRef} className={"flex flex-col gap-y-2"} onSubmit={onSubmit}>
-        <div className={clsx(formLoading ? "opacity-20" : "","grid grid-cols-2 gap-4 items-center", inputs ? `md:grid-cols-${inputs.length + 1}` : "")}>
-          {
-            inputs &&
+      <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
+      <form ref={formRef} className={'flex flex-col gap-y-2'} onSubmit={onSubmit}>
+        <div
+          className={clsx(
+            formLoading ? 'opacity-20' : '',
+            'grid grid-cols-2 gap-4 items-center',
+            inputs ? `md:grid-cols-${inputs.length + 1}` : ''
+          )}
+        >
+          {inputs &&
             inputs.map(
-              ({type = 'text', name, label = '', autocomplete = 'on', placeholder = '', dropdownOptions = []}) =>
+              ({ type = 'text', name, label = '', autocomplete = 'on', placeholder = '', dropdownOptions = [] }) =>
                 name && (
                   <div className="w-full">
                     {label && !inline && (
@@ -110,17 +112,14 @@ function SignUp({inputs, buttonLabel, inline = true}: SignInProps) {
                     )}
                   </div>
                 )
-            )
-          }
-          {
-            buttonLabel && (
-              <div>
-                <button type="submit" className="btn btn-primary w-full" disabled={formLoading}>
-                  {buttonLabel}
-                </button>
-              </div>
-            )
-          }
+            )}
+          {buttonLabel && (
+            <div>
+              <button type="submit" className="btn btn-primary w-full" disabled={formLoading}>
+                {buttonLabel}
+              </button>
+            </div>
+          )}
         </div>
         <div className="flex items-start">
           <div className="flex">
@@ -134,25 +133,27 @@ function SignUp({inputs, buttonLabel, inline = true}: SignInProps) {
           </div>
           <div className="ml-3">
             <label htmlFor="disclaimer" className="cursor-pointer select-none text-sm text-gray-600 dark:text-gray-400">
-              {"Check here if you agree with my"}<a href="/privacy"> Privacy Policy</a>
+              {'Check here if you agree with my'}
+              <a href="/privacy"> Privacy Policy</a>
             </label>
           </div>
         </div>
       </form>
     </>
-  )
+  );
 }
 
-export default function SignUptWithRecaptcha({inputs, buttonLabel}: SignInProps) {
+export default function SignUptWithRecaptcha({ inputs, buttonLabel }: SignInProps) {
   return (
     <GoogleReCaptchaProvider
       scriptProps={{
         async: true, // optional, default to false,
       }}
       useEnterprise={true}
-      reCaptchaKey={import.meta.env.PUBLIC_RECAPTCHA_KEY}>
-      <SignUp inputs={inputs} buttonLabel={buttonLabel}/>
-      <Toaster/>
+      reCaptchaKey={import.meta.env.PUBLIC_RECAPTCHA_KEY}
+    >
+      <SignUp inputs={inputs} buttonLabel={buttonLabel} />
+      <Toaster />
     </GoogleReCaptchaProvider>
-  )
+  );
 }
