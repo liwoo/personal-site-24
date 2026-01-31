@@ -1,0 +1,15 @@
+---
+import Tabs from '~/components/ui/Tabs.astro';
+
+export const partial = true;
+//get formBody
+const data =  await Astro.request.formData();
+const activeTab = data.get('activeTab');
+const swapTarget = data.get('swapTarget');
+const tabs = data.get('tabs');
+---
+{
+    activeTab && swapTarget && tabs && (
+        <Tabs activeTab={activeTab as string} swapTarget={swapTarget as string} tabs={JSON.parse(tabs as string)} />
+    )
+}

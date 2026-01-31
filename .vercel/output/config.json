@@ -44,7 +44,7 @@
 			"status": 308
 		},
 		{
-			"src": "/projects/(?:\\/(.*?))?/",
+			"src": "/projects(?:\\/(.*?))?/",
 			"headers": {
 				"Location": "/projects/$1"
 			},
@@ -79,21 +79,21 @@
 			"status": 308
 		},
 		{
-			"src": "/(?:\\/(.*?))?/([^/]+?)/(?:\\/(.*?))?/",
+			"src": "/(?:\\/(.*?))?/([^/]+?)(?:\\/(.*?))?/",
 			"headers": {
 				"Location": "/$1/$2/$3"
 			},
 			"status": 308
 		},
 		{
-			"src": "/(?:\\/(.*?))?/([^/]+?)/(?:\\/(.*?))?/",
+			"src": "/(?:\\/(.*?))?/([^/]+?)(?:\\/(.*?))?/",
 			"headers": {
 				"Location": "/$1/$2/$3"
 			},
 			"status": 308
 		},
 		{
-			"src": "/(?:\\/(.*?))?/(?:\\/(.*?))?/",
+			"src": "/(?:\\/(.*?))?(?:\\/(.*?))?/",
 			"headers": {
 				"Location": "/$1/$2"
 			},
@@ -118,63 +118,63 @@
 		},
 		{
 			"src": "^\\/_image$",
-			"dest": "render"
+			"dest": "_render"
 		},
 		{
 			"src": "^\\/404$",
-			"dest": "render"
+			"dest": "_render"
 		},
 		{
 			"src": "^\\/api\\/newsletter$",
-			"dest": "render"
+			"dest": "_render"
 		},
 		{
 			"src": "^\\/contact$",
-			"dest": "render"
+			"dest": "_render"
 		},
 		{
 			"src": "^\\/privacy$",
-			"dest": "render"
+			"dest": "_render"
 		},
 		{
 			"src": "^\\/projects\\/stack$",
-			"dest": "render"
+			"dest": "_render"
 		},
 		{
 			"src": "^\\/projects(?:\\/(.*?))?$",
-			"dest": "render"
+			"dest": "_render"
 		},
 		{
 			"src": "^\\/rss\\.xml$",
-			"dest": "render"
+			"dest": "_render"
 		},
 		{
 			"src": "^\\/search\\.json$",
-			"dest": "render"
+			"dest": "_render"
 		},
 		{
 			"src": "^\\/signup-form$",
-			"dest": "render"
+			"dest": "_render"
 		},
 		{
 			"src": "^\\/submit-contact$",
-			"dest": "render"
+			"dest": "_render"
 		},
 		{
 			"src": "^\\/terms$",
-			"dest": "render"
+			"dest": "_render"
 		},
 		{
 			"src": "^(?:\\/(.*?))?\\/search$",
-			"dest": "render"
+			"dest": "_render"
 		},
 		{
 			"src": "^(?:\\/(.*?))?\\/tabs$",
-			"dest": "render"
+			"dest": "_render"
 		},
 		{
 			"src": "/.*",
-			"dest": "render",
+			"dest": "_render",
 			"status": 404
 		}
 	]
