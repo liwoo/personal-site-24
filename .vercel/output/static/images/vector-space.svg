@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#f8f9fa"/>
+
+  <!-- Grid lines -->
+  <g stroke="#e9ecef" stroke-width="1">
+    <line x1="100" y1="50" x2="100" y2="450"/>
+    <line x1="100" y1="450" x2="700" y2="450"/>
+    <line x1="100" y1="450" x2="400" y2="50" stroke-dasharray="5,5"/>
+  </g>
+
+  <!-- Axis labels -->
+  <text x="720" y="450" fill="#495057" font-size="14">Dimension 1</text>
+  <text x="90" y="40" fill="#495057" font-size="14">Dimension 2</text>
+  <text x="410" y="40" fill="#495057" font-size="14">Dimension n</text>
+
+  <!-- Word points -->
+  <g fill="#228be6">
+    <!-- Chair -->
+    <circle cx="300" cy="250" r="6"/>
+    <text x="310" y="245" font-size="16" fill="#212529">chair</text>
+
+    <!-- Table -->
+    <circle cx="320" cy="270" r="6"/>
+    <text x="330" y="265" font-size="16" fill="#212529">table</text>
+
+    <!-- Lamp -->
+    <circle cx="250" cy="300" r="6"/>
+    <text x="260" y="295" font-size="16" fill="#212529">lamp</text>
+
+    <!-- Basketball -->
+    <circle cx="450" cy="350" r="6"/>
+    <text x="460" y="345" font-size="16" fill="#212529">basketball</text>
+
+    <!-- Flower -->
+    <circle cx="400" cy="200" r="6"/>
+    <text x="410" y="195" font-size="16" fill="#212529">flower</text>
+  </g>
+
+  <!-- Relationships -->
+  <g stroke="#74c0fc" stroke-width="2" stroke-dasharray="4,4">
+    <line x1="300" y1="250" x2="320" y2="270"/>
+    <line x1="300" y1="250" x2="250" y2="300"/>
+  </g>
+
+  <!-- Title -->
+  <text x="400" y="480" text-anchor="middle" font-size="16" fill="#212529" font-weight="bold">Word Relationships in High-Dimensional Vector Space</text>
+
+  <!-- Note -->
+  <text x="150" y="100" fill="#868e96" font-size="12">Note: This is a simplified 2D representation of</text>
+  <text x="150" y="115" fill="#868e96" font-size="12">high-dimensional vector space (512+ dimensions)</text>
+</svg>

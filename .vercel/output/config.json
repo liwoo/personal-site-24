@@ -1,0 +1,181 @@
+{
+	"version": 3,
+	"routes": [
+		{
+			"src": "/404/",
+			"headers": {
+				"Location": "/404"
+			},
+			"status": 308
+		},
+		{
+			"src": "/about/",
+			"headers": {
+				"Location": "/about"
+			},
+			"status": 308
+		},
+		{
+			"src": "/contact/",
+			"headers": {
+				"Location": "/contact"
+			},
+			"status": 308
+		},
+		{
+			"src": "/privacy/",
+			"headers": {
+				"Location": "/privacy"
+			},
+			"status": 308
+		},
+		{
+			"src": "/projects/stack/",
+			"headers": {
+				"Location": "/projects/stack"
+			},
+			"status": 308
+		},
+		{
+			"src": "/projects/",
+			"headers": {
+				"Location": "/projects"
+			},
+			"status": 308
+		},
+		{
+			"src": "/projects/(?:\\/(.*?))?/",
+			"headers": {
+				"Location": "/projects/$1"
+			},
+			"status": 308
+		},
+		{
+			"src": "/terms/",
+			"headers": {
+				"Location": "/terms"
+			},
+			"status": 308
+		},
+		{
+			"src": "/using/",
+			"headers": {
+				"Location": "/using"
+			},
+			"status": 308
+		},
+		{
+			"src": "/(?:\\/(.*?))?/search/",
+			"headers": {
+				"Location": "/$1/search"
+			},
+			"status": 308
+		},
+		{
+			"src": "/(?:\\/(.*?))?/tabs/",
+			"headers": {
+				"Location": "/$1/tabs"
+			},
+			"status": 308
+		},
+		{
+			"src": "/(?:\\/(.*?))?/([^/]+?)/(?:\\/(.*?))?/",
+			"headers": {
+				"Location": "/$1/$2/$3"
+			},
+			"status": 308
+		},
+		{
+			"src": "/(?:\\/(.*?))?/([^/]+?)/(?:\\/(.*?))?/",
+			"headers": {
+				"Location": "/$1/$2/$3"
+			},
+			"status": 308
+		},
+		{
+			"src": "/(?:\\/(.*?))?/(?:\\/(.*?))?/",
+			"headers": {
+				"Location": "/$1/$2"
+			},
+			"status": 308
+		},
+		{
+			"src": "/(?:\\/(.*?))?/",
+			"headers": {
+				"Location": "/$1"
+			},
+			"status": 308
+		},
+		{
+			"src": "^/_astro/(.*)$",
+			"headers": {
+				"cache-control": "public, max-age=31536000, immutable"
+			},
+			"continue": true
+		},
+		{
+			"handle": "filesystem"
+		},
+		{
+			"src": "^\\/_image$",
+			"dest": "render"
+		},
+		{
+			"src": "^\\/404$",
+			"dest": "render"
+		},
+		{
+			"src": "^\\/api\\/newsletter$",
+			"dest": "render"
+		},
+		{
+			"src": "^\\/contact$",
+			"dest": "render"
+		},
+		{
+			"src": "^\\/privacy$",
+			"dest": "render"
+		},
+		{
+			"src": "^\\/projects\\/stack$",
+			"dest": "render"
+		},
+		{
+			"src": "^\\/projects(?:\\/(.*?))?$",
+			"dest": "render"
+		},
+		{
+			"src": "^\\/rss\\.xml$",
+			"dest": "render"
+		},
+		{
+			"src": "^\\/search\\.json$",
+			"dest": "render"
+		},
+		{
+			"src": "^\\/signup-form$",
+			"dest": "render"
+		},
+		{
+			"src": "^\\/submit-contact$",
+			"dest": "render"
+		},
+		{
+			"src": "^\\/terms$",
+			"dest": "render"
+		},
+		{
+			"src": "^(?:\\/(.*?))?\\/search$",
+			"dest": "render"
+		},
+		{
+			"src": "^(?:\\/(.*?))?\\/tabs$",
+			"dest": "render"
+		},
+		{
+			"src": "/.*",
+			"dest": "render",
+			"status": 404
+		}
+	]
+}
