@@ -2,6 +2,7 @@
 publishDate: 2026-01-27T00:00:00Z
 title: The Machine Minder
 excerpt: From printing presses to large language models - a reflection on how the role of the machine minder has evolved across generations, and how I've become my father.
+image: https://minio-api.dartsmw.com/chienda.com/machine-minder.jpg
 category: General
 tags:
   - career
@@ -11,9 +12,9 @@ metadata:
   canonical: https://chienda.com/the-machine-minder
 ---
 
-My father was a printer. Because of him, I now intuitively understand interesting concepts like [desktop publishing](https://www.computerhistory.org/revolution/personal-computers/17/306), [CMYK](https://www.figma.com/resource-library/what-is-cmyk/), [colour theory](https://99designs.com/blog/tips/the-7-step-guide-to-understanding-color-theory/), and why black is never really represented naturally in the environment. But I digress.
+My father has been a printer throughout his adult life. Because of him, I now intuitively understand interesting concepts like [desktop publishing](https://www.computerhistory.org/revolution/personal-computers/17/306), [CMYK](https://www.figma.com/resource-library/what-is-cmyk/), [colour theory](https://99designs.com/blog/tips/the-7-step-guide-to-understanding-color-theory/), and why black is never really represented naturally in the environment. But I digress.
 
-The thing about being a printer is you really learn how to mind the machine. I grew up understanding the role of the **machine minder** in the entire process of enterprise print media. In fact, for a long time, I came to know of Mr Banda, my dad's right hand man - the machine minder who became integral to my dad's trade. Throughout the history of this trade - when newspapers sold in extraordinary volumes - was the the role Mr Banda played. Often in the background.
+The thing about being a printer is you really learn how to mind the machine. I grew up understanding the role of the **machine minder** in the entire process of enterprise print media. In fact, for a long time, I came to know of Mr Banda, my dad's right hand man - the machine minder who became integral to my dad's trade. Throughout the history of this trade - when newspapers and other print publications sold in extraordinary volumes - was the the role Mr Banda played. Often in the background.
 
 > In print media, a machine minder, is an engineer who is skilled with providing all of the required equipment, configurations, and artifacts to kickstart heavy-duty printing jobs.
 
@@ -21,7 +22,7 @@ The thing about being a printer is you really learn how to mind the machine. I g
 
 ## The Printing Floor
 
-I remember going to my father's workplace and seeing these huge machines that had what seemed like dozens of rollers on them, of different sizes. And beneath those rollers were [plates](https://www.britannica.com/topic/printing-publishing/Offset-plate-making), upon which the content was bound. And this had to be done in expert unison in order to get the right colour mixtures of the plates configured together.
+I remember going to my father's workplace and seeing these huge machines that had what seemed like dozens of rollers on them, of different sizes. And beneath those rollers were [plates](https://www.britannica.com/topic/printing-publishing/Offset-plate-making), upon which the content was bound. And this had to be handled with great finesse to ensure that the right quantity of ink was deposited on the plate. A different set of rollers deposited water onto the plate to ensure that the non-printing areas stayed clear of ink.
 
 And then they would go to work, working as templates, if you will, or models, from which reams and reams and reams of paper would be inked. And the content upon which the plates were etched would find itself being printed _en masse_.
 
