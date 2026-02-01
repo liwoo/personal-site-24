@@ -16,7 +16,7 @@ My father has been a printer throughout his adult life. Because of him, I now in
 
 The thing about being a printer is you really learn how to mind the machine. I grew up understanding the role of the **machine minder** in the entire process of enterprise print media. In fact, for a long time, I came to know of Mr Banda, my dad's right hand man - the machine minder who became integral to my dad's trade. Throughout the history of this trade - when newspapers and other print publications sold in extraordinary volumes - was the the role Mr Banda played. Often in the background.
 
-> In print media, a machine minder, is an engineer who is skilled with providing all of the required equipment, configurations, and artifacts to kickstart heavy-duty printing jobs.
+> In print media, a machine minder is an engineer who is skilled with providing all of the required equipment, configurations, and artifacts to kickstart heavy-duty printing jobs.
 
 ---
 
@@ -24,13 +24,13 @@ The thing about being a printer is you really learn how to mind the machine. I g
 
 I remember going to my father's workplace and seeing these huge machines that had what seemed like dozens of rollers on them, of different sizes. And beneath those rollers were [plates](https://www.britannica.com/topic/printing-publishing/Offset-plate-making), upon which the content was bound. And this had to be handled with great finesse to ensure that the right quantity of ink was deposited on the plate. A different set of rollers deposited water onto the plate to ensure that the non-printing areas stayed clear of ink.
 
-And then they would go to work, working as templates, if you will, or models, from which reams and reams and reams of paper would be inked. And the content upon which the plates were etched would find itself being printed _en masse_.
+And then they would go to work, working as templates, if you will, or models, from which reams and reams of paper would be inked. And the content upon which the plates were etched would find itself being printed _en masse_.
 
-Now, what made this kind of machine special was the sheer velocity at which they would produce these printed artefacts. We're talking **thousands, if not hundreds of thousands** of papers. Newspapers, magazines, all sorts of media being churned out by the minute.
+What really made this kind of machine special was the sheer velocity at which they would produce these printed artefacts. We're talking **thousands, if not hundreds of thousands** of papers. Newspapers, magazines, all sorts of media being churned out by the minute.
 
-Eventually, that would get distributed across countries, to all offices, across all walks of life, where information edited the night before would find itself on desktops and coffee tables the morning after. Breaking news. The backstories. And, of course, lots and loads of adverts.
+Eventually, that would get distributed across countries, to all offices, across all walks of life, where information edited the night before would find itself on desktops and coffee tables the morning after. Breaking news. The backstories. And, of course, lots of adverts.
 
-That's what my father did for most of his career. He still does to a certain extent, albeit with a nostalgic oversight. More of a hobby than anything else. A hobby that is today more of a relic in a history of information technology.
+That's what my father did for most of his career. He still does to a certain extent, albeit with a nostalgic oversight. More of a hobby than anything else. A hobby that is today more of a relic in the history of information technology.
 
 ---
 
