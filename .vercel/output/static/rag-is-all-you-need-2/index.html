@@ -1,0 +1,634 @@
+<!DOCTYPE html><html lang="en" dir="ltr" class="2xl:text-[20px]"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="sitemap" href="/sitemap-index.xml"><link rel="shortcut icon" href="/_astro/favicon.CR7Geze9.ico"><link rel="icon" type="image/svg+xml" href="/_astro/favicon.DLiLMeiw.svg"><link rel="mask-icon" href="/_astro/favicon.DLiLMeiw.svg" color="#8D46E7"><link rel="apple-touch-icon" sizes="180x180" href="/_astro/apple-touch-icon.CiUMq7jR.png"><style is:global>
+  :root {
+    --aw-font-sans: 'Outfit Variable';
+    --aw-font-serif: var(--aw-font-sans);
+    --aw-font-heading: var(--aw-font-sans);
+
+    --aw-color-primary: rgb(216 145 33);
+    --aw-color-secondary: rgb(216 145 33);
+    --aw-color-accent: rgb(228 221 210);
+
+    --aw-color-text-heading: rgb(22 22 22);
+    --aw-color-text-default: rgb(22 22 22);
+    --aw-color-text-muted: rgb(30 30 30 / 70%);
+    --aw-color-bg-page: rgb(239 239 239);
+
+    /* destructive */
+    --aw-color-destructive: rgb(255 0 0);
+
+    /* card */
+    --aw-color-card-bg: rgb(224 224 224);
+
+    --aw-color-bg-page-dark: rgb(23 23 23);
+
+    ::selection {
+      background-color: lavender;
+    }
+  }
+
+  .dark {
+    --aw-font-sans: 'Outfit Variable';
+    --aw-font-serif: var(--aw-font-sans);
+    --aw-font-heading: var(--aw-font-sans);
+
+    --aw-color-primary: rgb(255 219 163);
+    --aw-color-secondary: rgb(216 145 33);
+    --aw-color-accent: rgba(255, 219, 163, 0.09);
+
+    --aw-color-text-heading: rgb(248 248 248);
+    --aw-color-text-default: rgb(236 236 236);
+    --aw-color-text-muted: rgb(255 255 255 / 55%);
+    --aw-color-bg-page: var(--aw-color-bg-page-dark);
+
+    /* destructive */
+    --aw-color-destructive: rgb(255 0 0);
+
+    /* card */
+    --aw-color-card-bg: rgb(30 30 30);
+
+    ::selection {
+      background-color: black;
+      color: snow;
+    }
+  }
+</style><script>(function(){const defaultTheme = "system";
+
+  function applyTheme(theme) {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    const matches = document.querySelectorAll('[data-aw-toggle-color-scheme] > input');
+
+    if (matches && matches.length) {
+      matches.forEach((elem) => {
+        elem.checked = theme !== 'dark';
+      });
+    }
+  }
+
+  if ((defaultTheme && defaultTheme.endsWith(':only')) || (!localStorage.theme && defaultTheme !== 'system')) {
+    applyTheme(defaultTheme.replace(':only', ''));
+  } else if (
+    localStorage.theme === 'dark' ||
+    (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  ) {
+    applyTheme('dark');
+  } else {
+    applyTheme('light');
+  }
+})();</script><title>RAG is all you need - Part 2 — Jeremiah Chienda</title>
+<meta name="description" content="Ever stared at your computer screen, wondering how the heck these AI models actually understand what we&#39;re saying? Like, how does ChatGPT know that when I say chair, it&#39;s more related to table than basketball? Well, buckle up, because we&#39;re about to dive into one of the coolest parts of modern AI engineering - vector search! 🚀">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://chienda.com/rag-is-all-you-need-2">
+<meta property="og:title" content="RAG is all you need - Part 2">
+<meta property="og:description" content="Ever stared at your computer screen, wondering how the heck these AI models actually understand what we&#39;re saying? Like, how does ChatGPT know that when I say chair, it&#39;s more related to table than basketball? Well, buckle up, because we&#39;re about to dive into one of the coolest parts of modern AI engineering - vector search! 🚀">
+<meta property="og:url" content="https://chienda.com/rag-is-all-you-need-2">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://minio-api.dartsmw.com/chienda.com/political-rag.png">
+
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Jeremiah Chienda">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@li_woo">
+<meta name="twitter:creator" content="@li_woo"><meta name="google-site-verification" content="orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M"><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="swap"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Jeremiah Chienda","jobTitle":"AI Engineer","description":"AI Engineer specializing in production agent systems, RAG pipelines, and LLM-powered applications for govtech and fintech.","url":"https://chienda.com","knowsAbout":["AI Agent Architecture","Retrieval Augmented Generation","Large Language Models","Model Context Protocol","Agent-to-Agent Protocol","Generative UI","AI Safety","Token Economics","Tool Calling","Human-in-the-Loop Systems","LangGraph","Azure AI Foundry","Microsoft Fabric"],"worksFor":{"@type":"Organization","name":"Irembo"},"alumniOf":{"@type":"CollegeOrUniversity","name":"Doshisha University"},"sameAs":["https://linkedin.com/in/jchienda","https://github.com/liwoo","https://twitter.com/liwucodes"]}</script><link rel="stylesheet" href="/_astro/privacy.62Sn3YQk.css">
+<style>.blog-link-container[data-astro-cid-bntzjvbe]{opacity:0;transform:translate(-20px);transition:opacity .5s ease-out,transform .5s ease-out}.blog-link-container[data-astro-cid-bntzjvbe].animate-in{opacity:1;transform:translate(0)}
+.post-header[data-astro-cid-wo4vtnkt]{opacity:0;transform:translateY(30px);transition:opacity .8s ease-out,transform .8s ease-out}.post-header[data-astro-cid-wo4vtnkt].animate-in{opacity:1;transform:translateY(0)}.post-meta[data-astro-cid-wo4vtnkt]{opacity:0;transform:translateY(20px);transition:opacity .6s ease-out .2s,transform .6s ease-out .2s}.post-meta[data-astro-cid-wo4vtnkt].animate-in{opacity:1;transform:translateY(0)}.post-content[data-astro-cid-wo4vtnkt]{opacity:0;transform:translateY(20px);transition:opacity .8s ease-out .3s,transform .8s ease-out .3s}.post-content[data-astro-cid-wo4vtnkt].animate-in{opacity:1;transform:translateY(0)}.post-footer[data-astro-cid-wo4vtnkt],.post-bio[data-astro-cid-wo4vtnkt],.post-extras[data-astro-cid-wo4vtnkt]{opacity:0;transform:translateY(20px);transition:opacity .6s ease-out,transform .6s ease-out}.post-footer[data-astro-cid-wo4vtnkt].is-visible,.post-bio[data-astro-cid-wo4vtnkt].is-visible,.post-extras[data-astro-cid-wo4vtnkt].is-visible{opacity:1;transform:translateY(0)}.post-content[data-astro-cid-wo4vtnkt] h2,.post-content[data-astro-cid-wo4vtnkt] h3,.post-content[data-astro-cid-wo4vtnkt] h4,.post-content[data-astro-cid-wo4vtnkt] h5,.post-content[data-astro-cid-wo4vtnkt] h6{opacity:0;transform:translateY(15px);transition:opacity .6s ease-out,transform .6s ease-out}.post-content[data-astro-cid-wo4vtnkt] h2.is-visible,.post-content[data-astro-cid-wo4vtnkt] h3.is-visible,.post-content[data-astro-cid-wo4vtnkt] h4.is-visible,.post-content[data-astro-cid-wo4vtnkt] h5.is-visible,.post-content[data-astro-cid-wo4vtnkt] h6.is-visible{opacity:1;transform:translateY(0)}.post-content[data-astro-cid-wo4vtnkt] p,.post-content[data-astro-cid-wo4vtnkt] ul,.post-content[data-astro-cid-wo4vtnkt] ol,.post-content[data-astro-cid-wo4vtnkt] blockquote{opacity:0;transform:translateY(10px);transition:opacity .5s ease-out,transform .5s ease-out}.post-content[data-astro-cid-wo4vtnkt] p.is-visible,.post-content[data-astro-cid-wo4vtnkt] ul.is-visible,.post-content[data-astro-cid-wo4vtnkt] ol.is-visible,.post-content[data-astro-cid-wo4vtnkt] blockquote.is-visible{opacity:1;transform:translateY(0)}.post-content[data-astro-cid-wo4vtnkt] pre,.post-content[data-astro-cid-wo4vtnkt] img,.post-content[data-astro-cid-wo4vtnkt] video{opacity:0;transform:scale(.98);transition:opacity .6s ease-out,transform .6s ease-out}.post-content[data-astro-cid-wo4vtnkt] pre.is-visible,.post-content[data-astro-cid-wo4vtnkt] img.is-visible,.post-content[data-astro-cid-wo4vtnkt] video.is-visible{opacity:1;transform:scale(1)}
+.about-squared[data-astro-cid-dxravqlg]{transition:opacity .15s ease-in-out}.about-squared[data-astro-cid-dxravqlg].disco-active{opacity:.3!important;animation:disco-pulse .3s ease-in-out}@keyframes disco-pulse{0%{transform:scale(1)}50%{transform:scale(1.1)}to{transform:scale(1)}}.hero2-content[data-astro-cid-3w6r54vr]{opacity:0;transform:translateY(30px);transition:opacity .8s ease-out,transform .8s ease-out}.hero2-content[data-astro-cid-3w6r54vr].animate-in{opacity:1;transform:translateY(0)}.hero2-tagline[data-astro-cid-3w6r54vr],.hero2-title[data-astro-cid-3w6r54vr],.hero2-subtitle[data-astro-cid-3w6r54vr],.hero2-actions[data-astro-cid-3w6r54vr],.hero2-content-extra[data-astro-cid-3w6r54vr]{opacity:0;transform:translateY(20px);transition:opacity .6s ease-out,transform .6s ease-out}.hero2-content[data-astro-cid-3w6r54vr].animate-in .hero2-tagline[data-astro-cid-3w6r54vr]{opacity:1;transform:translateY(0);transition-delay:.1s}.hero2-content[data-astro-cid-3w6r54vr].animate-in .hero2-title[data-astro-cid-3w6r54vr]{opacity:1;transform:translateY(0);transition-delay:.2s}.hero2-content[data-astro-cid-3w6r54vr].animate-in .hero2-subtitle[data-astro-cid-3w6r54vr]{opacity:1;transform:translateY(0);transition-delay:.3s}.hero2-content[data-astro-cid-3w6r54vr].animate-in .hero2-actions[data-astro-cid-3w6r54vr]{opacity:1;transform:translateY(0);transition-delay:.4s}.hero2-content[data-astro-cid-3w6r54vr].animate-in .hero2-content-extra[data-astro-cid-3w6r54vr]{opacity:1;transform:translateY(0);transition-delay:.35s}.hero2-image[data-astro-cid-3w6r54vr]{opacity:0;transform:scale(.95);transition:opacity .8s ease-out .3s,transform .8s ease-out .3s}.hero2-image[data-astro-cid-3w6r54vr].animate-in{opacity:1;transform:scale(1)}
+</style><script type="module" src="/_astro/hoisted.DB-OO3qD.js"></script>
+<script type="module" src="/_astro/page.ZOgLPK1C.js"></script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+		var script = document.createElement('script');
+		script.defer = true;
+		script.src = '/_vercel/insights/script.js';
+		var head = document.querySelector('head');
+		head.appendChild(script);
+	</script></head> <body class="antialiased text-default bg-page tracking-tight">  <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();;(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="1NJIED" prefix="r3" component-url="/_astro/NewsletterBanner.DgdbXZcv.js" component-export="NewsletterBanner" renderer-url="/_astro/client.B04-Q6O1.js" props="{}" ssr="" client="load" opts="{&quot;name&quot;:&quot;NewsletterBanner&quot;,&quot;value&quot;:true}" await-children=""><div class="fixed top-0 left-0 right-0 z-40 bg-card shadow-lg"><div class="container mx-auto px-4"><div class="flex items-center justify-center py-3 gap-4"><div class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-5 h-5 hidden sm:block flex-shrink-0"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg><p class="text-sm sm:text-base"><span class="font-semibold">Ready to Level Up?</span> <span class="hidden sm:inline">Join my Newsletter and become a better Engineer</span><span class="sm:hidden">Subscribe to my Newsletter and Become a better Engineer!</span></p></div><button type="submit" class="btn btn-primary">Signup</button></div></div></div><div class="h-[52px] sm:h-[56px]"></div><!--astro:end--></astro-island>  <header id="header"> <div class="absolute inset-0"></div> <div class="fixed z-20 itemx-center inset-x-0 container-lg text-default py-4 lg:py-12 px-3 md:px-6 mx-auto w-full md:flex md:justify-between"> <div class="flex justify-between"> <a class="flex items-center" href="/"> <div class="relative"><img src="/_astro/dp.CzY7nzb-.png" width="40" height="40" srcset="/_astro/dp.CzY7nzb-_ColcB.webp 40w, /_astro/dp.CzY7nzb-_KEQWY.webp 80w" sizes="40px" style="object-fit: cover; object-position: top left; width: 40px; height: 40px;" class="mx-auto rounded-full bg-gray-500 shadow-lg border-2 border-primary" alt="Profile Picture" loading="lazy" decoding="async" class=""></div> </a> <div class="flex items-center md:hidden"> <button class="flex flex-col h-12 w-12 rounded justify-center items-center cursor-pointer group" aria-label="Toggle Menu" data-aw-toggle-menu> <span class="sr-only">Toggle Menu</span>  <span aria-hidden="true" class="h-0.5 w-6 my-1 rounded-full bg-black dark:bg-white transition ease transform duration-200 opacity-80 group-[.expanded]:rotate-45 group-[.expanded]:translate-y-2.5"></span> <span aria-hidden="true" class="h-0.5 w-6 my-1 rounded-full bg-black dark:bg-white transition ease transform duration-200 opacity-80 group-[.expanded]:opacity-0"></span> <span aria-hidden="true" class="h-0.5 w-6 my-1 rounded-full bg-black dark:bg-white transition ease transform duration-200 opacity-80 group-[.expanded]:-rotate-45 group-[.expanded]:-translate-y-2.5"></span>  </button> </div> </div> <nav class="items-center w-full md:w-auto hidden md:flex text-muted overflow-y-auto overflow-x-hidden md:overflow-y-visible md:overflow-x-auto md:mx-6" aria-label="Main navigation"> <ul class="dark:bg-[#0f0f0f] bg-[#fafafa] shadow-sm rounded-3xl flex flex-col md:flex-row md:self-center w-full md:w-auto text-xl md:text-[0.9375rem] tracking-[0.01rem] font-medium px-6"> <li class=""> <a class="hover:text-primary px-4 py-4 md:py-1 flex items-centers" data-astro-prefetch href="/about"> About </a> </li><li class=""> <a class="hover:text-primary px-4 py-4 md:py-1 flex items-centers" data-astro-prefetch href="/blog"> Articles </a> </li><li class=""> <a class="hover:text-primary px-4 py-4 md:py-1 flex items-centers" data-astro-prefetch href="/projects"> Projects </a> </li><li class=""> <a class="hover:text-primary px-4 py-4 md:py-1 flex items-centers" data-astro-prefetch href="/contact"> Contact </a> </li> </ul> </nav> <div class="hidden bg-page md:self-center flex md:flex items-center md:mb-0 fixed w-full md:w-auto md:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 md:p-0"> <div class="items-center flex justify-between w-full md:w-auto"> <div class="flex"> <button type="button" class="text-muted dark:text-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center" aria-label="Toggle between Dark and Light mode" data-aw-toggle-color-scheme><svg width="1em" height="1em" viewBox="0 0 24 24" class="w-6 h-6 md:w-5 md:h-5 md:inline-block" data-icon="tabler:sun">  <symbol id="ai:tabler:sun"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0-8 0m-5 0h1m8-9v1m8 8h1m-9 8v1M5.6 5.6l.7.7m12.1-.7l-.7.7m0 11.4l.7.7m-12.1-.7l-.7.7"/></symbol> <use  xlink:href="#ai:tabler:sun"></use> </svg></button>  </div> </div> </div> </div> </header>  <main>  <section class="relative not-prose" data-astro-cid-3w6r54vr> <div class="absolute z-10 inset-y-0 flex flex-col w-full md:w-1/3 lg:w-1/2 right-0" aria-hidden="true" data-astro-cid-3w6r54vr> <div class="hero-grid-container" data-astro-cid-dxravqlg> <div class="grid md:hidden grid-cols-6 grid-rows-4 gap-2 -scale-x-100" data-astro-cid-dxravqlg> <div data-square="sq-1" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-2" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-3" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-4" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-5" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-6" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-7" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-8" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-9" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-10" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-11" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-12" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-13" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-14" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-15" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-16" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-17" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-18" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-19" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-20" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-21" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-22" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-23" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-24" class="about-squared h-8 w-8 bg-primary opacity-[0.03] rounded-xl hover:opacity-20 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div> </div> <div class="hidden md:grid lg:hidden grid-cols-8 grid-rows-4 gap-4 -scale-x-100" data-astro-cid-dxravqlg> <div data-square="sq-1" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-2" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-3" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-4" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-5" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-6" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-7" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-8" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-9" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-10" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-11" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-12" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-13" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-14" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-15" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-16" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-17" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-18" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-19" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-20" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-21" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-22" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-23" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-24" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-25" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-26" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-27" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-28" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-29" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-30" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-31" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-32" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-33" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-34" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-35" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-36" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-37" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-38" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-39" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-40" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-41" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-42" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-43" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-44" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-45" class="about-squared h-8 w-8 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div> </div> <div class="hidden lg:grid xl:hidden grid-cols-10 grid-rows-8 gap-4 -scale-x-100" data-astro-cid-dxravqlg> <div data-square="sq-1" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-2" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-3" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-4" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-5" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-6" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-7" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-8" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-9" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-10" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-11" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-12" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-13" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-14" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-15" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-16" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-17" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-18" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-19" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-20" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-21" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-22" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-23" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-24" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-25" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-26" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-27" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-28" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-29" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-30" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-31" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-32" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-33" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-34" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-35" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-36" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-37" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-38" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-39" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-40" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-41" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-42" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-43" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-44" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-45" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-46" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-47" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-48" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-49" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-50" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-51" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-52" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-53" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-54" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-55" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-56" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-57" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-58" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-59" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-60" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-61" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-62" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-63" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-64" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-65" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-66" class="about-squared h-10 w-10 bg-primary opacity-[0.04] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div> </div> <div class="hidden xl:grid grid-cols-12 grid-rows-8 gap-4 -scale-x-100" data-astro-cid-dxravqlg> <div data-square="sq-1" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-2" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-3" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-4" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-5" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-6" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-7" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-8" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-9" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-10" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-11" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-12" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-13" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-14" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-15" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-16" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-17" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-18" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-19" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-20" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-21" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-22" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-23" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-24" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-25" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-26" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-27" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-28" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-29" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-30" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-31" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-32" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-33" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-34" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-35" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-36" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-37" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-38" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-39" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-40" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-41" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-42" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-43" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-44" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-45" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-46" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-47" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-48" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-49" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-50" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-51" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-52" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-53" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-54" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-55" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-56" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-57" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-58" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-59" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-60" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-61" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-62" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-63" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-64" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-65" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-66" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-67" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-68" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-69" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-70" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-71" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-72" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-73" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-74" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-75" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-76" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-77" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div><div data-square="sq-78" class="about-squared h-12 w-12 bg-primary opacity-[0.02] rounded-xl hover:opacity-10 transition-all ease-in-out duration-75" data-astro-cid-dxravqlg></div> </div> </div>   </div> <div class="relative container" data-astro-cid-3w6r54vr> <div class="pt-28 lg:pt-52 lg:flex lg:items-center lg:gap-8" data-astro-cid-3w6r54vr> <div class="hero2-content basis-2/3 lg:text-left pb-10 md:pb-16 mx-auto" data-astro-cid-3w6r54vr>  <h1 class="hero2-title text-4xl md:text-5xl font-semibold mb-4 font-heading text-default" data-astro-cid-3w6r54vr> <div class="z-10 relative"> <div class="blog-link-container" data-astro-cid-bntzjvbe> <a class="btn btn-tertiary-blank px-3 md:px-3" href="/blog" data-astro-cid-bntzjvbe data-astro-prefetch><svg width="1em" height="1em" viewBox="0 0 24 24" class="w-5 h-5 mr-1 -ml-1.5 rtl:-mr-1.5 rtl:ml-1" data-astro-cid-bntzjvbe data-icon="tabler:arrow-left">  <symbol id="ai:tabler:arrow-left"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l6 6m-6-6l6-6"/></symbol> <use  xlink:href="#ai:tabler:arrow-left"></use> </svg>Back to Articles</a> </div>   </div> RAG is all you need - Part 2</h1> <div class="max-w-3xl lg:max-w-none" data-astro-cid-3w6r54vr> <p class="hero2-subtitle text-lg text-muted" data-astro-cid-3w6r54vr>Ever stared at your computer screen, wondering how the heck these AI models actually understand what we&#39;re saying? Like, how does ChatGPT know that when I say chair, it&#39;s more related to table than basketball? Well, buckle up, because we&#39;re about to dive into one of the coolest parts of modern AI engineering - vector search! 🚀</p>  </div> <p class="hero2-content-extra text-primary z-10 relative" data-astro-cid-3w6r54vr> <div class="flex justify-between flex-col sm:flex-row mt-0 mb-2 text-secondary z-10 relative"> <p> ⏰  <time datetime="Wed Sep 11 2024 01:00:00 GMT+0100 (British Summer Time)" class="inline-block">Sep 11, 2024</time>  
+· <a class="capitalize hover:underline inline-block" href="/category/tech"> tech </a>   · 7 min read </p> </div> </p> </div> <div class="hero2-image basis-1/2" data-astro-cid-3w6r54vr>  </div> </div> </div> </section>   <div class="relative"> <section class="py-8 lg:py-12 mx-auto" data-astro-cid-wo4vtnkt> <article data-astro-cid-wo4vtnkt> <header class="post-header " data-astro-cid-wo4vtnkt> <div class="relative"><img src="https://minio-api.dartsmw.com/chienda.com/political-rag.png" width="900" height="506" sizes="(max-width: 900px) 400px, 900px" style="object-fit: cover; object-position: center; max-width: 900px; max-height: 506px; aspect-ratio: 1.7786561264822134; width: 100%;" class="max-w-full lg:max-w-[900px] mx-auto mb-6 sm:rounded-md bg-gray-400 dark:bg-slate-700" alt="Ever stared at your computer screen, wondering how the heck these AI models actually understand what we're saying? Like, how does ChatGPT know that when I say chair, it's more related to table than basketball? Well, buckle up, because we're about to dive into one of the coolest parts of modern AI engineering - vector search! 🚀" loading="eager" decoding="async" data-astro-cid-wo4vtnkt class=""></div> </header> <div class="post-meta mx-auto px-6 sm:px-6 max-w-3xl w-2/3 md:w-1/2 mt-8 flex justify-between flex-col items-center sm:flex-row z-20 sticky top-0 lg:top-10 bg-card/80 py-4 lg:py-2 backdrop-blur-xl" data-astro-cid-wo4vtnkt> <ul class="hidden lg:block mr-5 rtl:mr-0 rtl:ml-5"><li class="inline-block mr-2 rtl:mr-0 mb-2 py-0.5 px-1 lowercase font-medium"><a class="btn-secondary py-1 px-4 text-muted" href="/tag/rag" data-astro-prefetch>rag</a></li><li class="inline-block mr-2 rtl:mr-0 mb-2 py-0.5 px-1 lowercase font-medium"><a class="btn-secondary py-1 px-4 text-muted" href="/tag/llm" data-astro-prefetch>llm</a></li><li class="inline-block mr-2 rtl:mr-0 mb-2 py-0.5 px-1 lowercase font-medium"><a class="btn-secondary py-1 px-4 text-muted" href="/tag/embeddings" data-astro-prefetch>embeddings</a></li><li class="inline-block mr-2 rtl:mr-0 mb-2 py-0.5 px-1 lowercase font-medium"><a class="btn-secondary py-1 px-4 text-muted" href="/tag/ai" data-astro-prefetch>ai</a></li></ul> <div class="mt-5 sm:mt-1 align-middle flex justify-center items-center text-default"> <span class="align-super font-bold text-gray-400 dark:text-slate-400">Share:</span> <button class="ml-2 rtl:ml-0 rtl:mr-2" title="Twitter Share" data-aw-social-share="twitter" data-aw-url="https://chienda.com/rag-is-all-you-need-2" data-aw-text="RAG is all you need - Part 2"><svg width="1em" height="1em" viewBox="0 0 24 24" class="w-6 h-6 text-muted hover:text-default" data-icon="tabler:brand-x">   <use  xlink:href="#ai:tabler:brand-x"></use> </svg> </button> <button class="ml-2 rtl:ml-0 rtl:mr-2" title="Facebook Share" data-aw-social-share="facebook" data-aw-url="https://chienda.com/rag-is-all-you-need-2"><svg width="1em" height="1em" viewBox="0 0 24 24" class="w-6 h-6 text-muted hover:text-default" data-icon="tabler:brand-facebook">  <symbol id="ai:tabler:brand-facebook"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 10v4h3v7h4v-7h3l1-4h-4V8a1 1 0 0 1 1-1h3V3h-3a5 5 0 0 0-5 5v2z"/></symbol> <use  xlink:href="#ai:tabler:brand-facebook"></use> </svg> </button> <button class="ml-2 rtl:ml-0 rtl:mr-2" title="Linkedin Share" data-aw-social-share="linkedin" data-aw-url="https://chienda.com/rag-is-all-you-need-2" data-aw-text="RAG is all you need - Part 2"><svg width="1em" height="1em" viewBox="0 0 24 24" class="w-6 h-6 text-muted hover:text-default" data-icon="tabler:brand-linkedin">   <use  xlink:href="#ai:tabler:brand-linkedin"></use> </svg> </button> <button class="ml-2 rtl:ml-0 rtl:mr-2" title="Whatsapp Share" data-aw-social-share="whatsapp" data-aw-url="https://chienda.com/rag-is-all-you-need-2" data-aw-text="RAG is all you need - Part 2"><svg width="1em" height="1em" viewBox="0 0 24 24" class="w-6 h-6 text-muted hover:text-default" data-icon="tabler:brand-whatsapp">  <symbol id="ai:tabler:brand-whatsapp"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m3 21l1.65-3.8a9 9 0 1 1 3.4 2.9z"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0za5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></g></symbol> <use  xlink:href="#ai:tabler:brand-whatsapp"></use> </svg> </button> <button class="ml-2 rtl:ml-0 rtl:mr-2" title="Email Share" data-aw-social-share="mail" data-aw-url="https://chienda.com/rag-is-all-you-need-2" data-aw-text="RAG is all you need - Part 2"><svg width="1em" height="1em" viewBox="0 0 24 24" class="w-6 h-6 text-muted hover:text-default" data-icon="tabler:mail">  <symbol id="ai:tabler:mail"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="m3 7l9 6l9-6"/></g></symbol> <use  xlink:href="#ai:tabler:mail"></use> </svg> </button> </div> </div> <div class="post-content container-article prose prose-lg lg:prose-xl prose-pre:shadow-xl code-block prose-pre:pt-12 dark:prose-invert prose-headings:text-primary prose-img:w-full prose-img:border-4 prose-img:border-card prose-img:hover:border-primary prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-secondary prose-img:rounded-md prose-img:shadow-lg mt-8 prose-headings:scroll-mt-[80px] prose-blockquote:bg-card prose-blockquote:p-4 prose-blockquote:border-secondary prose-h3:text-default prose-h4:text-muted" data-astro-cid-wo4vtnkt> <hr/>
+<p><em>This is the second part of our “RAG is all you need” series, where we’re exploring the nuts and bolts of Retrieval Augmented Generation. If you haven’t checked out <a href="/rag-is-all-you-need">Part 1</a> where we covered the fundamentals of how LLMs work and why grounding them to some known truth is essential in modern AI engineering, definitely give that a read first!</em></p>
+<hr/>
+<h2 id="introduction">Introduction</h2>
+<p>So last time we talked about why RAG is such a game-changer for AI applications, right? Like, it’s literally becoming one of those must-have tools in every AI engineer’s toolkit. Today though? We’re gonna deep dive into something super cool - vector search. And trust me, once you get this, a lot of things about modern AI just click! 🔍</p>
+<p>Let me start with something that’s been bugging computer scientists for ages: how do we get computers to actually understand language the way we do? Here’s a fun little exercise - think about these words:</p>
+<ul>
+<li>table 🛏️</li>
+<li>flower 🌺</li>
+<li>lamp 🪔</li>
+<li>basketball 🏀</li>
+</ul>
+<p>Now, if I throw in the word “chair” and ask you which one’s most related… you’d probably say table, right?</p>
+<p>But here’s where it gets interesting! If I asked you why, you might start talking about how chairs and tables go together during meals, or how they’re both made of wood. But wait - basketballs boards are made of wood too! And technically, you sit near lamps all the time… See how messy this gets? 😅</p>
+<img src="/_astro/vector-space.BQaVARf6_ZsIs20.svg" alt="Vector Illustration of embedded words" width="640" height="400" loading="lazy" decoding="async">
+<p>NLP researchers have been cooking up better and better ways to handle these nuanced relationships. They started with pretty basic stuff like <a href="https://machinelearningmastery.com/gentle-introduction-bag-words-model/">bag-of-words</a> (kinda naive, if you ask me), but then <a href="https://www.techtarget.com/searchenterpriseai/definition/BERT-language-model">BERT</a> came along and… boom!💥</p>
+<p>What BERT and similar models do is super clever - they map words into this dense vector space where relationships are represented by how words appear together in massive amounts of text. It’s like they’re creating this multidimensional map of language itself! And when I say multidimensional, I mean like… way more than the 2D diagram above. Think 512 dimensions or more!</p>
+<p>Let me try and break it down like this: every word gets its own unique “location” in this space, and words that often show up together in similar contexts end up closer to each other. Modern language models like Claude and GPT have gotten perfect at this mapping!</p>
+<h2 id="understanding-vector-embeddings-in-practice">Understanding Vector Embeddings in Practice</h2>
+<p>When it comes to actually building AI applications (isn’t that why we are all here 😅), we need to take our knowledge base - our ground truth - and convert it into these vector embeddings. This is where we begin to differentiate our AI Chatbot from the rest, the uniqueness and usefulness of the data you want to make available:</p>
+<ul>
+<li>Company documentation</li>
+<li>School syllabi</li>
+<li>Performance reports</li>
+<li>Pretty much any text you want your AI to understand!</li>
+</ul>
+<p>Today, there’s several approaches you could take in creating these embeddings. Like, sure, you could use smaller models like BERT, and honestly? If you’re just getting started or working on a smaller project, that’s totally fine! You can do it absolutely free with these open-source BERT models.</p>
+<p>But in production, we usually reach for these high-dimension, high-accuracy embedding models. I’m talking about models from OpenAI, for example. Why? Because they just handle those tricky, ambiguous language tasks so much better!</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">from</span><span style="color:#E1E4E8"> langchain.embeddings </span><span style="color:#F97583">import</span><span style="color:#E1E4E8"> OpenAIEmbeddings, HuggingFaceEmbeddings</span></span>
+<span class="line"><span style="color:#F97583">from</span><span style="color:#E1E4E8"> langchain.text_splitter </span><span style="color:#F97583">import</span><span style="color:#E1E4E8"> RecursiveCharacterTextSplitter</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> os</span></span>
+<span class="line"><span style="color:#F97583">from</span><span style="color:#E1E4E8"> typing </span><span style="color:#F97583">import</span><span style="color:#E1E4E8"> List, Dict</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> EmbeddingGenerator</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self, model_type: </span><span style="color:#79B8FF">str</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> &quot;openai&quot;</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;&quot;&quot;</span></span>
+<span class="line"><span style="color:#9ECBFF">        Initialize our embedding generator with either OpenAI or a local BERT model</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;&quot;&quot;</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> model_type </span><span style="color:#F97583">==</span><span style="color:#9ECBFF"> &quot;openai&quot;</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">            self</span><span style="color:#E1E4E8">.embeddings </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> OpenAIEmbeddings()</span></span>
+<span class="line"><span style="color:#F97583">        else</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#6A737D">            # Using a smaller BERT model - great for testing!</span></span>
+<span class="line"><span style="color:#79B8FF">            self</span><span style="color:#E1E4E8">.embeddings </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> HuggingFaceEmbeddings(</span></span>
+<span class="line"><span style="color:#FFAB70">                model_name</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">&quot;sentence-transformers/all-MiniLM-L6-v2&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">            )</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#6A737D">        # This is where the magic happens with text splitting</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.text_splitter </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> RecursiveCharacterTextSplitter(</span></span>
+<span class="line"><span style="color:#FFAB70">            chunk_size</span><span style="color:#F97583">=</span><span style="color:#79B8FF">1000</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#FFAB70">            chunk_overlap</span><span style="color:#F97583">=</span><span style="color:#79B8FF">200</span><span style="color:#E1E4E8">,  </span><span style="color:#6A737D"># A bit of overlap helps maintain context</span></span>
+<span class="line"><span style="color:#FFAB70">            length_function</span><span style="color:#F97583">=</span><span style="color:#79B8FF">len</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    async</span><span style="color:#F97583"> def</span><span style="color:#B392F0"> generate_embeddings</span><span style="color:#E1E4E8">(self, text: </span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">) -&gt; List[Dict]:</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;&quot;&quot;</span></span>
+<span class="line"><span style="color:#9ECBFF">        Take our text, split it into chunks, and generate embeddings</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;&quot;&quot;</span></span>
+<span class="line"><span style="color:#6A737D">        # First, let&#39;s split our text into manageable chunks</span></span>
+<span class="line"><span style="color:#E1E4E8">        chunks </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.text_splitter.split_text(text)</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#6A737D">        # Now generate embeddings for each chunk</span></span>
+<span class="line"><span style="color:#E1E4E8">        embeddings </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> []</span></span>
+<span class="line"><span style="color:#F97583">        for</span><span style="color:#E1E4E8"> chunk </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> chunks:</span></span>
+<span class="line"><span style="color:#E1E4E8">            vector </span><span style="color:#F97583">=</span><span style="color:#F97583"> await</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.embeddings.aembed_query(chunk)</span></span>
+<span class="line"><span style="color:#E1E4E8">            embeddings.append({</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;text&quot;</span><span style="color:#E1E4E8">: chunk,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;vector&quot;</span><span style="color:#E1E4E8">: vector,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;metadata&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">                    &quot;length&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">len</span><span style="color:#E1E4E8">(chunk),</span></span>
+<span class="line"><span style="color:#6A737D">                    # You might want to add more metadata here</span></span>
+<span class="line"><span style="color:#E1E4E8">                }</span></span>
+<span class="line"><span style="color:#E1E4E8">            })</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> embeddings</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Let&#39;s see it in action!</span></span>
+<span class="line"><span style="color:#F97583">async</span><span style="color:#F97583"> def</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#6A737D">    # Create our generator</span></span>
+<span class="line"><span style="color:#E1E4E8">    generator </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> EmbeddingGenerator(</span><span style="color:#FFAB70">model_type</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">&quot;openai&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#6A737D">    # Some sample text</span></span>
+<span class="line"><span style="color:#E1E4E8">    text </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;&quot;&quot;</span></span>
+<span class="line"><span style="color:#9ECBFF">    Vector search is a fascinating technique in AI. </span></span>
+<span class="line"><span style="color:#9ECBFF">    It allows us to find similar content by converting text into </span></span>
+<span class="line"><span style="color:#9ECBFF">    high-dimensional vectors and comparing them using cosine similarity.</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;&quot;&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#6A737D">    # Generate those embeddings!</span></span>
+<span class="line"><span style="color:#E1E4E8">    embeddings </span><span style="color:#F97583">=</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> generator.generate_embeddings(text)</span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">&quot;Generated </span><span style="color:#79B8FF">{len</span><span style="color:#E1E4E8">(embeddings)</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF"> embeddings!&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">&quot;First embedding vector size: </span><span style="color:#79B8FF">{len</span><span style="color:#E1E4E8">(embeddings[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">][</span><span style="color:#9ECBFF">&#39;vector&#39;</span><span style="color:#E1E4E8">])</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span></code></pre>
+<h2 id="the-vector-database-game">The Vector Database Game</h2>
+<p>Okay, so you and I know all about Relational Database Management Systems (RDBMSs) right, but they’re really built for storing stuff in rows and columns - very 2D thinking. Some databases get a bit fancier with graphs or nodes (looking at you, <a href="https://neo4j.com/">Neo4j!</a>), but vector databases? They’re built different!</p>
+<p>These specialized databases can handle information in vector space that’s super multidimensional. We’re talking hundreds or even thousands of dimensions! And over the last few years, we’ve seen some really cool options pop up:</p>
+<ul>
+<li><a href="https://www.pinecone.io/">Pinecone</a> (built specifically for vector search)</li>
+<li><a href="https://www.trychroma.com/">Chroma</a> (built specifically for vector search)</li>
+<li>PostgreSQL with <a href="https://github.com/pgvector/pgvector">pg_vector</a> (for when you want to stick with the classics)</li>
+<li><a href="https://redis.io/solutions/vector-database/">Redis</a> (my personal favorite because… performance! 🚀)</li>
+</ul>
+<p><img src="https://blueteam.ai/blog/vector-benchmarking/Zilliz_Test_Example.png" alt="Benchmark of Vector Db Performance"/></p>
+<p>You can run a comparison yourself <a href="https://github.com/zilliztech/VectorDBBench">here</a>.</p>
+<h2 id="building-the-pipeline">Building The Pipeline</h2>
+<p>So here’s how the whole thing actually works in practice. When someone asks a question, we:</p>
+<ol>
+<li>Store your ground truth in a vector database</li>
+<li>Convert the user’s question into an embedding</li>
+<li>Use cosine similarity (which is actually a pretty simple algorithm) to find matches</li>
+<li>Pull back maybe the top 10 most relevant chunks of information</li>
+</ol>
+<img src="/_astro/rag-pipeline.8Lfqwe5p_12NMX4.svg" alt="RAG Pipeline illustration" width="800" height="400" loading="lazy" decoding="async">
+<p>Now, there’s actually a whole science to storing these embeddings! It depends on stuff like:</p>
+<ul>
+<li>Which LLM you’re using</li>
+<li>The context window size you’re working with</li>
+<li>How much data you can throw at it before things get wonky</li>
+</ul>
+<p>But honestly, these newer models with their huge context windows? They’ve made this SO much easier! You can throw a pretty big chunk of context at them, and they handle it like champs. No more worrying about degrading quality or hallucinations (well, mostly! 😅).</p>
+<h2 id="practical-implementation-tips">Practical Implementation Tips</h2>
+<p>When you’re actually implementing this, you want to:</p>
+<ol>
+<li>Chunk your data into manageable sizes</li>
+<li>Store references to your original documents</li>
+<li>Fetch those reference docs when you get a match</li>
+</ol>
+<p>This way, when your LLM is answering questions, it’s not just pulling from its training data - it’s using actual, accurate information from your knowledge base!</p>
+<p>Below is a representation of how you could your RAG data using Postgres</p>
+<h4 id="documents">documents</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="overflow:auto"><table><thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>id</td><td>UUID</td><td>Primary key - unique document identifier</td></tr><tr><td>title</td><td>TEXT</td><td>Document title/name</td></tr><tr><td>source_url</td><td>TEXT</td><td>Where this doc came from (optional)</td></tr><tr><td>created_at</td><td>TIMESTAMP WITH TIMEZONE</td><td>When we first added this</td></tr><tr><td>updated_at</td><td>TIMESTAMP WITH TIMEZONE</td><td>Last time we touched this</td></tr></tbody></table></div>
+<h4 id="document_chunks">document_chunks</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="overflow:auto"><table><thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>id</td><td>UUID</td><td>Primary key - unique chunk identifier</td></tr><tr><td>document_id</td><td>UUID</td><td>Links back to our main document 🔗</td></tr><tr><td>chunk_index</td><td>INTEGER</td><td>Helps us keep chunks in order (super important!)</td></tr><tr><td>content</td><td>TEXT</td><td>The actual chunk of text</td></tr><tr><td>embedding</td><td>vector(1536)</td><td>Our fancy vector embedding - magic! ✨</td></tr><tr><td>metadata</td><td>JSONB</td><td>Flexible metadata storage (love this!)</td></tr><tr><td>tokens</td><td>INTEGER</td><td>Token count (helpful for context windows)</td></tr><tr><td>chunk_size</td><td>INTEGER</td><td>Size of this chunk in chars</td></tr><tr><td>created_at</td><td>TIMESTAMP WITH TIMEZONE</td><td>When we created this chunk</td></tr></tbody></table></div>
+<p>You know what’s cool about this setup? The <code>metadata</code> JSONB field is like this super flexible catch-all for whatever extra info you might need to track. This can become helpful for improving the relevance and accuracy of your search (more on that later on in the series). I usually stuff things in there like:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;source_type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;technical_doc&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;department&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;engineering&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;last_verified&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;2024-01-18&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;confidence&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0.95</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;page_number&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">42</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;section&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;API Documentation&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span></code></pre>
+<hr/>
+<p>Next up, we’ll roll up our sleeves and implement a real world RAG solution against the <a href="https://www.maneb.edu.mw/">MANEB syllabus</a> - which can be used later to create a context aware AI tutor for Malawian Students!</p> </div> <div class="post-footer container-article" data-astro-cid-wo4vtnkt> <div class="my-8 lg:w-1/2" data-astro-cid-wo4vtnkt> <!--Discuss on X Button-->  </div> <ul class="lg:hidden mr-5 my-4 rtl:mr-0 rtl:ml-5"><li class="inline-block mr-2 rtl:mr-0 mb-2 py-0.5 px-1 lowercase font-medium"><a class="btn-secondary py-1 px-4 text-muted" href="/tag/rag" data-astro-prefetch>rag</a></li><li class="inline-block mr-2 rtl:mr-0 mb-2 py-0.5 px-1 lowercase font-medium"><a class="btn-secondary py-1 px-4 text-muted" href="/tag/llm" data-astro-prefetch>llm</a></li><li class="inline-block mr-2 rtl:mr-0 mb-2 py-0.5 px-1 lowercase font-medium"><a class="btn-secondary py-1 px-4 text-muted" href="/tag/embeddings" data-astro-prefetch>embeddings</a></li><li class="inline-block mr-2 rtl:mr-0 mb-2 py-0.5 px-1 lowercase font-medium"><a class="btn-secondary py-1 px-4 text-muted" href="/tag/ai" data-astro-prefetch>ai</a></li></ul> </div> <div class="post-bio" data-astro-cid-wo4vtnkt> <div class="container-article my-8 border-t border-b border-muted py-8"> <div class="tweets dark"> <blockquote class="twitter-tweet" data-theme="dark"> <p lang="en" dir="ltr">
+Hi 👋 I&#39;m Jeremiah. I&#39;m Mobile and <a href="https://twitter.com/hashtag/AI?src=hash&ref_src=twsrc%5Etfw">#AI</a> 🪄 Lead at <a href="https://twitter.com/IremboGov?ref_src=twsrc%5Etfw">@IremboGov</a> by ☀️ and create <a href="https://t.co/sZ4UrAssGl">https://t.co/sZ4UrAssGl</a> by 🌙 <br><br>I love to <a href="https://twitter.com/hashtag/buildinpublic?src=hash&ref_src=twsrc%5Etfw">#buildinpublic</a> and share my failers and occasional wins on <a href="https://t.co/nAroIneVbE">https://t.co/nAroIneVbE</a>. Let’s
+<a href="https://twitter.com/hashtag/connect?src=hash&ref_src=twsrc%5Etfw">#connect</a> if interested in <a href="https://twitter.com/hashtag/softwareengineering?src=hash&ref_src=twsrc%5Etfw">#softwareengineering</a> <a href="https://twitter.com/hashtag/blockchain?src=hash&ref_src=twsrc%5Etfw">#blockchain</a> <a href="https://twitter.com/hashtag/startups?src=hash&ref_src=twsrc%5Etfw">#startups</a> </p>&mdash; Chienda (@liwucodes) <a href="https://twitter.com/liwucodes/status/1746224748067987458?ref_src=twsrc%5Etfw">January 13, 2024</a> </blockquote> </div> <div class="tweets hidden light"> <blockquote class="twitter-tweet" data-theme="light"> <p lang="en" dir="ltr">
+Hi 👋 I&#39;m Jeremiah. I&#39;m Mobile and <a href="https://twitter.com/hashtag/AI?src=hash&ref_src=twsrc%5Etfw">#AI</a> 🪄 Lead at <a href="https://twitter.com/IremboGov?ref_src=twsrc%5Etfw">@IremboGov</a> by ☀️ and create <a href="https://t.co/sZ4UrAssGl">https://t.co/sZ4UrAssGl</a> by 🌙 <br><br>I love to <a href="https://twitter.com/hashtag/buildinpublic?src=hash&ref_src=twsrc%5Etfw">#buildinpublic</a> and share my failers and occasional wins on <a href="https://t.co/nAroIneVbE">https://t.co/nAroIneVbE</a>. Let’s
+<a href="https://twitter.com/hashtag/connect?src=hash&ref_src=twsrc%5Etfw">#connect</a> if interested in <a href="https://twitter.com/hashtag/softwareengineering?src=hash&ref_src=twsrc%5Etfw">#softwareengineering</a> <a href="https://twitter.com/hashtag/blockchain?src=hash&ref_src=twsrc%5Etfw">#blockchain</a> <a href="https://twitter.com/hashtag/startups?src=hash&ref_src=twsrc%5Etfw">#startups</a> </p>&mdash; Chienda (@liwucodes) <a href="https://twitter.com/liwucodes/status/1746224748067987458?ref_src=twsrc%5Etfw">January 13, 2024</a> </blockquote> </div> </div> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> </div> <div class="post-extras container-lg" data-astro-cid-wo4vtnkt> <div class="my-20"> <div class="md:w-2/3 md:mx-auto lg:w-full flex flex-col rounded-lg dark:bg-[#1e1e1e] bg-[#e0e0e0] p-4 gap-y-2"> <div> <p class="font-semibold flex items-center gap-x-2"> <span> <svg class="stroke-default w-5" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 25"> <rect x="1" y="1" width="39" height="23" rx="11.5" stroke-width="2"></rect> <path transform="matrix(.66913 .74314 -.70808 .70613 8.861 2.122)" stroke-width="2" stroke-linecap="round" d="M1-1h15.227"></path> <path transform="matrix(-.66913 .74314 .70808 .70613 32.388 2.122)" stroke-width="2" stroke-linecap="round" d="M1-1h15.227"></path> </svg> </span> Stay up to date with my Posts </p> </div> <div> <p class="text-muted">Get notified whenever I publish a new article concerning the latest in Software Engineering, a Youtube Video or just some thoughts about politics or Faith!</p> </div> <script>(()=>{var l=(s,i,o)=>{let r=async()=>{await(await s())()},t=typeof i.value=="object"?i.value:void 0,c={rootMargin:t==null?void 0:t.rootMargin},n=new IntersectionObserver(e=>{for(let a of e)if(a.isIntersecting){n.disconnect(),r();break}},c);for(let e of o.children)n.observe(e)};(self.Astro||(self.Astro={})).visible=l;window.dispatchEvent(new Event("astro:visible"));})();</script><astro-island uid="etiyc" prefix="r7" component-url="/_astro/SignUpWithRecaptcha.BRPqluDT.js" component-export="default" renderer-url="/_astro/client.B04-Q6O1.js" props="{&quot;inputs&quot;:[1,[[0,{&quot;name&quot;:[0,&quot;category&quot;],&quot;label&quot;:[0,&quot;Category&quot;],&quot;type&quot;:[0,&quot;select&quot;],&quot;dropdownOptions&quot;:[1,[[0,{&quot;label&quot;:[0,&quot;All Categories&quot;],&quot;value&quot;:[0,&quot;all&quot;]}],[0,{&quot;label&quot;:[0,&quot;Tech&quot;],&quot;value&quot;:[0,&quot;tech&quot;]}],[0,{&quot;label&quot;:[0,&quot;Videos&quot;],&quot;value&quot;:[0,&quot;videos&quot;]}],[0,{&quot;label&quot;:[0,&quot;General&quot;],&quot;value&quot;:[0,&quot;general&quot;]}]]],&quot;placeholder&quot;:[0,&quot;Enter your category...&quot;]}],[0,{&quot;name&quot;:[0,&quot;name&quot;],&quot;label&quot;:[0,&quot;Name&quot;],&quot;type&quot;:[0,&quot;text&quot;],&quot;placeholder&quot;:[0,&quot;Enter your name&quot;]}],[0,{&quot;name&quot;:[0,&quot;email&quot;],&quot;label&quot;:[0,&quot;Email&quot;],&quot;type&quot;:[0,&quot;email&quot;],&quot;placeholder&quot;:[0,&quot;Enter your email address to signup&quot;]}]]],&quot;buttonLabel&quot;:[0,&quot;Signup&quot;]}" ssr="" client="visible" opts="{&quot;name&quot;:&quot;SignUptWithRecaptcha&quot;,&quot;value&quot;:true}" await-children=""><form class="flex flex-col gap-y-2"><div class="grid grid-cols-2 gap-4 items-center md:grid-cols-4"><div class="w-full"><select name="category" id="category" required="" autoComplete="on" class="form-select w-full py-2 px-4 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"><option value="all">All Categories</option><option value="tech">Tech</option><option value="videos">Videos</option><option value="general">General</option></select></div><div class="w-full"><input type="text" name="name" required="" id="name" autoComplete="on" placeholder="Enter your name" class="py-2 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"/></div><div class="w-full"><input type="email" name="email" required="" id="email" autoComplete="on" placeholder="Enter your email address to signup" class="py-2 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"/></div><div><button type="submit" class="btn btn-primary w-full">Signup</button></div></div><div class="flex items-start"><div class="flex"><input id="disclaimer" name="disclaimer" required="" type="checkbox" class="cursor-pointer mt-1 p-2 block w-full text-md rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"/></div><div class="ml-3"><label for="disclaimer" class="cursor-pointer select-none text-sm text-gray-600 dark:text-gray-400">Check here if you agree with my<a href="/privacy"> Privacy Policy</a></label></div></div></form><div role="region" aria-label="Notifications (F8)" tabindex="-1" style="pointer-events:none"><ol tabindex="-1" class="fixed top-0 z-[100] flex max-h-screen flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col w-3/4 lg:w-[420px]"></ol></div><!--astro:end--></astro-island>  </div> </div> <div><h3 class="text-xl text-center my-4">You may also be interested in</h3><div class="grid grid-cols-1 md:grid-cols-2 grid-gap-4"><div class="flex-col group flex gap-y-2 rounded-xl transition-all ease-in delay-25 hover:dark:bg-[#1e1e1e] hover:bg-[#e0e0e0] p-4"><div class="w-full md:w-1/2 flex md:flex-col justify-between md:justify-start items-center md:items-start"><div class="w-1/2 md:w-full"><time dateTime="Tue Jan 27 2026 00:00:00 GMT+0000 (Greenwich Mean Time)" class="inline-block text-muted">Jan 27, 2026</time><div class="flex my-2"><div class="flex-1 border-t border-default"></div><div class="flex-1 border-t border-muted"></div></div></div><div><div class="my-4 hidden md:block"></div></div></div><div class="my-1 block md:hidden"></div><div class="flex flex-col gap-y-2 w-full"><a href="/the-machine-minder" data-astro-prefetch="true"><h3 class="text-xl">The Machine Minder</h3></a><p class="text-muted leading-6 line-clamp-2">From printing presses to large language models - a reflection on how the role of the machine minder has evolved across generations, and how I&#x27;ve become my father.</p><a class="btn-link" href="the-machine-minder">Read More</a></div></div><div class="flex-col group flex gap-y-2 rounded-xl transition-all ease-in delay-25 hover:dark:bg-[#1e1e1e] hover:bg-[#e0e0e0] p-4"><div class="w-full md:w-1/2 flex md:flex-col justify-between md:justify-start items-center md:items-start"><div class="w-1/2 md:w-full"><time dateTime="Wed Jan 22 2025 00:00:00 GMT+0000 (Greenwich Mean Time)" class="inline-block text-muted">Jan 22, 2025</time><div class="flex my-2"><div class="flex-1 border-t border-default"></div><div class="flex-1 border-t border-muted"></div></div></div><div><div class="my-4 hidden md:block"></div></div></div><div class="my-1 block md:hidden"></div><div class="flex flex-col gap-y-2 w-full"><a href="/ai-agents-use-cases" data-astro-prefetch="true"><h3 class="text-xl">Practical Applications of AI Agents for African Businesses - A Real-World Perspective</h3></a><p class="text-muted leading-6 line-clamp-2">While the term &quot;AI agent&quot; has become something of a buzzword in recent times, understanding its practical applications can unlock significant value for African businesses.</p><a class="btn-link" href="ai-agents-use-cases">Read More</a></div></div><div class="flex-col group flex gap-y-2 rounded-xl transition-all ease-in delay-25 hover:dark:bg-[#1e1e1e] hover:bg-[#e0e0e0] p-4"><div class="w-full md:w-1/2 flex md:flex-col justify-between md:justify-start items-center md:items-start"><div class="w-1/2 md:w-full"><time dateTime="Sat Nov 23 2024 00:00:00 GMT+0000 (Greenwich Mean Time)" class="inline-block text-muted">Nov 23, 2024</time><div class="flex my-2"><div class="flex-1 border-t border-default"></div><div class="flex-1 border-t border-muted"></div></div></div><div><div class="my-4 hidden md:block"></div></div></div><div class="my-1 block md:hidden"></div><div class="flex flex-col gap-y-2 w-full"><a href="/the-new-electricity" data-astro-prefetch="true"><h3 class="text-xl">Is AI really the new electricity?</h3></a><p class="text-muted leading-6 line-clamp-2">Andrew Ng famously said that AI is the new electricity. But what does that mean if you are a business or policy stakeholder in Africa? I discuss my understanding of this analogy at a deeper level.</p><a class="btn-link" href="the-new-electricity">Read More</a></div></div></div></div> </div> </article> </section>   </div>  </main>  <footer class="relative not-prose"> <div class="dark:bg-dark absolute inset-0 pointer-events-none" aria-hidden="true"></div> <div class="relative container sm:px-6 dark:text-slate-300"> <div class="grid grid-cols-12 gap-4 gap-y-8 sm:gap-8 py-8 md:py-12 dark:bg-[#0f0f0f] bg-[#fafafa] p-4 lg:p-12 rounded-tl-2xl rounded-tr-2xl"> <div class="col-span-12 lg:col-span-3"> <div class="relative"><img src="/_astro/dp.CzY7nzb-.png" width="120" height="120" srcset="/_astro/dp.CzY7nzb-_1b4nvv.webp 120w, /_astro/dp.CzY7nzb-_2iiFwR.webp 240w" sizes="120px" style="object-fit: cover; object-position: top left; width: 120px; height: 120px;" class="mx-auto rounded-full bg-gray-500 shadow-lg hidden sm:block" alt="Jeremiah Chienda — AI Engineer" loading="lazy" decoding="async" class=""></div> </div> <div class="col-span-6 md:col-span-3 lg:col-span-2"> <ul class="text-sm"> <li class="mb-6"> <a class="text-muted hover:text-default hover:underline transition duration-150 ease-in-out" href="/"> Home </a> </li><li class="mb-6"> <a class="text-muted hover:text-default hover:underline transition duration-150 ease-in-out" href="/about"> About </a> </li><li class="mb-6"> <a class="text-muted hover:text-default hover:underline transition duration-150 ease-in-out" href="/blog"> Articles </a> </li> </ul> </div><div class="col-span-6 md:col-span-3 lg:col-span-2"> <ul class="text-sm"> <li class="mb-6"> <a class="text-muted hover:text-default hover:underline transition duration-150 ease-in-out" href="/projects"> Projects </a> </li><li class="mb-6"> <a class="text-muted hover:text-default hover:underline transition duration-150 ease-in-out" href="https://getalinafe.com"> Music </a> </li><li class="mb-6"> <a class="text-muted hover:text-default hover:underline transition duration-150 ease-in-out" href="#"> Speaking </a> </li> </ul> </div><div class="col-span-6 md:col-span-3 lg:col-span-2"> <ul class="text-sm"> <li class="mb-6"> <a class="text-muted hover:text-default hover:underline transition duration-150 ease-in-out" href="/using"> Using </a> </li><li class="mb-6"> <a class="text-muted hover:text-default hover:underline transition duration-150 ease-in-out" href="https://old.chienda.com"> Old Site </a> </li><li class="mb-6"> <a class="text-muted hover:text-default hover:underline transition duration-150 ease-in-out" href="/contact"> Contacts </a> </li> </ul> </div> <div class="col-span-6 md:col-span-3 lg:col-span-3 text-right flex flex-col gap-y-1"> <div class="items-center gap-x-2 justify-end flex"> <svg class="stroke-default hidden md:block w-5" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 24"><path d="M4.911 1c.896.407 2.542 1.613 1.956 3.178-.734 1.955-3.667 3.422-2.2 5.866M9.8 1c.896.407 2.542 1.613 1.955 3.178-.733 1.955-3.666 3.422-2.2 5.866M14.689 1c.896.407 2.542 1.613 1.956 3.178-.734 1.955-3.667 3.422-2.2 5.866" stroke-width="2"></path><path d="M1 4.422V17a6 6 0 0 0 6 6h7.067a6 6 0 0 0 6-6V4.422M25.422 13.447c0 1.204-.604 2.35-1.614 3.218a5.907 5.907 0 0 1-2.742 1.311V8.92a5.908 5.908 0 0 1 2.742 1.311c1.01.868 1.614 2.013 1.614 3.217Z" stroke-width="2"></path></svg> <h2 class="text-sm lg:text-lg">Wanna buy me a Coffee?</h2> </div> <h4 class="text-xs text-muted">I accept the following Crypto:</h4> <ul class="flex mb-4 justify-end"> <li> <astro-island uid="1Q5Vkk" prefix="r4" component-url="/_astro/CryptoButton.C-2r4m-Y.js" component-export="CryptoButton" renderer-url="/_astro/client.B04-Q6O1.js" props="{&quot;ariaLabel&quot;:[0,&quot;Bitcoin&quot;],&quot;address&quot;:[0,&quot;bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh&quot;],&quot;icon&quot;:[0,&quot;tabler:currency-bitcoin&quot;],&quot;color&quot;:[0,&quot;bg-orange-500 hover:bg-orange-600&quot;],&quot;qrCode&quot;:[0,&quot;https://minio-api.dartsmw.com/chienda.com/qr-bitcoin.png&quot;]}" ssr="" client="load" opts="{&quot;name&quot;:&quot;CryptoButton&quot;,&quot;value&quot;:true}" await-children=""><div class="relative group"><button class="bg-orange-500 hover:bg-orange-600 text-white mx-2 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-full text-sm p-1 inline-flex items-center relative transition-transform hover:scale-110" aria-label="Bitcoin - Click to copy address"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bitcoin w-5 h-5"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"></path></svg></button><button class="absolute -top-1 -right-1 bg-gray-700 hover:bg-gray-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity" aria-label="Show Bitcoin QR Code"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-qr-code w-3 h-3"><rect width="5" height="5" x="3" y="3" rx="1"></rect><rect width="5" height="5" x="16" y="3" rx="1"></rect><rect width="5" height="5" x="3" y="16" rx="1"></rect><path d="M21 16h-3a2 2 0 0 0-2 2v3"></path><path d="M21 21v.01"></path><path d="M12 7v3a2 2 0 0 1-2 2H7"></path><path d="M3 12h.01"></path><path d="M12 3h.01"></path><path d="M12 16v.01"></path><path d="M16 12h1"></path><path d="M21 12v.01"></path><path d="M12 21v-1"></path></svg></button></div><!--astro:end--></astro-island> </li><li> <astro-island uid="mwqXb" prefix="r5" component-url="/_astro/CryptoButton.C-2r4m-Y.js" component-export="CryptoButton" renderer-url="/_astro/client.B04-Q6O1.js" props="{&quot;ariaLabel&quot;:[0,&quot;Ethereum&quot;],&quot;address&quot;:[0,&quot;0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb&quot;],&quot;icon&quot;:[0,&quot;tabler:currency-ethereum&quot;],&quot;color&quot;:[0,&quot;bg-blue-500 hover:bg-blue-600&quot;],&quot;qrCode&quot;:[0,&quot;https://minio-api.dartsmw.com/chienda.com/qr-ethereum.png&quot;]}" ssr="" client="load" opts="{&quot;name&quot;:&quot;CryptoButton&quot;,&quot;value&quot;:true}" await-children=""><div class="relative group"><button class="bg-blue-500 hover:bg-blue-600 text-white mx-2 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-full text-sm p-1 inline-flex items-center relative transition-transform hover:scale-110" aria-label="Ethereum - Click to copy address"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hexagon w-5 h-5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg></button><button class="absolute -top-1 -right-1 bg-gray-700 hover:bg-gray-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity" aria-label="Show Ethereum QR Code"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-qr-code w-3 h-3"><rect width="5" height="5" x="3" y="3" rx="1"></rect><rect width="5" height="5" x="16" y="3" rx="1"></rect><rect width="5" height="5" x="3" y="16" rx="1"></rect><path d="M21 16h-3a2 2 0 0 0-2 2v3"></path><path d="M21 21v.01"></path><path d="M12 7v3a2 2 0 0 1-2 2H7"></path><path d="M3 12h.01"></path><path d="M12 3h.01"></path><path d="M12 16v.01"></path><path d="M16 12h1"></path><path d="M21 12v.01"></path><path d="M12 21v-1"></path></svg></button></div><!--astro:end--></astro-island> </li><li> <astro-island uid="ZHlChm" prefix="r6" component-url="/_astro/CryptoButton.C-2r4m-Y.js" component-export="CryptoButton" renderer-url="/_astro/client.B04-Q6O1.js" props="{&quot;ariaLabel&quot;:[0,&quot;Solana&quot;],&quot;address&quot;:[0,&quot;7v91N7iZ9mNicL8WfG6cgSCKyRXydQjLh6UYBWwm6y1Q&quot;],&quot;icon&quot;:[0,&quot;tabler:currency-solana&quot;],&quot;color&quot;:[0,&quot;bg-purple-500 hover:bg-purple-600&quot;],&quot;qrCode&quot;:[0,&quot;https://minio-api.dartsmw.com/chienda.com/qr-solana.png&quot;]}" ssr="" client="load" opts="{&quot;name&quot;:&quot;CryptoButton&quot;,&quot;value&quot;:true}" await-children=""><div class="relative group"><button class="bg-purple-500 hover:bg-purple-600 text-white mx-2 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-full text-sm p-1 inline-flex items-center relative transition-transform hover:scale-110" aria-label="Solana - Click to copy address"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet w-5 h-5"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path></svg></button><button class="absolute -top-1 -right-1 bg-gray-700 hover:bg-gray-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity" aria-label="Show Solana QR Code"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-qr-code w-3 h-3"><rect width="5" height="5" x="3" y="3" rx="1"></rect><rect width="5" height="5" x="16" y="3" rx="1"></rect><rect width="5" height="5" x="3" y="16" rx="1"></rect><path d="M21 16h-3a2 2 0 0 0-2 2v3"></path><path d="M21 21v.01"></path><path d="M12 7v3a2 2 0 0 1-2 2H7"></path><path d="M3 12h.01"></path><path d="M12 3h.01"></path><path d="M12 16v.01"></path><path d="M16 12h1"></path><path d="M21 12v.01"></path><path d="M12 21v-1"></path></svg></button></div><!--astro:end--></astro-island> </li> </ul> <h4 class="text-sm text-muted mt-4">Follow Me</h4> <ul class="flex mb-4 md:order-1 -ml-2 md:ml-4 md:mb-0 rtl:ml-0 rtl:-mr-2 rtl:md:ml-0 rtl:md:mr-4 justify-end"> <li> <a class="text-muted hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center" aria-label="X" href="https://x.com/liwucodes"> <svg width="1em" height="1em" viewBox="0 0 24 24" class="w-5 h-5" data-icon="tabler:brand-x">  <symbol id="ai:tabler:brand-x"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 4l11.733 16H20L8.267 4zm0 16l6.768-6.768m2.46-2.46L20 4"/></symbol> <use  xlink:href="#ai:tabler:brand-x"></use> </svg>  </a> </li><li> <a class="text-muted hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center" aria-label="Github" href="https://github.com/liwoo"> <svg width="1em" height="1em" viewBox="0 0 24 24" class="w-5 h-5" data-icon="tabler:brand-github">  <symbol id="ai:tabler:brand-github"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2c2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2a4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6c-.6.6-.6 1.2-.5 2V21"/></symbol> <use  xlink:href="#ai:tabler:brand-github"></use> </svg>  </a> </li><li> <a class="text-muted hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center" aria-label="LinkedIn" href="https://linkedin.com/in/jchienda"> <svg width="1em" height="1em" viewBox="0 0 24 24" class="w-5 h-5" data-icon="tabler:brand-linkedin">  <symbol id="ai:tabler:brand-linkedin"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M8 11v5m0-8v.01M12 16v-5m4 5v-3a2 2 0 1 0-4 0"/><path d="M3 7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/></g></symbol> <use  xlink:href="#ai:tabler:brand-linkedin"></use> </svg>  </a> </li><li> <a class="text-muted hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center" aria-label="YouTube" href="https://www.youtube.com/@liwucodes"> <svg width="1em" height="1em" viewBox="0 0 24 24" class="w-5 h-5" data-icon="tabler:brand-youtube">  <symbol id="ai:tabler:brand-youtube"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2 8a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4z"/><path d="m10 9l5 3l-5 3z"/></g></symbol> <use  xlink:href="#ai:tabler:brand-youtube"></use> </svg>  </a> </li> </ul> </div> </div> <div class="bg-accent h-4 rounded-bl-2xl rounded-br-2xl"></div> <div class="text-center m-4 text-sm mr-4 text-muted"> 
+    © 2026. Crafted with ❤️ by Jeremiah Chienda. All rights reserved.
+   </div> </div> </footer>   <script>(function(){const defaultTheme = "system";
+
+  if (window.basic_script) {
+    return;
+  }
+
+  window.basic_script = true;
+
+  function applyTheme(theme) {
+    toggleCompanyLogo(theme);
+    toggleTweetCard();
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }
+  
+  function animateHeroGrid() {
+    //eg data-square="sq-1"
+    const squares = document.querySelectorAll('[data-square]');
+    //
+    // squares.forEach((square) => {
+    //   // const currentOpacity = square.classList.add('opacity-100');
+    //   const timePeriod = Math.floor(Math.random() * 1500) + 500;
+    //   console.log({currentOpacity});
+    // 
+    // })
+    //
+    //randomly flick the opacity of 20 square within 2 seconds
+    // setInterval(() => {
+    //   const randomSquares = Array.from({ length: 20 }, () => squares[Math.floor(Math.random() * squares.length)]);
+    //   randomSquares.forEach((square) => {
+    //     const currentOpacity = square.style.opacity;
+    //     square.style.opacity = 100;
+    //     setTimeout(() => {
+    //       square.style.opacity = currentOpacity;
+    //     }, 500);
+    //   });
+    // }, 2000);
+  }
+
+  //toggle animation classes on view
+  function toggleAnimationOnView() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const shouldReset = entry.target.dataset.reset;
+
+        if (entry.isIntersecting) {
+          const animation = entry.target.dataset.animation;
+          entry.target.classList.add(animation);
+        }
+
+        if (entry.isIntersecting && !shouldReset) {
+          observer.unobserve(entry.target);
+        }
+
+        if (!entry.isIntersecting && shouldReset) {
+          const animation = entry.target.dataset.animation;
+          entry.target.classList.remove(animation);
+        }
+      });
+    });
+
+    //select all with data-animation
+    document.querySelectorAll('[data-animation]').forEach((elem) => {
+      observer.observe(elem);
+    });
+  }
+
+  function toggleTweetCard() {
+    const html = document.querySelector('html');
+    const tweetCards = document.querySelectorAll('.tweets');
+
+    const ovserver = new MutationObserver((mutations) => {
+      //listen to html class changes
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          tweetCards.forEach((tweetCard) => {
+            // tweetCard.classList.toggle('hidden', true);
+            if (html.classList.contains('dark') && tweetCard.classList.contains('dark')) {
+              tweetCard.classList.toggle('hidden', false);
+            } else if (!html.classList.contains('dark') && tweetCard.classList.contains('light')) {
+              tweetCard.classList.toggle('hidden', false);
+            } else {
+              tweetCard.classList.toggle('hidden', true);
+            }
+          });
+        }
+      });
+    });
+
+    ovserver.observe(html, {
+      attributes: true,
+    });
+  }
+
+  function toggleCompanyLogo(theme) {
+    const companyLogo = document.querySelectorAll('[data-img-type]');
+
+    if (theme === 'dark') {
+      for (let i = 0; i < companyLogo.length; i++) {
+        companyLogo[i].src = companyLogo[i].src = companyLogo[i].dataset.imgLight;
+      }
+    } else {
+      for (let i = 0; i < companyLogo.length; i++) {
+        companyLogo[i].src = companyLogo[i].src = companyLogo[i].dataset.imgDark;
+      }
+    }
+  }
+
+  const initTheme = function () {
+    if ((defaultTheme && defaultTheme.endsWith(':only')) || (!localStorage.theme && defaultTheme !== 'system')) {
+      applyTheme(defaultTheme.replace(':only', ''));
+    } else if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      applyTheme('dark');
+    } else {
+      applyTheme('light');
+    }
+  };
+  initTheme();
+
+  function attachEvent(selector, event, fn) {
+    const matches = typeof selector === 'string' ? document.querySelectorAll(selector) : selector;
+    if (matches && matches.length) {
+      matches.forEach((elem) => {
+        elem.addEventListener(event, (e) => fn(e, elem), false);
+      });
+    }
+  }
+
+  const onLoad = function () {
+    animateHeroGrid();
+    toggleAnimationOnView();
+    let lastKnownScrollPosition = window.scrollY;
+    let ticking = true;
+
+    const searchBlog = document.getElementById('search-blog');
+    if (searchBlog) {
+      searchBlog.addEventListener('keyup', () => {
+        const searchValue = searchBlog.value.toLowerCase();
+        const url = new URL(window.location.href);
+        if (searchValue === '') {
+          url.searchParams.delete('q');
+        } else {
+          url.searchParams.set('q', searchValue);
+        }
+        window.history.replaceState({}, '', url);
+        //toggle visibility of #server-posts
+        const serverPosts = document.getElementById('server-posts');
+        if (serverPosts) {
+          serverPosts.classList.toggle('hidden', searchValue !== '');
+        }
+
+        const pagination = document.getElementById('pagination');
+        if (pagination) {
+          pagination.classList.toggle('hidden', searchValue !== '');
+        }
+
+        const clientPosts = document.getElementById('client-posts');
+        if (clientPosts) {
+          clientPosts.classList.toggle('hidden', searchValue === '');
+        }
+      });
+    }
+
+    attachEvent('#header nav', 'click', function () {
+      document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
+      document.body.classList.remove('overflow-hidden');
+      document.getElementById('header')?.classList.remove('h-screen');
+      document.getElementById('header')?.classList.remove('expanded');
+      document.getElementById('header')?.classList.remove('bg-page');
+      document.querySelector('#header nav')?.classList.add('hidden');
+      document.querySelector('#header > div > div:last-child')?.classList.add('hidden');
+    });
+
+    attachEvent('[data-aw-toggle-menu]', 'click', function (_, elem) {
+      elem.classList.toggle('expanded');
+      document.body.classList.toggle('overflow-hidden');
+      document.getElementById('header')?.classList.toggle('expanded');
+      document.getElementById('header')?.classList.toggle('bg-page');
+      document.querySelector('#header nav')?.classList.toggle('hidden');
+      document.querySelector('#header > div > div:last-child')?.classList.toggle('hidden');
+    });
+
+    attachEvent('[data-aw-toggle-color-scheme]', 'click', function () {
+      if (defaultTheme.endsWith(':only')) {
+        return;
+      }
+      document.documentElement.classList.toggle('dark');
+      localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+      toggleCompanyLogo(localStorage.theme);
+    });
+
+    attachEvent('[data-aw-social-share]', 'click', function (_, elem) {
+      const network = elem.getAttribute('data-aw-social-share');
+      const url = encodeURIComponent(elem.getAttribute('data-aw-url'));
+      const text = encodeURIComponent(elem.getAttribute('data-aw-text'));
+
+      let href;
+      switch (network) {
+        case 'facebook':
+          href = `https://www.facebook.com/sharer.php?u=${url}`;
+          break;
+        case 'twitter':
+          href = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
+          break;
+        case 'linkedin':
+          href = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${text}`;
+          break;
+        case 'whatsapp':
+          href = `https://wa.me/?text=${text}%20${url}`;
+          break;
+        case 'mail':
+          href = `mailto:?subject=%22${text}%22&body=${text}%20${url}`;
+          break;
+
+        default:
+          return;
+      }
+
+      //attach an input change event
+      attachEvent('input', 'change', function (e) {
+        console.log(e.target);
+        const input = e.target;
+        if (input.value) {
+          href += `&${input.name}=${encodeURIComponent(input.value)}`;
+        }
+      });
+
+      const newlink = document.createElement('a');
+      newlink.target = '_blank';
+      newlink.href = href;
+      newlink.click();
+    });
+
+    function appyHeaderStylesOnScroll() {
+      const header = document.querySelector('#header[data-aw-sticky-header]');
+      if (!header) {
+        ticking = false;
+        return;
+      }
+      if (lastKnownScrollPosition > 60 && !header.classList.contains('scroll')) {
+        header.classList.add('scroll');
+      } else if (lastKnownScrollPosition <= 60 && header.classList.contains('scroll')) {
+        header.classList.remove('scroll');
+      }
+      ticking = false;
+    }
+    appyHeaderStylesOnScroll();
+
+    attachEvent([document], 'scroll', function () {
+      lastKnownScrollPosition = window.scrollY;
+
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          appyHeaderStylesOnScroll();
+        });
+        ticking = true;
+      }
+    });
+  };
+
+  const onPageShow = function () {
+    document.documentElement.classList.add('motion-safe:scroll-smooth');
+    const elem = document.querySelector('[data-aw-toggle-menu]');
+    if (elem) {
+      elem.classList.remove('expanded');
+    }
+    document.body.classList.remove('overflow-hidden');
+    document.getElementById('header')?.classList.remove('h-screen');
+    document.getElementById('header')?.classList.remove('expanded');
+    document.querySelector('#header nav')?.classList.add('hidden');
+  };
+
+  window.onload = onLoad;
+  window.onpageshow = onPageShow;
+
+  document.addEventListener('astro:after-swap', () => {
+    initTheme();
+    animateHeroGrid();
+    onLoad();
+    onPageShow();
+  });
+})();</script>  </body> </html>

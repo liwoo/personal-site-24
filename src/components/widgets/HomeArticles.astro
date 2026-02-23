@@ -36,15 +36,15 @@ const signupInputs: Input[] = [
 <div id="blog-section" class="py-20">
   <div class="scroll-fade-in">
     <Headline
-      tagline="Fresh from the Blog"
-      subtitle="My goal is to help you think like a Senior Engineer. I write mostly about AI, Mobile and Web Development, focusing on React, Flutter, .NET and Python."
+      tagline="Writing about AI Agent Engineering in practice."
+      subtitle="I break down agent architectures, memory systems, tool calling patterns, and the real tradeoffs of building LLM-powered products — from token economics to safety, from MCP integrations to generative UI."
     />
   </div>
   <div class="scroll-fade-in delay-100 container-article my-20">
     <FormContainer
       title="Don't miss out on some great content!"
       inputs={signupInputs}
-      description="Subscribe and get notified whenever I publish a new article and receive exclusive content."
+      description="Get notified when I publish new deep dives on AI agent engineering."
       disclaimer={{ label: 'No spam. Unsubscribe at any time.' }}
       button="Signup"
     >
@@ -65,10 +65,9 @@ const signupInputs: Input[] = [
     </div>
     <div class="scroll-fade-in-item delay-300 flex-1 my-4 lg:my-0 flex flex-col gap-y-8">
       <div class="text-center flex flex-col gap-y-3">
-        <h4>Let's hang out for a 1:1 👋🏽</h4>
+        <h4>Book a Call</h4>
         <p class="text-muted text-sm w-2/3 mx-auto">
-          Im happy to take 30 minutes out of my schedule to provide mentorship, pair programming, qna, or just chill and
-          talk tech!
+          Whether you're evaluating agent architectures, hiring an AI engineer, or working through an LLM problem — I'm happy to chat for 30 minutes.
         </p>
         <Calendly client:visible />
         <div>

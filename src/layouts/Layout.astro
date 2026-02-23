@@ -36,6 +36,42 @@ const {language, textDirection} = I18N;
   <SiteVerification/>
   <Analytics/>
   <ViewTransitions fallback="swap"/>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Jeremiah Chienda",
+    "jobTitle": "AI Engineer",
+    "description": "AI Engineer specializing in production agent systems, RAG pipelines, and LLM-powered applications for govtech and fintech.",
+    "url": "https://chienda.com",
+    "knowsAbout": [
+      "AI Agent Architecture",
+      "Retrieval Augmented Generation",
+      "Large Language Models",
+      "Model Context Protocol",
+      "Agent-to-Agent Protocol",
+      "Generative UI",
+      "AI Safety",
+      "Token Economics",
+      "Tool Calling",
+      "Human-in-the-Loop Systems",
+      "LangGraph",
+      "Azure AI Foundry",
+      "Microsoft Fabric"
+    ],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Irembo"
+    },
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "Doshisha University"
+    },
+    "sameAs": [
+      "https://linkedin.com/in/jchienda",
+      "https://github.com/liwoo",
+      "https://twitter.com/liwucodes"
+    ]
+  })} />
 </head>
 
 <body class="antialiased text-default bg-page tracking-tight">

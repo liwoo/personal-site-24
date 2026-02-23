@@ -1,33 +1,29 @@
 ---
 import { Bio } from '~/components/widgets/Bio.tsx';
 import { AboutTabs } from '~/components/widgets/AboutTabs.tsx';
+import { ProfileSidebar } from '~/components/widgets/ProfileSidebar.tsx';
 import Hero2 from '~/components/widgets/Hero2.astro';
 import Layout from '~/layouts/PageLayout.astro';
-import WorkExperience from '~/components/widgets/cells/WorkExperience.astro';
-import Briefcase from '~/components/icons/Briefcase.astro';
-import { workExperience } from '~/data/work-experience';
 import Button from '~/components/ui/Button.astro';
-import { Link } from 'lucide-react';
 
 export const prerender = true;
 
 const metadata = {
-  title: 'About',
+  title: 'About Jeremiah Chienda — AI Engineer | 10+ Years in Production Software',
+  description: 'AI Engineer with 10+ years building production software. Specializing in AI agent systems, RAG, and LLM applications. Master of Engineering, Doshisha University.',
 };
 
-const linkedIn = 'https://linkedin.com/in/jchienda';
 ---
 
 <Layout metadata={metadata}>
   <Hero2>
-    <Fragment slot="title">More <span class="underlined">About</span> Me</Fragment>
+    <Fragment slot="title"><span class="underlined">About</span> Me</Fragment>
 
     <Fragment slot="subtitle">
-      I was born in the same year of Nelson Mandela's / Release from the Cellar / A ragged ol' fella / I didn't know
-      better / Except I had a spring like Floyd Mayweather
+      AI Engineer building LLM-powered agent systems and RAG pipelines. 10+ years shipping production software across Africa and Europe.
     </Fragment>
     <Fragment slot="content">
-      <a href="https://getalinafe.com">&gt;&gt; Liwu, Word is Born</a>
+      <a href="https://getalinafe.com">&gt;&gt; Also a gospel rapper — Liwu</a>
     </Fragment>
   </Hero2>
 
@@ -35,21 +31,11 @@ const linkedIn = 'https://linkedin.com/in/jchienda';
     <div class="w-full lg:w-3/5">
       <AboutTabs client:visible />
       <div class="mt-8">
-        <Button href="/contact" variant="primary">Get in Touch</Button>
+        <Button href="/contact" variant="primary">Want to work together? Get in Touch</Button>
       </div>
     </div>
-    <div class="w-full md:w-2/3 md:mx-auto lg:w-2/5 mt-8 lg:mt-0">
-      <div class="w-6/8 mx-auto flex flex-col rounded-xl bg-card py-4 px-4 lg:px-8">
-        <h3 class="mb-8 font-semibold flex items-center gap-x-2">
-          <span><Briefcase className="stroke-default" /></span> Professional History
-        </h3>
-        <div class="flex flex-col gap-y-6">
-          {workExperience.map((experience) => <WorkExperience {...experience} />)}
-        </div>
-        <div class="mx-auto my-8">
-          <Button href={linkedIn} variant="primary">View LinkedIn Profile</Button>
-        </div>
-      </div>
+    <div class="w-full md:w-2/3 md:mx-auto lg:w-2/5 mt-8 lg:mt-0 min-w-0">
+      <ProfileSidebar client:visible />
     </div>
   </div>
 </Layout>

@@ -5,6 +5,7 @@ import HomeHero from '~/components/widgets/HomeHero.astro';
 import HomeAbout from '~/components/widgets/HomeAbout.astro';
 import { footerData } from '~/data/navigation';
 import HomeArticles from '~/components/widgets/HomeArticles.astro';
+import Button from '~/components/ui/Button.astro';
 
 export const prerender = true;
 
@@ -16,11 +17,13 @@ const name: string = 'Liwu';
 ---
 
 <Layout metadata={metadata}>
-  <HomeHero socialLinks={footerData.socialLinks} title="Software Engineer" name="Jeremiah Chienda">
+  <HomeHero socialLinks={footerData.socialLinks} title="AI Engineer" name="Jeremiah Chienda">
     <Fragment slot="description">
-      Hi 👋🏽, I'm Jeremiah. My <span class="underlined">superpower</span> is talking to computers<span
-        class="hidden md:inline">. I also speak @ events on AI, Blockchain & Software Engineering</span
-      ><span class="hidden sm:inline">, and I make dope Gospel Rap</span>!
+      <span class="hidden md:inline"
+        >Hi 👋🏽, I'm Jeremiah. I build <span class="underlined">AI agents</span> that actually work in production. <a
+          href="/contact">Let's connect</a
+        > if that sort of thing interests you</span
+      ><span class="md:hidden">Hi 👋🏽, I'm Jeremiah. I build <span class="underlined">AI agents</span> that ship.</span>
     </Fragment>
   </HomeHero>
   <div class="scroll-fade-in">
@@ -28,6 +31,16 @@ const name: string = 'Liwu';
   </div>
   <div class="scroll-fade-in">
     <HomeArticles />
+  </div>
+  <div class="scroll-fade-in">
+    <section class="container py-16 text-center">
+      <h2 class="text-2xl font-semibold mb-3">Looking for an AI Engineer?</h2>
+      <p class="text-muted max-w-xl mx-auto mb-6">
+        I'm open to contract and full-time AI engineering opportunities — agent systems, RAG pipelines, LLM
+        applications, and AI product strategy.
+      </p>
+      <Button href="/contact" variant="primary">Let's Talk</Button>
+    </section>
   </div>
 </Layout>
 

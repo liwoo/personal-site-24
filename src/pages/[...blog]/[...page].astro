@@ -24,7 +24,8 @@ const currentPage = page.currentPage || 1;
 
 
 const metadata = {
-  title: `Blog${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
+  title: `AI Agent Engineering Blog${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
+  description: 'Deep dives on AI agent architecture, memory systems, tool calling, MCP, token economics, generative UI, and production safety patterns.',
   robots: {
     index: blogListRobots?.index && currentPage === 1,
     follow: blogListRobots?.follow,

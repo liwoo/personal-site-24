@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 @layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
   .bg-page {
     background-color: var(--aw-color-bg-page);
   }

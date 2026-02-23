@@ -8,10 +8,10 @@
   },
   "metadata": {
     "title": {
-      "default": "Jeremiah Chienda",
+      "default": "Jeremiah Chienda — AI Engineer | Agents, RAG & LLM Systems",
       "template": "%s — Jeremiah Chienda"
     },
-    "description": "Welcome to my Digital Garden. I'm Jeremiah Chienda, a software engineer and a writer. I write about software, productivity, and life.",
+    "description": "Jeremiah Chienda is an AI Engineer building production agent systems, RAG pipelines, and LLM-powered products. Currently AI Engineering Lead at Irembo.",
     "robots": {
       "index": true,
       "follow": true

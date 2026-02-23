@@ -1,0 +1,1 @@
+const o=s=>{s.forEach(e=>{e.isIntersecting&&e.target.classList.add("is-visible")})},t={threshold:.3,rootMargin:"0px 0px -20px 0px"},r=new IntersectionObserver(o,t),n=()=>{document.querySelectorAll(".headline-container").forEach(e=>r.observe(e))};n();document.addEventListener("astro:page-load",n);

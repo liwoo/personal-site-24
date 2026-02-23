@@ -259,6 +259,7 @@ export interface WorkExperience {
   image: string;
   location: string;
   duration: string;
+  description?: string[];
 }
 
 export type StackCategory = 'Language' | 'Framework' | 'Infrastructure' | 'Other' ;

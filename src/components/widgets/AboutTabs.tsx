@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { ImageModal } from './ImageModal';
-import Tweet from './Tweet';
 import setup from '~/assets/images/setup.png';
 import vertical from '~/assets/images/vertical.png';
 
@@ -16,7 +15,7 @@ export function AboutTabs() {
   return (
     <Tabs defaultValue="pitch">
       <TabsList className="grid w-full lg:w-2/3 bg-card rounded-xl text-muted grid-cols-4">
-        <TabsTrigger value="pitch">Elavator Pitch</TabsTrigger>
+        <TabsTrigger value="pitch">Elevator Pitch</TabsTrigger>
         <TabsTrigger value="brief">Brief Profile</TabsTrigger>
         <TabsTrigger value="full">Full Bio</TabsTrigger>
         <TabsTrigger value="pictures">Pictures</TabsTrigger>
@@ -24,96 +23,133 @@ export function AboutTabs() {
       <TabsContent value="full" className="leading-7 text-lg text-default py-4">
         <div className="flex flex-col md:flex-row gap-y-6 md:gap-x-6">
           <div className="w-full md:w-1/2 lg:w-1/3">
-            <img src={vertical.src} alt="Vertical Image of Jeremiah" />
+            <img src={vertical.src} alt="Jeremiah Chienda — AI Engineer" />
           </div>
           <div className="w-full md:w-1/2 lg:w-2/3 flex flex-col gap-y-4 ">
             <p>
-              Jeremiah is a seasoned and passionate Software Engineer with 8 years of professional experience across
-              multiple industries worldwide.
-            </p>
-            <p>
-              He is currently working on applying Generative AI at{' '}
+              Jeremiah Chienda is an AI Engineer based in Kigali, Rwanda, where he leads AI and mobile engineering at{' '}
               <a href="https://irembo.com/" className="underline">
                 Irembo
-              </a>
-              , where he helps build the next generation of{' '}
-              <a href="https://irembo.gov.rw/" className="underline">
-                Government Services
               </a>{' '}
-              in Rwanda for more than 12M citizens.
+              — the platform that digitizes government services for millions of Rwandan citizens.
             </p>
             <p>
-              Before that, he had a brief sting with Danish-based{' '}
-              <a href="https://bestseller.com/" className="underline">
-                Bestseller
-              </a>
-              , after having helped more than{' '}
-              <a href="https://oneacrefund.org/our-impact" className="underline">
-                1M farmers accross 9 African countries
-              </a>{' '}
-              improve their agricultural yields while at{' '}
+              Over a career spanning 10+ years and 5 countries, Jeremiah has built production software across govtech,
+              fintech, agriculture, telecom, and e-commerce. At Irembo, he architects LLM-powered agent systems, RAG
+              pipelines, and AI-driven products that serve real users at national scale. He organized and led Irembo's
+              first internal AI hackathon and actively contributes to the company's AI strategy.
+            </p>
+            <p>
+              Before Irembo, Jeremiah was Lead Software Engineer at{' '}
               <a href="https://oneacrefund.org/" className="underline">
                 One Acre Fund
               </a>
-            </p>
-            <p>
-              Having been born and raised in Malawi, Jeremiah developed the National{' '}
-              <a href="https://zipatala.health.gov.mw/" className="underline">
-                Master Facility Registry
+              , where he led a team building mobile and web applications serving over one million smallholder farmers
+              across East Africa. He was a Software Developer at{' '}
+              <a href="https://bestseller.com/" className="underline">
+                Bestseller
               </a>{' '}
-              during his time at{' '}
+              in Denmark, and Software Architect at{' '}
               <a href="https://www.facebook.com/Baobabhealthtrust/" className="underline">
                 Baobab Health Trust
               </a>{' '}
-              where he worked with the{' '}
-              <a href="https://www.kuunika.org/" className="underline">
-                Ministry of Health
-              </a>{' '}
-              .
-            </p>
-            <p>
-              He holds a Masters of Engineering Degree from{' '}
-              <a href="https://www.doshisha.ac.jp/en/" className="underline">
-                Doshisha University in Japan
-              </a>{' '}
-              with a focus on Natural Language Processing (NLP) and a Bachelors of Science from the{' '}
-              <a href="https://mubas.ac.mw/" className="underline">
-                Malawi University of Business and Applied Science
+              in Malawi, where he worked on health information systems including the national{' '}
+              <a href="https://zipatala.health.gov.mw/" className="underline">
+                Master Health Facility Register
               </a>
               .
             </p>
             <p>
-              Jeremiah is also a Board Member of{' '}
-              <a href="https://www.doorbell.mw/" className="underline">
-                Doorbell Malawi
+              Jeremiah holds a Master of Engineering from{' '}
+              <a href="https://www.doshisha.ac.jp/en/" className="underline">
+                Doshisha University
               </a>{' '}
-              where provides Technical mentorship to one of the most exciting tech-enabled startup disrupting the
-              consumer goods retail industry in the country.
+              in Kyoto, Japan. He is currently pursuing Microsoft DP-700 (Fabric Data Engineer) and AI-102 (Azure AI
+              Engineer Associate) certifications to deepen his expertise in enterprise AI and data platforms.
+            </p>
+            <p>
+              He{' '}
+              <a href="/blog" className="underline">
+                writes about AI agent engineering
+              </a>{' '}
+              — covering agent memory, tool calling, MCP/A2A integrations, token economics, generative UI, and
+              production safety patterns. He speaks at conferences and events across Africa on AI, software engineering,
+              and the African tech ecosystem.
+            </p>
+            <p>
+              Outside of engineering, Jeremiah is a gospel hip-hop artist performing under the name{' '}
+              <a href="https://getalinafe.com" className="underline">
+                Liwu
+              </a>
+              .
             </p>
           </div>
         </div>
       </TabsContent>
       <TabsContent value="brief" className="leading-7 text-lg text-default flex flex-col gap-y-4 my-4">
-        <img src={setup.src} alt="Jeremiahs desk setup" />
+        <img src={setup.src} alt="Jeremiah's desk setup" />
         <p>
-          A Full Stack Engineer with 7+ years of experience leading multinational Engineering teams accross HealthTech,
-          FinTech, AgriTech and GovTech in Africa.
+          Jeremiah Chienda is an AI Engineer and engineering lead at{' '}
+          <a href="https://irembo.com/" className="underline">
+            Irembo
+          </a>
+          , Rwanda's leading e-government platform. He specializes in AI agent systems, RAG architectures, and
+          LLM-powered applications, with deep experience shipping software across fintech, govtech, agriculture, and
+          telecom in Africa and Europe.
         </p>
         <p>
-          Jeremiah holds a Masters of Engineering Degree with a focus on Artificial Intelligence as applied to Natural
-          Language Processing.
-        </p>
-        <p>
-          <a href="/blog" className="underline hover:text-default">
-            Follow his blog
+          Previously Lead Software Engineer at{' '}
+          <a href="https://oneacrefund.org/" className="underline">
+            One Acre Fund
+          </a>
+          , Software Developer at{' '}
+          <a href="https://bestseller.com/" className="underline">
+            Bestseller
           </a>{' '}
-          where he writes about his experiences as a Software Engineer, or book him at your event if you need an expert
-          to talk about a wide range of Software Engineering topics including Blockchain Technology and its practical
-          usecases today.
+          (Denmark), and Software Architect at{' '}
+          <a href="https://www.facebook.com/Baobabhealthtrust/" className="underline">
+            Baobab Health Trust
+          </a>{' '}
+          (Malawi). Master of Engineering,{' '}
+          <a href="https://www.doshisha.ac.jp/en/" className="underline">
+            Doshisha University
+          </a>{' '}
+          (Japan). Currently pursuing Microsoft DP-700 and AI-102 certifications.
         </p>
+        <p>Speaker, writer, and gospel hip-hop artist.</p>
       </TabsContent>
-      <TabsContent value="pitch">
-        <Tweet />
+      <TabsContent value="pitch" className="leading-7 text-lg text-default flex flex-col gap-y-4 my-4">
+        <p>
+          I'm Jeremiah Chienda — an <strong>AI Engineer</strong> with 10+ years building production software, currently
+          leading AI and mobile engineering at{' '}
+          <a href="https://irembo.com/" className="underline">
+            Irembo
+          </a>{' '}
+          in Kigali, Rwanda.
+        </p>
+        <p>
+          I design and ship AI agent systems, RAG pipelines, and LLM-powered products for govtech and fintech. I've
+          built software used by millions across East and Southern Africa, led engineering teams of different sizes, and
+          shipped across mobile, web, and cloud.
+        </p>
+        <p>
+          I hold a Master of Engineering from{' '}
+          <a href="https://www.doshisha.ac.jp/en/" className="underline">
+            Doshisha University
+          </a>{' '}
+          (Japan), and a BSc from Malawi University of Business and Science.
+        </p>
+        <p>
+          I also{' '}
+          <a href="/blog" className="underline">
+            write about AI agent engineering
+          </a>
+          , speak at conferences, and make gospel rap under the name{' '}
+          <a href="https://getalinafe.com" className="underline">
+            Liwu
+          </a>
+          .
+        </p>
       </TabsContent>
       <TabsContent value="pictures" className="py-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -1,0 +1,17 @@
+---
+import Skill from '~/components/widgets/Skill.astro';
+import { techStack } from '~/data/stack';
+
+export const partial = true;
+
+//Astro form body
+const data =  await Astro.request.formData();
+const c = data.get('stack') as string;
+---
+<div>
+    {
+     techStack.filter(stack => stack.category.toLocaleLowerCase() == c.toLocaleLowerCase()).sort((a, b) => b.experience - a.experience).map((stack) => (
+         <Skill title={stack.title} level={stack.experience / 8 * 100} />
+     ))
+    }
+ </div>
