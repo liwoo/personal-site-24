@@ -21,4 +21,5 @@ pnpm-debug.log*
 
 package-lock.json
 
-.astro.vercel
+.astro
+.vercel
