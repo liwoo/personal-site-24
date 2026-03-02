@@ -4,10 +4,6 @@ import type { Link } from '~/types';
 import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
 import avatar from '~/assets/images/dp.png';
-import avatarLeft from '~/assets/images/dp-left.png';
-import avatarRight from '~/assets/images/dp-right.png';
-import avatarUp from '~/assets/images/dp-up.png';
-import avatarDown from '~/assets/images/dp-down.png';
 
 export interface Props {
   id?: string;
@@ -24,11 +20,11 @@ const heroBg = 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/web-hero.m4v
 ---
 
 <section class="not-prose relative flex flex-col justify-end h-lvh">
-  <!-- Background image for mobile -->
+  <!-- Background image for mobile (filter blur for Safari compat) -->
   <div
     class="absolute inset-0 md:hidden bg-[url(https://minio-api.dartsmw.com/chienda.com/setup.jpg)] bg-no-repeat bg-cover bg-center"
+    style="-webkit-filter: blur(2px); filter: blur(2px);"
   >
-    <div class="absolute inset-0 backdrop-blur-[2px]"></div>
   </div>
 
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -46,21 +42,15 @@ const heroBg = 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/web-hero.m4v
   >
     <!-- Gyroscope-reactive avatar (mobile only) -->
     <div id="gyro-avatar" class="md:hidden" style="perspective: 600px;">
-      <div id="gyro-tilt" class="relative w-[200px] h-[200px] rounded-full border-4 border-page shadow-2xl overflow-hidden will-change-transform" style="transform-style: preserve-3d; transition: transform 0.15s ease-out;">
-        <!-- Center (default) -->
+      <div id="gyro-tilt" class="rounded-full border-4 border-page shadow-2xl overflow-hidden will-change-transform" style="transition: transform 0.15s ease-out;">
         <Image
-          class="absolute inset-0 w-full h-full object-cover gyro-face"
-          data-angle="center"
           src={avatar}
           alt="Jeremiah Chienda"
           width={200}
           height={200}
           loading="eager"
+          class="block"
         />
-        <Image class="absolute inset-0 w-full h-full object-cover gyro-face opacity-0" data-angle="left"  src={avatarLeft}  alt="" width={200} height={200} loading="eager" />
-        <Image class="absolute inset-0 w-full h-full object-cover gyro-face opacity-0" data-angle="right" src={avatarRight} alt="" width={200} height={200} loading="eager" />
-        <Image class="absolute inset-0 w-full h-full object-cover gyro-face opacity-0" data-angle="up"    src={avatarUp}    alt="" width={200} height={200} loading="eager" />
-        <Image class="absolute inset-0 w-full h-full object-cover gyro-face opacity-0" data-angle="down"  src={avatarDown}  alt="" width={200} height={200} loading="eager" />
       </div>
     </div>
     <div class="bg-page p-8 ml-4 mt-4 md:mt-24 md:ml-20 lg:m-0 rounded-tl-xl rounded-bl-xl text-2xl">
@@ -143,45 +133,21 @@ const heroBg = 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/web-hero.m4v
     }
   });
 
-  // Gyroscope avatar — 3D tilt + face angle swap
+  // Gyroscope avatar — 3D tilt
   function initGyroAvatar() {
     const tilt = document.getElementById('gyro-tilt');
     if (!tilt) return;
 
-    const faces = tilt.querySelectorAll<HTMLImageElement>('.gyro-face');
-    const hasFaceSwap = faces.length > 1;
-    const MAX_TILT = 15; // degrees
-    const SWAP_THRESHOLD = 12; // gyro degrees before swapping face
+    const MAX_TILT = 15;
 
     function handleOrientation(e: DeviceOrientationEvent) {
-      const beta = e.beta ?? 0;   // front-back tilt (-180 to 180)
-      const gamma = e.gamma ?? 0; // left-right tilt (-90 to 90)
+      const beta = e.beta ?? 0;
+      const gamma = e.gamma ?? 0;
 
-      // Normalise to -1..1, clamped
       const x = Math.max(-1, Math.min(1, gamma / 30));
-      const y = Math.max(-1, Math.min(1, (beta - 45) / 30)); // 45° is roughly "holding phone" neutral
+      const y = Math.max(-1, Math.min(1, (beta - 45) / 30));
 
-      // 3D tilt
-      const rotateY = x * MAX_TILT;
-      const rotateX = -y * MAX_TILT;
-      tilt.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-
-      // Face swap (only if multiple face images exist)
-      if (hasFaceSwap) {
-        let active = 'center';
-        if (Math.abs(gamma) > SWAP_THRESHOLD || Math.abs(beta - 45) > SWAP_THRESHOLD) {
-          if (Math.abs(gamma) > Math.abs(beta - 45)) {
-            active = gamma > 0 ? 'right' : 'left';
-          } else {
-            active = (beta - 45) > 0 ? 'down' : 'up';
-          }
-        }
-        faces.forEach((face) => {
-          const isActive = face.dataset.angle === active;
-          face.style.opacity = isActive ? '1' : '0';
-          face.style.transition = 'opacity 0.2s ease-out';
-        });
-      }
+      tilt.style.transform = `rotateX(${-y * MAX_TILT}deg) rotateY(${x * MAX_TILT}deg)`;
     }
 
     // iOS 13+ requires permission
