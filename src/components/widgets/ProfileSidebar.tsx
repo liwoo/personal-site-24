@@ -143,50 +143,64 @@ function EntryRow({
   subtitle,
   meta,
   items,
+  collapsible = false,
+  isOpen = false,
+  onToggle,
 }: {
   avatar: ReactNode;
   title: string;
   subtitle?: string;
   meta?: string;
   items?: string[];
+  collapsible?: boolean;
+  isOpen?: boolean;
+  onToggle?: () => void;
 }) {
+  const hasItems = items && items.length > 0;
+  const showCollapsed = collapsible && hasItems;
+
   return (
     <div className="flex text-muted gap-x-3">
       <div className="shrink-0 pt-0.5">{avatar}</div>
       <div className="flex w-full gap-x-2 justify-between min-w-0">
-        <div className="flex flex-col min-w-0">
-          <h4 className="font-semibold text-default text-lg m-0 leading-tight">{title}</h4>
-          {subtitle && <p className="text-sm mt-0.5">{subtitle}</p>}
-          {items && items.length > 0 && (
-            <ul className="text-xs text-muted mt-1.5 list-disc list-inside space-y-1">
+        <div className="flex flex-col min-w-0 w-full">
+          <div
+            className={showCollapsed ? 'flex items-center justify-between cursor-pointer group' : 'flex items-center justify-between'}
+            onClick={showCollapsed ? onToggle : undefined}
+          >
+            <div className="min-w-0">
+              <h4 className="font-semibold text-default text-lg m-0 leading-tight">{title}</h4>
+              {subtitle && <p className="text-sm mt-0.5">{subtitle}</p>}
+            </div>
+            <div className="flex items-center gap-x-2 shrink-0">
+              {meta && <span className="text-xs font-semibold">{meta}</span>}
+              {showCollapsed && (
+                <ChevronDown className={`w-3.5 h-3.5 text-muted transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+              )}
+            </div>
+          </div>
+          {hasItems && (!collapsible || isOpen) && (
+            <ul className="text-sm text-muted mt-1.5 list-disc list-inside space-y-1 animate-in fade-in duration-200">
               {items.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           )}
         </div>
-        {meta && (
-          <div className="shrink-0 text-right">
-            <span className="text-xs font-semibold">{meta}</span>
-          </div>
-        )}
       </div>
     </div>
   );
 }
 
 const linkedIn = 'https://linkedin.com/in/jchienda';
-const VISIBLE_COUNT = 3;
 
 function HistoryList() {
-  const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? workExperience : workExperience.slice(0, VISIBLE_COUNT);
-  const hiddenCount = workExperience.length - VISIBLE_COUNT;
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <>
       <div className="flex flex-col gap-y-6 mt-4">
-        {visible.map((exp) => (
+        {workExperience.map((exp, i) => (
           <EntryRow
             key={exp.title}
             avatar={<LogoAvatar src={logoMap[exp.image]} alt={exp.title} />}
@@ -194,18 +208,12 @@ function HistoryList() {
             subtitle={`${exp.position} · ${exp.location}`}
             meta={exp.duration}
             items={exp.description}
+            collapsible
+            isOpen={openIndex === i}
+            onToggle={() => setOpenIndex(openIndex === i ? null : i)}
           />
         ))}
       </div>
-      {hiddenCount > 0 && (
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="flex items-center gap-1.5 mx-auto mt-4 text-xs font-medium text-muted hover:text-primary transition-colors cursor-pointer"
-        >
-          <ChevronDown className={`w-3.5 h-3.5 transition-transform ${expanded ? 'rotate-180' : ''}`} />
-          {expanded ? 'Show less' : `Show ${hiddenCount} more`}
-        </button>
-      )}
       <div className="mx-auto my-8">
         <a href={linkedIn} className="btn-primary">
           View LinkedIn Profile
