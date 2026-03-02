@@ -347,6 +347,13 @@ declare module 'astro:content' {
   collection: "post";
   data: InferEntrySchema<"post">
 } & { render(): Render[".mdx"] };
+"why-your-ai-code-fails-to-scale.mdx": {
+	id: "why-your-ai-code-fails-to-scale.mdx";
+  slug: "why-your-ai-code-fails-to-scale";
+  body: string;
+  collection: "post";
+  data: InferEntrySchema<"post">
+} & { render(): Render[".mdx"] };
 };
 
 	};
