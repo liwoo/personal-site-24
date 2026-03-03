@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#22c55e"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arrowCyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#22d3ee"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="400" rx="12" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" fill="#e2e8f0" font-size="18" font-weight="700" text-anchor="middle">The Back Pressure Loop</text>
+  <text x="600" y="54" fill="#64748b" font-size="12" text-anchor="middle">Hooks fire on every edit. Failures feed back as context. The agent self-corrects.</text>
+
+  <!-- Step 1: Agent writes code -->
+  <rect x="60" y="150" width="180" height="70" rx="8" fill="#8b5cf6" opacity="0.15" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="150" y="182" fill="#a78bfa" font-size="14" font-weight="600" text-anchor="middle">Agent writes code</text>
+  <text x="150" y="200" fill="#64748b" font-size="11" text-anchor="middle">Edit, Write, or Bash</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="240" y1="185" x2="310" y2="185" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: Hook fires -->
+  <rect x="310" y="150" width="200" height="70" rx="8" fill="#f59e0b" opacity="0.15" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="410" y="178" fill="#fbbf24" font-size="14" font-weight="600" text-anchor="middle">Hook fires</text>
+  <text x="410" y="196" fill="#64748b" font-size="11" text-anchor="middle">goimports · go vet · prettier</text>
+  <text x="410" y="210" fill="#64748b" font-size="11" text-anchor="middle">tsc --noEmit · helm lint</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="510" y1="185" x2="590" y2="185" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 3: Decision diamond -->
+  <polygon points="690,130 790,185 690,240 590,185" fill="#334155" stroke="#64748b" stroke-width="1"/>
+  <text x="690" y="182" fill="#e2e8f0" font-size="13" font-weight="600" text-anchor="middle">Validation</text>
+  <text x="690" y="198" fill="#e2e8f0" font-size="13" font-weight="600" text-anchor="middle">passes?</text>
+
+  <!-- YES arrow (up-right to Code accepted) -->
+  <line x1="740" y1="157" x2="850" y2="105" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="780" y="120" fill="#22c55e" font-size="12" font-weight="600">Yes</text>
+
+  <!-- Code accepted box -->
+  <rect x="850" y="76" width="220" height="56" rx="8" fill="#22c55e" opacity="0.15" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="960" y="100" fill="#4ade80" font-size="15" font-weight="700" text-anchor="middle">Code accepted</text>
+  <text x="960" y="118" fill="#86efac" font-size="11" text-anchor="middle">Merged into codebase</text>
+
+  <!-- NO arrow (down-right to Error box) -->
+  <line x1="740" y1="213" x2="850" y2="262" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <text x="775" y="252" fill="#ef4444" font-size="12" font-weight="600">No</text>
+
+  <!-- Error fed back box -->
+  <rect x="850" y="242" width="260" height="56" rx="8" fill="#ef4444" opacity="0.15" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="980" y="266" fill="#fca5a5" font-size="14" font-weight="600" text-anchor="middle">Error fed back as context</text>
+  <text x="980" y="284" fill="#ef4444" font-size="11" text-anchor="middle">Agent reads the error output</text>
+
+  <!-- Retry loop: curved arrow from Error back to Agent -->
+  <path d="M 980 298 C 980 360 150 360 150 220" stroke="#22d3ee" stroke-width="2" fill="none" stroke-dasharray="8 4" marker-end="url(#arrowCyan)"/>
+  <text x="560" y="348" fill="#22d3ee" font-size="12" font-weight="600" text-anchor="middle">Agent retries with error context</text>
+
+  <!-- Annotation -->
+  <text x="560" y="378" fill="#475569" font-size="10" text-anchor="middle">No human intervention required. The loop continues until the hook passes.</text>
+</svg>

@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="bar-scaffold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="bar-feature" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="bar-infra" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="bar-qa" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4ade80"/>
+      <stop offset="100%" stop-color="#22c55e"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="520" rx="12" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="40" y="40" fill="#e2e8f0" font-size="18" font-weight="700">16-Day Sprint Timeline</text>
+  <text x="40" y="58" fill="#64748b" font-size="12">38 commits · 304K lines · 24 entities · 1,831 tests</text>
+
+  <!-- Legend -->
+  <rect x="820" y="24" width="12" height="12" rx="2" fill="url(#bar-scaffold)"/>
+  <text x="838" y="35" fill="#94a3b8" font-size="11">Scaffolding</text>
+  <rect x="920" y="24" width="12" height="12" rx="2" fill="url(#bar-feature)"/>
+  <text x="938" y="35" fill="#94a3b8" font-size="11">Features</text>
+  <rect x="1010" y="24" width="12" height="12" rx="2" fill="url(#bar-infra)"/>
+  <text x="1028" y="35" fill="#94a3b8" font-size="11">Infra/Deploy</text>
+  <rect x="1110" y="24" width="12" height="12" rx="2" fill="url(#bar-qa)"/>
+  <text x="1128" y="35" fill="#94a3b8" font-size="11">QA</text>
+
+  <!-- Day columns (16 days) -->
+  <g transform="translate(140, 80)">
+    <!-- Grid lines -->
+    <line x1="0" y1="0" x2="0" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="62.5" y1="0" x2="62.5" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="125" y1="0" x2="125" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="187.5" y1="0" x2="187.5" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="250" y1="0" x2="250" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="312.5" y1="0" x2="312.5" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="375" y1="0" x2="375" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="437.5" y1="0" x2="437.5" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="500" y1="0" x2="500" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="562.5" y1="0" x2="562.5" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="625" y1="0" x2="625" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="687.5" y1="0" x2="687.5" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="750" y1="0" x2="750" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="812.5" y1="0" x2="812.5" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="875" y1="0" x2="875" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="937.5" y1="0" x2="937.5" y2="400" stroke="#334155" stroke-width="0.5"/>
+    <line x1="1000" y1="0" x2="1000" y2="400" stroke="#334155" stroke-width="0.5"/>
+
+    <!-- Day labels -->
+    <text x="27" y="415" fill="#64748b" font-size="10" text-anchor="middle">1</text>
+    <text x="90" y="415" fill="#64748b" font-size="10" text-anchor="middle">2</text>
+    <text x="152" y="415" fill="#64748b" font-size="10" text-anchor="middle">3</text>
+    <text x="215" y="415" fill="#64748b" font-size="10" text-anchor="middle">4</text>
+    <text x="277" y="415" fill="#64748b" font-size="10" text-anchor="middle">5</text>
+    <text x="340" y="415" fill="#64748b" font-size="10" text-anchor="middle">6</text>
+    <text x="465" y="415" fill="#64748b" font-size="10" text-anchor="middle">8</text>
+    <text x="715" y="415" fill="#64748b" font-size="10" text-anchor="middle">12</text>
+    <text x="777" y="415" fill="#64748b" font-size="10" text-anchor="middle">13</text>
+    <text x="840" y="415" fill="#64748b" font-size="10" text-anchor="middle">14</text>
+    <text x="902" y="415" fill="#64748b" font-size="10" text-anchor="middle">15</text>
+    <text x="965" y="415" fill="#64748b" font-size="10" text-anchor="middle">16</text>
+    <text x="500" y="435" fill="#475569" font-size="11" text-anchor="middle">Day</text>
+
+    <!-- Phase backgrounds -->
+    <rect x="0" y="0" x2="125" width="125" height="400" fill="#22d3ee" opacity="0.03" rx="4"/>
+    <rect x="125" y="0" width="250" height="400" fill="#a78bfa" opacity="0.03" rx="4"/>
+    <rect x="375" y="0" width="500" height="400" fill="#4ade80" opacity="0.03" rx="4"/>
+    <rect x="875" y="0" width="125" height="400" fill="#fb923c" opacity="0.03" rx="4"/>
+
+    <!-- Row 1: Rebrand + Template -->
+    <rect x="0" y="8" width="55" height="24" rx="4" fill="url(#bar-scaffold)" opacity="0.9"/>
+    <text x="62" y="24" fill="#e2e8f0" font-size="11">Rebrand + template foundation</text>
+    <text x="62" y="36" fill="#22d3ee" font-size="9" font-weight="600">+173K lines</text>
+
+    <!-- Row 2: Multi-tenancy -->
+    <rect x="62.5" y="52" width="55" height="24" rx="4" fill="url(#bar-scaffold)" opacity="0.9"/>
+    <text x="124" y="68" fill="#e2e8f0" font-size="11">Multi-tenancy</text>
+    <text x="124" y="80" fill="#22d3ee" font-size="9" font-weight="600">+8K lines</text>
+
+    <!-- Row 3: Core entities + tests -->
+    <rect x="125" y="96" width="55" height="24" rx="4" fill="url(#bar-feature)" opacity="0.9"/>
+    <text x="186" y="112" fill="#e2e8f0" font-size="11">Core entities, first passing tests</text>
+    <text x="186" y="124" fill="#a78bfa" font-size="9" font-weight="600">+29K lines · hubs, members</text>
+
+    <!-- Row 4: Deployment wrestling -->
+    <rect x="187.5" y="140" width="55" height="24" rx="4" fill="url(#bar-infra)" opacity="0.9"/>
+    <text x="248" y="156" fill="#e2e8f0" font-size="11">Deployment wrestling</text>
+    <text x="248" y="168" fill="#fb923c" font-size="9" font-weight="600">8 commits · Helm, CI, K8s debugging</text>
+
+    <!-- Row 5: Groups + Inventory -->
+    <rect x="250" y="184" width="55" height="24" rx="4" fill="url(#bar-feature)" opacity="0.9"/>
+    <text x="311" y="200" fill="#e2e8f0" font-size="11">Groups, inventory</text>
+    <text x="311" y="212" fill="#a78bfa" font-size="9" font-weight="600">+26K lines</text>
+
+    <!-- Row 6: Accounting module -->
+    <rect x="312.5" y="228" width="55" height="24" rx="4" fill="url(#bar-feature)" opacity="0.9"/>
+    <text x="374" y="244" fill="#e2e8f0" font-size="11">GL codes + complete accounting module</text>
+    <text x="374" y="256" fill="#a78bfa" font-size="9" font-weight="600">+24K lines · 135 files in one commit</text>
+
+    <!-- Row 7: FE fixes -->
+    <rect x="437.5" y="272" width="55" height="24" rx="4" fill="url(#bar-infra)" opacity="0.7"/>
+    <text x="498" y="288" fill="#e2e8f0" font-size="11">Frontend build fixes, permissions</text>
+
+    <!-- Row 8: Migration -->
+    <rect x="687.5" y="272" width="55" height="24" rx="4" fill="url(#bar-feature)" opacity="0.9"/>
+    <text x="748" y="288" fill="#e2e8f0" font-size="11">Major migration</text>
+    <text x="748" y="300" fill="#a78bfa" font-size="9" font-weight="600">+22K lines</text>
+
+    <!-- Row 9: UAT -->
+    <rect x="750" y="316" width="55" height="24" rx="4" fill="url(#bar-qa)" opacity="0.9"/>
+    <text x="812" y="332" fill="#e2e8f0" font-size="11">Account testing, UAT ready, 2FA, filters</text>
+    <text x="812" y="344" fill="#4ade80" font-size="9" font-weight="600">+10K lines · 6 commits in one day</text>
+
+    <!-- Row 10: Transactions + P&L -->
+    <rect x="812.5" y="360" width="125" height="24" rx="4" fill="url(#bar-feature)" opacity="0.9"/>
+    <text x="944" y="376" fill="#e2e8f0" font-size="11">Transactions, journal entries, P&amp;L</text>
+    <text x="944" y="388" fill="#a78bfa" font-size="9" font-weight="600">Financial engine complete</text>
+  </g>
+
+  <!-- Phase labels on left -->
+  <text x="30" y="118" fill="#22d3ee" font-size="10" font-weight="600" transform="rotate(-90, 30, 118)">SETUP</text>
+  <text x="30" y="280" fill="#a78bfa" font-size="10" font-weight="600" transform="rotate(-90, 30, 280)">BUILD</text>
+  <text x="30" y="420" fill="#4ade80" font-size="10" font-weight="600" transform="rotate(-90, 30, 420)">SHIP</text>
+</svg>

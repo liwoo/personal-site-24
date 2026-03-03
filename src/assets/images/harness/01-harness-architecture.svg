@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="700" rx="12" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" fill="#e2e8f0" font-size="18" font-weight="700" text-anchor="middle">The Harness: .claude/</text>
+  <text x="600" y="54" fill="#64748b" font-size="12" text-anchor="middle">How agents, hooks, and skills connect to produce trustworthy output</text>
+
+  <!-- YOU (top center) -->
+  <rect x="530" y="72" width="140" height="44" rx="22" fill="#3b82f6" opacity="0.15" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="600" y="98" fill="#93c5fd" font-size="14" font-weight="600" text-anchor="middle">You (Architect)</text>
+
+  <!-- Arrow down from You -->
+  <line x1="600" y1="116" x2="600" y2="142" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/></marker></defs>
+  <text x="614" y="134" fill="#f59e0b" font-size="9" font-weight="500">define constraints</text>
+
+  <!-- ============ HOOKS BOX (left) ============ -->
+  <rect x="40" y="148" width="340" height="260" rx="8" fill="#22d3ee" opacity="0.06" stroke="#22d3ee" stroke-width="1" stroke-opacity="0.3"/>
+  <text x="60" y="174" fill="#22d3ee" font-size="14" font-weight="700">Hooks</text>
+  <text x="60" y="190" fill="#64748b" font-size="11">Automatic back pressure</text>
+
+  <!-- PostToolUse: Edit/Write -->
+  <rect x="60" y="204" width="300" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="76" y="222" fill="#94a3b8" font-size="10" font-weight="600">PostToolUse: Edit/Write</text>
+  <text x="76" y="238" fill="#67e8f9" font-size="11" font-style="italic">goimports → go vet → prettier</text>
+
+  <!-- PostToolUse: Bash -->
+  <rect x="60" y="260" width="300" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="76" y="278" fill="#94a3b8" font-size="10" font-weight="600">PostToolUse: Bash</text>
+  <text x="76" y="294" fill="#67e8f9" font-size="11" font-style="italic">type-check → build → test</text>
+
+  <!-- Pass/Fail indicators -->
+  <text x="60" y="330" fill="#22c55e" font-size="12" font-weight="600">&#x2705; pass → accepted</text>
+  <text x="60" y="350" fill="#ef4444" font-size="12" font-weight="600">&#x274C; fail → error fed back → retry</text>
+
+  <!-- Loop arrow for fail -->
+  <path d="M 58 358 C 58 380 200 390 210 370" stroke="#ef4444" stroke-width="1" fill="none" stroke-dasharray="4 3" marker-end="url(#arrowRed)"/>
+  <defs><marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444"/></marker></defs>
+
+  <text x="210" y="400" fill="#f59e0b" font-size="9" font-weight="500">fires on every edit/bash</text>
+
+  <!-- ============ AGENTS BOX (right) ============ -->
+  <rect x="420" y="148" width="740" height="260" rx="8" fill="#8b5cf6" opacity="0.06" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.3"/>
+  <text x="440" y="174" fill="#a78bfa" font-size="14" font-weight="700">Agents</text>
+  <text x="440" y="190" fill="#64748b" font-size="11">Persona-scoped context windows</text>
+
+  <!-- Agent cards -->
+  <!-- Backend -->
+  <rect x="440" y="208" width="160" height="80" rx="6" fill="#1e293b" stroke="#6366f1" stroke-width="1"/>
+  <text x="460" y="230" fill="#e2e8f0" font-size="12" font-weight="600">Backend Engineer</text>
+  <text x="460" y="248" fill="#a5b4fc" font-size="10" font-style="italic">Chikondi</text>
+  <text x="460" y="266" fill="#64748b" font-size="10">Go, CRUD, permissions</text>
+  <text x="460" y="280" fill="#64748b" font-size="10">audit trails, builder pattern</text>
+
+  <!-- QA -->
+  <rect x="616" y="208" width="160" height="80" rx="6" fill="#1e293b" stroke="#22c55e" stroke-width="1"/>
+  <text x="636" y="230" fill="#e2e8f0" font-size="12" font-weight="600">QA Engineer</text>
+  <text x="636" y="248" fill="#86efac" font-size="10" font-style="italic">Blessings</text>
+  <text x="636" y="266" fill="#64748b" font-size="10">testcontainers, Playwright</text>
+  <text x="636" y="280" fill="#64748b" font-size="10">1,831 test cases</text>
+
+  <!-- Frontend -->
+  <rect x="792" y="208" width="160" height="80" rx="6" fill="#1e293b" stroke="#06b6d4" stroke-width="1"/>
+  <text x="812" y="230" fill="#e2e8f0" font-size="12" font-weight="600">Frontend Engineer</text>
+  <text x="812" y="248" fill="#67e8f9" font-size="10" font-style="italic">Thoko</text>
+  <text x="812" y="266" fill="#64748b" font-size="10">TypeScript strict, React</text>
+  <text x="812" y="280" fill="#64748b" font-size="10">i18n-first, Zod schemas</text>
+
+  <!-- DevOps -->
+  <rect x="968" y="208" width="160" height="80" rx="6" fill="#1e293b" stroke="#f97316" stroke-width="1"/>
+  <text x="988" y="230" fill="#e2e8f0" font-size="12" font-weight="600">DevOps Engineer</text>
+  <text x="988" y="248" fill="#fdba74" font-size="10" font-style="italic">Kondwani</text>
+  <text x="988" y="266" fill="#64748b" font-size="10">Docker, Helm, K8s</text>
+  <text x="988" y="280" fill="#64748b" font-size="10">CI/CD, multi-stage builds</text>
+
+  <!-- "consults" arrows from agents down to skills -->
+  <line x1="520" y1="288" x2="520" y2="340" stroke="#475569" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="696" y1="288" x2="696" y2="340" stroke="#475569" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="872" y1="288" x2="872" y2="340" stroke="#475569" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="440" y="336" fill="#f59e0b" font-size="9" font-weight="500">consults</text>
+  <text x="616" y="336" fill="#f59e0b" font-size="9" font-weight="500">consults</text>
+  <text x="792" y="336" fill="#f59e0b" font-size="9" font-weight="500">consults</text>
+
+  <!-- Each agent in own context -->
+  <text x="440" y="394" fill="#475569" font-size="9">own context window</text>
+  <text x="616" y="394" fill="#475569" font-size="9">own context window</text>
+  <text x="792" y="394" fill="#475569" font-size="9">own context window</text>
+  <text x="968" y="394" fill="#475569" font-size="9">own context window</text>
+
+  <!-- ============ SKILLS BOX (bottom) ============ -->
+  <rect x="40" y="440" width="1120" height="120" rx="8" fill="#f59e0b" opacity="0.06" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.3"/>
+  <text x="60" y="466" fill="#fbbf24" font-size="14" font-weight="700">Skills</text>
+  <text x="60" y="482" fill="#64748b" font-size="11">Deterministic + creative · 43 skills</text>
+
+  <!-- Skill cards -->
+  <rect x="60" y="496" width="140" height="44" rx="6" fill="#1e293b" stroke="#d97706" stroke-width="1"/>
+  <text x="76" y="516" fill="#e2e8f0" font-size="11" font-weight="600">CRUD Scaffold</text>
+  <text x="76" y="530" fill="#fbbf24" font-size="9">19-step sequence</text>
+
+  <rect x="216" y="496" width="140" height="44" rx="6" fill="#1e293b" stroke="#d97706" stroke-width="1"/>
+  <text x="232" y="516" fill="#e2e8f0" font-size="11" font-weight="600">Enum Sync</text>
+  <text x="232" y="530" fill="#fbbf24" font-size="9">Go → TypeScript</text>
+
+  <rect x="372" y="496" width="140" height="44" rx="6" fill="#1e293b" stroke="#d97706" stroke-width="1"/>
+  <text x="388" y="516" fill="#e2e8f0" font-size="11" font-weight="600">UI Audit</text>
+  <text x="388" y="530" fill="#fbbf24" font-size="9">Checkable design rules</text>
+
+  <rect x="528" y="496" width="140" height="44" rx="6" fill="#1e293b" stroke="#d97706" stroke-width="1"/>
+  <text x="544" y="516" fill="#e2e8f0" font-size="11" font-weight="600">Test Suite</text>
+  <text x="544" y="530" fill="#fbbf24" font-size="9">testcontainers + Playwright</text>
+
+  <rect x="684" y="496" width="140" height="44" rx="6" fill="#1e293b" stroke="#d97706" stroke-width="1"/>
+  <text x="700" y="516" fill="#e2e8f0" font-size="11" font-weight="600">Helm Values</text>
+  <text x="700" y="530" fill="#fbbf24" font-size="9">Deploy configuration</text>
+
+  <rect x="840" y="496" width="140" height="44" rx="6" fill="#1e293b" stroke="#d97706" stroke-width="1"/>
+  <text x="856" y="516" fill="#e2e8f0" font-size="11" font-weight="600">Inertia Forms</text>
+  <text x="856" y="530" fill="#fbbf24" font-size="9">Type-safe React forms</text>
+
+  <rect x="996" y="496" width="140" height="44" rx="6" fill="#1e293b" stroke="#d97706" stroke-width="1"/>
+  <text x="1012" y="516" fill="#e2e8f0" font-size="11" font-weight="600">+ 37 more...</text>
+  <text x="1012" y="530" fill="#fbbf24" font-size="9">migration, nav, search...</text>
+
+  <!-- ============ OUTPUT (bottom left) ============ -->
+  <rect x="40" y="580" width="340" height="100" rx="8" fill="#22c55e" opacity="0.06" stroke="#22c55e" stroke-width="1" stroke-opacity="0.3"/>
+  <text x="60" y="608" fill="#4ade80" font-size="14" font-weight="700">Production Output</text>
+  <text x="60" y="632" fill="#86efac" font-size="12">&#x2705; Tested code (1,831 cases)</text>
+  <text x="60" y="652" fill="#86efac" font-size="12">&#x2705; Type-safe frontend (462 TS/TSX files)</text>
+  <text x="60" y="672" fill="#86efac" font-size="12">&#x2705; Deployed to K8s (Helm charts)</text>
+
+  <!-- Arrow from hooks to output -->
+  <path d="M 210 408 L 210 580" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="6 3" marker-end="url(#arrowGreen)"/>
+  <defs><marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#22c55e"/></marker></defs>
+</svg>

@@ -32,71 +32,75 @@ metadata:
 </blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-You've seen these quotes. They're everywhere. And if you're a software engineer, you've probably felt the gap between what these people are describing and what actually happens when you try to use AI to write code. The same old pink gradient UI that screams AI from a mile away. Sloppy outputs. Bugs you have to clean up after the fact. Hit and miss, even with paid tools.
+You've seen these quotes. They're everywhere. And if you're a software engineer, you've probably felt the gap between what these people are describing and what actually happens when you try to use AI to write code. The same old purple gradient UI that screams AI from a mile away. Sloppy outputs. Bugs you have to clean up after the fact. Hit and miss, even with paid tools.
 
 They're using the same models you're using. So what's making them so much more effective?
 
 ## The interview that keeps coming back
 
-I remember doing an interview back in my college days, and they threw a Fibonacci question at me. Little did I know there was a trick in there — I had to use [memoisation](https://www.geeksforgeeks.org/what-is-memoization-a-complete-tutorial/) to solve it. Of course, I didn't know that trick. I didn't use memoisation, and my programme collapsed like a house of cards.
+I remember doing an interview back in my college days, and they threw a Fibonacci question at me. Little did I know there was a trick in there. I had to use [memoisation](https://www.geeksforgeeks.org/what-is-memoization-a-complete-tutorial/) to solve it. I didn't know that trick. I didn't use memoisation, and my programme collapsed like a house of cards.
 
-I think about that interview a lot these days. Not because of the embarrassment — we've all been there — but because it's the perfect analogy for what's happening with AI-generated code right now.
+I think about that interview a lot these days. Not because of the embarrassment (we've all been there) but because it's the perfect analogy for what's happening with AI-generated code right now.
 
-Any software engineer will tell you there's quite a big difference between working software and scaling software. Working software — the kind that would typically be built by a junior engineer who maybe doesn't understand a lot of the underpinning concepts of what they're working with — sits at the highest level of abstraction the developer can manage. And this is the kind of thing you can easily spot in a technical interview. The moment you start digging deeper into the trade-offs and design choices, the whole thing starts falling apart.
+Any software engineer will tell you there's quite a big difference between working software and scaling software. Working software, the kind that would typically be built by a novice who maybe doesn't understand a lot of the underpinning concepts, sits at the highest level of abstraction the developer can manage.
+
+And this is the kind of thing you can easily spot in a technical interview, right? The moment you start digging deeper into the trade-offs and design choices, the whole thing starts falling apart.
 
 When you're working at a high level of abstraction with a large language model, without a deeper understanding of software principles, you most likely allow a lot of those same rookie mistakes to happen. The bigger the application, the more of those mistakes accumulate. And before you know it, your entire software comes crashing and tumbling down.
 
 ## In defence of slop
 
-Now, this is not a knock on [vibe coding](https://x.com/karpathy/status/1886192184808149383). Because I don't think all applications must be designed with utmost expertise. You don't need to throw a bazooka at every problem. Some problems just need explorative thinking — you're branching off into a new domain, a new idea that you want to explore, and you need a working prototype as quickly as possible. You don't need Amazon-level scale for such solutions. You just need to show what's capable, interact with users, get an MVP, get a feel of product-market fit, and you want to do that as quickly and as sloppily as possible.
+Now, this is not a knock on [vibe coding](https://x.com/karpathy/status/1886192184808149383). Because I don't think all applications must be designed with utmost expertise. You don't need to throw a bazooka at every problem. Some problems just need explorative thinking. You're branching off into a new domain, a new idea that you want to explore, and you need a working prototype as quickly as possible. You don't need Amazon-level scale for such solutions. You just need to show what's capable, interact with users, get an MVP, get a feel of product-market fit, and you want to do that as quickly and as sloppily as possible.
 
-Exploration is sloppy. And I think that's where the real value of vibe coding comes in.
+> Exploration is sloppy. And I think that's where the real value of vibe coding comes in.
 
-I do see that a lot of product managers, project managers, managers in general, CEOs, will use vibe coding as a very good way to validate their thoughts and ideas tangibly in software, in a way that they simply couldn't before. For software engineers too, it can be a great way to explore a new language and just play around with a model in the explorative phase of your solutioning.
+I do see that a lot of product managers, project managers - managers in general - CEOs, using vibe coding as a very good way to validate their thoughts and ideas tangibly in software, in a way that they simply couldn't before. For software engineers too, it can be a great way to explore a new language and just play around with a model in the explorative phase of your solutioning.
 
-The problem isn't vibe coding itself. The problem is not knowing when to stop. And I know this because I learned it the hard way.
+The problem is knowing when to stop. And I know this because I learned it the hard way.
 
 ## Where it fell apart for me
 
-At my previous job, we had a very tight deadline to deliver a product within a month. It was complex. It was uncharted — something we'd never built before, both technically and from a product standpoint. And we'd also just lost a senior engineer on my team. So there was a lot of pressure on me to get this done with limited resources in the quickest amount of time.
+At a previous job, we had a very tight deadline to deliver a product within a month. It was complex. It was uncharted. Something we'd never built before, both technically and from a product standpoint. And we'd also just lost a senior engineer on my team. So there was a lot of pressure on me to get this done with limited resources in the quickest amount of time.
 
-I'd just learned about [Claude](https://www.anthropic.com/claude) around then. [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) wasn't a thing yet, so a lot of what we were using was IDE-based coding agents — [Windsurf](https://windsurf.com/) was popular at that time. And I inevitably panicked and kind of started to throw as many tokens at the problem as possible.
+I'd just learned about [Claude](https://www.anthropic.com/claude) around then. [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) wasn't a thing yet, so a lot of what we were using was IDE-based coding agents. [Windsurf](https://windsurf.com/) was popular at that time. And I inevitably panicked and kind of started to throw as many tokens at the problem as possible.
 
-But it just felt like something was missing. Because the more velocity I had, the more challenges I had as well. I'd ship all this code and there would be a lot more code that was generally slop. The model would create files that had already existed. Sometimes it would call a function and put a 1 or a 2 at the end of the function name — like a second, third version of that function just sitting there. It was a lot of stress and a lot of mess. We'd make progress in one direction but break so many things in another direction. Regressions everywhere.
+But it just felt like something was missing. Because the more velocity I had, the more challenges I had as well. I'd ship all this code and there would be a lot more code that was generally slop. The model would create files that had already existed. Sometimes it would call a function and put a 1 or a 2 at the end of the function name, like a second, third version of that function just sitting there. It was a lot of stress and a lot of mess. We'd make progress in one direction but break so many things in another direction. Regressions everywhere.
 
-And a lot of that code today, if I look back at it, I would cringe just to look at it because it's so badly written.
+And a lot of that code today, if I look back at it, I would cringe because it's so badly written.
 
-Ultimately, that project failed. It failed for many reasons, but technically it failed because I didn't understand — even being a senior engineer — how to properly use the model in a way that gave us predictability. And I think that's the point where I knew there had to be a better way of building with these tools. Not on Twitter for some sort of MVP product that could go viral and you're gonna throw away if it doesn't land. But on a real work project, a real codebase that's gonna be maintained even after you leave.
+Ultimately, that project failed. It failed for many reasons, but technically it failed because I didn't understand (even being a senior engineer) how to properly use the model in a way that gave us predictability. And I think that's the point where I knew there had to be a better way of building with these tools. Not on Twitter for some MVP product that may or may not go viral and you're gonna throw it away if it doesn't. But on a real work project, a real 9-5 codebase that's gonna be maintained even after you leave.
 
 I knew there had to be a better way. And at that time, I just wasn't finding it.
 
-So I started digging. Into what the industry standards are. Into how those engineers at the bigger companies — the ones making all those claims about 90%, 95% AI-generated code — are actually doing it.
+So I started digging. Into what the industry standards are. Into how those engineers at the bigger companies, the ones making all those claims about 90%, 95% AI-generated code, are actually doing it.
 
 What I found was a spectrum.
 
 ## Vibe coding → Context engineering → Harness engineering
 
-There's a concept I first came across in an [Anthropic](https://www.anthropic.com) talk, and it clarified something I'd been struggling to articulate. Anthropic has been doing a lot of the interesting work around professional AI-assisted coding right now — [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) being the sort of epitome of their tooling, and the demonstrations have been super fascinating.
+There's a concept I first came across in an [Anthropic](https://www.anthropic.com) talk, and it clarified something I'd been struggling to articulate. Anthropic has been doing a lot of the interesting work around professional AI-assisted coding right now. [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) being the sort of epitome of their tooling, and the demonstrations have been super fascinating.
 
-The concept is harness engineering. But to understand why it matters, you need to see where it sits. Because there is a spectrum, and most people are stuck at one end of it without knowing the other end exists.
+The concept is harness engineering. But to understand why it matters, you need to see where it sits. Because there is a spectrum, and most people are stuck at one end of it without knowing the other end exists, or more accurately: the folks who do this sort of thing tend to dismiss the vibe coders.
 
-**Vibe coding** is where most people start, and where I was during that failed project. You're prompting a model, generating code, iterating until something works. It's great for exploration, ideation, rapid prototyping. You're playing. The model does most of the thinking, and you're along for the ride.
+**Vibe coding** is where most people start, and where I was during that failed project. You're prompting a model, generating code, iterating until something works. It's great for exploration, ideation, rapid prototyping. You're playing. The model does most of the thinking, and you're along for the ride. I've built some cool stuff with vibe coding. Most of which I'll never touch again. Some of which I'll probably have to refactor later once we start making real money with it.
 
-**[Context engineering](https://simonwillison.net/2025/jun/27/context-engineering/)** builds on top of that and starts to bring in things like specifications, documentation, architectural guidelines — all the context that is required for you to build something where you have a very strong grip on what you want. You know what you're building; you're feeding the model what it needs to get there. This is where the output starts to feel less like AI slop and more like something a competent engineer might have written.
+**[Context engineering](https://simonwillison.net/2025/jun/27/context-engineering/)** builds on top of that and starts to bring in things like specifications, documentation, architectural guidelines. All the context that is required for you to build something where you have a very strong grip on what you want. You know what you're building; you're feeding the model what it needs to get there. This is where the output starts to feel less like AI slop and more like something a competent engineer might have written.
 
-**[Harness engineering](https://mitchellh.com/writing/my-ai-adoption-journey)** takes it a step further. You've got the context. You know exactly what you want to build. You're probably working on a [brownfield project](https://www.synopsys.com/glossary/what-is-a-brownfield-project.html) — a large codebase, 10 members, 50, 100 members. You want to create a harness, or harnesses, that ensure your codebase is going to be well-maintained using AI tooling for the foreseeable future, while reaping the benefits of these models — which is obviously rapid development, but in this case, rapid development with high-quality, maintainable outputs. And that's really the distinction.
+**[Harness engineering](https://mitchellh.com/writing/my-ai-adoption-journey)** takes it a step further. You've got the context. You know exactly what you want to build. You're probably working on a [brownfield project](https://www.synopsys.com/glossary/what-is-a-brownfield-project.html). A large codebase, 10 members, 50, 100 members. You want to create a harness, or harnesses, that ensure your codebase is going to be well-maintained using AI tooling for the foreseeable future, while reaping the benefits of these models. Which is obviously rapid development, but in this case, rapid development with high-quality, maintainable outputs. And that's really the distinction.
 
-That's the answer to the question I opened with. Those engineers at Meta and OpenAI aren't better at prompting. They're not using secret models. They're operating at the harness level. The environment they've built around the model — the constraints, the guardrails, the feedback loops — is what's making the difference. Not the model itself.
+That's the answer to the question I opened with. Those engineers at Meta and OpenAI aren't better at prompting. They're not using secret models. They're operating at the harness level. The environment they've built around the model (the constraints, the guardrails, the feedback loops) is what's making the difference.
 
 [Mitchell Hashimoto](https://mitchellh.com/writing/my-ai-adoption-journey), the co-founder of [HashiCorp](https://www.hashicorp.com) and creator of [Terraform](https://www.terraform.io), gave this practice its name in early 2026. Days later, [OpenAI published a detailed account](https://openai.com/index/harness-engineering/) of building a million-line codebase with zero manually typed code, using exactly this approach. Anthropic had been seeding the concept since late 2025, describing their [Claude Agent SDK](https://www.anthropic.com/engineering/building-agents-with-the-claude-agent-sdk) as a "general-purpose agent harness." The idea is converging fast.
 
 ## What this means
 
-This is probably the single most important mental shift when it comes to AI-assisted coding for senior engineers right now. The senior engineer is not going anywhere. But senior engineers need a different way of thinking about building reliable software. You're no longer just the person who writes every line. You're the person who builds the environment that makes AI-generated code trustworthy.
+This is probably the single most important mental shift when it comes to AI-assisted coding for senior engineers right now.
 
-And that idea — of creating a harness — comes with a lot of technical investment, not just any technical investment, but technical investment from highly skilled engineering personnel. It requires thinking about predictability and determinism, which are extremely important but also extremely non-trivial to achieve in the probabilistic nature of large language models.
+> The senior engineer is not going anywhere. But senior engineer need a different way of thinking about building reliable software. You're no longer just the person who writes every line. You're the person who builds the environment that makes AI-generated code trustworthy.
 
-In Part II, I'll get into what a harness actually looks like in practice — based on my own experience of what works, what doesn't work, and where I've got gaps in my thinking. This will probably change in the next 12 months. I'm aware of that. That's the exciting — and potentially frustrating — part of where we are right now.
+And that idea, of creating a harness, comes with a lot of technical investment. Not just any technical investment, but technical investment from highly skilled engineering personnel. It requires thinking about predictability and determinism, which are extremely important but also extremely non-trivial to achieve in the probabilistic nature of large language models.
+
+In Part II, I'll get into what a harness actually looks like in practice, based on my own experience of what works, what doesn't work, and where I've got gaps in my thinking. This will probably change in the next 12 months. I'm aware of that. That's the exciting (and potentially frustrating) part of where we are right now.
 
 But if you want to start today, try this: before you prompt the model on your next PR, ask yourself _what constraints would make this output trustworthy without you reviewing every line_. That question is your first harness.
 

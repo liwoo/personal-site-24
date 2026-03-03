@@ -1,0 +1,431 @@
+---
+publishDate: 2026-03-03T00:00:00Z
+title: "Here's why your AI-generated code fails to scale - Part II"
+excerpt: I shipped a fintech SaaS in 16 days. 38 commits, 304K lines, 24 entities. The secret was the harness I built around the model. Here's what that looks like in practice.
+category: Tech
+draft: false
+tags:
+  - harness-engineering
+  - claude-code
+  - ai-coding
+metadata:
+  canonical: https://chienda.com/why-your-ai-code-fails-to-scale-pt2
+---
+
+import { Image } from 'astro:assets';
+import harnessArch from '~/assets/images/harness/01-harness-architecture.svg';
+import backpressureLoop from '~/assets/images/harness/02-backpressure-loop.svg';
+import skillActivation from '~/assets/images/harness/03-skill-activation.svg';
+import thymaBeforeAfter from '~/assets/images/harness/04-thyma-before-after.svg';
+import sprintTimeline from '~/assets/images/harness/05-sprint-timeline.svg';
+import contextIsolation from '~/assets/images/harness/06-context-isolation.svg';
+
+I shipped a working fintech SaaS in 16 days. [Go](https://go.dev) backend, [React](https://react.dev) frontend, multi-tenancy, role-based permissions, audit trails, full CRUD across 24 entities, 80 database migrations, 1,831 test cases running against real [PostgreSQL](https://www.postgresql.org) via [testcontainers](https://testcontainers.com) and [Playwright](https://playwright.dev), [Helm](https://helm.sh) charts for [Kubernetes](https://kubernetes.io) deployment. 38 commits. 304,000 lines of code. 1,582 files.
+
+Because I built a harness.
+
+A harness is a system of agents, skills, hooks, and back pressure that constrains AI code generation to follow _your_ patterns, not whatever the model invents. It's what separates "AI wrote some code for me" from "AI built a production system that respects every architectural decision I've made over the last decade."
+
+This is Part 2 of a series. [Part 1](/why-your-ai-code-fails-to-scale-pt1) drew the distinction between vibe coding, context engineering, and harness engineering. This post is about the harness: what works, what still breaks, and what I'm building to fix the gaps.
+
+Everything described here runs on [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview). The full `.claude` directory is [open source](https://github.com/liwoo/goravel-inertia-tw-starter/tree/develop/.claude).
+
+---
+
+## What a Harness Actually Looks Like
+
+<Image src={harnessArch} alt="Architecture diagram showing how hooks, agents, and skills connect inside a .claude harness" />
+
+Let me walk through the tooling before we get philosophical about it. Claude Code gives you 4 primitives, and each one solves a different problem.
+
+### Agents: Your Engineering Team
+
+> **What you'd see in your terminal:** Claude Code spawning a subagent called `goravel-crud-engineer` in its own context window. The main conversation stays clean while the subagent explores 50+ files, scaffolds code, and returns a summary. You can check on it with `Ctrl+O` to expand the subagent's work.
+
+I create **persona agents**, each with an engineering philosophy, a set of skills, and its own context window. That last part is critical: subagents don't eat into your main agent's context. When a backend agent explores your codebase, those search results get garbage-collected when it's done. You get back a concise summary, not 50 pages of file contents.
+
+Here's my backend agent. Note the persona isn't decoration. Every tenet is a constraint that shapes what gets generated:
+
+```yaml
+# .claude/agents/goravel-crud-engineer.md
+---
+name: goravel-crud-engineer
+model: opus
+---
+
+# Chikondi Banda — Senior Backend Engineer
+
+## Core Engineering Tenets (non-negotiable)
+
+1. Convention Over Configuration — every entity looks like it was written by the same person
+2. Builder Pattern Everything — services configured through fluent methods, not constructors
+3. Permission-First Design — no endpoint ships without permission checks. Ever.
+4. Audit Everything — BaseAuditableModel gives created_by, updated_by for free
+5. Route Ordering Is a Contract — search endpoints MUST register before {id} routes
+6. Test At Every Milestone — after model, after service, after controller
+7. Separation Is Sacred — models own data, services own logic, controllers own HTTP
+```
+
+I have 4 agents: backend engineer, QA engineer (testcontainers + Playwright), frontend engineer (TypeScript strict mode, i18n-first), DevOps engineer (Docker multi-stage builds, Helm). Each knows its domain deeply. And they run in parallel when features don't depend on each other.
+
+<Image src={contextIsolation} alt="How subagents delegate work and return summaries without eating the main context window" />
+
+> **What you'd see:** Running `/status` shows background agents working on separate branches simultaneously. One is scaffolding the backend, another is generating frontend types. Token usage is tracked per-agent.
+
+### Skills: Deterministic Boilerplate + Creative Customisation
+
+The single biggest tokenomics win: **stop asking AI to generate boilerplate.**
+
+You know, AI models measurably degrade at generating template code over long sessions. They get bored (for lack of a better word), start inventing variations, and you burn tokens on code that should be identical every time. Just like you wouldn't waste a senior engineer's thinking on boilerplate, don't waste the AI's.
+
+The way I like to do it: CLI commands that deterministically generate the scaffold, then [skills](https://docs.anthropic.com/en/docs/claude-code/skills) wrapped around those commands. The skill tells the agent: run this command, then customise _around_ the template.
+
+```bash
+# Deterministic: artisan generates the Go boilerplate
+go run . artisan make:model --table=products Product
+go run . artisan make:svc --model=Product product
+go run . artisan make:ctrl --model=product product
+
+# Then the skill tells the agent HOW to customise:
+# - Add search fields, sort fields, filter fields to the service builder
+# - Wire up permission constants
+# - Register routes in the correct order
+# - Generate TypeScript types for the frontend
+```
+
+And this is interesting because the cross-language sync is where it really shines. My `goravel-enum` skill creates a Go enum and immediately generates the TypeScript equivalent:
+
+```bash
+go run . artisan make:ts-enums \
+  --source=app/http/requests \
+  --output=resources/js/types
+```
+
+Output:
+
+```typescript
+// Auto-generated from Go enum: GenderType
+export type GenderType = 'MALE' | 'FEMALE' | 'OTHER';
+
+export const GENDER_TYPE_OPTIONS: Array<{
+  label: string; value: GenderType
+}> = [
+    { label: 'Male', value: 'MALE' },
+    { label: 'Female', value: 'FEMALE' },
+    { label: 'Other', value: 'OTHER' },
+];
+```
+
+I have **43 skills**, from database migration to UI audit to a full 19-step CRUD scaffold sequence. The AI doesn't guess the order or the conventions. The harness tells it.
+
+### Hooks: Where Back Pressure Lives
+
+Geoffrey Huntley's [Ralph Wiggum technique](https://github.com/ghuntley/how-to-ralph-wiggum) popularised a concept that's central to my setup: **back pressure**. Instead of telling the agent _how_ to write code, you engineer an environment where wrong outputs get rejected automatically. As Clayton Farr puts it in the Ralph playbook: "Human roles shift from telling the agent what to do to engineering conditions where good outcomes emerge naturally through iteration."
+
+My [hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) fire automatically after every tool use:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [{ "type": "command", "command": ".claude/hooks/post-edit-lint.sh" }]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [{ "type": "command", "command": ".claude/hooks/post-bash-check.sh" }]
+      }
+    ]
+  }
+}
+```
+
+After every file edit: Go files get `goimports` + `go vet`. TypeScript gets Prettier. Helm charts get linted. After every bash command: if it was a code generator, `go vet` validates the output. If it was an enum generator, `tsc --noEmit` type-checks the TypeScript. If it was a migration, the entire project must still build.
+
+```bash
+#!/bin/bash
+# .claude/hooks/post-bash-check.sh (simplified)
+
+# After code generators → go vet
+if echo "$COMMAND" | grep -qE 'artisan make:(model|svc|ctrl)'; then
+    go vet ./... 2>&1 || true
+fi
+
+# After enum generation → type check
+if echo "$COMMAND" | grep -q 'make:ts-enums'; then
+    npx tsc --noEmit 2>&1 || true
+fi
+
+# After migrations → verify build
+if echo "$COMMAND" | grep -qE 'artisan migrate'; then
+    go build ./... 2>&1 || true
+fi
+```
+
+> **What you'd see:** After the agent edits a Go file, the hook output appears inline: "go vet issues in controllers: undefined variable." The agent reads this, immediately fixes the issue, and the next hook run passes. No human intervention required.
+
+When a hook fails, the output is fed back as context. The agent sees what broke and retries. This is back pressure in its purest form. You create the gate, the AI figures out how to pass through it.
+
+<Image src={backpressureLoop} alt="The back pressure feedback loop: agent writes code, hook fires, validation passes or fails, error fed back as context" />
+
+### The UI Audit Skill
+
+For non-CRUD interfaces (dashboards, one-off pages) I run a `ui-ux-audit` skill that encodes every UI rule I follow. Specific, checkable rules:
+
+- Max 3-4 table columns on desktop. Primary column max 2 lines.
+- **No decorative icons.** No calendar icon next to dates, no dollar icon next to `$24.99`.
+- **Dropdown-first.** If a field has known values, it's a `<Select>`, never a text input.
+- **Status colours standardised** across all entities. Dark mode uses `/30` opacity.
+
+The skill produces a structured audit report with file paths and line numbers. The agent fixes the findings. I encoded these rules once and they get enforced automatically on every feature.
+
+---
+
+## How I Shipped a Fintech SaaS in 16 Days
+
+<Image src={sprintTimeline} alt="Gantt chart showing harness setup, entity scaffolding, custom features, QA, and deployment phases" />
+
+Here's what the workflow actually looked like, based on the real git log.
+
+```
+# Git log (38 commits over 16 days)
+
+Day 01   Initial commit + rebrand                          +173,241
+Day 02   working multi-tenancy                               +8,297
+Day 03   core entities done, first passing tests            +29,497
+Day 04   8 commits — deployment wrestling                    +1,298
+Day 05   groups, inventory                                  +26,557
+Day 06   GL codes, accounting module                        +24,010
+Day 08   frontend build fixes, permissions cleanup
+Day 12   major migration                                    +22,555
+Day 13   account testing, UAT ready, 2FA, filters           +10,207
+Day 14   transaction posting, journal entries
+Day 15   expense flows through the ledger                    +1,287
+Day 16   P&L statement, final build fix
+```
+
+**Day 1-2:** The [goravel-inertia-tw-starter](https://github.com/liwoo/goravel-inertia-tw-starter) template gave me a 159K-line foundation: the meta-framework, the harness (4 agents, 43 skills, 2 hook scripts), CI/CD pipelines, Docker, Helm. Day 1 was rebranding the starter to the client's product. Day 2 was multi-tenancy. The harness was already built. I was building the factory months ago, so when it came time to build the product, I could start on day 1.
+
+**Day 3-4:** Core entities, first passing tests. Then a full day wrestling with deployment: 8 commits in a single day, Helm references, CI workflow permissions, version upgrade troubleshooting, health endpoint diagnostics. This is the reality of shipping, right? The harness handles code generation beautifully. Kubernetes still punches you in the face.
+
+**Day 5-6:** This is where the harness earned its keep. Groups, inventory, GL codes, and then the big one: the complete accounting module. 20K+ lines added in a single commit, touching 135 files. The backend agent scaffolded the models, services, and controllers. The frontend agent generated type-safe forms and table columns. The QA agent wrote integration tests. All following the same 19-step sequence. Every entity came out architecturally identical.
+
+**Day 12-13:** Major migration (22K lines), account testing, stock levels, 2FA redirect fix, filter periods. 6 commits in a single day. By end of day, the commit message read `ready for UAT`.
+
+**Day 14-16:** Transaction posting, journal entries, expense flows through the ledger, P&L statement. The financial engine coming together on top of all the scaffolded infrastructure.
+
+The back pressure system caught mistakes before they compounded. When the accounting module landed with 135 changed files, `go vet` and `tsc --noEmit` ran automatically after every edit. The agent fixed issues inline without me intervening.
+
+And this is interesting because the test numbers tell the real story. Here's the final breakdown:
+
+```
+Test Category                    Files    Cases
+─────────────────────────────────────────────────
+Go CRUD (testcontainers)           23      944
+Go Permissions (scoped RBAC)       10       72
+Go Auth (JWT, TOTP/2FA)             5       54
+Go Messages (SSE, broadcast)        5       64
+Go Notifications                    2       24
+Go Integration (tenancy, filters)  12      155
+Go Unit (filters, perf, validation) 6       37
+Go Feature (standalone)             4       54
+─────────────────────────────────────────────────
+Total Go                           67    1,404
+─────────────────────────────────────────────────
+Playwright e2e (browser)           30      388
+React/Vitest (component)            4       39
+─────────────────────────────────────────────────
+Grand total                       101    1,831
+```
+
+**1,831 test cases.** The CRUD tests alone (944 cases across 23 entities) each run against real PostgreSQL via testcontainers. The Playwright suites cover everything from sidebar navigation to tenant isolation to P&L statement rendering. The permission tests verify scoped RBAC at the HTTP, service, and API layers.
+
+> **What you'd see:** Running `go test -p=1 ./tests/...` produces a wall of green. Then `npx playwright test` fires up 30 browser test suites. The QA agent wrote most of these. I reviewed them.
+
+---
+
+## The Harness Checklist
+
+So if you're building your own, here's the recipe.
+
+I want to be clear about something first: most of these ingredients already exist in whatever framework you're using. [Laravel](https://laravel.com) has artisan generators, linters, test suites. [Rails](https://rubyonrails.org) has scaffolds. [Django](https://djangoproject.com) has management commands. [.NET](https://dotnet.microsoft.com) has `dotnet new` templates. The primitives are there.
+
+The harness is the orchestration layer, the wiring that connects those tools to an AI agent so it can use them reliably, repeatedly, and without supervision.
+
+### 1. CLI Generators (Stop AI from Inventing Structure)
+
+This is the foundation, and probably the highest-ROI investment. If your framework has `artisan make:model`, `rails generate`, `dotnet new`, or equivalent CLI commands, you already have the building blocks.
+
+The key insight: **don't let the AI generate structural code from scratch.** It'll invent variations. Every time. The 3rd model it generates won't look like the 1st.
+
+Instead, use deterministic CLI commands for the skeleton, then let the AI customise around it. You know, the same model will add 3 fields to a template flawlessly. It'll botch generating the template from memory.
+
+### 2. Linting and Formatting Hooks (Automatic Back Pressure)
+
+The way I set it up: every file edit triggers validation. Go files get `goimports` + `go vet`. TypeScript gets `prettier` + `tsc --noEmit`. Python would get `ruff` or `black` + `mypy`.
+
+Whatever your stack, the pattern is the same: the agent writes code, the hook validates it, failure gets fed back as context, the agent self-corrects.
+
+I like to think of hooks as guardrails on a motorway. You don't need them when everything's going well. But when the agent drifts (and it will), they catch it before the drift becomes a crash.
+
+### 3. Extensive Tests (The Ultimate Back Pressure)
+
+This is the big one. Tests are your strongest back pressure mechanism. And I mean real tests, not mocks of mocks of mocks. Integration tests against real databases (testcontainers), e2e browser tests (Playwright), permission tests that verify RBAC at every layer.
+
+In my setup, the agent writes tests as part of the scaffolding sequence, and those tests run automatically.
+
+Here's why this matters so much: AI-generated code that compiles and passes linting can still be fundamentally wrong. A controller that returns 200 on every request will pass `go vet` just fine. Only a test that actually hits the endpoint and checks the response body will catch it.
+
+### 4. Persona Agents (Scoped Context, Scoped Expertise)
+
+What I've found works best: each agent knows its domain and only its domain. A backend agent that also tries to write CSS is going to produce worse results than a focused backend agent and a focused frontend agent working in parallel. The context isolation is a bonus, right? Subagents don't eat into your main conversation's token budget.
+
+### 5. Focused Skills (Your Playbook, Encoded)
+
+Every repeatable workflow benefits from being a skill. Migration sequence. CRUD scaffold. Enum sync. Type generation. Form layout. Navigation registration. The more of your workflow you can encode as explicit instructions, the less the AI has to guess. And guessing is where it breaks.
+
+### 6. Audit Skills (Catch What Linting Can't)
+
+Linters catch syntax and formatting. They don't catch bad UX decisions.
+
+An audit skill encodes your design principles as checkable rules: max table columns, no decorative icons, dropdown-first for known values, consistent status colours. The agent runs the audit, gets a structured report, and fixes the findings. You encode your taste once. It gets enforced on every feature.
+
+### 7. CI/CD Integration (The Final Gate)
+
+I extend the harness into the pipeline. If the agent's code passes local hooks but fails CI, something's missing from your local validation. My setup runs `go vet`, `tsc --noEmit`, `helm lint`, and the test suite on every push. The DevOps agent configures this. The back pressure follows the code all the way to deployment.
+
+---
+
+So that's the checklist. You probably already have 80% of these primitives in your stack. The work is wiring them into a feedback loop tight enough that bad output gets caught and corrected before it compounds.
+
+---
+
+## Where It Breaks: The Honest Part
+
+The harness works. But there are 2 significant gaps that I've been banging my head against, and I think they're the frontier problems in this space.
+
+### Gap 1: Skills Don't Always Fire
+
+Here's the dirty secret of skill-based engineering: **your skills only work if the agent picks them up.** And it doesn't always.
+
+[Scott Spence](https://scottspence.com) ran rigorous sandboxed evaluations on skill activation and the numbers are sobering. Without any hooks or forcing mechanisms, Claude Sonnet 4.5 achieves roughly **50-55% baseline skill activation**. That means nearly half the time, the agent just barrels ahead with its own approach instead of consulting your carefully written skill.
+
+The variance is the killer. In Spence's testing, the baseline swung 5 points between runs with zero configuration changes. If you're relying on Claude to activate skills without intervention, you're subject to coin-flip reliability.
+
+The fix is what Spence calls a **forced-eval hook**, a `UserPromptSubmit` hook that injects a commitment mechanism before every task. It forces the agent to explicitly evaluate each available skill against the current prompt (YES or NO) before doing anything else. With this hook, activation jumps to **100% across both test runs. Zero false positives. Zero missed activations.**
+
+<Image src={skillActivation} alt="Skill activation with forced-eval hook (100% reliable) versus without (coin-flip reliability)" />
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [{
+      "hooks": [{
+        "type": "command",
+        "command": ".claude/hooks/skill-forced-eval-hook.sh"
+      }]
+    }]
+  }
+}
+```
+
+Anthropic themselves have a `skill-creator` tool that includes a description optimisation loop. It splits your eval set into 60% train and 40% held-out test, runs each query 3 times for reliability, then uses extended thinking to propose description improvements. It iterates up to 5 times, selecting the best description by test score to avoid overfitting.
+
+But here's my frustration: **this should be a first-class feature.** I shouldn't need to write bash scripts that inject prompts to make skills reliable. The triggering mechanism should be deterministic.
+
+Until then, skill evaluations (kind of like unit tests for your skill descriptions) are essential. You write test prompts, observe which skills fire, and tune descriptions until activation is near-100%.
+
+### Gap 2: Conversation Amnesia
+
+This is the big one. And I think it's the most under-discussed problem in AI-assisted engineering.
+
+Every time you start a new Claude Code session, your agent forgets everything. Every preference you stated. Every quirk it discovered about your tooling. Every workaround it found for that one flaky API. Every architectural decision you negotiated over the course of a 3-hour session.
+
+Skills are great. I love skills. But **skills are static.** They capture _learned_ experience (what you knew to write down ahead of time). They don't capture _lived_ experience (what the agent discovered during actual work).
+
+This is death by a thousand cuts on a long-running project. You spend the first 15 minutes of every session re-establishing context that should have persisted. The agent re-discovers the same Stripe rate limit workaround for the 3rd time this week. You re-explain that `carbon.DateTime` needs dereferencing with `*` for non-pointer model fields. You re-negotiate the same formatting preference.
+
+Over a 2-week sprint, I estimate I lost **2-3 full days** to re-establishing context that the agent should have retained. On a production project, that's not just annoying. It's expensive.
+
+The Ralph Wiggum approach embraces this as a feature: fresh context every iteration, git as the memory layer. And for autonomous loops, that's a reasonable trade-off. But for interactive development, where you're pairing with the agent across dozens of sessions over weeks, you need something better.
+
+---
+
+## Introducing Thyma: Total Recall for Your AI Agents
+
+I've been working on this problem for a while now, and I'm ready to share what I've built.
+
+[**Thyma**](https://github.com/liwoo/thyma) gives your Claude Code or [OpenCode](https://opencode.ai) agent a persistent memory it can read before it starts work and write to when it discovers something worth keeping. The next session, it picks up where it left off.
+
+> _From the Greek root of hyperthymesia, the rare condition where nothing is ever forgotten. Every experience, perfectly preserved, instantly retrievable. Thyma gives your agent the same gift._
+
+<Image src={thymaBeforeAfter} alt="With Thyma the agent remembers across sessions. Without it, every session starts from zero." />
+
+It stores 3 types of knowledge:
+
+**Episodic**, what happened. "Stripe returned a rate limit error on batches over 100 items last Tuesday." "The `created_by` hook in the controller wasn't being set because the auth middleware was missing from that route group."
+
+**Semantic**, what's true. "You prefer `testcontainers` over mocks for integration tests." "Route ordering in `api.go` must register search endpoints before `{id}` routes."
+
+**Procedural**, what works. "When the TypeScript type check fails after enum generation, regenerate with `--force` flag." "When `carbon.DateTime` throws a dereference error, use `*` for non-pointer model fields."
+
+```bash
+# Install
+npm install -g thyma
+
+# Your agent checks memory before starting
+thyma context my-agent "scaffold a new products entity"
+# → Returns: relevant episodes, facts, and rules from previous sessions
+
+# Your agent writes to memory when it discovers something
+thyma observe my-agent "Stripe rate limit on large batches — retry with half data"
+thyma learn my-agent "Route ordering: search before {id} in api.go"
+thyma practice my-agent \
+  --when "carbon.DateTime dereference error" \
+  --then "use * for non-pointer model fields"
+```
+
+Everything is stored as plain text files on your machine. No cloud. No accounts. No servers. Back it up with Time Machine, copy it to a new machine, `grep` through it.
+
+And this is the key insight, right? **Thyma works through skills.** You drop a Thyma skill into your `.claude/skills/` directory, and the agent learns to check memory before tasks and write to memory when it discovers something worth keeping. You don't manage it. The agent manages itself.
+
+```
+# Starting a new session — agent checks memory automatically:
+
+Agent: *(reads Thyma memory, finds 14 relevant entries for "products entity")*
+
+I see from previous sessions that:
+- Route ordering must be search-before-{id} in api.go
+- The products model needs a JSON array field for categories (virtual + storage pattern)
+- Stripe webhook validation requires the raw body, not parsed JSON
+
+Proceeding with scaffolding...
+```
+
+No re-explaining. No re-discovering. The agent remembers.
+
+The project is early but functional. I've been using it on my own fintech project for the last few weeks, and the context re-establishment problem has largely disappeared. Sessions that used to start with 15 minutes of "here's what we decided last time" now start with the agent already knowing.
+
+[github.com/liwoo/thyma](https://github.com/liwoo/thyma)
+
+---
+
+## The Full Stack (Open Source)
+
+Everything from this post is live and open source:
+
+- **The harness:** [goravel-inertia-tw-starter/.claude](https://github.com/liwoo/goravel-inertia-tw-starter/tree/develop/.claude), 4 agents, 43 skills, 2 hook scripts
+- **Thyma:** [liwoo/thyma](https://github.com/liwoo/thyma), persistent agent memory
+
+Fork them. Adapt the patterns to your stack. Break them and tell me what doesn't work.
+
+I'm curious about 3 things from people who are building similar systems: What back pressure mechanisms are you using beyond tests and lints? How are you handling skill activation reliability? And does the conversation amnesia problem hit you as hard as it hits me, or have you found other workarounds?
+
+There's more I could write about: Git workflows, issue automation, PR pipelines with multi-agent orchestration. But I'd rather go deep on the things you actually want to see. If any of that sounds useful (or if there's something else entirely), reach out on [X](https://twitter.com/liwucodes) and I'll make it Part 3.
+
+---
+
+_[Part 1](/why-your-ai-code-fails-to-scale-pt1) covered the distinction between vibe coding, context engineering, and harness engineering._
+
+---
