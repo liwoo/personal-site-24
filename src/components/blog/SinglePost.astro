@@ -23,26 +23,28 @@ const { Content } = post;
     <header class={`post-header ${post.image ? '' : ''}`}>
       {
         post.image ? (
-          <Image
-            src={post.image}
-            class="max-w-full lg:max-w-[900px] mx-auto mb-6 sm:rounded-md bg-gray-400 dark:bg-slate-700"
-            widths={[400, 900]}
-            sizes="(max-width: 900px) 400px, 900px"
-            alt={post?.excerpt || ''}
-            width={900}
-            height={506}
-            loading="eager"
-            decoding="async"
-          />
+          <div class="crt-scanlines max-w-full lg:max-w-[900px] mx-auto mb-6">
+            <Image
+              src={post.image}
+              class="w-full bg-gray-400 dark:bg-slate-700 border border-gray-500/20"
+              widths={[400, 900]}
+              sizes="(max-width: 900px) 400px, 900px"
+              alt={post?.excerpt || ''}
+              width={900}
+              height={506}
+              loading="eager"
+              decoding="async"
+            />
+          </div>
         ) : (
           <div class="max-w-3xl mx-auto px-4 sm:px-6">
-            <div class="border-t dark:border-slate-700" />
+            <div class="accent-bar-strong" />
           </div>
         )
       }
     </header>
     <div
-      class="post-meta mx-auto px-6 sm:px-6 max-w-3xl w-2/3 md:w-1/2 mt-8 flex justify-between flex-col items-center sm:flex-row z-20 sticky top-0 lg:top-10 bg-card/80 py-4 lg:py-2 backdrop-blur-xl"
+      class="post-meta mx-auto px-6 sm:px-6 max-w-3xl w-2/3 md:w-1/2 mt-8 flex justify-between flex-col items-center sm:flex-row z-20 sticky top-0 lg:top-10 bg-card/80 py-4 lg:py-2 backdrop-blur-xl border border-gray-500/20"
     >
       <PostTags tags={post.tags} class="hidden lg:block mr-5 rtl:mr-0 rtl:ml-5" />
       <SocialShare
@@ -52,7 +54,7 @@ const { Content } = post;
       />
     </div>
     <div
-      class="post-content container-article prose prose-lg lg:prose-xl prose-pre:shadow-xl code-block prose-pre:pt-12 dark:prose-invert prose-headings:text-primary prose-img:w-full prose-img:border-4 prose-img:border-card prose-img:hover:border-primary prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-secondary prose-img:rounded-md prose-img:shadow-lg mt-8 prose-headings:scroll-mt-[80px] prose-blockquote:bg-card prose-blockquote:p-4 prose-blockquote:border-secondary prose-h3:text-default prose-h4:text-muted"
+      class="post-content drop-cap container-article prose prose-lg lg:prose-xl code-block prose-pre:pt-12 prose-pre:border prose-pre:border-gray-500/20 dark:prose-invert prose-headings:text-primary prose-img:w-full prose-img:border prose-img:border-gray-500/20 prose-img:hover:border-primary prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-primary prose-a:underline-offset-4 mt-8 prose-headings:scroll-mt-[80px] prose-blockquote:bg-card prose-blockquote:p-4 prose-blockquote:border-primary/50 prose-h3:text-default prose-h4:text-muted prose-hr:border-primary/20"
     >
       {Content ? <Content /> : <Fragment set:html={post.content || ''} />}
     </div>

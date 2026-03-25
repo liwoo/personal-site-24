@@ -12,25 +12,37 @@ function NewsletterBannerContent() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-40 bg-card shadow-lg">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center py-3 gap-4">
-            <div className="flex items-center gap-3">
-              <Mail className="w-5 h-5 hidden sm:block flex-shrink-0" />
-              <p className="text-sm sm:text-base">
-                <span className="font-semibold">Ready to Level Up?</span>{' '}
-                <span className="hidden sm:inline">Join my Newsletter and become a better Engineer</span>
-                <span className="sm:hidden">Subscribe to my Newsletter and Become a better Engineer!</span>
-              </p>
+      <div className="fixed top-0 left-0 right-0 z-40 bg-card shadow-lg overflow-hidden">
+        {/* Desktop */}
+        <div className="hidden sm:flex items-center justify-center py-3 gap-4 container mx-auto px-4">
+          <div className="flex items-center gap-3">
+            <Mail className="w-5 h-5 flex-shrink-0" />
+            <p className="text-sm sm:text-base">
+              <span className="font-semibold">Ready to Level Up?</span>{' '}
+              Join my Newsletter and become a better Engineer
+            </p>
+          </div>
+          <button type="submit" onClick={handleOpenModal} className="btn btn-primary shrink-0">
+            Signup
+          </button>
+        </div>
+        {/* Mobile — marquee text with fixed CTA */}
+        <div className="sm:hidden flex items-center h-10 relative">
+          <div className="overflow-hidden flex-1 min-w-0">
+            <div className="banner-marquee flex items-center gap-8 whitespace-nowrap text-xs uppercase tracking-widest px-3">
+              <span><span className="font-bold text-primary">Ready to Level Up?</span> — Subscribe to my Newsletter and Become a better Engineer</span>
+              <span><span className="font-bold text-primary">Ready to Level Up?</span> — Subscribe to my Newsletter and Become a better Engineer</span>
             </div>
-            <button type="submit" onClick={handleOpenModal} className="btn btn-primary">
+          </div>
+          <div className="shrink-0 pr-3 pl-2 bg-card relative z-10">
+            <button type="submit" onClick={handleOpenModal} className="btn btn-primary text-xs py-1 px-3">
               Signup
             </button>
           </div>
         </div>
       </div>
       {/* Spacer to prevent content from being hidden under fixed banner */}
-      <div className="h-[52px] sm:h-[56px]" />
+      <div className="h-10 sm:h-[56px]" />
 
       <NewsletterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>

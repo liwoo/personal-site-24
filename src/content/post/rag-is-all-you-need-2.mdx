@@ -1,7 +1,7 @@
 ---
 publishDate: 2024-09-11T00:00:00Z
 title: RAG is all you need - Part 2
-excerpt: Ever stared at your computer screen, wondering how the heck these AI models actually understand what we're saying? Like, how does ChatGPT know that when I say chair, it's more related to table than basketball? Well, buckle up, because we're about to dive into one of the coolest parts of modern AI engineering - vector search! 🚀
+excerpt: How do AI models actually understand what we're saying? How does ChatGPT know that "chair" is closer to "table" than "basketball"? The answer is vector search, and once you get it, a lot of things about modern AI just click.
 image: https://minio-api.dartsmw.com/chienda.com/political-rag.png
 category: Tech
 draft: false
@@ -23,7 +23,9 @@ _This is the second part of our "RAG is all you need" series, where we're explor
 ---
 ## Introduction
 
-So last time we talked about why RAG is such a game-changer for AI applications, right? Like, it's literally becoming one of those must-have tools in every AI engineer's toolkit. Today though? We're gonna deep dive into something super cool - vector search. And trust me, once you get this, a lot of things about modern AI just click! 🔍
+So last time we talked about why RAG matters so much for AI applications, right? It's kind of becoming one of those must-have tools in every AI engineer's toolkit.
+
+Today though? We're gonna dig into vector search. And once you get this, a lot of things about modern AI just click. 🔍
 
 Let me start with something that's been bugging computer scientists for ages: how do we get computers to actually understand language the way we do? Here's a fun little exercise - think about these words: 
 
@@ -34,7 +36,9 @@ Let me start with something that's been bugging computer scientists for ages: ho
 
 Now, if I throw in the word "chair" and ask you which one's most related... you'd probably say table, right?
 
-But here's where it gets interesting! If I asked you why, you might start talking about how chairs and tables go together during meals, or how they're both made of wood. But wait - basketballs boards are made of wood too! And technically, you sit near lamps all the time... See how messy this gets? 😅
+But here's where it gets interesting! If I asked you why, you might start talking about how chairs and tables go together during meals, or how they're both made of wood.
+
+But wait, basketball boards are made of wood too! And technically, you sit near lamps all the time... See how messy this gets? 😅
 
 <Image
   src={vector}
@@ -44,7 +48,9 @@ But here's where it gets interesting! If I asked you why, you might start talkin
 
 NLP researchers have been cooking up better and better ways to handle these nuanced relationships. They started with pretty basic stuff like [bag-of-words](https://machinelearningmastery.com/gentle-introduction-bag-words-model/) (kinda naive, if you ask me), but then [BERT](https://www.techtarget.com/searchenterpriseai/definition/BERT-language-model) came along and... boom!💥
 
-What BERT and similar models do is super clever - they map words into this dense vector space where relationships are represented by how words appear together in massive amounts of text. It's like they're creating this multidimensional map of language itself! And when I say multidimensional, I mean like... way more than the 2D diagram above. Think 512 dimensions or more!
+What BERT and similar models do is super clever: they map words into this dense vector space where relationships are represented by how words appear together in massive amounts of text. It's like they're creating this multidimensional map of language itself!
+
+And when I say multidimensional, I mean like... way more than the 2D diagram above. Think 512 dimensions or more!
 
 Let me try and break it down like this: every word gets its own unique "location" in this space, and words that often show up together in similar contexts end up closer to each other. Modern language models like Claude and GPT have gotten perfect at this mapping!
 
@@ -57,9 +63,11 @@ When it comes to actually building AI applications (isn't that why we are all he
 - Pretty much any text you want your AI to understand!
 
 
-Today, there's several approaches you could take in creating these embeddings. Like, sure, you could use smaller models like BERT, and honestly? If you're just getting started or working on a smaller project, that's totally fine! You can do it absolutely free with these open-source BERT models.
+Today, there's several approaches you could take in creating these embeddings. You could use smaller models like BERT, and honestly? If you're just getting started or working on a smaller project, that's totally fine.
 
-But in production, we usually reach for these high-dimension, high-accuracy embedding models. I'm talking about models from OpenAI, for example. Why? Because they just handle those tricky, ambiguous language tasks so much better!
+You can do it absolutely free with these open-source BERT models.
+
+But in production, we usually reach for high-dimension, high-accuracy embedding models. I'm talking about models from OpenAI, for example. They just handle those tricky, ambiguous language tasks so much better.
 
 ```python
 from langchain.embeddings import OpenAIEmbeddings, HuggingFaceEmbeddings
@@ -162,7 +170,9 @@ Now, there's actually a whole science to storing these embeddings! It depends on
 - The context window size you're working with
 - How much data you can throw at it before things get wonky
 
-But honestly, these newer models with their huge context windows? They've made this SO much easier! You can throw a pretty big chunk of context at them, and they handle it like champs. No more worrying about degrading quality or hallucinations (well, mostly! 😅).
+But honestly, these newer models with their huge context windows? They've made this SO much easier. You can throw a pretty big chunk of context at them, and they handle it like champs.
+
+The hallucination problem hasn't disappeared entirely (well, mostly! 😅), but it's gotten a lot more manageable.
 
 ## Practical Implementation Tips
 
@@ -197,7 +207,9 @@ Below is a representation of how you could your RAG data using Postgres
 | chunk_size  | INTEGER                  | Size of this chunk in chars              |
 | created_at  | TIMESTAMP WITH TIMEZONE  | When we created this chunk               |
 
-You know what's cool about this setup? The `metadata` JSONB field is like this super flexible catch-all for whatever extra info you might need to track. This can become helpful for improving the relevance and accuracy of your search (more on that later on in the series). I usually stuff things in there like:
+You know what's cool about this setup? The `metadata` JSONB field is like this super flexible catch-all for whatever extra info you might need to track. It becomes helpful for improving the relevance and accuracy of your search (more on that later in the series).
+
+I usually stuff things in there like:
 
 ```json
 {

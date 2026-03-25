@@ -3,12 +3,15 @@ import image from '~/assets/images/dp.png';
 import Image from '~/components/common/Image.astro';
 ---
 
-<Image
-  class="mx-auto rounded-full bg-gray-500 shadow-lg border-2 border-primary"
-  width={40}
-  height={40}
-  widths={[400, 768]}
-  layout="fixed"
-  src={image}
-  alt="Profile Picture"
-/>
+<div class="flex items-center gap-3">
+  <Image
+    class="mx-auto bg-gray-500 border border-primary/50 grayscale hover:grayscale-0 transition-all duration-300"
+    width={36}
+    height={36}
+    widths={[400, 768]}
+    layout="fixed"
+    src={image}
+    alt="Profile Picture"
+  />
+  <span class="hidden md:inline text-sm text-primary font-bold">&gt;<span class="blink-cursor">_</span></span>
+</div>

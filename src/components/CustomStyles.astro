@@ -1,27 +1,11 @@
 ---
-import '@fontsource-variable/outfit';
-
-// 'DM Sans'
-// Nunito
-// Dosis
-// Outfit
-// Roboto
-// Literata
-// 'IBM Plex Sans'
-// Karla
-// Poppins
-// 'Fira Sans'
-// 'Libre Franklin'
-// Inconsolata
-// Raleway
-// Oswald
-// 'Space Grotesk'
-// Urbanist
+import '@fontsource/space-mono/400.css';
+import '@fontsource/space-mono/700.css';
 ---
 
 <style is:inline is:global>
   :root {
-    --aw-font-sans: 'Outfit Variable';
+    --aw-font-sans: 'Space Mono', monospace;
     --aw-font-serif: var(--aw-font-sans);
     --aw-font-heading: var(--aw-font-sans);
 
@@ -43,12 +27,13 @@ import '@fontsource-variable/outfit';
     --aw-color-bg-page-dark: rgb(23 23 23);
 
     ::selection {
-      background-color: lavender;
+      background-color: rgb(216 145 33);
+      color: black;
     }
   }
 
   .dark {
-    --aw-font-sans: 'Outfit Variable';
+    --aw-font-sans: 'Space Mono', monospace;
     --aw-font-serif: var(--aw-font-sans);
     --aw-font-heading: var(--aw-font-sans);
 
@@ -68,8 +53,19 @@ import '@fontsource-variable/outfit';
     --aw-color-card-bg: rgb(30 30 30);
 
     ::selection {
-      background-color: black;
-      color: snow;
+      background-color: rgb(216 145 33);
+      color: black;
     }
+  }
+
+  /* Retro TUI cursor */
+  html {
+    cursor: crosshair;
+  }
+  a, button, [role="button"], [role="tab"], input[type="submit"], select, .cursor-pointer, summary {
+    cursor: pointer;
+  }
+  input, textarea {
+    caret-color: rgb(216 145 33);
   }
 </style>

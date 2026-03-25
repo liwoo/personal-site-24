@@ -11,22 +11,26 @@ tags:
 metadata:
   canonical: https://chienda.com/stop-undercharging
 ---
-I remember my early days of freelancing. A [Malawi-stock-exchange-listed](https://www.mse.co.mw/) client was looking for a [USSD application](https://wizaj.medium.com/how-a-20-year-old-mobile-technology-protocol-is-revolutionising-africa-with-numbers-744a52cbea92). "How much?" they asked. And like a rabbit in the headlights, I was frozen — calculating numbers in my head as if I was trying to solve a Rubik's Cube blindfolded.
+I remember my early days of freelancing. A [Malawi-stock-exchange-listed](https://www.mse.co.mw/) client was looking for a [USSD application](https://wizaj.medium.com/how-a-20-year-old-mobile-technology-protocol-is-revolutionising-africa-with-numbers-744a52cbea92). "How much?" they asked. And like a rabbit in the headlights, I was frozen, calculating numbers in my head as if I was trying to solve a Rubik's Cube blindfolded.
 
 #### The Types of Projects
 As a freelancer, the kind of project you might be tasked with could range from creating a simple landing page to building an entire cloud-based enterprise solution. It might be a four-page website, a dynamic eCommerce platform, or even an intricate machine learning model.
 
 #### The Problem with Flat Fees
-Many freelancers charge a flat fee based on the project type. For example, a four-page website might go for MK500,000, while a ten-plus-page website will cost MK1,500,000. Simple, right? Wrong! Unlike retail products, software isn't static. It grows, changes, and occasionally throws tantrums.
+Many freelancers charge a flat fee based on the project type. A four-page website might go for MK500,000, while a ten-plus-page website will cost MK1,500,000.
+
+But software isn't static, right? It grows, changes, and occasionally throws tantrums. And flat fees don't account for any of that.
 
 Flat fees can lead to monumental frustrations. Imagine working your fingers to the bone, only to realize that your earnings are chump change compared to the hours you've logged. The sense of exploitation saps your morale faster than a double espresso shot.
 
 ## Here's what to do instead
-[Hourly rates](https://www.shiftbase.com/glossary/hourly-rate)! I know this term elicits either a knowing nod or an anxious eye-twitch from freelancers. But listen, Maestro, the hourly rate system I'm talking about here isn't the one-size-fits-all straight jacket you might be used to. Nah, this is a bespoke suit tailored to the contours of your project—a system that considers the nuances, the highs and lows, the plot twists.
+[Hourly rates](https://www.shiftbase.com/glossary/hourly-rate)! I know this term elicits either a knowing nod or an anxious eye-twitch from freelancers.
+
+But listen, Maestro. The hourly rate system I'm talking about here is a bespoke suit tailored to the contours of your project, a system that considers the nuances, the highs and lows, the plot twists.
 
 With this approach, we're forced to break down the level of effort required for each stage of your project. Think of it as slicing your project into phases, then itemizing those slices based on how long you think each one will take. And for each of these project segments, you assign an hourly rate that captures not just your time, but also your skill, expertise, and the complexity of the task at hand.
 
-But even before going there, we're forced to ask all the necessary questions regarding the project impmentation.  Because to come up with such a comprehensive breakdown, you should have gathered your requirements studiously.
+But even before going there, we're forced to ask all the necessary questions regarding the project implementation. Because to come up with such a comprehensive breakdown, you should have gathered your requirements studiously.
 
 #### Show me How
 Enough talk.  Let's break this into a practical example.  Here's the task your client is looking for
@@ -40,19 +44,27 @@ Enough talk.  Let's break this into a practical example.  Here's the task your c
   Within each phase, list down the tasks you'll be executing. Be detailed; no task is too small. It's like listing ingredients; you don't want to forget the salt in your stew.
 
 - Step 3: Estimate Time
-  Next up, put on your future-seeing glasses. Estimate how many hours each task will take. But remember, optimism kills projects. If you think it'll take an hour, add a safety buffer.
+  Next up, put on your future-seeing glasses. Estimate how many hours each task will take.
+
+  But remember, optimism kills projects. If you think it'll take an hour, add a safety buffer.
 
 - Step 4: Skill Level Multiplier
-  Here's where the spice comes in. For each task, assign a [Skill Level Multiplier](http://www.agileestimator.com/2020/02/15/cost-drivers-effort-multipliers/) based on its complexity. This will be a factor that you'll multiply with the hourly rate. The higher the complexity, the higher the multiplier.
+  Here's where the spice comes in. For each task, assign a [Skill Level Multiplier](http://www.agileestimator.com/2020/02/15/cost-drivers-effort-multipliers/) based on its complexity.
+
+  This will be a factor that you'll multiply with the hourly rate. The higher the complexity, the higher the multiplier.
 
   1. Understand the Skill Categories
-     First, let's categorize skills into Basic, Intermediate, and Advanced. Basic skills are the day-one-on-the-job kinda stuff. Intermediate takes a bit more practice and experience. Advanced? Well, that's where the Maestros like you really shine.
+     First, let's categorize skills into Basic, Intermediate, and Advanced. Basic skills are the day-one-on-the-job kinda stuff. Intermediate takes a bit more practice and experience.
+
+     Advanced? Well, that's where the Maestros like you really shine.
 
   2. Create a Skill Level Matrix
      To avoid pulling numbers out of thin air, create a matrix to quantitatively assign multipliers to each skill category. For instance, Basic could have a multiplier of 1, Intermediate a 1.5, and Advanced a 2 or even higher.
 
   3. Factor in Task Complexity
-     But wait, it ain't all about skill level! Take into account the complexity of the task itself. Does it require integrating multiple APIs? Is there complex data modeling involved? Add another layer to your matrix for these complexities.
+     But wait, it ain't all about skill level! Take into account the complexity of the task itself.
+
+     Does it require integrating multiple APIs? Is there complex data modeling involved? Add another layer to your matrix for these complexities.
 
   4. Account for Unknowns and Risks
      Ah, the spicy chili flakes of project costing! Account for unknown factors and project risks. This could mean increasing your Skill Level Multiplier for tasks with higher levels of uncertainty.
@@ -61,14 +73,18 @@ Enough talk.  Let's break this into a practical example.  Here's the task your c
      Last but definitely not least, take into account industry-specific requirements. If you're developing for sectors like healthcare or finance, you've got extra regulations and security measures to think about. So go ahead, jack up that Skill Level Multiplier a notch for those industries.
 
 - Step 5:
-  Before you go on multiplying anything, you gotta have a number to start with. So how do you get that number? Easy. Take what you think your yearly salary should be (honesty is key here), divide that by 52 weeks, and then divide that by 40 hours. Voilà, you got your base hourly rate! Oh, and calculate your tax burden and include this in your hourly rate. This could mean increasing your base rate by another 20-30%, depending on your tax laws.
+  Before you go on multiplying anything, you gotta have a number to start with. So how do you get that number?
+
+  Take what you think your yearly salary should be (honesty is key here), divide that by 52 weeks, and then divide that by 40 hours. Voilà, you got your base hourly rate!
+
+  Oh, and calculate your tax burden and include this in your hourly rate. This could mean increasing your base rate by another 20-30%, depending on your tax laws.
 
 - Step 6: Calculate the Subtotal and Grand Total
   Last but not least, do the math! For each task, the subtotal will be Estimated Hours * (Hourly Rate * Skill Level Multiplier). Add up all these subtotals to arrive at the Grand Total.
 
 ![Your Hourly Rate Formula](https://github.com/liwoo/blog/blob/main/assets/CodeCogsEqn_hq.png?raw=true "Your Hourly Rate Formula")
 
-## Your Final Estimate (Quoatation)
+## Your Final Estimate (Quotation)
 | Phase               | Tasks                        | Estimated Hours | Skill Level Multiplier | Hourly Rate | Subtotal  |
 |---------------------|------------------------------|-----------------|------------------------|-------------|-----------|
 | Planning & Research | Requirement Gathering        | 8               | 1                      | $50         | $400      |

@@ -2,8 +2,6 @@
 import Button from '~/components/ui/Button.astro';
 import type { Link } from '~/types';
 import { Icon } from 'astro-icon/components';
-import { Image } from 'astro:assets';
-import avatar from '~/assets/images/dp.png';
 
 export interface Props {
   id?: string;
@@ -19,77 +17,71 @@ const { id, title, name, socialLinks = [], description = Astro.slots.render('des
 const heroBg = 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/web-hero.m4v';
 ---
 
-<section class="not-prose relative flex flex-col justify-end h-lvh">
-  <!-- Background image for mobile (filter blur for Safari compat) -->
+<section class="not-prose relative flex flex-col justify-end h-[75lvh]">
+  <!-- Background: static image fallback if video fails -->
   <div
-    class="absolute inset-0 md:hidden bg-[url(https://minio-api.dartsmw.com/chienda.com/setup.jpg)] bg-no-repeat bg-cover bg-center"
-    style="-webkit-filter: blur(2px); filter: blur(2px);"
+    class="absolute inset-0 bg-[url(https://minio-api.dartsmw.com/chienda.com/setup.jpg)] bg-no-repeat bg-cover bg-center"
   >
   </div>
 
-  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-    <video autoplay muted loop playsinline id="hero-video" class="hidden md:block h-lvh w-full object-cover">
+  <div class="absolute inset-0 pointer-events-none crt-scanlines grunge-overlay" aria-hidden="true">
+    <video autoplay muted loop playsinline id="hero-video" class="h-[75lvh] w-full object-cover">
       <source src={heroBg} type="video/mp4" />
     </video>
     <div
-      class="absolute h-lvh inset-0 bg-gradient-to-b from-orange-200 via-orange-100 to-amber-100 dark:from-teal-300 dark:to-teal-950 mix-blend-hue dark:mix-blend-multiply"
+      class="absolute h-[75lvh] inset-0 bg-gradient-to-b from-orange-200 via-orange-100 to-amber-100 dark:from-teal-300 dark:to-teal-950 mix-blend-hue dark:mix-blend-multiply"
     >
     </div>
   </div>
   <!-- absolute side bar right solid background -->
   <div
-    class="absolute flex flex-col justify-center items-center gap-y-4 inset-y-0 right-0 w-full md:w-2/3 lg:w-1/2 xl:w-1/3"
+    class="absolute flex flex-col justify-end md:justify-center items-center gap-y-4 inset-y-0 right-0 w-full md:w-2/3 lg:w-1/2 xl:w-1/3 pb-8 md:pb-0"
   >
-    <!-- Gyroscope-reactive avatar (mobile only) -->
-    <div id="gyro-avatar" class="md:hidden" style="perspective: 600px;">
-      <div id="gyro-tilt" class="rounded-full border-4 border-page shadow-2xl overflow-hidden will-change-transform" style="transition: transform 0.15s ease-out;">
-        <Image
-          src={avatar}
-          alt="Jeremiah Chienda"
-          width={200}
-          height={200}
-          loading="eager"
-          class="block"
-        />
+    <div id="hero-card" class="relative bg-white/90 dark:bg-[#1a1a1a]/95 backdrop-blur-xl backdrop-saturate-150 border border-gray-300/40 dark:border-gray-600/30 mx-4 md:ml-20 lg:m-0 text-base md:text-lg shadow-lg overflow-hidden">
+      <!-- Invisible sizer — reserves height per viewport -->
+      <div class="p-6 md:p-8 invisible font-semibold" aria-hidden="true">
+        <span class="md:hidden">&gt; I build AI agents that go past the demo stage.</span>
+        <span class="hidden md:inline">&gt; Hi, I'm Jeremiah. I build AI agents that go past the demo stage. Let's connect if that sort of thing interests you</span>
+      </div>
+      <!-- Visible typewriter — positioned over sizer -->
+      <div class="absolute inset-0 p-6 md:p-8 font-semibold text-gray-900 dark:text-gray-100">
+        <span class="text-sm text-primary font-bold">&gt;</span> <span id="typewriter-out"></span><span class="blink-cursor text-primary">_</span>
       </div>
     </div>
-    <div class="bg-page p-8 ml-4 mt-4 md:mt-24 md:ml-20 lg:m-0 rounded-tl-xl rounded-bl-xl text-2xl">
-      <h1
-        class="text-transparent bg-clip-text font-semibold bg-gradient-to-b from-[#836F28] to-[#4B3511] dark:from-[#FFDBA3] dark:to-[#836F28]"
-        set:html={description}
-      />
-    </div>
-    <div class="flex gap-x-4">
-      <Button href="/about" variant="primary">Find out More</Button>
+    <div id="hero-cta" class="flex gap-x-4 opacity-0 transition-opacity duration-500">
+      <Button href="/about" variant="primary">Find_out_More</Button>
     </div>
   </div>
-  <div class="relative container lg:mb-20">
-    <div class="text-white dark:text-primary left-0 bottom-10">
-      <h2 class="text-2xl font-semibold" set:text={name} />
-      <h3 class="uppercase" set:text={title} />
-      {
-        socialLinks?.length ? (
-          <ul class="flex mb-4 md:order-1 md:mb-0 rtl:ml-0 rtl:-mr-2 rtl:md:ml-0 rtl:md:mr-4 justify-start">
-            {socialLinks.map(({ ariaLabel, href, text, icon }) => (
-              <li>
-                <a
-                  class="hover:bg-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
-                  aria-label={ariaLabel}
-                  href={href}
-                >
-                  {icon && <Icon name={icon} class="w-5 h-5" />}
-                  <Fragment set:html={text} />
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          ''
-        )
-      }
-    </div>
-  </div>
+
 </section>
+
+<!-- Lower third — sits on page bg below the video -->
+<div class="bg-page">
+  <div class="container py-8">
+    <h2 class="text-2xl font-semibold uppercase tracking-tight text-default" set:text={name} />
+    <h3 class="uppercase text-muted" set:text={title} />
+    {
+      socialLinks?.length ? (
+        <ul class="flex mt-2 mb-4 md:order-1 md:mb-0 rtl:ml-0 rtl:-mr-2 rtl:md:ml-0 rtl:md:mr-4 justify-start">
+          {socialLinks.map(({ ariaLabel, href, text, icon }) => (
+            <li>
+              <a
+                class="text-muted hover:text-primary focus:outline-none text-sm p-2.5 inline-flex items-center transition-colors"
+                aria-label={ariaLabel}
+                href={href}
+              >
+                {icon && <Icon name={icon} class="w-5 h-5" />}
+                <Fragment set:html={text} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        ''
+      )
+    }
+  </div>
+</div>
 
 <script>
   // Force video restart on every page load
@@ -133,43 +125,61 @@ const heroBg = 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/web-hero.m4v
     }
   });
 
-  // Gyroscope avatar — 3D tilt
-  function initGyroAvatar() {
-    const tilt = document.getElementById('gyro-tilt');
-    if (!tilt) return;
+  // Typewriter effect with inline styling for key phrases
+  function initTypewriter() {
+    const outEl = document.getElementById('typewriter-out');
+    const ctaEl = document.getElementById('hero-cta');
+    if (!outEl || !ctaEl) return;
 
-    const MAX_TILT = 15;
+    const isMobile = window.innerWidth < 768;
+    // Define segments: plain text or styled spans
+    const segments = isMobile
+      ? [
+          { text: 'I build ' },
+          { text: 'AI agents', cls: 'underlined' },
+          { text: ' that go past the demo stage.' },
+        ]
+      : [
+          { text: "Hi, I'm Jeremiah. I build " },
+          { text: 'AI agents', cls: 'underlined' },
+          { text: " that go past the demo stage. Let's connect if that sort of thing interests you" },
+        ];
 
-    function handleOrientation(e: DeviceOrientationEvent) {
-      const beta = e.beta ?? 0;
-      const gamma = e.gamma ?? 0;
+    let segIdx = 0;
+    let charIdx = 0;
+    outEl.innerHTML = '';
+    ctaEl.style.opacity = '0';
 
-      const x = Math.max(-1, Math.min(1, gamma / 30));
-      const y = Math.max(-1, Math.min(1, (beta - 45) / 30));
+    // Pre-create span elements for each segment
+    const spanEls: HTMLSpanElement[] = segments.map(seg => {
+      const span = document.createElement('span');
+      if (seg.cls) span.className = seg.cls;
+      outEl.appendChild(span);
+      return span;
+    });
 
-      tilt.style.transform = `rotateX(${-y * MAX_TILT}deg) rotateY(${x * MAX_TILT}deg)`;
-    }
-
-    // iOS 13+ requires permission
-    if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
-      const avatar = document.getElementById('gyro-avatar');
-      if (avatar) {
-        avatar.addEventListener('click', async () => {
-          try {
-            const permission = await (DeviceOrientationEvent as any).requestPermission();
-            if (permission === 'granted') {
-              window.addEventListener('deviceorientation', handleOrientation);
-            }
-          } catch (err) {
-            console.log('Gyro permission denied:', err);
-          }
-        }, { once: true });
+    function type() {
+      if (segIdx >= segments.length) {
+        ctaEl.style.opacity = '1';
+        return;
       }
-    } else {
-      window.addEventListener('deviceorientation', handleOrientation);
+      const seg = segments[segIdx];
+      const span = spanEls[segIdx];
+
+      if (charIdx < seg.text.length) {
+        span.textContent = seg.text.slice(0, charIdx + 1);
+        charIdx++;
+        setTimeout(type, 35 + Math.random() * 25);
+      } else {
+        segIdx++;
+        charIdx = 0;
+        type();
+      }
     }
+
+    setTimeout(type, 800);
   }
 
-  document.addEventListener('astro:page-load', initGyroAvatar);
-  initGyroAvatar();
+  document.addEventListener('astro:page-load', initTypewriter);
+  initTypewriter();
 </script>

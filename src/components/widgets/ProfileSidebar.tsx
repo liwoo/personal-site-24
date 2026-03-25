@@ -239,7 +239,7 @@ export function ProfileSidebar() {
       </div>
 
       <Tabs defaultValue="history">
-        <TabsList className="grid w-full bg-card rounded-xl text-muted grid-cols-3">
+        <TabsList className="flex w-full bg-card border border-gray-500/20 text-muted">
           <TabsTrigger value="history" className="gap-x-1.5 text-xs">
             <Briefcase className="w-4 h-4 shrink-0" />
             <span className="hidden sm:inline">History</span>

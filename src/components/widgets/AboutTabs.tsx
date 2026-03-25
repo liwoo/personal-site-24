@@ -14,11 +14,11 @@ export function AboutTabs() {
 
   return (
     <Tabs defaultValue="pitch">
-      <TabsList className="grid w-full lg:w-2/3 bg-card rounded-xl text-muted grid-cols-4">
-        <TabsTrigger value="pitch">Elevator Pitch</TabsTrigger>
-        <TabsTrigger value="brief">Brief Profile</TabsTrigger>
-        <TabsTrigger value="full">Full Bio</TabsTrigger>
-        <TabsTrigger value="pictures">Pictures</TabsTrigger>
+      <TabsList className="flex w-full lg:w-2/3 bg-card border border-gray-500/20 text-muted overflow-x-auto scrollbar-hide">
+        <TabsTrigger value="pitch" className="flex-1 min-w-0">Pitch</TabsTrigger>
+        <TabsTrigger value="brief" className="flex-1 min-w-0">Brief</TabsTrigger>
+        <TabsTrigger value="full" className="flex-1 min-w-0">Full Bio</TabsTrigger>
+        <TabsTrigger value="pictures" className="flex-1 min-w-0">Pics</TabsTrigger>
       </TabsList>
       <TabsContent value="full" className="leading-7 text-lg text-default py-4">
         <div className="flex flex-col md:flex-row gap-y-6 md:gap-x-6">
