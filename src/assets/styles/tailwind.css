@@ -96,6 +96,48 @@
   @apply flex items-start flex-col my-8 md:flex-row;
 }
 
+/* ═══ Card-style Tables ═══ */
+.post-content table {
+  @apply w-full text-sm border-collapse;
+  border: 1px solid var(--aw-color-text-muted);
+  background: var(--aw-color-card-bg);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.post-content thead {
+  background: var(--aw-color-primary);
+  color: #000;
+}
+.post-content thead th {
+  @apply px-4 py-2.5 text-left text-xs uppercase tracking-wider font-bold;
+  border: none;
+}
+.post-content tbody tr {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+  transition: background 0.15s;
+}
+.post-content tbody tr:last-child {
+  border-bottom: none;
+}
+.post-content tbody tr:hover {
+  background: var(--aw-color-accent);
+}
+.post-content tbody td {
+  @apply px-4 py-2.5;
+  border: none;
+  font-size: 0.8rem;
+}
+.post-content tbody td:first-child {
+  @apply font-bold text-primary;
+}
+/* Override prose table styles */
+.post-content :where(thead):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+  border-bottom: none;
+}
+.post-content :where(tbody td, thead th):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+  padding: 0.625rem 1rem;
+}
+
 #header.scroll > div:first-child {
   @apply bg-page md:bg-white/90 md:backdrop-blur-md;
   box-shadow: none;
@@ -117,6 +159,13 @@
   right: 0;
   bottom: 70px !important;
   padding: 0 5px;
+}
+
+/* Shiki dual theme: dark mode overrides */
+.dark .astro-code,
+.dark .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
 }
 
 .code-block pre {
@@ -147,8 +196,8 @@
 }
 .code-block pre .code-toolbar .code-actions button {
   background: none;
-  border: 1px solid rgba(128, 128, 128, 0.25);
-  color: var(--aw-color-text-muted);
+  border: 1px solid var(--aw-color-text-muted);
+  color: var(--aw-color-text-default);
   padding: 0.15rem 0.5rem;
   font-size: 0.6rem;
   font-family: var(--aw-font-sans);
@@ -156,6 +205,7 @@
   letter-spacing: 0.08em;
   font-weight: 600;
   transition: all 0.15s;
+  cursor: pointer;
 }
 .code-block pre .code-toolbar .code-actions button:hover {
   color: var(--aw-color-primary);

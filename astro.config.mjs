@@ -77,7 +77,13 @@ export default defineConfig({
   },
   markdown: {
     remarkPlugins: [readingTimeRemarkPlugin],
-    rehypePlugins: [responsiveTablesRehypePlugin]
+    rehypePlugins: [responsiveTablesRehypePlugin],
+    shikiConfig: {
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+    },
   },
   vite: {
     resolve: {

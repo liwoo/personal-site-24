@@ -235,15 +235,15 @@ const { Content } = post;
       kotlin: 'Kotlin', dart: 'Dart', jsx: 'JSX', tsx: 'TSX', mdx: 'MDX',
       xml: 'XML', toml: 'TOML', ini: 'INI', dockerfile: 'Dockerfile',
       graphql: 'GraphQL', r: 'R', lua: 'Lua', scala: 'Scala',
+      plaintext: 'Output', text: 'Output',
     };
 
     document.querySelectorAll('.code-block pre').forEach((pre) => {
       if (pre.querySelector('.code-toolbar')) return;
 
+      const langKey = pre.getAttribute('data-language') || '';
+      const langLabel = langMap[langKey] || (langKey ? langKey.toUpperCase() : 'CODE');
       const code = pre.querySelector('code');
-      const langClass = code?.className.match(/language-(\w+)/);
-      const langKey = langClass ? langClass[1] : '';
-      const langLabel = langMap[langKey] || langKey.toUpperCase() || 'CODE';
       const codeText = code?.textContent || pre.textContent || '';
 
       const toolbar = document.createElement('div');
