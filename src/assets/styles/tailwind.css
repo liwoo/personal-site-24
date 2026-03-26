@@ -119,9 +119,47 @@
   padding: 0 5px;
 }
 
-.code-block pre:before {
-  content: '> TERMINAL_';
-  @apply absolute -mt-8 text-xs uppercase tracking-widest text-primary font-mono;
+.code-block pre {
+  position: relative;
+}
+.code-block pre .code-toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.65rem;
+  font-family: var(--aw-font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+}
+.code-block pre .code-toolbar .code-lang {
+  color: var(--aw-color-primary);
+}
+.code-block pre .code-toolbar .code-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.code-block pre .code-toolbar .code-actions button {
+  background: none;
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  color: var(--aw-color-text-muted);
+  padding: 0.15rem 0.5rem;
+  font-size: 0.6rem;
+  font-family: var(--aw-font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.code-block pre .code-toolbar .code-actions button:hover {
+  color: var(--aw-color-primary);
+  border-color: var(--aw-color-primary);
 }
 
 .dropdown:hover .dropdown-menu {

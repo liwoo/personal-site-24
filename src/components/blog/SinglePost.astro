@@ -224,9 +224,92 @@ const { Content } = post;
     markdownElements.forEach((element) => observer.observe(element));
   };
 
+  // Code block toolbar: language label, copy, share
+  function initCodeToolbars() {
+    const langMap: Record<string, string> = {
+      python: 'Python', py: 'Python', javascript: 'JavaScript', js: 'JavaScript',
+      typescript: 'TypeScript', ts: 'TypeScript', json: 'JSON', bash: 'Bash',
+      shell: 'Shell', sql: 'SQL', html: 'HTML', css: 'CSS', yaml: 'YAML',
+      yml: 'YAML', rust: 'Rust', go: 'Go', java: 'Java', csharp: 'C#',
+      cs: 'C#', cpp: 'C++', c: 'C', ruby: 'Ruby', php: 'PHP', swift: 'Swift',
+      kotlin: 'Kotlin', dart: 'Dart', jsx: 'JSX', tsx: 'TSX', mdx: 'MDX',
+      xml: 'XML', toml: 'TOML', ini: 'INI', dockerfile: 'Dockerfile',
+      graphql: 'GraphQL', r: 'R', lua: 'Lua', scala: 'Scala',
+    };
+
+    document.querySelectorAll('.code-block pre').forEach((pre) => {
+      if (pre.querySelector('.code-toolbar')) return;
+
+      const code = pre.querySelector('code');
+      const langClass = code?.className.match(/language-(\w+)/);
+      const langKey = langClass ? langClass[1] : '';
+      const langLabel = langMap[langKey] || langKey.toUpperCase() || 'CODE';
+      const codeText = code?.textContent || pre.textContent || '';
+
+      const toolbar = document.createElement('div');
+      toolbar.className = 'code-toolbar';
+      toolbar.innerHTML = `
+        <span class="code-lang">&gt; ${langLabel}_</span>
+        <span class="code-actions">
+          <button class="code-copy-btn" aria-label="Copy code">COPY</button>
+          <button class="code-share-btn" aria-label="Share snippet">SHARE</button>
+        </span>
+      `;
+      pre.insertBefore(toolbar, pre.firstChild);
+
+      // Copy
+      toolbar.querySelector('.code-copy-btn')!.addEventListener('click', async () => {
+        const btn = toolbar.querySelector('.code-copy-btn') as HTMLButtonElement;
+        try {
+          await navigator.clipboard.writeText(codeText);
+          btn.textContent = 'COPIED';
+          setTimeout(() => btn.textContent = 'COPY', 2000);
+        } catch {
+          btn.textContent = 'FAILED';
+          setTimeout(() => btn.textContent = 'COPY', 2000);
+        }
+      });
+
+      // Share
+      toolbar.querySelector('.code-share-btn')!.addEventListener('click', async () => {
+        const shareData = {
+          title: `${langLabel} snippet from chienda.com`,
+          text: codeText.slice(0, 300) + (codeText.length > 300 ? '...' : ''),
+          url: window.location.href,
+        };
+
+        // Native share on mobile
+        if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
+          try {
+            await navigator.share(shareData);
+          } catch {}
+          return;
+        }
+
+        // Desktop: copy link + snippet to clipboard
+        const btn = toolbar.querySelector('.code-share-btn') as HTMLButtonElement;
+        const shareText = `${codeText}\n\n— ${langLabel} snippet from ${window.location.href}`;
+        try {
+          await navigator.clipboard.writeText(shareText);
+          btn.textContent = 'LINK COPIED';
+          setTimeout(() => btn.textContent = 'SHARE', 2000);
+        } catch {
+          btn.textContent = 'FAILED';
+          setTimeout(() => btn.textContent = 'SHARE', 2000);
+        }
+      });
+    });
+  }
+
   // Initial load
-  window.addEventListener('load', initPostAnimations);
+  window.addEventListener('load', () => {
+    initPostAnimations();
+    initCodeToolbars();
+  });
 
   // Re-initialize on Astro page transitions
-  document.addEventListener('astro:page-load', initPostAnimations);
+  document.addEventListener('astro:page-load', () => {
+    initPostAnimations();
+    initCodeToolbars();
+  });
 </script>

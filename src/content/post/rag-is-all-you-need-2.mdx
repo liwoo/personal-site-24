@@ -74,47 +74,107 @@ embeddings = HuggingFaceEmbeddings(
 )
 ```
 
-So that's the first thing. You've got your embedding model wired up. But you can't just throw an entire document at it. You need to break your text into chunks first.
+So that's the first thing. You've got your embedding model wired up. But you can't just throw an entire document at it. Most embedding models have a token limit (OpenAI's `text-embedding-3-small` maxes out at 8191 tokens). So you need to break your text into chunks first.
 
-This is where `RecursiveCharacterTextSplitter` comes in. The way I like to set it up:
+Let me make this concrete. Say we're building a RAG system for a Malawian secondary school, and we want to embed this biology textbook passage:
+
+> *The human circulatory system is a complex network of blood vessels, the heart, and blood. The heart is a muscular organ roughly the size of a closed fist. It pumps blood through the body via two circuits: the pulmonary circuit (heart to lungs and back) and the systemic circuit (heart to the rest of the body and back). Arteries carry oxygenated blood away from the heart, while veins return deoxygenated blood. Capillaries are the smallest vessels, connecting arteries to veins, and this is where gas exchange actually happens at the tissue level. The average adult heart beats about 72 times per minute, pumping roughly 5 litres of blood through 96,000 kilometres of blood vessels.*
+
+That's about 120 words. A real textbook chapter might be 5,000+ words. You can't embed the whole thing at once, and even if you could, the embedding would be too diluted to match specific questions like "what do capillaries do?"
+
+This is where `RecursiveCharacterTextSplitter` comes in:
 
 ```python
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=150,       # characters per chunk (small for demo)
+    chunk_overlap=30,     # characters of overlap between chunks
+    length_function=len,
+)
+```
+
+### What chunking actually produces
+
+Using our biology text with `chunk_size=150` and `chunk_overlap=30`, here's what the splitter gives us:
+
+```
+CHUNK 1 (chars 0-149):
+"The human circulatory system is a complex network of blood
+vessels, the heart, and blood. The heart is a muscular organ
+roughly the size of a closed fist."
+
+CHUNK 2 (chars 120-269):
+"the size of a closed fist. It pumps blood through the body
+via two circuits: the pulmonary circuit (heart to lungs and
+back) and the systemic circuit"
+        ↑
+        overlap: "the size of a closed fist." appears in both chunks
+
+CHUNK 3 (chars 240-389):
+"and the systemic circuit (heart to the rest of the body and
+back). Arteries carry oxygenated blood away from the heart,
+while veins return deoxygenated blood."
+        ↑
+        overlap: "and the systemic circuit" bridges the two chunks
+```
+
+See what's happening? Each chunk has a 30-character overlap with the previous one. That overlap is load-bearing. Without it, Chunk 2 would start mid-sentence with "It pumps blood through the body" and the model would have no idea what "it" refers to.
+
+### What happens without overlap
+
+Let's see the same text with `chunk_overlap=0`:
+
+```
+CHUNK 1: "...The heart is a muscular organ roughly the size of a"
+CHUNK 2: "closed fist. It pumps blood through the body via two..."
+```
+
+"a closed fist" got sliced in half. If someone asks "what size is the heart?", neither chunk has a complete answer. The overlap prevents this by making sure sentences at the boundary appear in both chunks.
+
+**In production, I typically use `chunk_size=1000` with `chunk_overlap=200`.** That gives you roughly paragraph-sized chunks with enough overlap to preserve context at the edges.
+
+```python
+# Production settings
+text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=1000,
-    chunk_overlap=200,  # overlap helps maintain context between chunks
+    chunk_overlap=200,
     length_function=len,
 )
 
-chunks = text_splitter.split_text(your_document_text)
+chunks = text_splitter.split_text(biology_chapter)
+# A 5,000-char chapter produces roughly 6 chunks
 ```
 
-That `chunk_overlap` of 200 is kind of important. Without it, you get these hard cuts between chunks where context just vanishes. The overlap gives the model a bit of a running start on each new chunk.
+### From chunks to vectors
 
-Now we can wire both pieces together. For each chunk, we generate an embedding and store it with some metadata:
+Now we wire the splitter to the embedding model. For each chunk, we generate a vector and store it with metadata so we can trace it back to the source:
 
 ```python
 from typing import List, Dict
 
-async def generate_embeddings(text: str, embeddings, text_splitter) -> List[Dict]:
+async def generate_embeddings(
+    text: str, embeddings, text_splitter
+) -> List[Dict]:
     chunks = text_splitter.split_text(text)
 
     results = []
-    for chunk in chunks:
+    for i, chunk in enumerate(chunks):
         vector = await embeddings.aembed_query(chunk)
         results.append({
             "text": chunk,
-            "vector": vector,
+            "vector": vector,              # e.g. 1536 floats for OpenAI
             "metadata": {
+                "chunk_index": i,
                 "length": len(chunk),
+                "source": "biology_ch3",   # trace back to the document
             }
         })
 
     return results
 ```
 
-And to see it working end to end:
+And to see it end to end:
 
 ```python
 async def main():
@@ -123,18 +183,21 @@ async def main():
         chunk_size=1000, chunk_overlap=200, length_function=len
     )
 
-    text = """
-    Vector search is a fascinating technique in AI.
-    It allows us to find similar content by converting text into
-    high-dimensional vectors and comparing them using cosine similarity.
-    """
+    # Our biology textbook chapter
+    chapter_text = load_chapter("biology_ch3.txt")
 
-    results = await generate_embeddings(text, embeddings, text_splitter)
-    print(f"Generated {len(results)} embeddings")
-    print(f"Vector size: {len(results[0]['vector'])}")
+    results = await generate_embeddings(
+        chapter_text, embeddings, text_splitter
+    )
+    print(f"Generated {len(results)} chunks")
+    print(f"Vector size: {len(results[0]['vector'])} dimensions")
+    # Output: Generated 6 chunks
+    # Output: Vector size: 1536 dimensions
 ```
 
-The key thing to notice: we went from raw text to a list of vectors with metadata in about 20 lines. That's really all the plumbing you need.
+So we went from a raw textbook chapter to a list of 1536-dimension vectors, each traceable back to a specific paragraph. When a student later asks "what connects arteries to veins?", the vector search will surface Chunk 3 (the one about capillaries and gas exchange) because that question and that chunk will be close neighbours in vector space.
+
+That's the whole pipeline in about 30 lines.
 
 ## The Vector Database Problem
 
