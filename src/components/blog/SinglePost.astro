@@ -224,34 +224,70 @@ const { Content } = post;
     markdownElements.forEach((element) => observer.observe(element));
   };
 
-  // Render code snippet to a branded PNG via Canvas
-  function renderCodeImage(codeText: string, langLabel: string): Promise<Blob> {
+  // Extract syntax-highlighted tokens from Shiki DOM
+  type Token = { text: string; color: string };
+  type TokenLine = Token[];
+
+  function extractHighlightedLines(preEl: HTMLPreElement): TokenLine[] {
+    const isDark = document.documentElement.classList.contains('dark');
+    const defaultColor = isDark ? '#e1e4e8' : '#24292e';
+    const lines: TokenLine[] = [];
+
+    const lineEls = preEl.querySelectorAll('.line');
+    if (lineEls.length === 0) {
+      // Fallback: plain text
+      const text = preEl.textContent || '';
+      return text.split('\n').map(line => [{ text: line, color: defaultColor }]);
+    }
+
+    lineEls.forEach(lineEl => {
+      const tokens: Token[] = [];
+      const spans = lineEl.querySelectorAll('span');
+      if (spans.length === 0) {
+        tokens.push({ text: lineEl.textContent || '', color: defaultColor });
+      } else {
+        spans.forEach(span => {
+          const style = span.getAttribute('style') || '';
+          let color = defaultColor;
+          if (isDark) {
+            const darkMatch = style.match(/--shiki-dark:\s*(#[0-9a-fA-F]+)/);
+            if (darkMatch) color = darkMatch[1];
+          } else {
+            const lightMatch = style.match(/(?:^|;)\s*color:\s*(#[0-9a-fA-F]+)/);
+            if (lightMatch) color = lightMatch[1];
+          }
+          const text = span.textContent || '';
+          if (text) tokens.push({ text, color });
+        });
+      }
+      lines.push(tokens);
+    });
+
+    // Trim trailing empty lines
+    while (lines.length > 0 && lines[lines.length - 1].every(t => t.text.trim() === '')) {
+      lines.pop();
+    }
+    return lines;
+  }
+
+  // Render code snippet to a branded PNG via Canvas with syntax highlighting
+  function renderCodeImage(preEl: HTMLPreElement, langLabel: string): Promise<Blob> {
     return new Promise((resolve, reject) => {
-      const scale = 2; // retina
+      const scale = 2;
       const padding = 40 * scale;
       const lineHeight = 18 * scale;
       const fontSize = 13 * scale;
       const headerHeight = 36 * scale;
       const footerHeight = 32 * scale;
+      const charW = fontSize * 0.6;
       const maxLineChars = 72;
+      const lineNumWidth = 4 * charW;
+      const codeX = padding * 0.4 + lineNumWidth;
 
-      // Word-wrap lines
-      const rawLines = codeText.split('\n');
-      const lines: string[] = [];
-      for (const raw of rawLines) {
-        if (raw.length <= maxLineChars) {
-          lines.push(raw);
-        } else {
-          for (let i = 0; i < raw.length; i += maxLineChars) {
-            lines.push(raw.slice(i, i + maxLineChars));
-          }
-        }
-      }
-      // Trim trailing empty lines
-      while (lines.length > 0 && lines[lines.length - 1].trim() === '') lines.pop();
+      const highlightedLines = extractHighlightedLines(preEl);
 
-      const codeHeight = lines.length * lineHeight + padding;
-      const canvasW = (maxLineChars * fontSize * 0.6 + padding * 2);
+      const codeHeight = highlightedLines.length * lineHeight + padding;
+      const canvasW = maxLineChars * charW + codeX + padding;
       const canvasH = headerHeight + codeHeight + footerHeight + padding;
 
       const canvas = document.createElement('canvas');
@@ -263,9 +299,9 @@ const { Content } = post;
       const isDark = document.documentElement.classList.contains('dark');
       const bg = isDark ? '#1a1a1a' : '#fafafa';
       const codeBg = isDark ? '#24292e' : '#ffffff';
-      const textColor = isDark ? '#e1e4e8' : '#24292e';
-      const mutedColor = isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.35)';
+      const mutedColor = isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.25)';
       const accentColor = '#d89121';
+      const fontStack = '"Space Mono", "Courier New", monospace';
 
       // Background
       ctx.fillStyle = bg;
@@ -275,11 +311,9 @@ const { Content } = post;
       ctx.fillStyle = accentColor;
       ctx.fillRect(0, 0, canvasW, headerHeight);
       ctx.fillStyle = '#000';
-      ctx.font = `bold ${11 * scale}px "Space Mono", monospace`;
+      ctx.font = `bold ${11 * scale}px ${fontStack}`;
       ctx.textBaseline = 'middle';
       ctx.fillText(`> ${langLabel}_`, padding * 0.6, headerHeight / 2);
-
-      // chienda.com on right side of header
       const siteText = 'chienda.com';
       const siteWidth = ctx.measureText(siteText).width;
       ctx.fillText(siteText, canvasW - padding * 0.6 - siteWidth, headerHeight / 2);
@@ -289,24 +323,37 @@ const { Content } = post;
       ctx.fillStyle = codeBg;
       ctx.fillRect(0, codeY, canvasW, codeHeight);
 
-      // Border around code area
-      ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+      // Subtle border
+      ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
       ctx.lineWidth = 1 * scale;
       ctx.strokeRect(0, codeY, canvasW, codeHeight);
 
-      // Code text
-      ctx.fillStyle = textColor;
-      ctx.font = `${fontSize}px "Space Mono", "Courier New", monospace`;
+      // Line number gutter separator
+      ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+      ctx.beginPath();
+      ctx.moveTo(codeX - charW * 0.5, codeY);
+      ctx.lineTo(codeX - charW * 0.5, codeY + codeHeight);
+      ctx.stroke();
+
+      // Render each line with syntax colors
+      ctx.font = `${fontSize}px ${fontStack}`;
       ctx.textBaseline = 'top';
-      for (let i = 0; i < lines.length; i++) {
-        // Line numbers
+
+      for (let i = 0; i < highlightedLines.length; i++) {
+        const y = codeY + padding * 0.5 + i * lineHeight;
+
+        // Line number
         const lineNum = String(i + 1).padStart(3, ' ');
         ctx.fillStyle = mutedColor;
-        ctx.fillText(lineNum, padding * 0.4, codeY + padding * 0.5 + i * lineHeight);
+        ctx.fillText(lineNum, padding * 0.4, y);
 
-        // Code
-        ctx.fillStyle = textColor;
-        ctx.fillText(lines[i], padding * 0.4 + 4 * fontSize * 0.6, codeY + padding * 0.5 + i * lineHeight);
+        // Tokens with syntax colors
+        let x = codeX;
+        for (const token of highlightedLines[i]) {
+          ctx.fillStyle = token.color;
+          ctx.fillText(token.text, x, y);
+          x += ctx.measureText(token.text).width;
+        }
       }
 
       // Footer
@@ -315,11 +362,11 @@ const { Content } = post;
       ctx.fillRect(0, footerY, canvasW, footerHeight + padding);
 
       ctx.fillStyle = mutedColor;
-      ctx.font = `${10 * scale}px "Space Mono", monospace`;
+      ctx.font = `${10 * scale}px ${fontStack}`;
       ctx.textBaseline = 'top';
       ctx.fillText(`>_ chienda.com  ·  ${window.location.pathname}`, padding * 0.6, footerY + 10 * scale);
 
-      // Accent line at bottom
+      // Bottom accent line
       ctx.fillStyle = accentColor;
       ctx.fillRect(0, canvasH - 3 * scale, canvasW, 3 * scale);
 
@@ -382,7 +429,7 @@ const { Content } = post;
         btn.textContent = '...';
 
         try {
-          const blob = await renderCodeImage(codeText, langLabel);
+          const blob = await renderCodeImage(pre as HTMLPreElement, langLabel);
 
           // Mobile: native share with image file
           if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
