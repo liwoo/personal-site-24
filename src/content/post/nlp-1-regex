@@ -3,7 +3,7 @@ publishDate: 2024-11-03T00:00:00Z
 title: NLP with me - Part 1 - Regular Expressions
 excerpt: It turns out that Regular Expressions are the building blocks of what we refer to as AI. But where does the connection between AI and Regex come from? And how can we use Regex to solve NLP problems? In this post, we look at the basics of Regular Expressions and how they can be used in Natural Language Processing.
 category: Tech
-draft: ture
+draft: true
 tags:
   - career
   - ai

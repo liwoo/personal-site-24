@@ -60,71 +60,81 @@ There's several approaches you could take for creating these embeddings. You cou
 
 But in production, the way I like to do it is reach for high-dimension, high-accuracy embedding models. I'm talking about models from OpenAI, for example. They just handle the tricky, ambiguous language tasks so much better.
 
+Let's build this up piece by piece. First, we need to pick an embedding model. LangChain makes this pretty painless:
+
 ```python
 from langchain.embeddings import OpenAIEmbeddings, HuggingFaceEmbeddings
+
+# Option A: OpenAI - better accuracy, costs money
+embeddings = OpenAIEmbeddings()
+
+# Option B: Open-source BERT model - free, good enough for testing
+embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
+)
+```
+
+So that's the first thing. You've got your embedding model wired up. But you can't just throw an entire document at it. You need to break your text into chunks first.
+
+This is where `RecursiveCharacterTextSplitter` comes in. The way I like to set it up:
+
+```python
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-import os
+
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=200,  # overlap helps maintain context between chunks
+    length_function=len,
+)
+
+chunks = text_splitter.split_text(your_document_text)
+```
+
+That `chunk_overlap` of 200 is kind of important. Without it, you get these hard cuts between chunks where context just vanishes. The overlap gives the model a bit of a running start on each new chunk.
+
+Now we can wire both pieces together. For each chunk, we generate an embedding and store it with some metadata:
+
+```python
 from typing import List, Dict
 
-class EmbeddingGenerator:
-    def __init__(self, model_type: str = "openai"):
-        """
-        Initialize our embedding generator with either OpenAI or a local BERT model
-        """
-        if model_type == "openai":
-            self.embeddings = OpenAIEmbeddings()
-        else:
-            # Using a smaller BERT model - great for testing!
-            self.embeddings = HuggingFaceEmbeddings(
-                model_name="sentence-transformers/all-MiniLM-L6-v2"
-            )
+async def generate_embeddings(text: str, embeddings, text_splitter) -> List[Dict]:
+    chunks = text_splitter.split_text(text)
 
-        # This is where the magic happens with text splitting
-        self.text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000,
-            chunk_overlap=200,  # A bit of overlap helps maintain context
-            length_function=len,
-        )
+    results = []
+    for chunk in chunks:
+        vector = await embeddings.aembed_query(chunk)
+        results.append({
+            "text": chunk,
+            "vector": vector,
+            "metadata": {
+                "length": len(chunk),
+            }
+        })
 
-    async def generate_embeddings(self, text: str) -> List[Dict]:
-        """
-        Take our text, split it into chunks, and generate embeddings
-        """
-        # First, let's split our text into manageable chunks
-        chunks = self.text_splitter.split_text(text)
+    return results
+```
 
-        # Now generate embeddings for each chunk
-        embeddings = []
-        for chunk in chunks:
-            vector = await self.embeddings.aembed_query(chunk)
-            embeddings.append({
-                "text": chunk,
-                "vector": vector,
-                "metadata": {
-                    "length": len(chunk),
-                    # You might want to add more metadata here
-                }
-            })
+And to see it working end to end:
 
-        return embeddings
-
-# Let's see it in action!
+```python
 async def main():
-    # Create our generator
-    generator = EmbeddingGenerator(model_type="openai")
+    embeddings = OpenAIEmbeddings()
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1000, chunk_overlap=200, length_function=len
+    )
 
-    # Some sample text
     text = """
     Vector search is a fascinating technique in AI.
     It allows us to find similar content by converting text into
     high-dimensional vectors and comparing them using cosine similarity.
     """
 
-    # Generate those embeddings!
-    embeddings = await generator.generate_embeddings(text)
-    print(f"Generated {len(embeddings)} embeddings!")
-    print(f"First embedding vector size: {len(embeddings[0]['vector'])}")
+    results = await generate_embeddings(text, embeddings, text_splitter)
+    print(f"Generated {len(results)} embeddings")
+    print(f"Vector size: {len(results[0]['vector'])}")
 ```
+
+The key thing to notice: we went from raw text to a list of vectors with metadata in about 20 lines. That's really all the plumbing you need.
 
 ## The Vector Database Problem
 
