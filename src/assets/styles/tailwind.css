@@ -96,6 +96,24 @@
   @apply flex items-start flex-col my-8 md:flex-row;
 }
 
+/* ═══ Inline Code ═══ */
+.post-content :where(code):not(:where(pre code, [class~="not-prose"],[class~="not-prose"] *)) {
+  background: var(--aw-color-card-bg);
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  padding: 0.15em 0.4em;
+  font-size: 0.85em;
+  color: var(--aw-color-primary);
+  font-weight: 600;
+}
+.markdown-content :where(code):not(:where(pre code, [class~="not-prose"],[class~="not-prose"] *)) {
+  background: var(--aw-color-card-bg);
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  padding: 0.15em 0.4em;
+  font-size: 0.85em;
+  color: var(--aw-color-primary);
+  font-weight: 600;
+}
+
 /* ═══ Card-style Tables ═══ */
 .post-content table {
   @apply w-full text-sm border-collapse;
