@@ -1,7 +1,7 @@
 ---
 publishDate: 2026-03-03T00:00:00Z
 title: "Here's why your AI-generated code fails to scale - Part II"
-excerpt: I shipped a fintech SaaS in 16 days. 38 commits, 304K lines, 24 entities. The secret was the harness I built around the model. Here's what that looks like in practice.
+excerpt: I shipped a fintech SaaS in 16 days. 38 commits, 304K lines, 24 entities. Seriously. Here's what that looks like in practice.
 category: Tech
 draft: false
 tags:
@@ -34,7 +34,10 @@ Everything described here runs on [Claude Code](https://docs.anthropic.com/en/do
 
 ## What a Harness Actually Looks Like
 
-<Image src={harnessArch} alt="Architecture diagram showing how hooks, agents, and skills connect inside a .claude harness" />
+<Image
+  src={harnessArch}
+  alt="Architecture diagram showing how hooks, agents, and skills connect inside a .claude harness"
+/>
 
 Let me walk through the tooling before we get philosophical about it. Claude Code gives you 4 primitives, and each one solves a different problem.
 
@@ -52,7 +55,6 @@ Here's my backend agent. Note the persona isn't decoration. Every tenet is a con
 name: goravel-crud-engineer
 model: opus
 ---
-
 # Chikondi Banda — Senior Backend Engineer
 
 ## Core Engineering Tenets (non-negotiable)
@@ -68,7 +70,10 @@ model: opus
 
 I have 4 agents: backend engineer, QA engineer (testcontainers + Playwright), frontend engineer (TypeScript strict mode, i18n-first), DevOps engineer (Docker multi-stage builds, Helm). Each knows its domain deeply. And they run in parallel when features don't depend on each other.
 
-<Image src={contextIsolation} alt="How subagents delegate work and return summaries without eating the main context window" />
+<Image
+  src={contextIsolation}
+  alt="How subagents delegate work and return summaries without eating the main context window"
+/>
 
 > **What you'd see:** Running `/status` shows background agents working on separate branches simultaneously. One is scaffolding the backend, another is generating frontend types. Token usage is tracked per-agent.
 
@@ -108,11 +113,12 @@ Output:
 export type GenderType = 'MALE' | 'FEMALE' | 'OTHER';
 
 export const GENDER_TYPE_OPTIONS: Array<{
-  label: string; value: GenderType
+  label: string;
+  value: GenderType;
 }> = [
-    { label: 'Male', value: 'MALE' },
-    { label: 'Female', value: 'FEMALE' },
-    { label: 'Other', value: 'OTHER' },
+  { label: 'Male', value: 'MALE' },
+  { label: 'Female', value: 'FEMALE' },
+  { label: 'Other', value: 'OTHER' },
 ];
 ```
 
@@ -167,7 +173,10 @@ fi
 
 When a hook fails, the output is fed back as context. The agent sees what broke and retries. This is back pressure in its purest form. You create the gate, the AI figures out how to pass through it.
 
-<Image src={backpressureLoop} alt="The back pressure feedback loop: agent writes code, hook fires, validation passes or fails, error fed back as context" />
+<Image
+  src={backpressureLoop}
+  alt="The back pressure feedback loop: agent writes code, hook fires, validation passes or fails, error fed back as context"
+/>
 
 ### The UI Audit Skill
 
@@ -184,7 +193,10 @@ The skill produces a structured audit report with file paths and line numbers. T
 
 ## How I Shipped a Fintech SaaS in 16 Days
 
-<Image src={sprintTimeline} alt="Gantt chart showing harness setup, entity scaffolding, custom features, QA, and deployment phases" />
+<Image
+  src={sprintTimeline}
+  alt="Gantt chart showing harness setup, entity scaffolding, custom features, QA, and deployment phases"
+/>
 
 Here's what the workflow actually looked like, based on the real git log.
 
@@ -315,17 +327,24 @@ The variance is the killer. In Spence's testing, the baseline swung 5 points bet
 
 The fix is what Spence calls a **forced-eval hook**, a `UserPromptSubmit` hook that injects a commitment mechanism before every task. It forces the agent to explicitly evaluate each available skill against the current prompt (YES or NO) before doing anything else. With this hook, activation jumps to **100% across both test runs. Zero false positives. Zero missed activations.**
 
-<Image src={skillActivation} alt="Skill activation with forced-eval hook (100% reliable) versus without (coin-flip reliability)" />
+<Image
+  src={skillActivation}
+  alt="Skill activation with forced-eval hook (100% reliable) versus without (coin-flip reliability)"
+/>
 
 ```json
 {
   "hooks": {
-    "UserPromptSubmit": [{
-      "hooks": [{
-        "type": "command",
-        "command": ".claude/hooks/skill-forced-eval-hook.sh"
-      }]
-    }]
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/skill-forced-eval-hook.sh"
+          }
+        ]
+      }
+    ]
   }
 }
 ```
@@ -360,7 +379,10 @@ I've been working on this problem for a while now, and I'm ready to share what I
 
 > _From the Greek root of hyperthymesia, the rare condition where nothing is ever forgotten. Every experience, perfectly preserved, instantly retrievable. Thyma gives your agent the same gift._
 
-<Image src={thymaBeforeAfter} alt="With Thyma the agent remembers across sessions. Without it, every session starts from zero." />
+<Image
+  src={thymaBeforeAfter}
+  alt="With Thyma the agent remembers across sessions. Without it, every session starts from zero."
+/>
 
 It stores 3 types of knowledge:
 
