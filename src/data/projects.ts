@@ -111,64 +111,47 @@ export const projects: Project[] = [
     },
   },
   {
-    title: 'Get Alinafe Album Website',
+    title: 'IremboAI',
     subtitle:
-      'Official Album website of my debut album Alinafe, featuring celebrated Malawian Artists including David Kalilani, Suffix, Kim of Diamons, Kelvin Sings and more',
+      'A trilingual AI assistant that gives citizens instant, source-grounded answers about iremboGov services — in Kinyarwanda, English, or French.',
     description:
-      "A digital space as dynamic and soulful as the music itself. Crafted with love in Svelte, this website is optimized for an immersive auditory experience, allowing fans to listen to, download, and engage with each track. Every element of the site reflects the album's unique branding, from the visual aesthetics to the interactive features. It's more than a website; it's an extension of the 'Alinafe' universe. Dive in for a seamless blend of technology and artistry, where every click brings you closer to the heart of the music.",
-    slug: 'get-alinafe',
+      "IremboAI reimagines how Rwandans get help with government services. Instead of waiting in a call center queue, citizens can simply ask — in Kinyarwanda, English, or French — and get instant, reliable answers about paying a traffic fine, checking an application status, renewing a visa, transferring land ownership and more. Rather than starting from a blank slate, the agent was built on the lived knowledge of Irembo's call center: every response was engineered and evaluated for both technical accuracy and the helpful, human tone people actually expect.",
+    slug: 'irembo-ai',
     company: {
-      name: 'Liwu',
-      logo: 'liwu',
+      name: 'Irembo',
+      logo: 'irembo',
     },
     image: {
-      src: 'https://minio-api.dartsmw.com/chienda.com/get-alinafe.jpg',
-      alt: 'Get Aliafe',
+      src: '~/assets/images/projects/irembo-ai.png',
+      alt: 'IremboAI',
     },
-    projectLink: 'https://getalinafe.com/',
-    sourceLink: 'https://github.com/liwoo/getalinafe',
-    duration: 'Jun 2020 - August 2020',
-    role: 'Creative Technologist',
-    stack: ['Svelte', 'Tailwind', 'Typescript'],
-    category: 'website',
+    projectLink: 'https://irembo.gov.rw/home/citizen/all_services?lang=en',
+    duration: 'Jan 2024 - Aug 2025',
+    role: 'AI Engineer',
+    stack: ['Python', 'React', 'LangChain', 'LangFuse'],
+    category: 'webApp',
     methods: [
       {
-        title: 'Interactive Listening Experience',
+        title: 'Understanding the Call Center',
         description:
-          'Designed an intuitive user interface that allows fans to seamlessly stream and engage with the album. Integrated audio players with high-quality streaming capabilities to ensure a smooth and immersive listening experience.',
+          "Started by studying how Irembo's call center actually answers customers. This meant categorizing the topics citizens ask about most, mapping the questions to iremboGov services, and codifying the template answers agents rely on — turning years of tacit human knowledge into a structured foundation the AI could be built on.",
       },
       {
-        title: 'Efficient Download Management',
+        title: 'Building a Human Evaluation Dataset',
         description:
-          'Implemented a robust download management system enabling fans to easily download tracks and the entire album. Focused on a hassle-free process, ensuring quick and secure downloads while maintaining the integrity of the music files.',
+          'Curated an evaluation dataset from real human responses to the most common questions coming through the call center. This golden set of question–answer pairs became the behavioural yardstick the agent would be measured against, grounding every later decision in what good, trusted human help looks like.',
       },
       {
-        title: 'User Engagement and Participation Features',
+        title: 'Building & Evaluating the AI Agent',
         description:
-          'Incorporated interactive elements such as comment sections, social media integrations, and fan forums. These features were designed to foster a community of listeners, encouraging discussions and interactions around the album.',
+          'Built the AI agent and held it to a dual standard. Technically, it was measured on retrieval quality — document relevance, grounding, and faithfulness to source material. Behaviourally, it was scored against the human evaluation dataset to ensure its answers matched the accuracy and tone citizens expect, across all three languages.',
       },
       {
-        title: 'Brand-centric Design',
+        title: 'Iterating to Internal Benchmarks',
         description:
-          "Employed a design philosophy that deeply resonated with the album's branding. The website's aesthetic, from color schemes to typography, was carefully chosen to reflect the soul and story of 'Alinafe', creating a visual harmony with the music.",
-      },
-      {
-        title: 'Technical Implementation in Svelte',
-        description:
-          'Developed the website using Svelte, focusing on performance optimization and responsive design. This approach ensured a fast, efficient, and mobile-friendly user experience, catering to a diverse audience.',
+          'Ran a tight loop of measurement and refinement — tuning retrieval, prompts, and guardrails while tracking every change with LangFuse — until the product consistently cleared the internal benchmarks set for accuracy, relevance, and trustworthiness before reaching citizens.',
       },
     ],
-    testimony: {
-      name: 'Timothy Mizaya',
-      job: 'Senior Pastor',
-      image: {
-        src: 'https://minio-api.dartsmw.com/chienda.com/Screenshot 2025-10-10 at 5.01.11 AM.png',
-        alt: 'Timothy Mizaya',
-      },
-      company: 'Flood Church',
-      testimony:
-        "Liwu's work on the GetAlinafe.com website was a game changer. As a manager, I've seen how crucial online presence is for artists. Liwu [Jeremiah] not only created a stunning website but also captured the essence of the 'Alinafe' album. The smooth streaming and downloading options significantly boosted our digital engagement. This website has not just been a platform, but a key player in elevating Liwu's music career. The impact on our audience reach and interaction has been phenomenal.",
-    },
   },
   {
     title: 'Doorbell Mobile App',

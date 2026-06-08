@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import { findImage } from '~/utils/images';
 
 type Props = {
   thumbnail?: string;
@@ -20,12 +21,15 @@ const {
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/logos/png/*.{jpeg,jpg,png,gif}');
 const imagePath = `/src/assets/images/logos/png/${logo}-symbol.png`;
 if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: "src/assets/*.{jpeg,jpg,png,gif}"`);
+
+// Resolve local "~/assets/images/..." thumbnails to ImageMetadata; remote URLs pass through unchanged.
+const resolvedThumbnail = (await findImage(thumbnail)) ?? thumbnail;
 ---
 
 <div class="p-4 hover:bg-card rounded-lg transition-all ease-in-out duration-200">
   <a href={`/projects/${slug}`} data-astro-prefetch>
     <Image
-      src={thumbnail}
+      src={resolvedThumbnail}
       class="w-full h-64 rounded object-cover shadow-primary bg-gray-400 dark:bg-slate-700"
       alt={title}
       height={500}

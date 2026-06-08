@@ -53,4 +53,8 @@ export const logos: Array<Link> = [
         text: 'CLA',
         icon: 'cla',
     },
+    {
+        text: 'ICO',
+        icon: 'ico',
+    },
 ]

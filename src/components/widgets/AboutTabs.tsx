@@ -139,7 +139,7 @@ export function AboutTabs() {
           I'm Jeremiah Chienda — an <strong>AI Engineer</strong> with 10+ years building production software, currently
           building Data and AI solutions at the UK's{' '}
           <a href="https://irembo.com/" className="underline">
-            Information Commission Office (ICO)
+            Information Commissioner's Office (ICO)
           </a>{' '}
         </p>
         <p>
