@@ -1,9 +1,34 @@
 import { useState, type ReactNode } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
-import { Briefcase, Brain, GraduationCap, Download, Bot, Code, Database, Cloud, Award, Container, Ship, Rabbit, Sparkles, HardDrive, Columns3, Search, Wrench, ShieldCheck, SlidersHorizontal, LayoutDashboard, ChevronDown, FlaskConical, Anvil } from 'lucide-react';
+import {
+  Briefcase,
+  Brain,
+  GraduationCap,
+  Download,
+  Bot,
+  Code,
+  Database,
+  Cloud,
+  Award,
+  Container,
+  Ship,
+  Rabbit,
+  Sparkles,
+  HardDrive,
+  Columns3,
+  Search,
+  Wrench,
+  ShieldCheck,
+  SlidersHorizontal,
+  LayoutDashboard,
+  ChevronDown,
+  FlaskConical,
+  Anvil,
+} from 'lucide-react';
 import { workExperience } from '~/data/work-experience';
 
 import iremboLogo from '~/assets/images/logos/png/irembo-symbol.png';
+import icoLogo from '~/assets/images/logos/png/ico-symbol.png';
 import bestsellerLogo from '~/assets/images/logos/png/bestseller-symbol.png';
 import oafLogo from '~/assets/images/logos/png/oaf-symbol.png';
 import bhtLogo from '~/assets/images/logos/png/bht-symbol.png';
@@ -27,6 +52,7 @@ import doshishaLogo from '~/assets/images/logos/png/doshisha-symbol.gif';
 
 const logoMap: Record<string, string> = {
   irembo: iremboLogo.src,
+  ico: icoLogo.src,
   bestseller: bestsellerLogo.src,
   oaf: oafLogo.src,
   bht: bhtLogo.src,
@@ -86,11 +112,17 @@ function Badge({ badge }: { badge: SmallBadge }) {
     </>
   );
 
-  const cls = "flex items-center gap-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-page px-2 py-1 hover:border-primary transition-colors shrink-0 whitespace-nowrap";
+  const cls =
+    'flex items-center gap-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-page px-2 py-1 hover:border-primary transition-colors shrink-0 whitespace-nowrap';
 
   if (badge.href) {
     return (
-      <a href={badge.href} className={cls} target={badge.href.startsWith('http') ? '_blank' : undefined} rel={badge.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+      <a
+        href={badge.href}
+        className={cls}
+        target={badge.href.startsWith('http') ? '_blank' : undefined}
+        rel={badge.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+      >
         {content}
       </a>
     );
@@ -108,13 +140,7 @@ function IconAvatar({ children }: { children: ReactNode }) {
 }
 
 function LogoAvatar({ src, alt }: { src: string; alt: string }) {
-  return (
-    <img
-      src={src}
-      alt={alt}
-      className="w-12 h-12 rounded-full border-4 border-slate-200 dark:border-slate-700"
-    />
-  );
+  return <img src={src} alt={alt} className="w-12 h-12 rounded-full border-4 border-slate-200 dark:border-slate-700" />;
 }
 
 function BadgeSection({ icon, title, badges }: { icon: ReactNode; title: string; badges: SmallBadge[] }) {
@@ -165,7 +191,11 @@ function EntryRow({
       <div className="flex w-full gap-x-2 justify-between min-w-0">
         <div className="flex flex-col min-w-0 w-full">
           <div
-            className={showCollapsed ? 'flex items-center justify-between cursor-pointer group' : 'flex items-center justify-between'}
+            className={
+              showCollapsed
+                ? 'flex items-center justify-between cursor-pointer group'
+                : 'flex items-center justify-between'
+            }
             onClick={showCollapsed ? onToggle : undefined}
           >
             <div className="min-w-0">
@@ -175,7 +205,9 @@ function EntryRow({
             <div className="flex items-center gap-x-2 shrink-0">
               {meta && <span className="text-xs font-semibold">{meta}</span>}
               {showCollapsed && (
-                <ChevronDown className={`w-3.5 h-3.5 text-muted transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown
+                  className={`w-3.5 h-3.5 text-muted transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                />
               )}
             </div>
           </div>
@@ -297,19 +329,31 @@ export function ProfileSidebar() {
             />
             <div className="flex text-muted gap-x-3">
               <div className="shrink-0 pt-0.5">
-                <IconAvatar><Award className="w-5 h-5 text-muted-foreground" /></IconAvatar>
+                <IconAvatar>
+                  <Award className="w-5 h-5 text-muted-foreground" />
+                </IconAvatar>
               </div>
               <div className="flex w-full gap-x-2 justify-between min-w-0">
                 <div className="flex flex-col min-w-0">
                   <h4 className="font-semibold text-default text-lg m-0 leading-tight">Certifications</h4>
                   <ul className="text-xs text-muted mt-1.5 space-y-1.5">
                     <li>
-                      <a href="https://learn.microsoft.com/en-us/credentials/certifications/fabric-data-engineer-associate/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                      <a
+                        href="https://learn.microsoft.com/en-us/credentials/certifications/fabric-data-engineer-associate/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-primary transition-colors"
+                      >
                         Microsoft Certified: Fabric Data Engineer Associate (DP-700)
                       </a>
                     </li>
                     <li>
-                      <a href="https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                      <a
+                        href="https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-primary transition-colors"
+                      >
                         Microsoft Certified: Azure AI Engineer Associate (AI-102)
                       </a>
                     </li>

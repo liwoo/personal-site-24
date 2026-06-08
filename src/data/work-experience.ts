@@ -2,14 +2,22 @@ import type { WorkExperience } from '~/types';
 
 export const workExperience: Array<WorkExperience> = [
   {
+    title: 'ICO',
+    location: 'Manchester, UK',
+    position: 'AI Engineer',
+    duration: 'Sept 2025 - Present',
+    image: 'ico',
+    description: ['Building responsible Data and AI solutions at the UKs chief data regulator.'],
+  },
+  {
     title: 'Irembo',
     location: 'Kigali, RW',
     position: 'AI Engineer',
-    duration: 'Aug 2023 - Present',
+    duration: 'Aug 2023 - Aug 2025',
     image: 'irembo',
     description: [
-      'Leading AI and mobile engineering. Building LLM-powered agent systems, RAG pipelines, and AI-driven features for Rwanda\'s national e-government platform',
-      'Organized Irembo\'s first AI hackathon',
+      "Leading AI and mobile engineering. Building LLM-powered agent systems, RAG pipelines, and AI-driven features for Rwanda's national e-government platform",
+      "Organized Irembo's first AI hackathon",
     ],
   },
   {
@@ -19,7 +27,7 @@ export const workExperience: Array<WorkExperience> = [
     duration: 'Dec 2022 - Jul 2023',
     image: 'bestseller',
     description: [
-      'Built software for one of Europe\'s largest fashion companies. Full-stack development across internal tooling and supply chain systems',
+      "Built software for one of Europe's largest fashion companies. Full-stack development across internal tooling and supply chain systems",
     ],
   },
   {
@@ -50,8 +58,6 @@ export const workExperience: Array<WorkExperience> = [
     position: 'Systems Developer',
     duration: 'Jun 2013 - Aug 2014',
     image: 'nbs',
-    description: [
-      'Full-stack development on core banking systems. Built internal tools and reporting dashboards',
-    ],
+    description: ['Full-stack development on core banking systems. Built internal tools and reporting dashboards'],
   },
 ];

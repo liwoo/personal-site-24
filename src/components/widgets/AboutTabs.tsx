@@ -15,10 +15,18 @@ export function AboutTabs() {
   return (
     <Tabs defaultValue="pitch">
       <TabsList className="flex w-full lg:w-2/3 bg-card border border-gray-500/20 text-muted overflow-x-auto scrollbar-hide">
-        <TabsTrigger value="pitch" className="flex-1 min-w-0">Pitch</TabsTrigger>
-        <TabsTrigger value="brief" className="flex-1 min-w-0">Brief</TabsTrigger>
-        <TabsTrigger value="full" className="flex-1 min-w-0">Full Bio</TabsTrigger>
-        <TabsTrigger value="pictures" className="flex-1 min-w-0">Pics</TabsTrigger>
+        <TabsTrigger value="pitch" className="flex-1 min-w-0">
+          Pitch
+        </TabsTrigger>
+        <TabsTrigger value="brief" className="flex-1 min-w-0">
+          Brief
+        </TabsTrigger>
+        <TabsTrigger value="full" className="flex-1 min-w-0">
+          Full Bio
+        </TabsTrigger>
+        <TabsTrigger value="pictures" className="flex-1 min-w-0">
+          Pics
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="full" className="leading-7 text-lg text-default py-4">
         <div className="flex flex-col md:flex-row gap-y-6 md:gap-x-6">
@@ -27,8 +35,13 @@ export function AboutTabs() {
           </div>
           <div className="w-full md:w-1/2 lg:w-2/3 flex flex-col gap-y-4 ">
             <p>
-              Jeremiah Chienda is an AI Engineer based in Kigali, Rwanda, where he leads AI and mobile engineering at{' '}
-              <a href="https://irembo.com/" className="underline">
+              Jeremiah Chienda is a Malawian Sofware and AI Engineer based in the UK, where he builds Data and AI
+              solutions at the{' '}
+              <a href="https://ico.org.uk/" className="underline">
+                Information Commissioner's Office
+              </a>
+              . Before this, he lead AI Engineering at{' '}
+              <a href="https://irembo.gov.uk" className="underline">
                 Irembo
               </a>{' '}
               — the platform that digitizes government services for millions of Rwandan citizens.
@@ -40,7 +53,7 @@ export function AboutTabs() {
               first internal AI hackathon and actively contributes to the company's AI strategy.
             </p>
             <p>
-              Before Irembo, Jeremiah was Lead Software Engineer at{' '}
+              Jeremiah was Lead Software Engineer at{' '}
               <a href="https://oneacrefund.org/" className="underline">
                 One Acre Fund
               </a>
@@ -89,13 +102,16 @@ export function AboutTabs() {
       <TabsContent value="brief" className="leading-7 text-lg text-default flex flex-col gap-y-4 my-4">
         <img src={setup.src} alt="Jeremiah's desk setup" />
         <p>
-          Jeremiah Chienda is an AI Engineer and engineering lead at{' '}
-          <a href="https://irembo.com/" className="underline">
-            Irembo
+          Jeremiah Chienda is an AI Engineer at the UK's{' '}
+          <a href="https://ico.org.uk/" className="underline">
+            Information Commissioner's Office
           </a>
-          , Rwanda's leading e-government platform. He specializes in AI agent systems, RAG architectures, and
-          LLM-powered applications, with deep experience shipping software across fintech, govtech, agriculture, and
-          telecom in Africa and Europe.
+          , where he joined after leading AI at{' '}
+          <a href="https://irembo.gov.rw" className="underline">
+            Africa's leading e-government platform
+          </a>
+          . He specializes in AI agent systems, RAG architectures, and LLM-powered applications, with deep experience
+          shipping software across govtech, agri and fintech in Africa and Europe.
         </p>
         <p>
           Previously Lead Software Engineer at{' '}
@@ -121,11 +137,10 @@ export function AboutTabs() {
       <TabsContent value="pitch" className="leading-7 text-lg text-default flex flex-col gap-y-4 my-4">
         <p>
           I'm Jeremiah Chienda — an <strong>AI Engineer</strong> with 10+ years building production software, currently
-          leading AI and mobile engineering at{' '}
+          building Data and AI solutions at the UK's{' '}
           <a href="https://irembo.com/" className="underline">
-            Irembo
+            Information Commission Office (ICO)
           </a>{' '}
-          in Kigali, Rwanda.
         </p>
         <p>
           I design and ship AI agent systems, RAG pipelines, and LLM-powered products for govtech and fintech. I've
