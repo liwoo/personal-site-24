@@ -154,6 +154,114 @@ export const projects: Project[] = [
     ],
   },
   {
+    title: 'GeniYanga',
+    subtitle:
+      'A mobile point-of-sale system built for how Malawian businesses actually trade — inventory, cashiers, customers, payments and online selling in one MRA-compliant platform.',
+    description:
+      "GeniYanga (Gulitsani ngati Madolo) is a mobile till built for the realities of Malawian commerce. Retail shops, restaurants, salons, pharmacies, car-parts dealers and event organisers use it to track inventory and cashiers, remember which customers owe what, and sell online beyond WhatsApp through dedicated storefronts. It keeps merchants compliant with the Malawi Revenue Authority's EIS mandate by issuing compliant receipts, works offline when the network drops, syncs across multiple stores, and handles barcode scanning, lay-bye, ticketing and OneKhusa payments. The goal was simple: give a shop owner real-time visibility into their business from a phone in their pocket.",
+    slug: 'geniyanga',
+    company: {
+      name: 'GeniYanga',
+      logo: 'geniyanga',
+    },
+    image: {
+      src: 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/geni-yanga-hero.jpg',
+      alt: 'GeniYanga — the mobile till built for Malawi',
+    },
+    projectLink: 'https://geniyanga.mw',
+    duration: '2024 - Present',
+    role: 'Founder & Engineer',
+    stack: ['Next.js', 'Golang', 'SQL'],
+    category: 'webApp',
+    methods: [
+      {
+        title: 'Understanding How Merchants Actually Trade',
+        description:
+          'Spent time with real Malawian merchants to understand the messy realities of day-to-day trade: customers buying on credit, sales happening over WhatsApp, stock spread across more than one store, and cash that rarely reconciles at close of day. Those observations shaped a product that fits existing habits instead of fighting them.',
+      },
+      {
+        title: 'MRA EIS Compliance by Default',
+        description:
+          "Engineered the receipting pipeline around the Malawi Revenue Authority's Electronic Invoicing System mandate, so every transaction produces a compliant receipt without the merchant having to think about it. Compliance became a built-in feature rather than a burden bolted on after the fact.",
+      },
+      {
+        title: 'Offline-First, Multi-Store Architecture',
+        description:
+          'Designed the app to keep selling when connectivity disappears, queuing transactions locally and syncing across multiple store locations once the network returns. A Golang backend handles synchronisation and reconciliation so owners get one accurate, real-time view of every branch.',
+      },
+      {
+        title: 'Online Storefronts & Integrated Payments',
+        description:
+          'Built dedicated online storefronts and wired in OneKhusa payments so businesses could take orders and money beyond WhatsApp threads. Added ticketing, lay-bye and discounts on top, turning a point-of-sale tool into a full commerce platform for small merchants.',
+      },
+    ],
+    testimony: {
+      name: 'Madalitso Gondwe',
+      job: 'Operations Director',
+      image: {
+        src: 'https://i.pravatar.cc/300?img=53',
+        alt: 'Madalitso Gondwe',
+      },
+      company: 'Gojet Investments',
+      testimony:
+        'Reaching our farmers in the rural areas used to mean paperwork, guesswork and a lot of trips back and forth. With GeniYanga our agents now record sales, track stock and take payments straight from their phones, even when the network drops out. We are serving farmers in places we used to struggle to reach, and for the first time the numbers actually add up at the end of the day.',
+    },
+  },
+  {
+    title: 'Signal',
+    subtitle:
+      'A narrative coding game that teaches the Go programming language — write real Go to break cryptographer Dr. Maya Chen out of a locked-down facility.',
+    description:
+      "Signal turns learning Go into an escape. You play the person on the outside helping Maya Chen, a cryptography researcher trapped inside a compromised facility, and the only way out runs through the terminal. Every door you open, every message you intercept, every security system you bypass is a real Go program that compiles and runs on the official Go Playground. An AI tutor nudges you toward the answer when you get stuck instead of handing it over, multi-file 'boss fights' put you under time pressure, and a Zen system rewards idiomatic Go with bonus points. The curriculum spans four acts, carrying players from variables, loops and slices all the way to goroutines, channels, HTTP, JSON, databases and CLI tools.",
+    slug: 'signal',
+    company: {
+      name: 'Signal',
+      logo: 'signal',
+    },
+    image: {
+      src: 'https://www.playsignal.xyz/og.jpg',
+      alt: 'Signal — learn Go by saving Dr. Maya Chen',
+    },
+    projectLink: 'https://www.playsignal.xyz/',
+    duration: '2025 - Present',
+    role: 'Creator & Engineer',
+    stack: ['Next.js', 'React'],
+    category: 'webApp',
+    methods: [
+      {
+        title: 'Story-First Curriculum Design',
+        description:
+          'Built the entire Go syllabus around a single escape narrative, so each new concept arrives because the story needs it. Variables, slices, goroutines and channels are introduced as tools to unlock the next door rather than as a checklist of language features, which keeps learners pulled forward by curiosity.',
+      },
+      {
+        title: 'Real Compiler Integration',
+        description:
+          'Wired the game directly into the official Go Playground so every line a player writes actually compiles and runs. There is no simulated sandbox or fake output: learners build real muscle memory against the real toolchain, mistakes and all.',
+      },
+      {
+        title: 'Adaptive AI Tutoring',
+        description:
+          "Designed an AI tutor that reads a learner's failing code and guides them toward the fix instead of revealing it. The system meets people where they are stuck, explains the why behind idiomatic Go, and keeps the sense of solving the puzzle yourself intact.",
+      },
+      {
+        title: 'Boss Fights & the Zen System',
+        description:
+          'Created multi-file debugging "boss fights" under time pressure to test whether concepts truly stuck, and a Zen system that rewards clean, idiomatic Go with bonus points. Together they push players past merely-working code toward the patterns real Go engineers are expected to write.',
+      },
+    ],
+    testimony: {
+      name: 'Tamanda Biliate',
+      job: 'Software Engineer',
+      image: {
+        src: 'https://i.pravatar.cc/300?img=12',
+        alt: 'Tamanda Biliate',
+      },
+      company: 'Lilongwe, Malawi',
+      testimony:
+        "I'd avoided backend roles for years because my Go was basically zero, and almost every job I wanted listed it as a requirement. Signal is the first time learning a language felt like playing something I actually wanted to finish. Saving Dr. Chen pulled me through the exact concepts I'd bounced off before, goroutines and channels and all of it. I just sat my first interview for a Go role without flinching.",
+    },
+  },
+  {
     title: 'Doorbell Mobile App',
     subtitle:
       'A mobile app that allows users to order food and groceries from their favorite stores and restaurants and have them delivered to their doorstep.',
@@ -213,7 +321,7 @@ export const projects: Project[] = [
     },
   },
   {
-    title: 'Times Presidential Elections Dashboard 2025',
+    title: 'Presidential Elections Dashboard',
     subtitle:
       'Real-time election results dashboard covering the 2025 Malawian Presidential and Parliamentary Elections with minute-by-minute updates and comprehensive historical analysis.',
     description:
