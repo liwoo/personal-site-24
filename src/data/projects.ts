@@ -122,7 +122,7 @@ export const projects: Project[] = [
       logo: 'irembo',
     },
     image: {
-      src: '~/assets/images/projects/irembo-ai.png',
+      src: 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/Gemini_Generated_Image_cgaca7cgaca7cgac.png',
       alt: 'IremboAI',
     },
     projectLink: 'https://irembo.gov.rw/home/citizen/all_services?lang=en',

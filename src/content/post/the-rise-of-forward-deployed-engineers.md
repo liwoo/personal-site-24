@@ -1,0 +1,88 @@
+---
+publishDate: 2026-06-22T00:00:00Z
+title: The Rise and Rise of Forward Deployed Engineers
+image: https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/Gemini_Generated_Image_uk9yg2uk9yg2uk9y.png
+excerpt: The Forward Deployed Engineer has gone from curiosity to one of the most talked-about titles in tech. Where it came from, what's actually new, and why it's good news for experienced engineers.
+category: Tech
+draft: false
+tags:
+  - career
+  - ai
+  - forward-deployed-engineer
+metadata:
+  canonical: https://chienda.com/the-rise-of-forward-deployed-engineers
+---
+
+_Something's shifting in our industry. And if you're an engineer, you want to be standing in the right place when it does._
+
+Open Glassdoor. Open any hiring board you trust. Find one role in particular, the Forward Deployed Engineer, and watch the trend line climb. Sharply. In the last 12 months the FDE has gone from a curiosity to one of the most talked-about titles in tech.
+
+So what is it? And why now?
+
+Let me explain it the way I understand it.
+
+A Forward Deployed Engineer goes out to a client and _solutionizes_. Sits with them, understands the problem, builds a solution using the tools and tech of the company they represent. The goal isn't a slide deck. The goal is impact.
+
+Picture an engineer from OpenAI or Anthropic walking into a government institution. That institution knows AI could change everything for them. What it doesn't have is the talent, the capacity, or the first clue where to begin. And here's the question that makes the whole role click: who better to help you squeeze every drop of value out of a tool than the people who built it?
+
+That's the FDE in one sentence.
+
+Now, if a small voice in your head is saying _"hang on, this isn't new,"_ you're not wrong.
+
+## Consultancies. Remember those guys?
+
+Let me bring this home, because where I'm from, this story has a particular shape.
+
+I'm from Malawi. To say we have a "less than mature" software development culture would be generous. For the longest time it barely existed at all. Most software got built on behalf of NGOs and non-profits. That's how a lot of us got a career in the first place.
+
+And in the big institutions, the banks, the telcos, the software was almost never built in-house. You'd have engineers for integrations and support, sure. When I worked at a bank, part of my job was querying the core banking system for reports to pass on to Finance. But the core systems themselves? Third-party. And the integrations on top of them? Built by consultants.
+
+Often those consultants came straight from the vendor, or were certified by them. That certification was the whole point. It told the bank: _you can trust this person, because they work the way we work._ You've seen the same thing globally with Microsoft, the MVPs, the certified Solutions Architects. An entire contractor industry grew out of this, serving every institution that couldn't justify building a team of its own.
+
+So what's actually different now?
+
+## A little architect, a little product, a lot of engineer
+
+Start with the Solutions Architect. Most of them operate way up at the abstraction level: the high-level design, sometimes a low-level design, but mostly oversight, guidance, best practice. Whether anyone _builds_ the thing is a separate question, handled by other engineers.
+
+Then there's the deployed specialist. When Temenos sends an engineer to a bank to run a T24 migration, that person is, quite literally, forward deployed. But notice the key word: the scope is _specific._ The bank knows exactly what it needs and exactly when it needs it done.
+
+The FDE blends these two roles into one. And then changes the brief entirely.
+
+Because the FDE doesn't show up to a defined task. They show up to a question that's about as vague as it gets: _"Can I use your AI tools to build a real competitive advantage in my world?"_ No spec for a chatbot. No single product to ship. Just a domain, a set of tools, and a hunch that the two can combine into an edge.
+
+That openness is the whole shift.
+
+## The companies holding the weight
+
+And it rests on a quiet concession we're all making: that a handful of companies are going to hold the weight of the tech reshaping how human labour gets done.
+
+Some of them build the models. But plenty live in the _plumbing_ of AI, the infrastructure and frameworks the agents run on. LangChain, whose LangSmith quietly became critical infrastructure. Vercel, which already owned best-in-class infrastructure for shipping front-end and Node apps, and has smartly built agent SDKs and frameworks right on top of it. And the editors themselves, Cursor and the rest, sitting where developers actually work.
+
+These are the companies that'll take the lion's share. And every one of them needs people who can carry that tech into the wild.
+
+## So here's how it plays out
+
+ElevenLabs hires an FDE. That FDE gets deployed to a broadcaster, a BBC, a Sky, pick your media giant, that knows it _should_ be doing something with AI but couldn't tell you what. And our FDE plays a little architect, a little product manager, but mostly _engineer_, because the real superpower is the ability to build, fast, with AI.
+
+Fast enough that the turnaround clears slick demos and lands on full-fledged v1s, things the client can actually take out into the world and use.
+
+That's the role. Someone from the company that owns the tech, going in to do a lot of engineering, a little product, a little architecture. And increasingly a little support too, because once these systems are deployed, somebody has to keep them alive. Expect these titles to blur and trade places for a while.
+
+## Why this is good news for experienced engineers
+
+Here's why I find this genuinely exciting, especially for senior engineers.
+
+For years we poured ourselves into product engineering. And lately that's exactly where the layoffs have landed, because product companies have realised they can do more with less. AI lets a smaller team build at the same rate, the same efficiency. AI almost seems _designed_ for small teams.
+
+But all that experience doesn't disappear. It relocates. The FDE world is hunting for precisely the people the product world is shedding: engineers with 6, 8, 10 years of full-stack range. Founders who've built a SaaS product end to end from nothing but a vague idea. People who stay calm when the requirements are a fog and someone still expects a working thing by Friday.
+
+Sound like anyone you know?
+
+## Watch this space
+
+None of this is unprecedented. The Big Four, EY and the rest, have run a version of this play for decades. What's new is the engine. Put rapid, AI-assisted building in the hands of someone who's lived the full arc of shipping software, point them at an organisation that's hungry but lost, and you get something that simply didn't exist before.
+
+So watch this space. It's going to keep evolving, and it's looking really exciting.
+
+And if you're an engineer wondering where you fit in the next few years, start thinking now about how you position yourself. Because the rise of the Forward Deployed Engineer? It's already here.
