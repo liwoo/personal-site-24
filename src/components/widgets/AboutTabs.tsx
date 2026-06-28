@@ -152,7 +152,11 @@ export function AboutTabs() {
           <a href="https://www.doshisha.ac.jp/en/" className="underline">
             Doshisha University
           </a>{' '}
-          (Japan), and a BSc from Malawi University of Business and Science.
+          (Japan), and a BSc from{' '}
+          <a href="https://www.mubas.ac.mw/" className="underline">
+            Malawi University of Business and Science
+          </a>
+          .
         </p>
         <p>
           I also{' '}

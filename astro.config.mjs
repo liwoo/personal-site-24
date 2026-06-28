@@ -1,11 +1,11 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { defineConfig, squooshImageService } from 'astro/config';
+import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 import htmx from 'astro-htmx';
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel';
 import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import tasks from './src/utils/tasks';
@@ -72,9 +72,6 @@ export default defineConfig({
       forward: ['dataLayer.push']
     }
   })), tasks(), react()],
-  image: {
-    service: squooshImageService()
-  },
   markdown: {
     remarkPlugins: [readingTimeRemarkPlugin],
     rehypePlugins: [responsiveTablesRehypePlugin],

@@ -18,7 +18,7 @@ import processInfographic from '~/assets/images/irembo-ai/process.png';
 
 A few years ago I was made engineering lead for the AI team at [Irembo](https://irembo.gov.rw). The goal sounded simple on paper: build agentic AI capabilities into Rwanda's public service platform.
 
-Here's what "simple" actually meant. Irembo is where 12 million people go to get almost anything they need from their government. A birth certificate for a newborn. A marriage certificate for an upcoming wedding. A death certificate for a lost loved one. And another 200 or 300 services in between.
+Here's what "simple" actually meant. Irembo is where 12 million people go to get almost anything they need from their government. A [birth certificate](https://irembo.gov.rw/user/citizen/service/minaloc/birth_services) for a newborn. A marriage certificate for an upcoming wedding. A death certificate for a lost loved one. And another 200 or 300 services in between.
 
 Now add the hard part. Mobile phones are nearly everywhere here, [penetration sits around 87%](https://en.igihe.com/news/article/mobile-phone-penetration-rate-in-rwanda-rises-to-87-4). Smartphones are another story: [only about a third of households own one](https://allafrica.com/stories/202504170363.html), and mobile internet use is lower still. Put that next to real gaps in literacy and digital confidence, and you get a country that's connected on paper but cautious in practice. When something has "government" attached to it, people take it seriously, and seriously means carefully. Plenty of folks won't risk getting it wrong on a website by themselves.
 
@@ -84,7 +84,7 @@ We built for the next step instead. If we can't solve it, hand back a template a
 
 Our technical path was a string of breakthroughs that each started life as a failure.
 
-We began with a plain [RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) stack, [LangChain](https://www.langchain.com) and [Postgres](https://www.postgresql.org). To push accuracy up, we tried [RAG Fusion](https://arxiv.org/abs/2402.03367): let the LLM rewrite a user's question into 3 variations to widen the blast radius of what we retrieved. We also stopped staring at [BLEU](https://en.wikipedia.org/wiki/BLEU) and [ROUGE](https://en.wikipedia.org/wiki/ROUGE_%28metric%29) scores (those measure translation quality, not intelligence) and put document relevance at the centre of how we judged ourselves.
+We began with a plain [RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) stack, [LangChain](https://www.langchain.com) and [Postgres](https://www.postgresql.org). To push accuracy up, we tried [RAG Fusion](https://arxiv.org/abs/2402.03367): let the LLM rewrite a user's question into 3 variations to widen the blast radius of what we retrieved. We also stopped staring at [BLEU](https://en.wikipedia.org/wiki/BLEU) and [ROUGE](https://en.wikipedia.org/wiki/ROUGE_%28metric%29) scores (those measure translation quality, not intelligence) and put [document relevance](https://docs.langchain.com/langsmith/evaluate-rag-tutorial#retrieval-relevance-retrieved-docs-vs-input) at the centre of how we judged ourselves.
 
 Then came the real crisis: the translation loop. Early on we'd take a Kinyarwanda question, translate it to English, retrieve the answer, and translate it back. It fell apart on 2 fronts. The latency was brutal, and the Kinyarwanda that came out the other end sounded terrible to native speakers. Our CX team wouldn't sanction it for a live environment, and they were right.
 
@@ -110,7 +110,7 @@ The final shift was the deepest.
 
 > Cloning the steps an expert follows gets you a competent agent. Cloning how they actually sound gets you one people trust.
 
-So we wrote a Voice Bible, a profile that pinned down the assistant's tone, its fillers, its Kinyarwanda vocabulary, the whole texture of how it should speak. And to keep ourselves honest, we benchmarked every change against a Golden Set of 200 human-crafted questions.
+So we wrote a [Voice Bible](https://writersinthestormblog.com/2021/07/5-steps-to-creating-a-unique-character-voice/), a profile that pinned down the assistant's tone, its fillers, its Kinyarwanda vocabulary, the whole texture of how it should speak. And to keep ourselves honest, we benchmarked every change against a Golden Set of 200 human-crafted questions.
 
 ## What this all adds up to
 

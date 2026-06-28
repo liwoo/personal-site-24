@@ -13,7 +13,7 @@ import Analytics from '~/components/common/Analytics.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
 
 // Uncomment line below to activate View Transitions
-import {ViewTransitions} from 'astro:transitions';
+import {ClientRouter} from 'astro:transitions';
 
 import type {MetaData as MetaDataType} from '~/types';
 
@@ -35,7 +35,7 @@ const {language, textDirection} = I18N;
   <Metadata {...metadata}/>
   <SiteVerification/>
   <Analytics/>
-  <ViewTransitions fallback="swap"/>
+  <ClientRouter fallback="swap"/>
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Person",

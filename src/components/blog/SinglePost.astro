@@ -462,15 +462,88 @@ const { Content } = post;
     });
   }
 
+  // Pull-quote toolbar: copy + share, plus Schema.org Quotation markup for SEO
+  function initQuoteToolbars() {
+    const canonical =
+      document.querySelector('link[rel="canonical"]')?.getAttribute('href') || window.location.href;
+    const pageTitle = document.title.replace(/\s*[|—-].*$/, '').trim();
+
+    document.querySelectorAll('.post-content blockquote').forEach((bq) => {
+      // Skip embedded tweets and already-processed quotes
+      if (bq.classList.contains('twitter-tweet') || bq.querySelector('.quote-toolbar')) return;
+
+      const quoteText = (bq.textContent || '').trim();
+      if (!quoteText) return;
+
+      // SEO: mark the quote up as a Schema.org Quotation
+      bq.setAttribute('itemscope', '');
+      bq.setAttribute('itemtype', 'https://schema.org/Quotation');
+      bq.setAttribute('cite', canonical);
+      const body = bq.querySelector('p') || bq;
+      body.setAttribute('itemprop', 'text');
+      const creator = document.createElement('meta');
+      creator.setAttribute('itemprop', 'creator');
+      creator.setAttribute('content', 'Jeremiah Chienda');
+      bq.appendChild(creator);
+
+      const shareText = `“${quoteText}”`;
+
+      const toolbar = document.createElement('div');
+      toolbar.className = 'quote-toolbar';
+      toolbar.setAttribute('contenteditable', 'false');
+      toolbar.innerHTML = `
+        <button class="quote-copy-btn" aria-label="Copy quote">COPY</button>
+        <button class="quote-share-btn" aria-label="Share quote">SHARE</button>
+      `;
+      bq.appendChild(toolbar);
+
+      // Copy — quote text plus a source link, ready to paste
+      toolbar.querySelector('.quote-copy-btn')!.addEventListener('click', async () => {
+        const btn = toolbar.querySelector('.quote-copy-btn') as HTMLButtonElement;
+        try {
+          await navigator.clipboard.writeText(`${shareText}\n\n— ${pageTitle}\n${canonical}`);
+          btn.textContent = 'COPIED';
+          setTimeout(() => (btn.textContent = 'COPY'), 2000);
+        } catch {
+          btn.textContent = 'FAILED';
+          setTimeout(() => (btn.textContent = 'COPY'), 2000);
+        }
+      });
+
+      // Share — native share sheet on mobile, X intent on desktop
+      toolbar.querySelector('.quote-share-btn')!.addEventListener('click', async () => {
+        const btn = toolbar.querySelector('.quote-share-btn') as HTMLButtonElement;
+        try {
+          if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
+            await navigator.share({ text: shareText, url: canonical });
+            return;
+          }
+          const intent =
+            'https://twitter.com/intent/tweet?text=' +
+            encodeURIComponent(shareText) +
+            '&url=' +
+            encodeURIComponent(canonical) +
+            '&via=liwucodes';
+          window.open(intent, '_blank', 'noopener,width=550,height=420');
+        } catch {
+          btn.textContent = 'FAILED';
+          setTimeout(() => (btn.textContent = 'SHARE'), 2000);
+        }
+      });
+    });
+  }
+
   // Initial load
   window.addEventListener('load', () => {
     initPostAnimations();
     initCodeToolbars();
+    initQuoteToolbars();
   });
 
   // Re-initialize on Astro page transitions
   document.addEventListener('astro:page-load', () => {
     initPostAnimations();
     initCodeToolbars();
+    initQuoteToolbars();
   });
 </script>

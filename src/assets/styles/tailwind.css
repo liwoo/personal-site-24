@@ -230,6 +230,42 @@
   border-color: var(--aw-color-primary);
 }
 
+/* Pull-quote copy/share toolbar — mirrors the code-block toolbar */
+.post-content blockquote:not(.twitter-tweet) {
+  position: relative;
+}
+.post-content blockquote .quote-toolbar {
+  position: absolute;
+  bottom: 0.4rem;
+  right: 0.55rem;
+  display: flex;
+  gap: 0.4rem;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+}
+.post-content blockquote:hover .quote-toolbar,
+.post-content blockquote:focus-within .quote-toolbar {
+  opacity: 1;
+}
+.post-content blockquote .quote-toolbar button {
+  background: var(--aw-color-bg-page);
+  border: 1px solid var(--aw-color-text-muted);
+  color: var(--aw-color-text-default);
+  padding: 0.1rem 0.45rem;
+  font-size: 0.6rem;
+  font-family: var(--aw-font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+.post-content blockquote .quote-toolbar button:hover {
+  color: var(--aw-color-primary);
+  border-color: var(--aw-color-primary);
+}
+
 .dropdown:hover .dropdown-menu {
   display: block;
 }
