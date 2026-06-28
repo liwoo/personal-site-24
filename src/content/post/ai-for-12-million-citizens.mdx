@@ -1,0 +1,121 @@
+---
+publishDate: 2026-06-28T00:00:00Z
+title: "How We Built a National AI Assistant for 12 Million Citizens"
+excerpt: Building a national AI assistant for 12 million citizens broke most of the software playbook I'd spent years learning. Here are the 6 lessons that survived contact with real users.
+image: https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/Gemini_Generated_Image_cgaca7cgaca7cgac.png
+category: Tech
+draft: false
+tags:
+  - ai
+  - career
+  - africa
+metadata:
+  canonical: https://chienda.com/ai-for-12-million-citizens
+---
+
+import { Image } from 'astro:assets';
+import processInfographic from '~/assets/images/irembo-ai/process.png';
+
+A few years ago I was made engineering lead for the AI team at [Irembo](https://irembo.gov.rw). The goal sounded simple on paper: build agentic AI capabilities into Rwanda's public service platform.
+
+Here's what "simple" actually meant. Irembo is where 12 million people go to get almost anything they need from their government. A birth certificate for a newborn. A marriage certificate for an upcoming wedding. A death certificate for a lost loved one. And another 200 or 300 services in between.
+
+Now add the hard part. Mobile phones are nearly everywhere here, [penetration sits around 87%](https://en.igihe.com/news/article/mobile-phone-penetration-rate-in-rwanda-rises-to-87-4). Smartphones are another story: [only about a third of households own one](https://allafrica.com/stories/202504170363.html), and mobile internet use is lower still. Put that next to real gaps in literacy and digital confidence, and you get a country that's connected on paper but cautious in practice. When something has "government" attached to it, people take it seriously, and seriously means carefully. Plenty of folks won't risk getting it wrong on a website by themselves.
+
+So Rwanda did something smart. It built a network of ground operators, Irembo agents, spread into every corner of the country. If you've got a smartphone but not the nerve to face a government portal alone, you walk to an agent and they get you the service you came for.
+
+<blockquote class="twitter-tweet">
+  <p lang="en" dir="ltr">
+    How the Irembo agent network brings public services to every corner of Rwanda.
+  </p>
+  &mdash; Irembo (@TeamIrembo){' '}
+  <a href="https://twitter.com/TeamIrembo/status/2070448286440333575?ref_src=twsrc%5Etfw">June 26, 2026</a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+That's the world our AI assistant had to live in. The job was to earn the trust of an entire population, in [Kinyarwanda](https://en.wikipedia.org/wiki/Kinyarwanda), on the documents that define a person's legal life.
+
+I'd spent years getting good at shipping software. This project ignored most of that. Here are the 6 lessons it taught me instead.
+
+<figure class="my-8">
+  <Image
+    src={processInfographic}
+    alt="The Path to Production: building a national AI agent. Phase 1, Foundation and Discovery: data-driven requirement gathering, applying the 80/20 rule to topics, and creating a golden evaluation set. Phase 2, Engineering and Go-Live: transitioning to an agentic graph, implementing clarifying questions, and deploying generative UI components."
+    class="mx-auto w-full max-w-md rounded-lg"
+  />
+  <figcaption class="mt-2 text-center text-sm text-muted">The whole journey on one page. Foundation first, then engineering and go-live.</figcaption>
+</figure>
+
+## 1. Your AI doesn't need to know everything
+
+We hit a wall early, and it was a wall we'd built ourselves. We were over-engineering the assistant's knowledge base, trying to make it fluent across every government service Irembo offers.
+
+Then I sat down with our Head of Customer Experience, and the pattern fell out of the data fast. 80% of help desk queries land on the same 20% of topics. Health insurance in season. The status of an application someone already submitted. How to get a marriage certificate. The same handful, over and over.
+
+Chasing perfection across the long tail of obscure services is a fool's errand. So we flipped the priority: be at least as good as a human on the top 20% of topics, and make peace with being weaker on the rare stuff.
+
+> It made sense that our AI assistant should optimize for that 20% of topics and be extremely good at that and be at least at human level at answering those.
+
+## 2. The data is the specification
+
+In normal software you start with a [PRD](https://en.wikipedia.org/wiki/Product_requirements_document), a product requirements doc. Someone tells you what to build, you go build it.
+
+In AI engineering, if a person hands you a 50-page requirements doc up front, they're guessing (or they're lying). Nobody actually knows how the agent should behave until they watch it handle real data.
+
+So you don't write the requirements. You dig them out. Past conversations, decision logs, policy documents, the trail an expert leaves behind. Somewhere in that digging it clicked. We were cloning the brain of a subject matter expert, modelling how they think, the reasoning underneath the steps.
+
+Which leads to a hard truth for any lead:
+
+> A problem with AI starts as a problem with data. If you don't have the data to model how your SME reasons, your agent stays a toy.
+
+No prompt rescues you from that.
+
+## 3. "Useful" beats "hallucination-free"
+
+The whole industry is chasing zero hallucinations. For a national service, I'd argue usefulness is the better target.
+
+Picture a citizen asking about a service Irembo doesn't even offer. A strictly "hallucination-free" bot says "I don't have that information." Technically accurate. Completely useless to the person standing there waiting.
+
+We built for the next step instead. If we can't solve it, hand back a template answer or point the person to the rightful public authority. If we can't help you ourselves, we tell you exactly who can.
+
+> The goal here isn't to be hallucination-free... the goal is to be useful to the human. And so that's where the AI part of the AI engineering comes in because it's more than just the technical side. It's also the governance and ethical side.
+
+## 4. From RAG Fusion to agentic graphs
+
+Our technical path was a string of breakthroughs that each started life as a failure.
+
+We began with a plain [RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) stack, [LangChain](https://www.langchain.com) and [Postgres](https://www.postgresql.org). To push accuracy up, we tried [RAG Fusion](https://arxiv.org/abs/2402.03367): let the LLM rewrite a user's question into 3 variations to widen the blast radius of what we retrieved. We also stopped staring at [BLEU](https://en.wikipedia.org/wiki/BLEU) and [ROUGE](https://en.wikipedia.org/wiki/ROUGE_%28metric%29) scores (those measure translation quality, not intelligence) and put document relevance at the centre of how we judged ourselves.
+
+Then came the real crisis: the translation loop. Early on we'd take a Kinyarwanda question, translate it to English, retrieve the answer, and translate it back. It fell apart on 2 fronts. The latency was brutal, and the Kinyarwanda that came out the other end sounded terrible to native speakers. Our CX team wouldn't sanction it for a live environment, and they were right.
+
+The fix was moving to [LangGraph](https://www.langchain.com/langgraph), and it was non-negotiable. We needed a framework that treated the assistant as a structured graph of nodes rather than a mash-up of functions.
+
+That bought us 4 things. First-class memory, so context retention was native instead of clunky session glue. Specialised nodes, so the "brain" split cleanly into classification, retrieval, and tool calls. An [LLM-as-a-judge](https://arxiv.org/abs/2306.05685) layer that audited responses against our benchmarks whenever accuracy dipped. And clarifying-question nodes, because LLMs are far too eager to answer. Sometimes the smartest move is to stop and ask "did you mean X or Y?" before doing anything at all.
+
+## 5. Markdown is a bad interface for government
+
+We learned quickly that a wall of text is a poor way to deliver a public service. If someone needs to pay a traffic fine, what they want is a button. Right there. One tap.
+
+So we went with what I call static generative AI.
+
+> The intelligence is generative, but the interface is deterministic.
+
+The agent emits a strong [JSON schema](https://json-schema.org), and that schema maps to pre-baked [React](https://react.dev) components we already trust.
+
+Spot a certificate request, trigger the specific form component built for it. Spot a payment, render the payment card. And the piece I care about most, interrupts: for any high-stakes action, the agent hits a node that halts everything until the person manually confirms. The agent never gets to invent a financial transaction or file a legal application on someone's behalf. A human says yes first, every single time.
+
+## 6. From process to personality
+
+The final shift was the deepest.
+
+> Cloning the steps an expert follows gets you a competent agent. Cloning how they actually sound gets you one people trust.
+
+So we wrote a Voice Bible, a profile that pinned down the assistant's tone, its fillers, its Kinyarwanda vocabulary, the whole texture of how it should speak. And to keep ourselves honest, we benchmarked every change against a Golden Set of 200 human-crafted questions.
+
+## What this all adds up to
+
+So where does this leave us as AI leads? I've come to think about the work differently. We're building digital clones of our best subject matter experts, and that's a different craft from shipping software.
+
+Whoever maps the nuance of human expertise into a machine most faithfully wins this. The size of the model matters far less than people like to think.
+
+The job is quietly turning from writing code into modelling minds. And honestly, I'm here for it.
