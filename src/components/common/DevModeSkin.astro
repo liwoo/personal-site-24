@@ -1,0 +1,335 @@
+---
+/**
+ * Dev Mode skin — a complete alternate design for the whole site.
+ *
+ * Everything here is gated behind `html.dev-mode` (toggled from the header, see
+ * `ToggleDevMode.astro` + `BasicScripts.astro`). It reskins every page by
+ * redefining the site's `--aw-color-*` design tokens into a dark "editorial
+ * JSON" palette, adds a dotted-grid canvas, frames content images as JSON asset
+ * references, and shows a fixed file-path bar + build-status badge. Normal
+ * (light/dark) themes are untouched when Dev Mode is off.
+ */
+---
+
+<!-- Fixed chrome, shown only while Dev Mode is active -->
+<div class="dmj-pathbar" aria-hidden="true">~ / <b data-dmj-path>index</b>.json</div>
+<div class="dmj-sidebar" aria-hidden="true">
+  <div>build_ver: 2.0.26</div>
+  <div>render_engine: editorial_json</div>
+  <div>status: dev_mode</div>
+</div>
+
+<style is:global>
+  /* ---------------------------------------------------------------------------
+   * 1. Global reskin — redefine the site's design tokens for Dev Mode.
+   *    Because every page's colors flow through these variables, overriding
+   *    them reskins the entire site at once. Links/behaviour are untouched.
+   * ------------------------------------------------------------------------- */
+  html.dev-mode {
+    --aw-color-primary: #22d3ee; /* cyan — links, buttons, accents */
+    --aw-color-secondary: #f59e0b; /* amber */
+    --aw-color-accent: rgba(6, 182, 212, 0.1);
+    --aw-color-text-heading: #ffffff;
+    --aw-color-text-default: #d1d1d1;
+    --aw-color-text-muted: #6b7280;
+    --aw-color-bg-page: #0a0a0c;
+    --aw-color-bg-page-dark: #0a0a0c;
+    --aw-color-card-bg: rgba(255, 255, 255, 0.04);
+  }
+
+  html.dev-mode body {
+    background-color: #0a0a0c;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  html.dev-mode ::selection {
+    background: rgba(6, 182, 212, 0.3);
+    color: #fff;
+  }
+
+  /* Editorial chrome tints for a couple of hard-coded surfaces */
+  html.dev-mode #header ul {
+    background: rgba(10, 10, 12, 0.85) !important;
+    border-color: rgba(34, 211, 238, 0.2) !important;
+  }
+  html.dev-mode #header.scroll {
+    backdrop-filter: blur(6px);
+  }
+  html.dev-mode footer .grid {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border-color: rgba(34, 211, 238, 0.15) !important;
+  }
+  /* Links read as editorial references */
+  html.dev-mode a:not(.btn):hover {
+    text-decoration: underline;
+    text-decoration-color: rgba(34, 211, 238, 0.5);
+    text-underline-offset: 4px;
+  }
+  /* Hero "underlined" accent → cyan */
+  html.dev-mode .underlined {
+    text-decoration-color: #22d3ee;
+  }
+
+  /* ---------------------------------------------------------------------------
+   * 2. Index listings → editorial JSON document (DevJson.astro)
+   * ------------------------------------------------------------------------- */
+  [data-dev-json] {
+    display: none;
+  }
+  html.dev-mode [data-dev-normal] {
+    display: none;
+  }
+  html.dev-mode [data-dev-json] {
+    display: block;
+  }
+
+  .dmj-doc {
+    --dmj-bg: #0a0a0c;
+    --dmj-ink: #d1d1d1;
+    --dmj-cyan: #06b6d4;
+    --dmj-cyan-lt: #22d3ee;
+    --dmj-amber: #f59e0b;
+    --dmj-amber-lt: #fcd34d;
+    --dmj-ghost: #1a1a1e;
+    position: relative;
+    overflow: hidden;
+    margin: 1.5rem 0;
+    padding: 2.5rem 1.5rem;
+    background: var(--dmj-bg);
+    color: var(--dmj-ink);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Space Mono', monospace;
+  }
+  @media (min-width: 768px) {
+    .dmj-doc {
+      padding: 3.5rem 3rem;
+    }
+  }
+  .dmj-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.2;
+    background-image: radial-gradient(#2a2a2a 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+  .dmj-watermark {
+    position: absolute;
+    top: 0.5rem;
+    right: 1.25rem;
+    pointer-events: none;
+    z-index: 1;
+    font-size: clamp(2.5rem, 9vw, 5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    color: var(--dmj-ghost);
+    transition: color 0.3s ease;
+  }
+  .dmj-doc:hover .dmj-watermark {
+    color: rgba(6, 182, 212, 0.06);
+  }
+  .dmj-shell {
+    position: relative;
+    z-index: 10;
+    max-width: 64rem;
+    margin: 0 auto;
+  }
+  .dmj-reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: dmjRise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .dmj-front.dmj-reveal {
+    animation-delay: 0.05s;
+  }
+  .dmj-code.dmj-reveal {
+    animation-delay: 0.18s;
+  }
+  @keyframes dmjRise {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dmj-reveal {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .dmj-front {
+    position: relative;
+    margin-bottom: 2.5rem;
+    padding-left: 1rem;
+  }
+  .dmj-front-rule {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    opacity: 0.5;
+    background: linear-gradient(to bottom, var(--dmj-amber), transparent);
+  }
+  .dmj-dashes {
+    color: rgba(245, 158, 11, 0.8);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-size: 0.75rem;
+  }
+  .dmj-meta {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.4rem 2rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0.6rem 0;
+  }
+  @media (min-width: 768px) {
+    .dmj-meta {
+      grid-template-columns: 180px 1fr;
+    }
+  }
+  .dmj-key {
+    color: #6b7280;
+    font-style: italic;
+  }
+  .dmj-val {
+    color: #fff;
+    word-break: break-word;
+  }
+  .dmj-code {
+    position: relative;
+    z-index: 10;
+    margin: 0;
+    overflow-x: auto;
+    color: var(--dmj-ink);
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre;
+    tab-size: 2;
+    font-family: inherit;
+  }
+  .dmj-code .devj-key {
+    color: var(--dmj-amber-lt);
+  }
+  .dmj-code .devj-str {
+    color: #e5e7eb;
+  }
+  .dmj-code .devj-num {
+    color: var(--dmj-cyan-lt);
+  }
+  .dmj-code .devj-bool {
+    color: var(--dmj-amber);
+  }
+  .dmj-code .devj-null {
+    color: #f87171;
+  }
+  .dmj-code .devj-punc {
+    color: var(--dmj-cyan);
+  }
+
+  /* ---------------------------------------------------------------------------
+   * 3. Creative image rendering — frame content images as JSON asset refs.
+   *    `.dmj-figure` is display:contents when off (fully transparent to layout),
+   *    and becomes a framed figure with a monospace caption in Dev Mode. The
+   *    wrapping <span> lives inside any surrounding <a>, so links keep working.
+   * ------------------------------------------------------------------------- */
+  .dmj-figure {
+    display: contents;
+  }
+  .dmj-img-cap {
+    display: none;
+  }
+  html.dev-mode .dmj-figure {
+    display: inline-block;
+    position: relative;
+    line-height: 0;
+    max-width: 100%;
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background-color: #0d0d10;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 12px 12px;
+  }
+  html.dev-mode .dmj-figure img {
+    filter: grayscale(0.55) contrast(1.05) brightness(0.95);
+    transition: filter 0.35s ease;
+  }
+  html.dev-mode .dmj-figure:hover img {
+    filter: none;
+  }
+  html.dev-mode .dmj-figure::after {
+    content: 'img';
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    padding: 1px 6px;
+    font: 9px/1.4 ui-monospace, SFMono-Regular, monospace;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #0a0a0c;
+    background: #f59e0b;
+    border-bottom-left-radius: 0.4rem;
+  }
+  html.dev-mode .dmj-img-cap {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 2px 6px;
+    font: 10px/1.4 ui-monospace, SFMono-Regular, monospace;
+    color: #22d3ee;
+    background: rgba(0, 0, 0, 0.7);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-top-right-radius: 0.4rem;
+  }
+
+  /* ---------------------------------------------------------------------------
+   * 4. Fixed chrome — file path (bottom-left) + build status (bottom-right)
+   * ------------------------------------------------------------------------- */
+  .dmj-pathbar,
+  .dmj-sidebar {
+    display: none;
+  }
+  html.dev-mode .dmj-pathbar {
+    display: block;
+    position: fixed;
+    left: 1rem;
+    bottom: 1.1rem;
+    z-index: 9998;
+    pointer-events: none;
+    font: 10px/1.5 ui-monospace, SFMono-Regular, monospace;
+    letter-spacing: 0.1em;
+    text-transform: lowercase;
+    color: #4b5563;
+  }
+  html.dev-mode .dmj-pathbar b {
+    color: #22d3ee;
+    font-weight: 400;
+  }
+  html.dev-mode .dmj-sidebar {
+    display: block;
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.1rem;
+    z-index: 9998;
+    pointer-events: none;
+    font: 10px/1.6 ui-monospace, SFMono-Regular, monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: right;
+    color: #4b5563;
+  }
+</style>
