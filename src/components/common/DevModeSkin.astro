@@ -29,7 +29,7 @@ const navItems = [
         <a class="dmj-nav-item" href={item.href} data-route={item.href}>
           <span class="dmj-nav-idx">{String(i).padStart(2, '0')}</span>
           <span class="dmj-nav-name">~/{item.label}</span>
-          {i < 9 && <kbd class="dmj-nav-key">⌘⇧{i + 1}</kbd>}
+          {i < 9 && <kbd class="dmj-nav-key">g {i + 1}</kbd>}
         </a>
       ))
     }
@@ -214,6 +214,70 @@ const navItems = [
   }
   .aj-front-cta {
     margin-top: 0;
+    /* Power-on flicker: the button struggles to hold current, then settles —
+       like a low-powered terminal warming up. `both` keeps it dark until its
+       delay so the flicker reads as an entrance. */
+    animation: ajCtaFlicker 1.3s steps(1, end) 0.45s both;
+  }
+  .aj-front-cta:nth-child(2) {
+    animation-delay: 0.62s;
+  }
+  .aj-front-cta:nth-child(3) {
+    animation-delay: 0.79s;
+  }
+  @keyframes ajCtaFlicker {
+    0% {
+      opacity: 0;
+      text-shadow: none;
+    }
+    8% {
+      opacity: 0.35;
+    }
+    10% {
+      opacity: 0.08;
+    }
+    18% {
+      opacity: 0.75;
+      text-shadow: 0 0 6px rgba(34, 211, 238, 0.6);
+    }
+    21% {
+      opacity: 0.18;
+      text-shadow: none;
+    }
+    30% {
+      opacity: 1;
+    }
+    33% {
+      opacity: 0.4;
+    }
+    38% {
+      opacity: 0.92;
+      text-shadow: 0 0 8px rgba(34, 211, 238, 0.55);
+    }
+    45% {
+      opacity: 0.55;
+      text-shadow: none;
+    }
+    55% {
+      opacity: 1;
+    }
+    62% {
+      opacity: 0.7;
+    }
+    70% {
+      opacity: 1;
+      text-shadow: 0 0 5px rgba(34, 211, 238, 0.4);
+    }
+    100% {
+      opacity: 1;
+      text-shadow: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .aj-front-cta {
+      animation: none;
+      opacity: 1;
+    }
   }
   /* The first CTA reads as the primary action (filled). */
   .aj-front-cta:first-child {
@@ -1766,5 +1830,44 @@ const navItems = [
       SFMono-Regular,
       monospace;
     white-space: nowrap;
+  }
+
+  /* --- Keyboard: leader-armed indicator ("g" pressed, waiting) ---------- */
+  .dmj-leader {
+    position: fixed;
+    left: 50%;
+    bottom: 1.25rem;
+    transform: translateX(-50%) translateY(0.75rem);
+    z-index: 10004;
+    padding: 0.5rem 0.9rem;
+    background: #0d0d10;
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    border-radius: 0.5rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    color: #9ca3af;
+    font:
+      12px/1.4 ui-monospace,
+      SFMono-Regular,
+      monospace;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 0.12s ease,
+      transform 0.12s ease;
+  }
+  .dmj-leader.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .dmj-leader kbd {
+    padding: 0.05rem 0.4rem;
+    color: #22d3ee;
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    border-radius: 0.3rem;
+  }
+  .dmj-leader b {
+    color: #f59e0b;
+    font-weight: 700;
   }
 </style>

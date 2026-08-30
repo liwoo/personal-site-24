@@ -201,19 +201,30 @@ import { UI } from '~/utils/config';
     false
   );
   // --- Global keyboard navigation ------------------------------------------
-  // Make the whole site drivable from the keyboard:
-  //   Cmd/Ctrl + Shift + 1–9(0)  jump to the Nth primary nav item / section
-  //   /                          focus the page search
-  //   ?                          toggle the shortcuts cheatsheet
-  //   Esc                        close menus & overlays
-  // Digit detection uses e.code so it is keyboard-layout independent (with
-  // Shift held, e.key for the "1" key is "!", not "1").
+  // Make the whole site drivable from the keyboard with a leader key, so we
+  // never fight the browser's own chords (⌘⇧N, ⌘⇧T, ⌘⇧3-5, tab switching …):
+  //   g then 1–9   jump to the Nth primary nav page
+  //   g then a–z   jump to the section with that letter (see buildDevSections)
+  //   /            focus the page search
+  //   ?            toggle the shortcuts cheatsheet
+  //   Esc          close menus & overlays (and cancel a pending "g")
+  // Key detection uses e.code so it is keyboard-layout independent.
   function ajNavItems() {
     const dev = document.documentElement.classList.contains('dev-mode');
     const nodes = dev
       ? document.querySelectorAll('.dmj-nav-item')
       : document.querySelectorAll('#header nav a[href]');
     return Array.prototype.slice.call(nodes);
+  }
+  // letter -> section id, rebuilt per page by buildDevSections().
+  let ajSectionKeys = {};
+  function ajJumpToSection(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.setAttribute('tabindex', '-1');
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    el.focus({ preventScroll: true });
+    document.querySelector('[data-dmj-nav]')?.classList.remove('open');
   }
   function ajIsTyping(el) {
     return !!el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
@@ -231,7 +242,8 @@ import { UI } from '~/utils/config';
     return false;
   }
   const AJ_SHORTCUTS = [
-    { keys: '⌘/Ctrl ⇧ 1–9', label: 'Jump to a nav section' },
+    { keys: 'g then 1–9', label: 'Jump to a nav page' },
+    { keys: 'g then a–z', label: 'Jump to a section on this page' },
     { keys: '/', label: 'Focus search' },
     { keys: 'Tab', label: 'Move through links & fields' },
     { keys: '?', label: 'Toggle this help' },
@@ -266,32 +278,72 @@ import { UI } from '~/utils/config';
     ov.classList.toggle('open', open);
   }
 
-  document.addEventListener('keydown', function (e) {
-    const mod = e.metaKey || e.ctrlKey;
-    if (mod && e.shiftKey && !e.altKey) {
-      const m = /^Digit([0-9])$/.exec(e.code);
-      if (m) {
-        const n = parseInt(m[1], 10);
-        const idx = n === 0 ? 9 : n - 1;
-        const target = ajNavItems()[idx];
-        if (target) {
-          e.preventDefault();
-          const href = target.getAttribute('href');
-          if (href) window.location.assign(href);
-        }
-        return;
-      }
+  // Leader-key state: after "g" is pressed we wait briefly for the second key.
+  let ajLeader = false;
+  let ajLeaderTimer = null;
+  function ajShowLeaderHint(on) {
+    let el = document.getElementById('dmj-leader');
+    if (!el && on) {
+      el = document.createElement('div');
+      el.id = 'dmj-leader';
+      el.className = 'dmj-leader';
+      el.innerHTML = '<kbd>g</kbd> → <b>1–9</b> page · <b>a–z</b> section';
+      document.body.appendChild(el);
     }
+    if (el) el.classList.toggle('show', !!on);
+  }
+  function ajArmLeader() {
+    ajLeader = true;
+    ajShowLeaderHint(true);
+    clearTimeout(ajLeaderTimer);
+    ajLeaderTimer = setTimeout(ajClearLeader, 1600);
+  }
+  function ajClearLeader() {
+    ajLeader = false;
+    ajShowLeaderHint(false);
+    clearTimeout(ajLeaderTimer);
+  }
+
+  document.addEventListener('keydown', function (e) {
+    // Escape always wins: close overlays and cancel a pending leader.
     if (e.key === 'Escape') {
+      ajClearLeader();
       document.getElementById('aj-lightbox')?.classList.remove('open');
       document.getElementById('dmj-help')?.classList.remove('open');
       document.querySelector('[data-dmj-nav]')?.classList.remove('open');
       return;
     }
     if (ajIsTyping(e.target)) return;
-    if (e.key === '/' && !mod && !e.shiftKey) {
+    // Never shadow a real browser chord (⌘/Ctrl/Alt combos pass straight through).
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+    // Second key of a "g …" sequence: digit → nav page, letter → section.
+    if (ajLeader) {
+      e.preventDefault();
+      const md = /^Digit([0-9])$/.exec(e.code);
+      const ml = /^Key([A-Z])$/.exec(e.code);
+      if (md) {
+        const n = parseInt(md[1], 10);
+        const target = ajNavItems()[n === 0 ? 9 : n - 1];
+        const href = target && target.getAttribute('href');
+        if (href) window.location.assign(href);
+      } else if (ml) {
+        const id = ajSectionKeys[ml[1].toLowerCase()];
+        if (id) ajJumpToSection(id);
+      }
+      ajClearLeader();
+      return;
+    }
+    if (e.key === 'g' || e.key === 'G') {
+      e.preventDefault();
+      ajArmLeader();
+      return;
+    }
+    if (e.key === '/') {
       if (ajFocusSearch()) e.preventDefault();
-    } else if (e.key === '?') {
+      return;
+    }
+    if (e.key === '?') {
       e.preventDefault();
       ajToggleHelp();
     }
@@ -326,14 +378,41 @@ import { UI } from '~/utils/config';
       return;
     }
     if (wrap) wrap.hidden = false;
+    // Assign each section a "g then <letter>" shortcut. Numbers are the global
+    // nav (max 6), so page sections use "creative letters" — a mnemonic drawn
+    // from the section name, falling back to the next free letter.
+    ajSectionKeys = {};
+    const used = {};
     list.forEach((sec, i) => {
       const key = sec.getAttribute('data-aj-key') || 'sec' + i;
+      let letter = '';
+      for (const ch of key.toLowerCase().replace(/[^a-z]/g, '')) {
+        if (!used[ch]) {
+          letter = ch;
+          break;
+        }
+      }
+      if (!letter) {
+        for (let c = 97; c <= 122; c++) {
+          const ch = String.fromCharCode(c);
+          if (!used[ch]) {
+            letter = ch;
+            break;
+          }
+        }
+      }
       const a = document.createElement('a');
       a.className = 'dmj-nav-sec';
       a.href = '#' + sec.id;
       a.dataset.spy = sec.id;
+      let hint = '';
+      if (letter) {
+        used[letter] = 1;
+        ajSectionKeys[letter] = sec.id;
+        hint = '<kbd class="dmj-nav-key">g ' + letter + '</kbd>';
+      }
       a.innerHTML =
-        '<span class="dmj-nav-sec-idx">' + String(i).padStart(2, '0') + '</span><span>' + key + '</span>';
+        '<span class="dmj-nav-sec-idx">' + String(i).padStart(2, '0') + '</span><span>' + key + '</span>' + hint;
       container.appendChild(a);
     });
     if (devSpyObserver) devSpyObserver.disconnect();
