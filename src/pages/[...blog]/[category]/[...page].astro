@@ -7,6 +7,8 @@ import Pagination from '~/components/blog/Pagination.astro';
 import Hero2 from '~/components/widgets/Hero2.astro';
 import ToBlogLink from '~/components/blog/ToBlogLink.astro';
 import {ListItem} from '~/components/blog/ListItem';
+import DevJson from '~/components/common/DevJson.astro';
+import { postIndexJson } from '~/utils/devMode';
 
 export const prerender = true;
 
@@ -39,7 +41,17 @@ const metadata = {
     </Fragment>
   </Hero2>
   <section class="container-lg my-32 items-center flex flex-col md:flex-row-reverse gap-y-8 md:gap-y-0 justify-between relative z-10">
-    {page.data.map((post) => <ListItem post={post} />)}
+    <DevJson
+      label={`category-${category}`}
+      data={postIndexJson({
+        title: 'blog/category',
+        category,
+        posts: page.data,
+        page: { currentPage: page.currentPage, lastPage: page.lastPage, total: page.total },
+      })}
+    >
+      {page.data.map((post) => <ListItem post={post} />)}
+    </DevJson>
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
   </section>
 </Layout>
