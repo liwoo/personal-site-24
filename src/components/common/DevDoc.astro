@@ -23,19 +23,22 @@ export interface Props {
   chips?: { key: string; items: string[] };
   /** Optional social links row in the front matter (label may carry proof). */
   links?: Array<{ label: string; href: string }>;
+  /** Optional call-to-action buttons rendered under the front matter. */
+  ctas?: Array<{ label: string; href: string }>;
   /** Optional ASCII banner rendered at the very top (home page). */
   banner?: string;
 }
 
 const SEO_IMAGE = 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/2026.jpg';
-const { data, front = [], chips, links = [], banner } = Astro.props;
+const { data, front = [], chips, links = [], ctas = [], banner } = Astro.props;
+const isExternalCta = (href: string) => /^https?:\/\//.test(href);
 const body = renderArtisticJson(data);
 const footer = renderFooterCard(footerData, SEO_IMAGE);
 ---
 
 <div data-dev-json class="aj-doc" aria-hidden="true">
   <div class="aj-grid"></div>
-  <div class="aj-shell">
+  <div class="aj-shell" id="dev-main" tabindex="-1">
     {banner && <div class="aj-reveal" set:html={renderBlockBanner(banner)} />}
     {
       (front.length > 0 || chips) && (
@@ -73,6 +76,21 @@ const footer = renderFooterCard(footerData, SEO_IMAGE);
             )}
           </div>
           <div class="aj-dashes">---</div>
+          {ctas.length > 0 && (
+            <div class="aj-front-ctas">
+              {ctas.map((c) => (
+                <a
+                  class="aj-btn aj-front-cta"
+                  href={c.href}
+                  {...(isExternalCta(c.href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  <span class="aj-btn-br">[[</span>
+                  <span class="aj-btn-label">{c.label}</span>
+                  <span class="aj-btn-br">]]</span>
+                </a>
+              ))}
+            </div>
+          )}
         </section>
       )
     }

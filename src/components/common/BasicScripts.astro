@@ -200,8 +200,116 @@ import { UI } from '~/utils/config';
     },
     false
   );
+  // --- Global keyboard navigation ------------------------------------------
+  // Make the whole site drivable from the keyboard:
+  //   Cmd/Ctrl + Shift + 1–9(0)  jump to the Nth primary nav item / section
+  //   /                          focus the page search
+  //   ?                          toggle the shortcuts cheatsheet
+  //   Esc                        close menus & overlays
+  // Digit detection uses e.code so it is keyboard-layout independent (with
+  // Shift held, e.key for the "1" key is "!", not "1").
+  function ajNavItems() {
+    const dev = document.documentElement.classList.contains('dev-mode');
+    const nodes = dev
+      ? document.querySelectorAll('.dmj-nav-item')
+      : document.querySelectorAll('#header nav a[href]');
+    return Array.prototype.slice.call(nodes);
+  }
+  function ajIsTyping(el) {
+    return !!el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
+  }
+  function ajFocusSearch() {
+    const el =
+      document.querySelector('[data-aj-blog-search]') ||
+      document.getElementById('search-blog') ||
+      document.querySelector('input[type="search"]');
+    if (el && el.offsetParent !== null) {
+      el.focus();
+      if (el.select) el.select();
+      return true;
+    }
+    return false;
+  }
+  const AJ_SHORTCUTS = [
+    { keys: '⌘/Ctrl ⇧ 1–9', label: 'Jump to a nav section' },
+    { keys: '/', label: 'Focus search' },
+    { keys: 'Tab', label: 'Move through links & fields' },
+    { keys: '?', label: 'Toggle this help' },
+    { keys: 'Esc', label: 'Close menus & overlays' },
+  ];
+  function ajBuildHelp() {
+    let ov = document.getElementById('dmj-help');
+    if (ov) return ov;
+    ov = document.createElement('div');
+    ov.id = 'dmj-help';
+    ov.className = 'dmj-help';
+    ov.setAttribute('role', 'dialog');
+    ov.setAttribute('aria-modal', 'true');
+    ov.setAttribute('aria-label', 'Keyboard shortcuts');
+    ov.innerHTML =
+      '<div class="dmj-help-panel">' +
+      '<div class="dmj-help-title">Keyboard shortcuts' +
+      '<button type="button" class="dmj-help-close" data-dmj-help-close aria-label="Close">esc</button></div>' +
+      AJ_SHORTCUTS.map(function (s) {
+        return '<div class="dmj-help-row"><span>' + s.label + '</span><kbd>' + s.keys + '</kbd></div>';
+      }).join('') +
+      '</div>';
+    document.body.appendChild(ov);
+    ov.addEventListener('click', function (e) {
+      if (e.target === ov || (e.target.closest && e.target.closest('[data-dmj-help-close]'))) ajToggleHelp(false);
+    });
+    return ov;
+  }
+  function ajToggleHelp(force) {
+    const ov = ajBuildHelp();
+    const open = typeof force === 'boolean' ? force : !ov.classList.contains('open');
+    ov.classList.toggle('open', open);
+  }
+
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') document.getElementById('aj-lightbox')?.classList.remove('open');
+    const mod = e.metaKey || e.ctrlKey;
+    if (mod && e.shiftKey && !e.altKey) {
+      const m = /^Digit([0-9])$/.exec(e.code);
+      if (m) {
+        const n = parseInt(m[1], 10);
+        const idx = n === 0 ? 9 : n - 1;
+        const target = ajNavItems()[idx];
+        if (target) {
+          e.preventDefault();
+          const href = target.getAttribute('href');
+          if (href) window.location.assign(href);
+        }
+        return;
+      }
+    }
+    if (e.key === 'Escape') {
+      document.getElementById('aj-lightbox')?.classList.remove('open');
+      document.getElementById('dmj-help')?.classList.remove('open');
+      document.querySelector('[data-dmj-nav]')?.classList.remove('open');
+      return;
+    }
+    if (ajIsTyping(e.target)) return;
+    if (e.key === '/' && !mod && !e.shiftKey) {
+      if (ajFocusSearch()) e.preventDefault();
+    } else if (e.key === '?') {
+      e.preventDefault();
+      ajToggleHelp();
+    }
+  });
+
+  // Open the cheatsheet from the sidebar hint; make the skip link move focus.
+  document.addEventListener('click', function (e) {
+    const t = e.target;
+    if (!t || !t.closest) return;
+    if (t.closest('[data-dmj-help-open]')) {
+      e.preventDefault();
+      ajToggleHelp(true);
+      return;
+    }
+    if (t.closest('[data-dmj-skip]')) {
+      const main = document.getElementById('dev-main');
+      if (main) setTimeout(() => main.focus(), 0);
+    }
   });
 
   // Build the contextual "on this page" section index in the sidebar, with a
