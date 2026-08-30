@@ -9,7 +9,28 @@ import ToBlogLink from '~/components/blog/ToBlogLink.astro';
 
 import { getCanonical, getPermalink } from '~/utils/permalinks';
 import { mdToRichHtml } from '~/utils/richMarkdown';
-import { getStaticPathsBlogPost, blogPostRobots } from '~/utils/blog';
+
+// Resolve imported post images (e.g. `<Image src={foo}/>`) to real URLs so Dev
+// Mode can render them — maps the MDX `import foo from '~/assets/...'` to the
+// built asset URL, then inlines `src={foo}` as `src="<url>"`.
+const ASSETS = import.meta.glob<{ default: { src: string } }>(
+  '/src/assets/**/*.{png,jpg,jpeg,webp,gif,svg,avif}',
+  { eager: true }
+);
+const resolveContentImages = (md: string | undefined): string | undefined => {
+  if (!md) return md;
+  const vars: Record<string, string> = {};
+  const importRe = /^import\s+(\w+)\s+from\s+['"]([^'"]+)['"]/gm;
+  let m: RegExpExecArray | null;
+  while ((m = importRe.exec(md))) {
+    const key = m[2].replace(/^~\//, '/src/');
+    const asset = ASSETS[key];
+    if (asset) vars[m[1]] = asset.default.src;
+  }
+  return md.replace(/src=\{(\w+)\}/g, (full, v) => (vars[v] ? `src="${vars[v]}"` : full));
+};
+import { getStaticPathsBlogPost, blogPostRobots, getPostsFromTags } from '~/utils/blog';
+import { categoryLink, tagLinks } from '~/utils/devMode';
 import { findImage } from '~/utils/images';
 import type { MetaData } from '~/types';
 import Hero2 from '~/components/widgets/Hero2.astro';
@@ -49,6 +70,17 @@ const metadata = merge(
 
 const coverSrc = typeof image === 'string' ? image : (image as ImageMetadata | undefined)?.src;
 
+// Related articles that share tags with this one (excluding itself).
+const relatedPosts = (await getPostsFromTags(post.tags ?? []))
+  .filter((p) => p.slug !== post.slug)
+  .slice(0, 3)
+  .map((p) => ({
+    title: p.title,
+    permalink: getPermalink(p.permalink, 'post'),
+    category: categoryLink(p.category),
+    readingTime: p.readingTime ? `${p.readingTime} min` : null,
+  }));
+
 const dev = {
   front: [
     { key: 'title', value: JSON.stringify(post.title) },
@@ -62,12 +94,14 @@ const dev = {
       slug: post.slug,
       permalink: getPermalink(post.permalink, 'post'),
       publishDate: post.publishDate instanceof Date ? post.publishDate.toISOString().slice(0, 10) : post.publishDate,
-      category: post.category ?? null,
+      category: categoryLink(post.category),
+      tags: tagLinks(post.tags),
       readingTime: post.readingTime ?? null,
       cover: coverSrc ?? null,
       excerpt: post.excerpt ?? null,
     },
-    article: { __type: 'richtext', html: mdToRichHtml(post.content) },
+    article: { __type: 'richtext', html: mdToRichHtml(resolveContentImages(post.content)) },
+    ...(relatedPosts.length ? { related: relatedPosts } : {}),
     share: { __type: 'share', url, text: post.title },
     subscribe: {
       __type: 'form',

@@ -10,6 +10,14 @@ import { getPermalink } from '~/utils/permalinks';
 const isoDate = (date?: Date): string | undefined =>
   date instanceof Date ? date.toISOString().slice(0, 10) : undefined;
 
+/** A linkable category value (rendered as a link in Dev Mode). */
+export const categoryLink = (category?: string) =>
+  category ? { __type: 'link', label: category, href: getPermalink(category, 'category') } : null;
+
+/** Linkable tag chips. */
+export const tagLinks = (tags?: string[]) =>
+  tags && tags.length ? { __type: 'linkchips', items: tags.map((t) => ({ label: t, href: getPermalink(t, 'tag') })) } : [];
+
 /** Reduce a blog post to the fields shown in an index listing. */
 export const summarizePost = (post: Post) => ({
   id: post.id,
@@ -17,8 +25,8 @@ export const summarizePost = (post: Post) => ({
   title: post.title,
   permalink: getPermalink(post.permalink, 'post'),
   publishDate: isoDate(post.publishDate),
-  category: post.category ?? null,
-  tags: post.tags ?? [],
+  category: categoryLink(post.category),
+  tags: tagLinks(post.tags),
   readingTime: post.readingTime ?? null,
   excerpt: post.excerpt ?? null,
 });

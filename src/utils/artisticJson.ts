@@ -116,6 +116,20 @@ function renderTyped(node: Typed): string {
     case 'richtext':
       // Pre-rendered themed HTML (from richMarkdown.ts) — already escaped there.
       return copyable(`<div class="aj-article">${String(node.html ?? '')}</div>`, 'article');
+    case 'testimony': {
+      const avatar =
+        typeof node.image === 'string' && isImage(node.image)
+          ? `<div class="aj-testimony-avatar">${fmt(node.image, 'portrait')}</div>`
+          : '';
+      const by = [node.author, node.role].filter(Boolean).map((v) => esc(String(v))).join(', ');
+      const org = node.company ? ` <span class="aj-punc">·</span> ${esc(String(node.company))}` : '';
+      return (
+        `<div class="aj-testimony">${avatar}<div class="aj-testimony-body">` +
+        `<div class="aj-testimony-quote">“${esc(String(node.quote ?? ''))}”</div>` +
+        (by || org ? `<div class="aj-testimony-by">— ${by}${org}</div>` : '') +
+        `</div></div>`
+      );
+    }
     case 'tweet':
       return renderTweetCard({
         text: String(node.text ?? ''),
@@ -173,6 +187,25 @@ function renderTyped(node: Typed): string {
       const action = node.action ? ` action="${esc(node.action)}"` : '';
       const method = ` method="${esc(node.method ?? 'post')}"`;
       return `<form class="aj-form"${action}${method}>` + flds.map(termInput).join('') + termButton(label, undefined, true) + `</form>`;
+    }
+    case 'link': {
+      const href = String(node.href ?? '#');
+      const ext = isExternal(href) ? ' target="_blank" rel="noopener noreferrer"' : '';
+      return `<a class="aj-link" href="${esc(href)}"${ext}>"${esc(String(node.label ?? href))}"</a>`;
+    }
+    case 'linkchips': {
+      const items = Array.isArray(node.items) ? (node.items as Array<Record<string, unknown>>) : [];
+      return (
+        `<div class="aj-chips">` +
+        items
+          .map((it) => {
+            const href = String(it.href ?? '#');
+            const ext = isExternal(href) ? ' target="_blank" rel="noopener noreferrer"' : '';
+            return `<a class="aj-chip aj-chip--link" href="${esc(href)}"${ext}>${esc(String(it.label ?? ''))}</a>`;
+          })
+          .join('') +
+        `</div>`
+      );
     }
     case 'logos': {
       const items = Array.isArray(node.items) ? (node.items as Array<Record<string, unknown>>) : [];

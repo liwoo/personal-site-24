@@ -193,6 +193,14 @@ const navItems = [
     font-size: 10px;
     line-height: 1.6;
   }
+  .aj-chip--link {
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .aj-chip--link:hover {
+    background: #22d3ee;
+    color: #0a0a0c;
+  }
 
   /* --- Root + sections -------------------------------------------------- */
   .aj-body {
@@ -597,6 +605,8 @@ const navItems = [
     html.dev-mode .dmj-nav {
       transform: translateX(-100%);
       box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+      /* clear the fixed hamburger so the ~/chienda brand isn't hidden */
+      padding-top: 4.5rem;
     }
     html.dev-mode .dmj-nav.open {
       transform: translateX(0);
@@ -918,13 +928,43 @@ const navItems = [
     border-radius: 0.6rem;
   }
   .aj-pre code {
-    color: #a5d6ff;
+    color: #c9d1d9;
     font-size: 0.85rem;
     line-height: 1.6;
     white-space: pre;
   }
+  /* Syntax highlighting tokens */
+  .aj-pre .tk-com {
+    color: #8b949e;
+    font-style: italic;
+  }
+  .aj-pre .tk-str {
+    color: #a5d6ff;
+  }
+  .aj-pre .tk-num {
+    color: #79c0ff;
+  }
+  .aj-pre .tk-lit {
+    color: #79c0ff;
+  }
+  .aj-pre .tk-kw {
+    color: #ff7b72;
+  }
+  .aj-pre .tk-punc {
+    color: #c9d1d9;
+  }
   .aj-figure-block {
     margin: 1.5rem 0;
+  }
+  .aj-figcap {
+    margin-top: 0.5rem;
+    color: #6b7280;
+    font-size: 0.8rem;
+    font-style: italic;
+  }
+  .aj-figcap--solo {
+    padding-left: 0.85rem;
+    border-left: 2px solid rgba(34, 211, 238, 0.3);
   }
 
   /* --- Share row ------------------------------------------------------- */
@@ -1001,6 +1041,38 @@ const navItems = [
     font-size: 1.02rem;
     line-height: 1.7;
   }
+  /* --- Testimony card -------------------------------------------------- */
+  .aj-testimony {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    max-width: 44rem;
+  }
+  .aj-testimony-avatar {
+    flex: none;
+  }
+  .aj-testimony-avatar .aj-figure {
+    width: 4rem;
+    height: 4rem;
+    margin: 0;
+  }
+  .aj-testimony-avatar .aj-figure img {
+    width: 4rem;
+    height: 4rem;
+    object-fit: cover;
+  }
+  .aj-testimony-quote {
+    color: #e5e7eb;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    font-style: italic;
+  }
+  .aj-testimony-by {
+    margin-top: 0.9rem;
+    color: #9ca3af;
+    font-size: 0.9rem;
+  }
+
   .aj-tweet-link {
     display: inline-block;
     margin-top: 0.9rem;
@@ -1031,15 +1103,30 @@ const navItems = [
   .aj-code-lang {
     color: #f59e0b;
     font: 11px/1 ui-monospace, SFMono-Regular, monospace;
-    text-transform: lowercase;
     letter-spacing: 0.05em;
   }
-  .aj-code-copy {
-    position: static;
-    opacity: 1;
+  .aj-code-actions {
+    display: inline-flex;
+    gap: 0.4rem;
+  }
+  .aj-code-btn {
+    padding: 0.2rem 0.55rem;
+    font: 10px/1 ui-monospace, SFMono-Regular, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6b7280;
     background: transparent;
-    border: none;
-    padding: 0.1rem 0.3rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .aj-code-btn:hover {
+    color: #22d3ee;
+    border-color: rgba(34, 211, 238, 0.4);
+  }
+  .aj-codeblock .aj-copy-body {
+    margin: 0;
   }
   .aj-codeblock .aj-pre {
     margin: 0;
@@ -1353,7 +1440,11 @@ const navItems = [
       padding-left: 1.75rem;
     }
     .aj-doc {
-      padding: 1.5rem 1.1rem;
+      /* extra top padding so content clears the fixed hamburger + exit button */
+      padding: 4.25rem 1.1rem 1.5rem;
+    }
+    .aj-banner {
+      margin-bottom: 2rem;
     }
     /* keep the status badge from colliding with content */
     html.dev-mode .dmj-sidebar {

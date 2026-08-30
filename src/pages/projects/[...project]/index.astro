@@ -50,11 +50,12 @@ const dev = {
     ...(projectDetails?.testimony
       ? {
           testimony: {
-            __type: 'prose',
-            paragraphs: [
-              `“${projectDetails.testimony.testimony}”`,
-              `— ${projectDetails.testimony.name}, ${projectDetails.testimony.job}${projectDetails.testimony.company ? ' · ' + projectDetails.testimony.company : ''}`,
-            ],
+            __type: 'testimony',
+            quote: projectDetails.testimony.testimony,
+            author: projectDetails.testimony.name,
+            role: projectDetails.testimony.job,
+            company: projectDetails.testimony.company,
+            image: typeof projectDetails.testimony.image?.src === 'string' ? projectDetails.testimony.image.src : null,
           },
         }
       : {}),
