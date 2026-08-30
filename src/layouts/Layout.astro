@@ -11,6 +11,7 @@ import Metadata from '~/components/common/Metadata.astro';
 import SiteVerification from '~/components/common/SiteVerification.astro';
 import Analytics from '~/components/common/Analytics.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
+import DevModeSkin from '~/components/common/DevModeSkin.astro';
 
 // Uncomment line below to activate View Transitions
 import {ClientRouter} from 'astro:transitions';
@@ -78,6 +79,8 @@ const {language, textDirection} = I18N;
 <body class="text-default bg-page tracking-normal font-mono">
 <slot/>
 
+<DevModeSkin/>
+
 <!-- Global subtle scanline overlay -->
 <div class="fixed inset-0 pointer-events-none z-[9999]" aria-hidden="true" style="background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.03) 3px, rgba(0,0,0,0.03) 4px); mix-blend-mode: multiply;"></div>
 
@@ -85,82 +88,6 @@ const {language, textDirection} = I18N;
 <style is:global>
   img {
     content-visibility: auto;
-  }
-
-  /* Dev Mode: swap index listings for a JSON editor panel */
-  [data-dev-json] {
-    display: none;
-  }
-  html.dev-mode [data-dev-normal] {
-    display: none;
-  }
-  html.dev-mode [data-dev-json] {
-    display: block;
-  }
-
-  .dev-json-editor {
-    margin: 1.5rem 0;
-    border: 1px solid rgba(148, 163, 184, 0.3);
-    border-radius: 0.6rem;
-    overflow: hidden;
-    background: #0d1117;
-    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.6);
-  }
-  .dev-json-titlebar {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    padding: 0.55rem 0.9rem;
-    background: #161b22;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
-  }
-  .dev-json-dot {
-    width: 0.72rem;
-    height: 0.72rem;
-    border-radius: 9999px;
-    display: inline-block;
-  }
-  .dev-json-dot--red {
-    background: #ff5f56;
-  }
-  .dev-json-dot--yellow {
-    background: #ffbd2e;
-  }
-  .dev-json-dot--green {
-    background: #27c93f;
-  }
-  .dev-json-filename {
-    margin-left: 0.6rem;
-    color: #8b949e;
-    font-size: 0.72rem;
-    font-family: 'Space Mono', ui-monospace, monospace;
-    letter-spacing: 0.03em;
-  }
-  .dev-json-code {
-    margin: 0;
-    padding: 1.25rem 1.4rem;
-    overflow-x: auto;
-    color: #c9d1d9;
-    font-size: 0.8rem;
-    line-height: 1.65;
-    font-family: 'Space Mono', ui-monospace, monospace;
-    white-space: pre;
-    tab-size: 2;
-  }
-  .dev-json-code .devj-key {
-    color: #7ee787;
-  }
-  .dev-json-code .devj-str {
-    color: #a5d6ff;
-  }
-  .dev-json-code .devj-num {
-    color: #79c0ff;
-  }
-  .dev-json-code .devj-bool {
-    color: #ffab70;
-  }
-  .dev-json-code .devj-null {
-    color: #ff7b72;
   }
 </style>
 </body>
