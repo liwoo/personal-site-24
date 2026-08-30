@@ -15,6 +15,10 @@ export const headerData = {
       href: '/projects',
     },
     {
+      text: 'Speaking',
+      href: '/speaking',
+    },
+    {
       text: 'Contact',
       href: '/contact',
     },
@@ -37,7 +41,7 @@ export const footerData = {
       links: [
         { text: 'Projects', href: '/projects' },
         { text: 'Music', href: 'https://getalinafe.com' },
-        { text: 'Speaking', href: '#' },
+        { text: 'Speaking', href: '/speaking' },
       ],
     },
     {

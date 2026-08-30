@@ -37,6 +37,7 @@ export default defineConfig({
       'https://chienda.com/about',
       'https://chienda.com/blog',
       'https://chienda.com/privacy',
+      'https://chienda.com/speaking',
       'https://chienda.com/48-hours-of-pure-innovation',
       'https://chienda.com/6-accessibility-hacks',
       'https://chienda.com/7-javascript-alternatives-2021',
