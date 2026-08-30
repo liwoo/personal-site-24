@@ -21,12 +21,14 @@ export interface Props {
   front?: FrontRow[];
   /** Optional chips row appended to the front matter (e.g. a tech stack). */
   chips?: { key: string; items: string[] };
+  /** Optional social links row in the front matter (label may carry proof). */
+  links?: Array<{ label: string; href: string }>;
   /** Optional ASCII banner rendered at the very top (home page). */
   banner?: string;
 }
 
 const SEO_IMAGE = 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/2026.jpg';
-const { data, front = [], chips, banner } = Astro.props;
+const { data, front = [], chips, links = [], banner } = Astro.props;
 const body = renderArtisticJson(data);
 const footer = renderFooterCard(footerData, SEO_IMAGE);
 ---
@@ -53,6 +55,18 @@ const footer = renderFooterCard(footerData, SEO_IMAGE);
                 <div class="aj-chips">
                   {chips.items.map((c) => (
                     <span class="aj-chip">{c}</span>
+                  ))}
+                </div>
+              </Fragment>
+            )}
+            {links.length > 0 && (
+              <Fragment>
+                <span class="aj-fkey">links:</span>
+                <div class="aj-chips">
+                  {links.map((l) => (
+                    <a class="aj-chip aj-chip--link" href={l.href} target="_blank" rel="noopener noreferrer">
+                      {l.label}
+                    </a>
                   ))}
                 </div>
               </Fragment>

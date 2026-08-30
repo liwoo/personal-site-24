@@ -126,9 +126,67 @@ import { UI } from '~/utils/config';
       highlightDevNav();
       buildDevSections();
       runTypewriters();
+      initBlogSearch();
       window.scrollTo(0, 0);
     }
   }
+
+  // Real-time, debounced filter over the blog post list (no submit button).
+  function initBlogSearch() {
+    const input = document.querySelector('[data-aj-blog-search]');
+    if (!input || input.dataset.bound === '1') return;
+    input.dataset.bound = '1';
+    const postsSec = document.querySelector('.aj-doc [data-aj-key="posts"]');
+    const countEl = document.querySelector('[data-aj-search-count]');
+    let timer;
+    const run = () => {
+      const q = input.value.trim().toLowerCase();
+      const items = postsSec ? postsSec.querySelectorAll('.aj-item') : [];
+      let shown = 0;
+      items.forEach((it) => {
+        const match = !q || (it.textContent || '').toLowerCase().includes(q);
+        it.style.display = match ? '' : 'none';
+        if (match) shown++;
+      });
+      if (countEl) countEl.textContent = q ? '// ' + shown + ' match' + (shown === 1 ? '' : 'es') : '';
+    };
+    input.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = setTimeout(run, 180);
+    });
+  }
+
+  // Lightbox: tap/click a framed image to expand it full screen.
+  function openDevLightbox(src, alt) {
+    let ov = document.getElementById('aj-lightbox');
+    if (!ov) {
+      ov = document.createElement('div');
+      ov.id = 'aj-lightbox';
+      ov.className = 'aj-lightbox';
+      ov.innerHTML = '<img alt="" /><button class="aj-lightbox-close" aria-label="Close">✕</button>';
+      document.body.appendChild(ov);
+      ov.addEventListener('click', () => ov.classList.remove('open'));
+    }
+    const img = ov.querySelector('img');
+    img.src = src;
+    img.alt = alt || '';
+    ov.classList.add('open');
+  }
+  document.addEventListener(
+    'click',
+    function (e) {
+      const t = e.target;
+      const img = t && t.closest ? t.closest('.aj-figure img, .aj-figure-block img') : null;
+      if (img && document.documentElement.classList.contains('dev-mode')) {
+        e.preventDefault();
+        openDevLightbox(img.getAttribute('src'), img.getAttribute('alt'));
+      }
+    },
+    false
+  );
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') document.getElementById('aj-lightbox')?.classList.remove('open');
+  });
 
   // Build the contextual "on this page" section index in the sidebar, with a
   // scrollspy that highlights the section currently in view.

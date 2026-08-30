@@ -19,6 +19,7 @@ export interface Props {
     label?: string;
     front?: FrontRow[];
     chips?: { key: string; items: string[] };
+    links?: Array<{ label: string; href: string }>;
     /** ASCII banner rendered at the very top of the document. */
     banner?: string;
   };
@@ -66,5 +67,5 @@ const front = dev?.front ?? defaultFront;
       <Footer {...footerData} />
     </slot>
   </div>
-  <DevDoc data={devData} front={front} chips={dev?.chips} banner={dev?.banner} />
+  <DevDoc data={devData} front={front} chips={dev?.chips} links={dev?.links} banner={dev?.banner} />
 </Layout>

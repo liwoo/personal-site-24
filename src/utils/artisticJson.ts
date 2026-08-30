@@ -188,6 +188,14 @@ function renderTyped(node: Typed): string {
       const method = ` method="${esc(node.method ?? 'post')}"`;
       return `<form class="aj-form"${action}${method}>` + flds.map(termInput).join('') + termButton(label, undefined, true) + `</form>`;
     }
+    case 'search':
+      // Live, debounced client-side filter (see BasicScripts) — no submit button.
+      return (
+        `<div class="aj-input"><span class="aj-input-line"><span class="aj-prompt">&gt;_</span>` +
+        `<input type="text" data-aj-blog-search placeholder="${esc(String(node.placeholder ?? 'search…'))}" autocomplete="off" />` +
+        `<span class="aj-caret"></span></span>` +
+        `<div class="aj-search-count" data-aj-search-count></div></div>`
+      );
     case 'link': {
       const href = String(node.href ?? '#');
       const ext = isExternal(href) ? ' target="_blank" rel="noopener noreferrer"' : '';

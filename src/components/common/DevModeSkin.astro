@@ -1425,7 +1425,52 @@ const navItems = [
     color: #4b5563;
   }
 
-  /* --- Small screens: shrink display type so nothing overflows ---------- */
+  /* --- Image lightbox (tap to expand) ---------------------------------- */
+  .aj-figure img,
+  .aj-figure-block img {
+    cursor: zoom-in;
+  }
+  .aj-lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.93);
+    cursor: zoom-out;
+  }
+  .aj-lightbox.open {
+    display: flex;
+  }
+  .aj-lightbox img {
+    max-width: 100%;
+    max-height: 92vh;
+    object-fit: contain;
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    border-radius: 0.5rem;
+  }
+  .aj-lightbox-close {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.4rem;
+    background: #0a0a0c;
+    color: #22d3ee;
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .aj-search-count {
+    margin-top: 0.5rem;
+    color: #6b7280;
+    font-size: 0.8rem;
+  }
+
+  /* --- Small screens: tighten padding, 2-col footer, shrink type -------- */
   @media (max-width: 640px) {
     .aj-key-display {
       font-size: clamp(1.5rem, 9vw, 2.4rem);
@@ -1434,17 +1479,34 @@ const navItems = [
       font-size: clamp(1.3rem, 8vw, 1.9rem);
     }
     .aj-indent {
-      margin-left: 1rem;
+      margin-left: 0.75rem;
     }
     .aj-item {
-      padding-left: 1.75rem;
+      padding-left: 1.5rem;
     }
     .aj-doc {
       /* extra top padding so content clears the fixed hamburger + exit button */
-      padding: 4.25rem 1.1rem 1.5rem;
+      padding: 4.25rem 0.75rem 1.5rem;
     }
     .aj-banner {
       margin-bottom: 2rem;
+    }
+    /* reclaim horizontal space eaten by card padding on phones */
+    .aj-card {
+      padding: 1.1rem 0.9rem;
+    }
+    .aj-fields {
+      margin-left: 0.2rem;
+      padding-left: 0.7rem;
+    }
+    .aj-prose,
+    .aj-article {
+      max-width: 100%;
+    }
+    /* footer link columns: two columns on mobile */
+    .aj-fgrid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem 0.75rem;
     }
     /* keep the status badge from colliding with content */
     html.dev-mode .dmj-sidebar {

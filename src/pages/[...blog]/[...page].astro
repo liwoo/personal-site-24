@@ -10,7 +10,7 @@ import Hero2 from '~/components/widgets/Hero2.astro';
 import { ListItem } from '~/components/blog/ListItem.tsx';
 import Tabs from '~/components/ui/Tabs.astro';
 import SignupForm from '~/components/widgets/SignupForm.astro';
-import { postIndexJson } from '~/utils/devMode';
+import { summarizePost } from '~/utils/devMode';
 
 export const prerender = true;
 
@@ -65,35 +65,21 @@ const topTags = Object.entries(tagCounts)
   .slice(0, 24)
   .map(([t]) => t);
 
-const { posts, ...indexHead } = postIndexJson({
-  title: 'blog',
-  posts: page.data,
-  page: { currentPage: page.currentPage, lastPage: page.lastPage, total: page.total },
-});
-
 const dev = {
   front: [
     { key: 'total_articles', value: String(allPosts.length), strong: true },
     { key: 'categories', value: String(allCategories.length) },
   ],
   data: {
-    ...indexHead,
-    filter: {
-      __type: 'form',
-      action: '/blog/search',
-      method: 'get',
-      submit: 'Search',
-      fields: [{ name: 's', label: '"query"', placeholder: 'search all articles…', type: 'text' }],
-    },
+    index: 'blog',
+    count: allPosts.length,
+    // Live, debounced client-side filter over the full list below (no button).
+    filter: { __type: 'search', placeholder: 'search all articles…' },
     categories: {
       __type: 'linkchips',
       items: allCategories.map((c) => ({ label: c, href: getPermalink(c, 'category') })),
     },
-    tags: {
-      __type: 'linkchips',
-      items: topTags.map((t) => ({ label: t, href: getPermalink(t, 'tag') })),
-    },
-    posts,
+    posts: allPosts.map(summarizePost),
     subscribe: {
       __type: 'form',
       endpoint: '/api/newsletter',
@@ -104,6 +90,11 @@ const dev = {
         { name: 'name', label: '"name"', placeholder: 'Your name', type: 'text' },
         { name: 'email', label: '"email"', placeholder: 'you@domain.com', type: 'email', required: true },
       ],
+    },
+    // Tag cloud at the very bottom.
+    tags: {
+      __type: 'linkchips',
+      items: topTags.map((t) => ({ label: t, href: getPermalink(t, 'tag') })),
     },
   },
 };
