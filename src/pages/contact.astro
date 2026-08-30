@@ -10,9 +10,29 @@ const metadata = {
   title: 'Hire an AI Engineer',
   description: 'Looking for an AI Engineer? I help companies build agent systems, RAG pipelines, and LLM-powered products. Let\'s talk.',
 };
+
+const dev = {
+  front: [
+    { key: 'status', value: '"Open to AI engineering work — contract & full-time"', strong: true },
+    { key: 'response_time', value: '"usually within 24h"' },
+  ],
+  data: {
+    contact: {
+      __type: 'form',
+      submit: 'Send Message',
+      submitHref: 'mailto:jeremiahchienda@gmail.com',
+      fields: [
+        { name: 'name', label: '"name"', placeholder: 'Enter your name', type: 'text' },
+        { name: 'email', label: '"email"', placeholder: 'Enter your email', type: 'email' },
+        { name: 'message', label: '"message"', placeholder: 'What are you building?', type: 'textarea' },
+      ],
+    },
+    services: ['AI Engineering', 'Agent Systems', 'RAG Pipelines', 'LLM Products', 'Speaking', 'Training'],
+  },
+};
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={metadata} dev={dev}>
   <Hero2/>
 
   <div class="container w-full flex flex-col-reverse md:flex-row justify-end">

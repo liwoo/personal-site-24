@@ -41,6 +41,10 @@ const dev = {
       .sort((a, b) => b.experience - a.experience)
       .slice(0, 10)
       .map((s) => s.title),
+    companies: {
+      __type: 'logos',
+      items: workExperience.map((w) => ({ label: w.title })),
+    },
   },
 };
 ---

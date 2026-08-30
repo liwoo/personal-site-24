@@ -5,7 +5,8 @@
  * `[data-dev-normal]`. CSS (in DevModeSkin.astro) hides one and shows the other
  * based on `html.dev-mode`. Styling classes are `.aj-*`.
  */
-import { renderArtisticJson } from '~/utils/artisticJson';
+import { renderArtisticJson, renderFooterCard } from '~/utils/artisticJson';
+import { footerData } from '~/data/navigation';
 
 export interface FrontRow {
   key: string;
@@ -23,6 +24,7 @@ export interface Props {
 
 const { data, front = [], chips } = Astro.props;
 const body = renderArtisticJson(data);
+const footer = renderFooterCard(footerData);
 ---
 
 <div data-dev-json class="aj-doc" aria-hidden="true">
@@ -56,5 +58,6 @@ const body = renderArtisticJson(data);
       )
     }
     <div class="aj-json" set:html={body} />
+    <div class="aj-footer-wrap" set:html={footer} />
   </div>
 </div>
