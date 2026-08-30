@@ -76,6 +76,27 @@ const dev = {
 ---
 
 <Layout metadata={metadata} dev={dev}>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfilePage",
+        "@id": "https://chienda.com/about#profilepage",
+        "url": "https://chienda.com/about",
+        "name": metadata.title,
+        "description": metadata.description,
+        "mainEntity": { "@id": "https://chienda.com/#person" },
+        "isPartOf": { "@id": "https://chienda.com/#website" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://chienda.com" },
+          { "@type": "ListItem", "position": 2, "name": "About", "item": "https://chienda.com/about" }
+        ]
+      }
+    ]
+  })} />
   <Hero2 tagline="Trustworthy AI for the places tech forgets">
     <Fragment slot="title"><span class="underlined">About</span> Me</Fragment>
 

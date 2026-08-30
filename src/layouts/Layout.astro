@@ -39,39 +39,72 @@ const {language, textDirection} = I18N;
   <ClientRouter fallback="swap"/>
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Jeremiah Chienda",
-    "image": "https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/2026.jpg",
-    "jobTitle": "AI Engineer",
-    "description": "AI Engineer specializing in production agent systems, RAG pipelines, and LLM-powered applications for govtech and fintech.",
-    "url": "https://chienda.com",
-    "knowsAbout": [
-      "AI Agent Architecture",
-      "Retrieval Augmented Generation",
-      "Large Language Models",
-      "Model Context Protocol",
-      "Agent-to-Agent Protocol",
-      "Generative UI",
-      "AI Safety",
-      "Token Economics",
-      "Tool Calling",
-      "Human-in-the-Loop Systems",
-      "LangGraph",
-      "Azure AI Foundry",
-      "Microsoft Fabric"
-    ],
-    "worksFor": {
-      "@type": "Organization",
-      "name": "Irembo"
-    },
-    "alumniOf": {
-      "@type": "CollegeOrUniversity",
-      "name": "Doshisha University"
-    },
-    "sameAs": [
-      "https://linkedin.com/in/jchienda",
-      "https://github.com/liwoo",
-      "https://twitter.com/liwucodes"
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://chienda.com/#person",
+        "name": "Jeremiah Chienda",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/2026.jpg",
+          "width": 1200,
+          "height": 1200,
+          "caption": "Jeremiah Chienda"
+        },
+        "jobTitle": "AI Engineer",
+        "hasOccupation": {
+          "@type": "Occupation",
+          "name": "AI Engineer"
+        },
+        "description": "AI Engineer specializing in production agent systems, RAG pipelines, and LLM-powered applications for govtech and fintech.",
+        "url": "https://chienda.com",
+        "knowsAbout": [
+          "AI Agent Architecture",
+          "Retrieval Augmented Generation",
+          "Large Language Models",
+          "Model Context Protocol",
+          "Agent-to-Agent Protocol",
+          "Generative UI",
+          "AI Safety",
+          "Token Economics",
+          "Tool Calling",
+          "Human-in-the-Loop Systems",
+          "LangGraph",
+          "Azure AI Foundry",
+          "Microsoft Fabric"
+        ],
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Irembo"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Doshisha University"
+        },
+        "sameAs": [
+          "https://linkedin.com/in/jchienda",
+          "https://github.com/liwoo",
+          "https://twitter.com/liwucodes",
+          "https://www.youtube.com/@liwucodes"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://chienda.com/#website",
+        "url": "https://chienda.com",
+        "name": "Jeremiah Chienda",
+        "description": "Jeremiah Chienda is an AI Engineer building production agent systems, RAG pipelines, and LLM-powered products. Currently AI Engineering Lead at Irembo.",
+        "publisher": { "@id": "https://chienda.com/#person" },
+        "inLanguage": "en",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://chienda.com/blog/search?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      }
     ]
   })} />
 </head>
