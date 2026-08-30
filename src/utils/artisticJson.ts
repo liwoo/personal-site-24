@@ -102,6 +102,30 @@ function renderTyped(node: Typed): string {
         `</div>`
       );
     }
+    case 'richtext':
+      // Pre-rendered themed HTML (from richMarkdown.ts) — already escaped there.
+      return `<div class="aj-article">${String(node.html ?? '')}</div>`;
+    case 'share': {
+      const url = String(node.url ?? '');
+      const text = String(node.text ?? '');
+      const nets = Array.isArray(node.networks)
+        ? (node.networks as string[])
+        : ['twitter', 'linkedin', 'whatsapp', 'mail'];
+      const labels: Record<string, string> = {
+        twitter: 'Share on X',
+        linkedin: 'LinkedIn',
+        whatsapp: 'WhatsApp',
+        facebook: 'Facebook',
+        mail: 'Email',
+      };
+      const shareBtn = (n: string) =>
+        `<button type="button" class="aj-btn aj-share-btn" data-aw-social-share="${esc(n)}" data-aw-url="${esc(url)}" data-aw-text="${esc(text)}">` +
+        `<span class="aj-btn-br">[[</span><span class="aj-btn-label">${esc(labels[n] ?? n)}</span><span class="aj-btn-br">]]</span></button>`;
+      const copyBtn =
+        `<button type="button" class="aj-btn aj-share-btn" data-aj-copy="${esc(url)}">` +
+        `<span class="aj-btn-br">[[</span><span class="aj-btn-label">Copy Link</span><span class="aj-btn-br">]]</span></button>`;
+      return `<div class="aj-share">${nets.map(shareBtn).join('')}${copyBtn}</div>`;
+    }
     case 'form': {
       const flds = Array.isArray(node.fields) ? (node.fields as Array<Record<string, unknown>>) : [];
       const label = String(node.submit ?? 'SUBMIT');

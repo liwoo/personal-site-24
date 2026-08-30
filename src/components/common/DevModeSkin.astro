@@ -769,14 +769,15 @@ const navItems = [
     gap: 0.4rem;
   }
   .aj-logo img {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 3.6rem;
+    height: 3.6rem;
     object-fit: contain;
-    padding: 0.4rem;
+    padding: 0.45rem;
     border: 1px solid rgba(34, 211, 238, 0.2);
     border-radius: 0.5rem;
-    background: #0d0d10;
-    filter: grayscale(1) brightness(1.4);
+    /* light tile so brand symbols (often dark-on-white) stay legible */
+    background: #f4f4f5;
+    filter: grayscale(1) contrast(1.05);
     transition: filter 0.3s ease;
   }
   .aj-logo:hover img {
@@ -826,6 +827,114 @@ const navItems = [
     position: absolute;
     left: 0;
     color: rgba(34, 211, 238, 0.5);
+  }
+
+  /* --- Rich article (themed markdown) ---------------------------------- */
+  .aj-article {
+    max-width: 46rem;
+    color: #cbd5e1;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+  .aj-article .aj-p {
+    padding-left: 0;
+    margin: 0 0 1.25rem;
+    color: #cbd5e1;
+  }
+  .aj-article .aj-h {
+    margin: 2.25rem 0 1rem;
+    color: #fff;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .aj-article .aj-h1 {
+    font-size: 1.8rem;
+  }
+  .aj-article .aj-h2 {
+    font-size: 1.45rem;
+  }
+  .aj-article .aj-h3 {
+    font-size: 1.2rem;
+  }
+  .aj-article .aj-h4 {
+    font-size: 1.05rem;
+  }
+  .aj-h-mark {
+    color: #f59e0b;
+    margin-right: 0.5rem;
+    font-weight: 700;
+  }
+  .aj-article .aj-b {
+    color: #fff;
+    font-weight: 700;
+  }
+  .aj-article em {
+    color: #e5e7eb;
+    font-style: italic;
+  }
+  .aj-ic {
+    padding: 0.05rem 0.35rem;
+    border-radius: 0.25rem;
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    color: #7dd3fc;
+    font-size: 0.85em;
+  }
+  .aj-article .aj-link {
+    text-decoration: underline;
+    text-decoration-color: rgba(34, 211, 238, 0.4);
+    text-underline-offset: 3px;
+  }
+  .aj-ul {
+    margin: 0 0 1.25rem;
+    padding-left: 1.5rem;
+    list-style: none;
+  }
+  .aj-ul li {
+    position: relative;
+    margin: 0.4rem 0;
+    color: #cbd5e1;
+  }
+  .aj-ul li::before {
+    content: '›';
+    position: absolute;
+    left: -1.1rem;
+    color: #22d3ee;
+  }
+  .aj-quote {
+    margin: 1.5rem 0;
+    padding: 0.5rem 0 0.5rem 1.25rem;
+    border-left: 3px solid #f59e0b;
+    color: #e5e7eb;
+    font-style: italic;
+  }
+  .aj-pre {
+    margin: 1.25rem 0;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    background: #0d0d10;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.6rem;
+  }
+  .aj-pre code {
+    color: #a5d6ff;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    white-space: pre;
+  }
+  .aj-figure-block {
+    margin: 1.5rem 0;
+  }
+
+  /* --- Share row ------------------------------------------------------- */
+  .aj-share {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .aj-share-btn {
+    margin-top: 0;
   }
 
   /* --- Form status line ------------------------------------------------ */

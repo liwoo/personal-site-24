@@ -10,6 +10,14 @@ import { techStack } from '~/data/stack';
 
 export const prerender = true;
 
+// Resolve the real company symbol logos so Dev Mode can render them creatively.
+const logoGlob = import.meta.glob<{ default: { src: string } }>(
+  '/src/assets/images/logos/png/*-symbol.png',
+  { eager: true }
+);
+const logoSrc = (key?: string): string | undefined =>
+  key ? logoGlob[`/src/assets/images/logos/png/${key}-symbol.png`]?.default?.src : undefined;
+
 const metadata = {
   title: 'About Jeremiah Chienda — Governance-Grade AI Engineer | National-Scale AI',
   description:
@@ -52,7 +60,7 @@ const dev = {
       .map((s) => s.title),
     companies: {
       __type: 'logos',
-      items: workExperience.map((w) => ({ label: w.title })),
+      items: workExperience.map((w) => ({ label: w.title, src: logoSrc(w.image) })),
     },
   },
 };

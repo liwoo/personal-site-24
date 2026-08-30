@@ -8,6 +8,7 @@ import SinglePost from '~/components/blog/SinglePost.astro';
 import ToBlogLink from '~/components/blog/ToBlogLink.astro';
 
 import { getCanonical, getPermalink } from '~/utils/permalinks';
+import { mdToRichHtml } from '~/utils/richMarkdown';
 import { getStaticPathsBlogPost, blogPostRobots } from '~/utils/blog';
 import { findImage } from '~/utils/images';
 import type { MetaData } from '~/types';
@@ -48,26 +49,6 @@ const metadata = merge(
 
 const coverSrc = typeof image === 'string' ? image : (image as ImageMetadata | undefined)?.src;
 
-// Turn the raw markdown body into readable paragraphs for the Dev Mode prose
-// block (strips headings, code fences, images, links and inline markup). Renders
-// the full article, not a preview.
-const toProseParagraphs = (md: string | undefined, max = 80): string[] => {
-  if (!md) return [];
-  return md
-    .replace(/```[\s\S]*?```/g, '') // code blocks
-    .replace(/^import\s.*$/gm, '') // mdx imports
-    .replace(/<[A-Z][\s\S]*?\/>/g, '') // self-closing JSX components
-    .replace(/<[^>]+>/g, '') // html/jsx tags
-    .replace(/\{[^}]*\}/g, '') // jsx expressions e.g. {' '}
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, '') // images
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1') // links -> text
-    .replace(/&[a-z]+;|&#\d+;/gi, ' ') // html entities
-    .split(/\n{2,}/)
-    .map((p) => p.replace(/[#>*_`~]/g, ' ').replace(/\s+/g, ' ').trim())
-    .filter((p) => p.length > 40 && !/@\w+|\bhttps?:/.test(p)) // drop tweet/embed lines
-    .slice(0, max);
-};
-
 const dev = {
   front: [
     { key: 'title', value: JSON.stringify(post.title) },
@@ -86,7 +67,8 @@ const dev = {
       cover: coverSrc ?? null,
       excerpt: post.excerpt ?? null,
     },
-    article: { __type: 'prose', paragraphs: toProseParagraphs(post.content) },
+    article: { __type: 'richtext', html: mdToRichHtml(post.content) },
+    share: { __type: 'share', url, text: post.title },
     subscribe: {
       __type: 'form',
       endpoint: '/api/newsletter',
