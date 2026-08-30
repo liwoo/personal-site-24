@@ -30,4 +30,9 @@ import { UI } from '~/utils/config';
   } else {
     applyTheme('light');
   }
+
+  // Apply Dev Mode early to avoid flashing the normal index listing before it swaps to JSON.
+  if (localStorage.devMode === 'true') {
+    document.documentElement.classList.add('dev-mode');
+  }
 </script>

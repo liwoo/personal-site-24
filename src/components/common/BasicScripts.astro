@@ -113,6 +113,48 @@ import { UI } from '~/utils/config';
     }
   }
 
+  function applyDevMode(enabled) {
+    document.documentElement.classList.toggle('dev-mode', enabled);
+    document.querySelectorAll('[data-aw-toggle-dev-mode]').forEach((btn) => {
+      btn.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+    });
+    if (enabled) {
+      highlightDevJson();
+    }
+  }
+
+  function highlightJson(json) {
+    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return json.replace(
+      /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+      function (match) {
+        let cls = 'devj-num';
+        if (/^"/.test(match)) {
+          cls = /:$/.test(match) ? 'devj-key' : 'devj-str';
+        } else if (/true|false/.test(match)) {
+          cls = 'devj-bool';
+        } else if (/null/.test(match)) {
+          cls = 'devj-null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+      }
+    );
+  }
+
+  function highlightDevJson() {
+    document.querySelectorAll('[data-dev-json] code').forEach((code) => {
+      if (code.dataset.highlighted === 'true') {
+        return;
+      }
+      code.innerHTML = highlightJson(code.textContent || '');
+      code.dataset.highlighted = 'true';
+    });
+  }
+
+  const initDevMode = function () {
+    applyDevMode(localStorage.devMode === 'true');
+  };
+
   const initTheme = function () {
     if ((defaultTheme && defaultTheme.endsWith(':only')) || (!localStorage.theme && defaultTheme !== 'system')) {
       applyTheme(defaultTheme.replace(':only', ''));
@@ -126,6 +168,7 @@ import { UI } from '~/utils/config';
     }
   };
   initTheme();
+  initDevMode();
 
   function attachEvent(selector, event, fn) {
     const matches = typeof selector === 'string' ? document.querySelectorAll(selector) : selector;
@@ -197,6 +240,12 @@ import { UI } from '~/utils/config';
       document.documentElement.classList.toggle('dark');
       localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
       toggleCompanyLogo(localStorage.theme);
+    });
+
+    attachEvent('[data-aw-toggle-dev-mode]', 'click', function () {
+      const enabled = !document.documentElement.classList.contains('dev-mode');
+      localStorage.devMode = enabled ? 'true' : 'false';
+      applyDevMode(enabled);
     });
 
     attachEvent('[data-aw-social-share]', 'click', function (_, elem) {
@@ -285,6 +334,7 @@ import { UI } from '~/utils/config';
 
   document.addEventListener('astro:after-swap', () => {
     initTheme();
+    initDevMode();
     animateHeroGrid();
     onLoad();
     onPageShow();
