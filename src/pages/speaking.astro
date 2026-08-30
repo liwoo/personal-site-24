@@ -40,8 +40,7 @@ const history = talks.filter((t) => t.status !== 'upcoming' && !t.featured);
     <Fragment slot="title"><span class="underlined">Speaking</span> & Talks</Fragment>
 
     <Fragment slot="subtitle">
-      Talks, panels and workshops on AI governance, agentic systems, RAG and GovTech at national scale — from
-      Blantyre and Kigali to Manchester.
+      AI governance, agents and GovTech at national scale — from Kigali to Manchester.
     </Fragment>
     <Fragment slot="content">
       <a href="/contact">&gt;&gt; Invite me to speak</a>
@@ -79,30 +78,37 @@ const history = talks.filter((t) => t.status !== 'upcoming' && !t.featured);
                       {talk.location}
                     </span>
                   </div>
-                  <p class="mt-4 text-muted">{talk.description}</p>
-                  {talk.affiliation && (
-                    <p class="mt-3 text-sm text-muted italic">{talk.role} — {talk.affiliation}</p>
-                  )}
-                  <div class="mt-5 flex flex-wrap gap-2">
-                    {talk.topics.map((topic) => (
-                      <span class="rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs text-muted">
-                        {topic}
-                      </span>
-                    ))}
-                  </div>
-                  {talk.eventUrl && (
-                    <div class="mt-6">
-                      <a
-                        href={talk.eventUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
-                      >
-                        Event details
-                        <Icon name="tabler:external-link" class="w-4 h-4" />
-                      </a>
+                  <details class="talk-more group mt-4">
+                    <summary class="flex w-fit cursor-pointer items-center gap-1 text-sm font-semibold text-secondary hover:underline">
+                      <span class="group-open:hidden">More</span>
+                      <span class="hidden group-open:inline">Less</span>
+                      <Icon name="tabler:chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180" />
+                    </summary>
+                    <p class="mt-3 text-muted">{talk.description}</p>
+                    {talk.affiliation && (
+                      <p class="mt-3 text-sm text-muted italic">{talk.role} — {talk.affiliation}</p>
+                    )}
+                    <div class="mt-4 flex flex-wrap gap-2">
+                      {talk.topics.map((topic) => (
+                        <span class="rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs text-muted">
+                          {topic}
+                        </span>
+                      ))}
                     </div>
-                  )}
+                    {talk.eventUrl && (
+                      <div class="mt-4">
+                        <a
+                          href={talk.eventUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
+                        >
+                          Event details
+                          <Icon name="tabler:external-link" class="w-4 h-4" />
+                        </a>
+                      </div>
+                    )}
+                  </details>
                 </article>
               </div>
             ))}
@@ -139,54 +145,61 @@ const history = talks.filter((t) => t.status !== 'upcoming' && !t.featured);
                     {talk.location}
                   </span>
                 </div>
-                <p class="mt-4 flex-grow text-muted">{talk.description}</p>
-                {talk.affiliation && (
-                  <p class="mt-3 text-sm text-muted italic">{talk.role} — {talk.affiliation}</p>
-                )}
-                <div class="mt-5 flex flex-wrap gap-2">
-                  {talk.topics.map((topic) => (
-                    <span class="rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs text-muted">
-                      {topic}
-                    </span>
-                  ))}
-                </div>
-                {(talk.recordingUrl || talk.slidesUrl || talk.eventUrl) && (
-                  <div class="mt-6 flex flex-wrap gap-4 border-t border-slate-100 dark:border-slate-800 pt-4">
-                    {talk.recordingUrl && (
-                      <a
-                        href={talk.recordingUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
-                      >
-                        <Icon name="tabler:player-play" class="w-4 h-4" />
-                        Watch
-                      </a>
-                    )}
-                    {talk.slidesUrl && (
-                      <a
-                        href={talk.slidesUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
-                      >
-                        <Icon name="tabler:presentation" class="w-4 h-4" />
-                        Slides
-                      </a>
-                    )}
-                    {talk.eventUrl && !talk.recordingUrl && (
-                      <a
-                        href={talk.eventUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
-                      >
-                        <Icon name="tabler:external-link" class="w-4 h-4" />
-                        Event
-                      </a>
-                    )}
+                <details class="talk-more group mt-4">
+                  <summary class="flex w-fit cursor-pointer items-center gap-1 text-sm font-semibold text-secondary hover:underline">
+                    <span class="group-open:hidden">More</span>
+                    <span class="hidden group-open:inline">Less</span>
+                    <Icon name="tabler:chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180" />
+                  </summary>
+                  <p class="mt-3 text-muted">{talk.description}</p>
+                  {talk.affiliation && (
+                    <p class="mt-3 text-sm text-muted italic">{talk.role} — {talk.affiliation}</p>
+                  )}
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    {talk.topics.map((topic) => (
+                      <span class="rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs text-muted">
+                        {topic}
+                      </span>
+                    ))}
                   </div>
-                )}
+                  {(talk.recordingUrl || talk.slidesUrl || talk.eventUrl) && (
+                    <div class="mt-4 flex flex-wrap gap-4 border-t border-slate-100 dark:border-slate-800 pt-4">
+                      {talk.recordingUrl && (
+                        <a
+                          href={talk.recordingUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
+                        >
+                          <Icon name="tabler:player-play" class="w-4 h-4" />
+                          Watch
+                        </a>
+                      )}
+                      {talk.slidesUrl && (
+                        <a
+                          href={talk.slidesUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
+                        >
+                          <Icon name="tabler:presentation" class="w-4 h-4" />
+                          Slides
+                        </a>
+                      )}
+                      {talk.eventUrl && !talk.recordingUrl && (
+                        <a
+                          href={talk.eventUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
+                        >
+                          <Icon name="tabler:external-link" class="w-4 h-4" />
+                          Event
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </details>
               </article>
             </div>
           ))
@@ -218,7 +231,14 @@ const history = talks.filter((t) => t.status !== 'upcoming' && !t.featured);
                   <Icon name="tabler:map-pin" class="w-4 h-4" />
                   {talk.location}
                 </p>
-                <p class="mt-3 text-sm text-muted">{talk.description}</p>
+                <details class="talk-more group mt-3">
+                  <summary class="flex w-fit cursor-pointer items-center gap-1 text-sm font-semibold text-secondary hover:underline">
+                    <span class="group-open:hidden">More</span>
+                    <span class="hidden group-open:inline">Less</span>
+                    <Icon name="tabler:chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180" />
+                  </summary>
+                  <p class="mt-3 text-sm text-muted">{talk.description}</p>
+                </details>
               </div>
             ))}
           </div>
@@ -246,14 +266,21 @@ const history = talks.filter((t) => t.status !== 'upcoming' && !t.featured);
                   <Icon name="tabler:map-pin" class="w-4 h-4" />
                   {entry.location}
                 </p>
-                <p class="mt-3 flex-grow text-muted">{entry.description}</p>
-                <div class="mt-5 flex flex-wrap gap-2">
-                  {entry.topics.map((topic) => (
-                    <span class="rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs text-muted">
-                      {topic}
-                    </span>
-                  ))}
-                </div>
+                <details class="talk-more group mt-4">
+                  <summary class="flex w-fit cursor-pointer items-center gap-1 text-sm font-semibold text-secondary hover:underline">
+                    <span class="group-open:hidden">More</span>
+                    <span class="hidden group-open:inline">Less</span>
+                    <Icon name="tabler:chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180" />
+                  </summary>
+                  <p class="mt-3 text-muted">{entry.description}</p>
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    {entry.topics.map((topic) => (
+                      <span class="rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs text-muted">
+                        {topic}
+                      </span>
+                    ))}
+                  </div>
+                </details>
               </article>
             </div>
           ))
@@ -277,6 +304,14 @@ const history = talks.filter((t) => t.status !== 'upcoming' && !t.featured);
   .talk-row.is-visible {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  .talk-more summary {
+    list-style: none;
+  }
+
+  .talk-more summary::-webkit-details-marker {
+    display: none;
   }
 </style>
 
