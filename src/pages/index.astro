@@ -38,6 +38,17 @@ const dev = {
       genre: 'Gospel Rap',
       highlights: ['UMP Cypha 2018', 'Machine Minder'],
     },
+    newsletter: {
+      __type: 'form',
+      endpoint: '/api/newsletter',
+      category: 'general',
+      submit: 'Subscribe',
+      success: 'subscribed — check your inbox for confirmation',
+      fields: [
+        { name: 'name', label: '"name"', placeholder: 'Your name', type: 'text' },
+        { name: 'email', label: '"email"', placeholder: 'you@domain.com', type: 'email', required: true },
+      ],
+    },
   },
 };
 ---

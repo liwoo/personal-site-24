@@ -94,11 +94,31 @@ function renderTyped(node: Typed): string {
       return `<span class="aj-type" data-text="${esc(node.value)}">${esc(node.value)}</span>`;
     case 'cta':
       return termButton(String(node.label ?? 'PRESS HERE'), node.href as string | undefined);
+    case 'prose': {
+      const paras = Array.isArray(node.paragraphs) ? (node.paragraphs as string[]) : [];
+      return (
+        `<div class="aj-prose">` +
+        paras.map((p, i) => `<p class="aj-p"><span class="aj-p-mark">${i === 0 ? '“' : '│'}</span>${esc(p)}</p>`).join('') +
+        `</div>`
+      );
+    }
     case 'form': {
       const flds = Array.isArray(node.fields) ? (node.fields as Array<Record<string, unknown>>) : [];
       const label = String(node.submit ?? 'SUBMIT');
+      // Functional form: submits via fetch to `endpoint` (handled in BasicScripts).
+      if (typeof node.endpoint === 'string') {
+        const cat = node.category ? ` data-aj-category="${esc(node.category)}"` : '';
+        const success = ` data-aj-success="${esc(node.success ?? 'Done.')}"`;
+        return (
+          `<form class="aj-form" data-aj-endpoint="${esc(node.endpoint)}"${cat}${success}>` +
+          flds.map(termInput).join('') +
+          termButton(label, undefined, true) +
+          `<div class="aj-form-status" role="status" aria-live="polite"></div>` +
+          `</form>`
+        );
+      }
       // If a submitHref is given (e.g. a mailto:), the inputs are a themed
-      // rendition and the button is a real link; otherwise it's a POST form.
+      // rendition and the button is a real link.
       if (typeof node.submitHref === 'string') {
         return (
           `<div class="aj-form">` +
@@ -198,11 +218,12 @@ function section(key: string, value: Val, index: number, last: boolean): string 
   const wm = key.replace(/[-_]/g, ' ').toUpperCase();
   const comma = last ? '' : '<span class="aj-punc">,</span>';
   const style = `--i:${index}`;
+  const anchor = `sec-${key.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
 
   // Typed sections (forms, CTAs, logo walls) render as beautified terminal cards.
   if (isTyped(value)) {
     return (
-      `<section class="aj-section aj-card aj-reveal" style="${style}">` +
+      `<section id="${anchor}" data-aj-key="${esc(key)}" class="aj-section aj-card aj-reveal" style="${style}">` +
       `<div class="aj-card-wm">${esc(wm)}</div>` +
       `<div class="aj-eyebrow">${esc(key)}</div>` +
       `<div class="aj-card-body">${renderTyped(value)}</div>` +
@@ -213,7 +234,7 @@ function section(key: string, value: Val, index: number, last: boolean): string 
   if (Array.isArray(value)) {
     const body = isStringArray(value) ? chips(value) : arrayItems(value);
     return (
-      `<section class="aj-section aj-reveal" style="${style}">` +
+      `<section id="${anchor}" data-aj-key="${esc(key)}" class="aj-section aj-reveal" style="${style}">` +
       `<div class="aj-watermark">${esc(wm)}</div>` +
       `<div class="aj-exp-head"><span class="aj-exp-key">"${esc(key)}"</span><span class="aj-colon"> :</span> <span class="aj-bracket">[</span></div>` +
       `<div class="aj-indent aj-array">${body}</div>` +
@@ -224,7 +245,7 @@ function section(key: string, value: Val, index: number, last: boolean): string 
 
   if (value && typeof value === 'object') {
     return (
-      `<section class="aj-section aj-reveal" style="${style}">` +
+      `<section id="${anchor}" data-aj-key="${esc(key)}" class="aj-section aj-reveal" style="${style}">` +
       `<div class="aj-watermark">${esc(wm)}</div>` +
       `<div class="aj-brace">{</div>` +
       `<div class="aj-indent">` +
@@ -238,7 +259,7 @@ function section(key: string, value: Val, index: number, last: boolean): string 
 
   // Scalar top-level entry
   return (
-    `<section class="aj-section aj-reveal" style="${style}">` +
+    `<section id="${anchor}" data-aj-key="${esc(key)}" class="aj-section aj-reveal" style="${style}">` +
     `<p class="aj-field aj-field--top"><span class="aj-k">"${esc(key)}"</span><span class="aj-punc">:</span> ${fmt(value, key)}${comma}</p>` +
     `</section>`
   );

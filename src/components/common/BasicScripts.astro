@@ -124,10 +124,89 @@ import { UI } from '~/utils/config';
     if (enabled) {
       updateDevPath();
       highlightDevNav();
+      buildDevSections();
       runTypewriters();
       window.scrollTo(0, 0);
     }
   }
+
+  // Build the contextual "on this page" section index in the sidebar, with a
+  // scrollspy that highlights the section currently in view.
+  let devSpyObserver = null;
+  function buildDevSections() {
+    const container = document.querySelector('[data-dmj-sections]');
+    const wrap = document.querySelector('[data-dmj-context]');
+    if (!container) return;
+    const list = Array.prototype.slice.call(document.querySelectorAll('.aj-doc [data-aj-key][id]'));
+    container.innerHTML = '';
+    if (!list.length) {
+      if (wrap) wrap.hidden = true;
+      return;
+    }
+    if (wrap) wrap.hidden = false;
+    list.forEach((sec, i) => {
+      const key = sec.getAttribute('data-aj-key') || 'sec' + i;
+      const a = document.createElement('a');
+      a.className = 'dmj-nav-sec';
+      a.href = '#' + sec.id;
+      a.dataset.spy = sec.id;
+      a.innerHTML =
+        '<span class="dmj-nav-sec-idx">' + String(i).padStart(2, '0') + '</span><span>' + key + '</span>';
+      container.appendChild(a);
+    });
+    if (devSpyObserver) devSpyObserver.disconnect();
+    devSpyObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) {
+            container.querySelectorAll('.dmj-nav-sec').forEach((x) => {
+              x.classList.toggle('active', x.dataset.spy === en.target.id);
+            });
+          }
+        });
+      },
+      { rootMargin: '-15% 0px -75% 0px', threshold: 0 }
+    );
+    list.forEach((sec) => devSpyObserver.observe(sec));
+  }
+
+  // Functional Dev Mode forms — submit via fetch to their data-aj-endpoint.
+  function handleDevFormSubmit(e) {
+    const form = e.target;
+    if (!form || !form.matches || !form.matches('form[data-aj-endpoint]')) return;
+    e.preventDefault();
+    const endpoint = form.getAttribute('data-aj-endpoint');
+    const status = form.querySelector('.aj-form-status');
+    const payload = {};
+    form.querySelectorAll('input, textarea').forEach((el) => {
+      if (el.name) payload[el.name] = el.value;
+    });
+    const cat = form.getAttribute('data-aj-category');
+    if (cat) payload.category = cat;
+    const setStatus = (cls, text) => {
+      if (status) {
+        status.className = 'aj-form-status ' + cls;
+        status.textContent = text;
+      }
+    };
+    setStatus('', '> sending…');
+    fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+      .then(async (r) => {
+        const data = await r.json().catch(() => ({}));
+        if (r.ok) {
+          setStatus('ok', '✓ ' + (form.getAttribute('data-aj-success') || data.message || 'Done.'));
+          form.reset();
+        } else {
+          setStatus('err', '✗ ' + (data.message || 'Something went wrong.'));
+        }
+      })
+      .catch(() => setStatus('err', '✗ Network error — please try again.'));
+  }
+  document.addEventListener('submit', handleDevFormSubmit, true);
 
   // Render the current route as a file path in the fixed path bar.
   function updateDevPath() {
@@ -282,8 +361,8 @@ import { UI } from '~/utils/config';
       elem.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
 
-    // Close the mobile nav after following a link.
-    attachEvent('.dmj-nav-item', 'click', function () {
+    // Close the mobile nav after following a link (route or in-page section).
+    attachEvent('.dmj-nav-item, .dmj-nav-sec', 'click', function () {
       document.querySelector('[data-dmj-nav]')?.classList.remove('open');
     });
 

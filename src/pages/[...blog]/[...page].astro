@@ -56,11 +56,24 @@ const tabs = [
 ];
 
 const dev = {
-  data: postIndexJson({
-    title: 'blog',
-    posts: page.data,
-    page: { currentPage: page.currentPage, lastPage: page.lastPage, total: page.total },
-  }),
+  data: {
+    ...postIndexJson({
+      title: 'blog',
+      posts: page.data,
+      page: { currentPage: page.currentPage, lastPage: page.lastPage, total: page.total },
+    }),
+    subscribe: {
+      __type: 'form',
+      endpoint: '/api/newsletter',
+      category: 'tech',
+      submit: 'Subscribe',
+      success: 'subscribed — new deep dives in your inbox',
+      fields: [
+        { name: 'name', label: '"name"', placeholder: 'Your name', type: 'text' },
+        { name: 'email', label: '"email"', placeholder: 'you@domain.com', type: 'email', required: true },
+      ],
+    },
+  },
 };
 ---
 

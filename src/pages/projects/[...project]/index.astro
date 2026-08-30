@@ -41,9 +41,23 @@ const dev = {
       sourceUrl: projectDetails?.sourceLink
         ? { __type: 'cta', label: 'Source', href: projectDetails.sourceLink }
         : null,
-      summary: projectDetails?.description ?? null,
+      tagline: projectDetails?.subtitle ?? null,
+      overview: projectDetails?.description
+        ? { __type: 'prose', paragraphs: [projectDetails.description] }
+        : null,
       methods: (projectDetails?.methods ?? []).map((m) => ({ title: m.title, detail: m.description })),
     },
+    ...(projectDetails?.testimony
+      ? {
+          testimony: {
+            __type: 'prose',
+            paragraphs: [
+              `“${projectDetails.testimony.testimony}”`,
+              `— ${projectDetails.testimony.name}, ${projectDetails.testimony.job}${projectDetails.testimony.company ? ' · ' + projectDetails.testimony.company : ''}`,
+            ],
+          },
+        }
+      : {}),
   },
 };
 ---
