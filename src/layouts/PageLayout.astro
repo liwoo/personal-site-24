@@ -55,12 +55,9 @@ const defaultFront = [
 ];
 const front = dev?.front ?? defaultFront;
 
-// Call-to-action buttons shown under the front matter. Default to the two
-// primary actions site-wide; a page can override or pass `[]` to hide them.
-const ctas = dev?.ctas ?? [
-  { label: 'Get in touch', href: '/contact' },
-  { label: 'Find out more', href: '/about' },
-];
+// Call-to-action buttons shown under the front matter. Opt-in per page (only
+// the home page uses them today); pages pass their own `ctas`, others get none.
+const ctas = dev?.ctas ?? [];
 ---
 
 <Layout metadata={metadata}>
