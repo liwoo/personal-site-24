@@ -23,6 +23,28 @@ const formatDate = (date: string | null): string | null => {
   return parsed.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 };
 
+const dev = {
+  data: {
+    talks: talks.map((t) => ({
+      title: t.title,
+      event: t.event,
+      type: t.type,
+      date: t.date,
+      location: t.location,
+      status: t.status,
+      topics: t.topics,
+      link: t.eventUrl ?? t.recordingUrl ?? t.slidesUrl ?? null,
+    })),
+    community: communityAndHosting.map((c) => ({
+      title: c.title,
+      role: c.role,
+      type: c.type,
+      location: c.location,
+      topics: c.topics,
+    })),
+  },
+};
+
 const typeLabel: Record<Talk['type'], string> = {
   talk: 'Talk',
   panel: 'Panel',
@@ -35,7 +57,7 @@ const featured = talks.filter((t) => t.status !== 'upcoming' && t.featured);
 const history = talks.filter((t) => t.status !== 'upcoming' && !t.featured);
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={metadata} dev={dev}>
   <Hero2>
     <Fragment slot="title"><span class="underlined">Speaking</span> & Talks</Fragment>
 
