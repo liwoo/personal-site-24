@@ -1,32 +1,64 @@
 ---
 /**
  * Wraps an index listing. In normal mode the slotted content renders as usual;
- * when Dev Mode is on (`html.dev-mode`) the listing is replaced by a prettified
- * JSON summary shown in a text-editor style panel. Toggling is CSS-only — see the
- * global rules in `Layout.astro` and the toggle logic in `BasicScripts.astro`.
+ * when Dev Mode is on (`html.dev-mode`) the listing is replaced by an editorial
+ * JSON document — dotted grid, amber front matter, cyan braces, a ghost
+ * watermark and a staggered reveal. Toggling is CSS-only: see the global rules
+ * in `Layout.astro` and the toggle logic in `BasicScripts.astro`.
  */
 export interface Props {
   /** Serializable summary of the index data. */
   data: unknown;
-  /** File name shown in the editor title bar (without extension). */
+  /** Name shown in the watermark and status badge (without extension). */
   label?: string;
 }
 
 const { data, label = 'index' } = Astro.props;
 const json = JSON.stringify(data, null, 2);
+
+// Derive a "front matter" header from the summary: top-level scalars, flattened
+// nested objects (e.g. pagination.currentPage), and array lengths.
+const obj = (data && typeof data === 'object' ? data : {}) as Record<string, unknown>;
+const frontMatter: Array<[string, string]> = [];
+for (const [key, value] of Object.entries(obj)) {
+  if (value === null || typeof value !== 'object') {
+    frontMatter.push([key, JSON.stringify(value)]);
+  } else if (Array.isArray(value)) {
+    frontMatter.push([`${key}.length`, String(value.length)]);
+  } else {
+    for (const [k2, v2] of Object.entries(value as Record<string, unknown>)) {
+      if (v2 === null || typeof v2 !== 'object') frontMatter.push([`${key}.${k2}`, JSON.stringify(v2)]);
+    }
+  }
+}
+
+const watermark = label.replace(/[-_]/g, ' ').toUpperCase();
 ---
 
-<div class="dev-json-wrapper">
+<div class="dmj-wrapper">
   <div data-dev-normal>
     <slot />
   </div>
-  <div data-dev-json class="dev-json-editor" aria-hidden="true">
-    <div class="dev-json-titlebar">
-      <span class="dev-json-dot dev-json-dot--red"></span>
-      <span class="dev-json-dot dev-json-dot--yellow"></span>
-      <span class="dev-json-dot dev-json-dot--green"></span>
-      <span class="dev-json-filename">{label}.json</span>
+  <div data-dev-json class="dmj-doc" data-dmj-label={label} aria-hidden="true">
+    <div class="dmj-grid"></div>
+    <div class="dmj-watermark">{watermark}</div>
+    <div class="dmj-shell">
+      <section class="dmj-front dmj-reveal">
+        <div class="dmj-front-rule"></div>
+        <div class="dmj-dashes">---</div>
+        <div class="dmj-meta">
+          {
+            frontMatter.map(([key, value]) => (
+              <Fragment>
+                <span class="dmj-key">{key}:</span>
+                <span class="dmj-val">{value}</span>
+              </Fragment>
+            ))
+          }
+        </div>
+        <div class="dmj-dashes">---</div>
+      </section>
+      <pre class="dmj-code dmj-reveal"><code>{json}</code></pre>
     </div>
-    <pre class="dev-json-code"><code>{json}</code></pre>
   </div>
 </div>
