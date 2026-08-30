@@ -143,12 +143,28 @@ import { UI } from '~/utils/config';
       const q = input.value.trim().toLowerCase();
       const items = postsSec ? postsSec.querySelectorAll('.aj-item') : [];
       let shown = 0;
+      let firstMatch = null;
       items.forEach((it) => {
         const match = !q || (it.textContent || '').toLowerCase().includes(q);
         it.style.display = match ? '' : 'none';
-        if (match) shown++;
+        if (match) {
+          shown++;
+          if (!firstMatch) firstMatch = it;
+        }
       });
-      if (countEl) countEl.textContent = q ? '// ' + shown + ' match' + (shown === 1 ? '' : 'es') : '';
+      if (!countEl) return;
+      countEl.onclick = null;
+      countEl.classList.remove('link');
+      if (!q) {
+        countEl.textContent = '';
+      } else if (shown === 0) {
+        countEl.textContent = '// no matches';
+      } else {
+        // The count hyperlinks to (scrolls to) the first matching article.
+        countEl.textContent = '// ' + shown + ' match' + (shown === 1 ? '' : 'es') + ' → jump to article';
+        countEl.classList.add('link');
+        countEl.onclick = () => firstMatch && firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     };
     input.addEventListener('input', () => {
       clearTimeout(timer);
