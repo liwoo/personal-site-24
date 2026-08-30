@@ -31,8 +31,10 @@ import { UI } from '~/utils/config';
     applyTheme('light');
   }
 
-  // Apply Dev Mode early to avoid flashing the normal index listing before it swaps to JSON.
+  // Apply Dev Mode early to avoid flashing the normal design before the skin loads.
+  // Dev Mode forces a dark base so its editorial palette stays consistent.
   if (localStorage.devMode === 'true') {
     document.documentElement.classList.add('dev-mode');
+    document.documentElement.classList.add('dark');
   }
 </script>

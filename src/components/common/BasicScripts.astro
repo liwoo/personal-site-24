@@ -114,13 +114,63 @@ import { UI } from '~/utils/config';
   }
 
   function applyDevMode(enabled) {
-    document.documentElement.classList.toggle('dev-mode', enabled);
+    const html = document.documentElement;
+    html.classList.toggle('dev-mode', enabled);
     document.querySelectorAll('[data-aw-toggle-dev-mode]').forEach((btn) => {
       btn.setAttribute('aria-pressed', enabled ? 'true' : 'false');
     });
     if (enabled) {
+      // Force a dark base so the editorial palette stays consistent regardless
+      // of the visitor's light/dark preference (which is restored on exit).
+      html.classList.add('dark');
       highlightDevJson();
+      decorateDevImages();
+      updateDevPath();
+    } else {
+      // Restore the visitor's actual theme when leaving Dev Mode.
+      initTheme();
     }
+  }
+
+  // Wrap content images in an editorial "asset reference" figure with a
+  // monospace src/alt caption. Skips chrome, logos and icons. The wrapper is
+  // display:contents when Dev Mode is off, so normal layout is untouched.
+  function decorateDevImages() {
+    document.querySelectorAll('img:not([data-dmj-done])').forEach((img) => {
+      img.dataset.dmjDone = '1';
+      if (
+        img.closest('#header, footer, nav, [data-dev-json], [data-no-devfig]') ||
+        img.hasAttribute('data-img-type') ||
+        (img.getAttribute('src') || '').indexOf('data:image/svg') === 0
+      ) {
+        return;
+      }
+      const fig = document.createElement('span');
+      fig.className = 'dmj-figure';
+      const cap = document.createElement('span');
+      cap.className = 'dmj-img-cap';
+      const src = img.getAttribute('src') || '';
+      const file = (src.split('/').pop() || 'image').split('?')[0];
+      const alt = img.getAttribute('alt');
+      cap.textContent = 'src: "' + file + '"' + (alt ? '  ·  ' + alt : '');
+      const parent = img.parentNode;
+      if (!parent) {
+        return;
+      }
+      parent.insertBefore(fig, img);
+      fig.appendChild(img);
+      fig.appendChild(cap);
+    });
+  }
+
+  // Render the current route as a file path in the fixed path bar.
+  function updateDevPath() {
+    const target = document.querySelector('[data-dmj-path]');
+    if (!target) {
+      return;
+    }
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    target.textContent = parts.length ? parts.join(' / ') : 'index';
   }
 
   function highlightJson(json) {
