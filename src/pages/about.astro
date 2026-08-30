@@ -9,18 +9,21 @@ import Button from '~/components/ui/Button.astro';
 export const prerender = true;
 
 const metadata = {
-  title: 'About Jeremiah Chienda — AI Engineer | 10+ Years in Production Software',
-  description: 'AI Engineer with 10+ years building production software. Specializing in AI agent systems, RAG, and LLM applications. Master of Engineering, Doshisha University.',
+  title: 'About Jeremiah Chienda — Governance-Grade AI Engineer | National-Scale AI',
+  description:
+    'AI engineer building trustworthy AI for high-stakes, regulated environments. Ten years shipping production systems across Malawi, Rwanda, Japan and the UK — from national health platforms to a govtech assistant serving 12M citizens, now inside a UK data regulator.',
 };
-
 ---
 
 <Layout metadata={metadata}>
-  <Hero2>
+  <Hero2 tagline="Trustworthy AI for the places tech forgets">
     <Fragment slot="title"><span class="underlined">About</span> Me</Fragment>
 
     <Fragment slot="subtitle">
-      AI Engineer building LLM-powered agent systems and RAG pipelines. 10+ years shipping production software across Africa and Europe.
+      I build trustworthy AI for high-stakes, regulated environments — the kind where being wrong has consequences. Ten
+      years shipping production systems across Malawi, Rwanda, Japan and the UK, from national health platforms to a
+      govtech assistant serving 12 million citizens. Today I do it inside a data regulator, where governance, PII and
+      audit are the daily default — not an afterthought.
     </Fragment>
     <Fragment slot="content">
       <a href="https://getalinafe.com">&gt;&gt; Also a gospel rapper — Liwu</a>

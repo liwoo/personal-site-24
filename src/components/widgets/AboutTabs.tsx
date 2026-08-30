@@ -35,59 +35,73 @@ export function AboutTabs() {
           </div>
           <div className="w-full md:w-1/2 lg:w-2/3 flex flex-col gap-y-4 ">
             <p>
-              Jeremiah Chienda is a Malawian Sofware and AI Engineer based in the UK, where he builds Data and AI
-              solutions at the{' '}
+              Jeremiah Chienda builds trustworthy AI for high-stakes, regulated environments — the places where being
+              wrong has consequences, and often the places tech forgets. A Malawian software and AI engineer based in
+              the UK, he builds Data and AI solutions at the{' '}
               <a href="https://ico.org.uk/" className="underline">
                 Information Commissioner's Office
-              </a>
-              . Before this, he lead AI Engineering at{' '}
-              <a href="https://irembo.gov.uk" className="underline">
-                Irembo
               </a>{' '}
-              — the platform that digitizes government services for millions of Rwandan citizens.
+              (ICO), the UK's data regulator, where governance, PII and audit are the daily default rather than an
+              afterthought.
             </p>
             <p>
-              Over a career spanning 10+ years and 5 countries, Jeremiah has built production software across govtech,
-              fintech, agriculture, telecom, and e-commerce. At Irembo, he architects LLM-powered agent systems, RAG
-              pipelines, and AI-driven products that serve real users at national scale. He organized and led Irembo's
-              first internal AI hackathon and actively contributes to the company's AI strategy.
-            </p>
-            <p>
-              Jeremiah was Lead Software Engineer at{' '}
-              <a href="https://oneacrefund.org/" className="underline">
-                One Acre Fund
+              Over ten-plus years across five countries, he has shipped production software at national scale — and can
+              point to what he built, precisely. He built the first version of{' '}
+              <a href="/projects/irembo-ai" className="underline">
+                IremboAI
               </a>
-              , where he led a team building mobile and web applications serving over one million smallholder farmers
-              across East Africa. He was a Software Developer at{' '}
-              <a href="https://bestseller.com/" className="underline">
-                Bestseller
+              , the trilingual assistant on Rwanda's national e-government platform, engineered and evaluated to a 95%
+              internal benchmark for accuracy and tone. He built the real-time{' '}
+              <a href="/projects/times-elections-dashboard" className="underline">
+                Presidential Elections Dashboard
               </a>{' '}
-              in Denmark, and Software Architect at{' '}
-              <a href="https://www.facebook.com/Baobabhealthtrust/" className="underline">
-                Baobab Health Trust
+              that became a primary results source on national television during Malawi's 2025 elections. He built the{' '}
+              <a href="/projects/doorbell" className="underline">
+                Doorbell
               </a>{' '}
-              in Malawi, where he worked on health information systems including the national{' '}
+              delivery app, which has processed over £440k for Malawian merchants, and the pharma/clinic module of
+              mboraMAX. Earlier, he architected Malawi's national{' '}
               <a href="https://zipatala.health.gov.mw/" className="underline">
                 Master Health Facility Register
               </a>
               .
             </p>
             <p>
-              Jeremiah holds a Master of Engineering from{' '}
+              He was Lead Software Engineer at{' '}
+              <a href="https://oneacrefund.org/" className="underline">
+                One Acre Fund
+              </a>
+              , leading a team building mobile and web applications serving over one million smallholder farmers across
+              East Africa. He was a Software Developer at{' '}
+              <a href="https://bestseller.com/" className="underline">
+                Bestseller
+              </a>{' '}
+              in Denmark, and a Software Architect at{' '}
+              <a href="https://www.facebook.com/Baobabhealthtrust/" className="underline">
+                Baobab Health Trust
+              </a>{' '}
+              in Malawi.
+            </p>
+            <p>
+              He holds a Master of Engineering from{' '}
               <a href="https://www.doshisha.ac.jp/en/" className="underline">
                 Doshisha University
               </a>{' '}
-              in Kyoto, Japan. He is currently pursuing Microsoft DP-700 (Fabric Data Engineer) and AI-102 (Azure AI
+              in Kyoto, Japan, and is currently pursuing Microsoft DP-700 (Fabric Data Engineer) and AI-102 (Azure AI
               Engineer Associate) certifications to deepen his expertise in enterprise AI and data platforms.
             </p>
             <p>
-              He{' '}
+              His work has been recognised beyond his own products — through EU/GOPA-supported consulting engagements, a
+              UN digital-health approach, and international GovTech award platforms. He{' '}
               <a href="/blog" className="underline">
                 writes about AI agent engineering
               </a>{' '}
-              — covering agent memory, tool calling, MCP/A2A integrations, token economics, generative UI, and
-              production safety patterns. He speaks at conferences and events across Africa on AI, software engineering,
-              and the African tech ecosystem.
+              — agent memory, tool calling, MCP/A2A integrations, token economics, generative UI, and production safety
+              patterns — and{' '}
+              <a href="/speaking" className="underline">
+                speaks internationally
+              </a>{' '}
+              on trustworthy AI and GovTech.
             </p>
             <p>
               Outside of engineering, Jeremiah is a gospel hip-hop artist performing under the name{' '}
@@ -102,23 +116,26 @@ export function AboutTabs() {
       <TabsContent value="brief" className="leading-7 text-lg text-default flex flex-col gap-y-4 my-4">
         <img src={setup.src} alt="Jeremiah's desk setup" />
         <p>
-          Jeremiah Chienda is an AI Engineer at the UK's{' '}
+          Jeremiah Chienda is a governance-grade AI engineer at the UK's{' '}
           <a href="https://ico.org.uk/" className="underline">
             Information Commissioner's Office
-          </a>
-          , where he joined after leading AI at{' '}
+          </a>{' '}
+          — a data regulator, where governance, PII and audit are the daily default. He specializes in AI agent systems,
+          RAG architectures and LLM-powered products, and in making them safe enough to ship where being wrong has real
+          consequences.
+        </p>
+        <p>
+          His career traces a four-country arc: national health platforms in Malawi, a govtech assistant serving 12
+          million citizens in Rwanda (where he led AI at{' '}
           <a href="https://irembo.gov.rw" className="underline">
             Africa's leading e-government platform
           </a>
-          . He specializes in AI agent systems, RAG architectures, and LLM-powered applications, with deep experience
-          shipping software across govtech, agri and fintech in Africa and Europe.
-        </p>
-        <p>
-          Previously Lead Software Engineer at{' '}
+          ), a Master of Engineering in Japan, and now a data regulator in the UK. Along the way: Lead Software Engineer
+          at{' '}
           <a href="https://oneacrefund.org/" className="underline">
             One Acre Fund
-          </a>
-          , Software Developer at{' '}
+          </a>{' '}
+          (1M+ farmers), Software Developer at{' '}
           <a href="https://bestseller.com/" className="underline">
             Bestseller
           </a>{' '}
@@ -130,44 +147,28 @@ export function AboutTabs() {
           <a href="https://www.doshisha.ac.jp/en/" className="underline">
             Doshisha University
           </a>{' '}
-          (Japan). Currently pursuing Microsoft DP-700 and AI-102 certifications.
-        </p>
-        <p>Speaker, writer, and gospel hip-hop artist.</p>
-      </TabsContent>
-      <TabsContent value="pitch" className="leading-7 text-lg text-default flex flex-col gap-y-4 my-4">
-        <p>
-          I'm Jeremiah Chienda — an <strong>AI Engineer</strong> with 10+ years building production software, currently
-          building Data and AI solutions at the UK's{' '}
-          <a href="https://irembo.com/" className="underline">
-            Information Commissioner's Office (ICO)
-          </a>{' '}
+          (Japan).
         </p>
         <p>
-          I design and ship AI agent systems, RAG pipelines, and LLM-powered products for govtech and fintech. I've
-          built software used by millions across East and Southern Africa, led engineering teams of different sizes, and
-          shipped across mobile, web, and cloud.
-        </p>
-        <p>
-          I hold a Master of Engineering from{' '}
-          <a href="https://www.doshisha.ac.jp/en/" className="underline">
-            Doshisha University
-          </a>{' '}
-          (Japan), and a BSc from{' '}
-          <a href="https://www.mubas.ac.mw/" className="underline">
-            Malawi University of Business and Science
-          </a>
-          .
-        </p>
-        <p>
-          I also{' '}
-          <a href="/blog" className="underline">
-            write about AI agent engineering
-          </a>
-          , speak at conferences, and make gospel rap under the name{' '}
+          Speaker, writer, and gospel hip-hop artist performing as{' '}
           <a href="https://getalinafe.com" className="underline">
             Liwu
           </a>
           .
+        </p>
+      </TabsContent>
+      <TabsContent value="pitch" className="leading-7 text-lg text-default flex flex-col gap-y-4 my-4">
+        <p>
+          I'm Jeremiah Chienda — a <strong>governance-grade AI engineer</strong>. I build trustworthy AI for
+          high-stakes, regulated environments, currently inside the UK's{' '}
+          <a href="https://ico.org.uk/" className="underline">
+            Information Commissioner's Office
+          </a>{' '}
+          — a data regulator.
+        </p>
+        <p>
+          Ten years, four countries, national scale: builder, regulator and responsible-AI practitioner in one — from
+          health data in Malawi to a govtech assistant serving 12 million Rwandans.
         </p>
       </TabsContent>
       <TabsContent value="pictures" className="py-4">
