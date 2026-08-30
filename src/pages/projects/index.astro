@@ -11,7 +11,6 @@ import { techStack } from '~/data/stack';
 import { shuffle } from '~/utils';
 import ProjectCards from '~/components/widgets/ProjectCards.astro';
 import { projects } from '~/data/projects';
-import { projectIndexJson } from '~/utils/devMode';
 
 export const prerender = true;
 
@@ -19,7 +18,25 @@ const metadata = {
   title: 'My Projects',
 };
 
-const dev = { data: projectIndexJson(projects) };
+const dev = {
+  front: [
+    { key: 'count', value: String(projects.length), strong: true },
+    { key: 'domains', value: '["HealthTech", "FinTech", "GovTech", "AgriTech"]' },
+  ],
+  data: {
+    projects: projects.map((p) => ({
+      title: p.title,
+      company: p.company?.name ?? null,
+      role: p.role ?? null,
+      duration: p.duration ?? null,
+      category: p.category ?? null,
+      stack: p.stack ?? [],
+      cover: typeof p.image?.src === 'string' ? p.image.src : null,
+      open: p.slug ? { __type: 'cta', label: 'Open', href: `/projects/${p.slug}` } : null,
+      live: p.projectLink ? { __type: 'cta', label: 'Live', href: p.projectLink } : null,
+    })),
+  },
+};
 
 export const getStaticPaths = (() => {
   return [];

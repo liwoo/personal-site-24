@@ -253,7 +253,7 @@ const navItems = [
   }
   .aj-key-display {
     display: block;
-    font-size: clamp(2rem, 8vw, 4.5rem);
+    font-size: clamp(1.6rem, 8vw, 4.5rem);
     font-weight: 900;
     letter-spacing: -0.05em;
     color: #fff;
@@ -274,8 +274,19 @@ const navItems = [
     font-size: clamp(1.05rem, 2.4vw, 1.5rem);
     color: #9ca3af;
     line-height: 1.6;
-    max-width: 46rem;
+    max-width: 38rem;
     margin: 0 0 1rem;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  /* Long string values wrap within their quotes to save width (esp. mobile). */
+  .aj-str,
+  .aj-link,
+  .aj-val,
+  .aj-item-title,
+  .aj-key-display,
+  .aj-exp-key {
+    overflow-wrap: anywhere;
     word-break: break-word;
   }
   .aj-field .aj-k {
@@ -384,6 +395,9 @@ const navItems = [
     color: #6b7280;
     font-size: 0.9rem;
     line-height: 1.75;
+    max-width: 40rem;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
   .aj-line .aj-lk {
     color: #9ca3af;
@@ -913,5 +927,28 @@ const navItems = [
     text-transform: uppercase;
     text-align: right;
     color: #4b5563;
+  }
+
+  /* --- Small screens: shrink display type so nothing overflows ---------- */
+  @media (max-width: 640px) {
+    .aj-key-display {
+      font-size: clamp(1.5rem, 9vw, 2.4rem);
+    }
+    .aj-exp-key {
+      font-size: clamp(1.3rem, 8vw, 1.9rem);
+    }
+    .aj-indent {
+      margin-left: 1rem;
+    }
+    .aj-item {
+      padding-left: 1.75rem;
+    }
+    .aj-doc {
+      padding: 1.5rem 1.1rem;
+    }
+    /* keep the status badge from colliding with content */
+    html.dev-mode .dmj-sidebar {
+      display: none;
+    }
   }
 </style>

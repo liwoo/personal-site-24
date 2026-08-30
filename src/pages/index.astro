@@ -6,6 +6,8 @@ import HomeAbout from '~/components/widgets/HomeAbout.astro';
 import { footerData } from '~/data/navigation';
 import HomeArticles from '~/components/widgets/HomeArticles.astro';
 import Button from '~/components/ui/Button.astro';
+import { findPostsByCategory } from '~/utils/blog';
+import { getPermalink } from '~/utils/permalinks';
 
 export const prerender = true;
 
@@ -14,6 +16,13 @@ const metadata = {
 };
 
 const name: string = 'Liwu';
+
+const latestWriting = (await findPostsByCategory('tech')).slice(0, 4).map((p) => ({
+  title: p.title,
+  permalink: getPermalink(p.permalink, 'post'),
+  date: p.publishDate instanceof Date ? p.publishDate.toISOString().slice(0, 10) : String(p.publishDate),
+  readingTime: p.readingTime ? `${p.readingTime} min` : null,
+}));
 
 // Dev Mode: the artistic-JSON portrait of the home page.
 const dev = {
@@ -28,11 +37,22 @@ const dev = {
     profile: {
       name: 'Jeremiah Chienda',
       mission: { __type: 'typewriter', value: 'I build AI agents that go past the demo stage.' },
+      bio: {
+        __type: 'prose',
+        paragraphs: [
+          'I design and ship production agent systems — RAG pipelines, tool-calling agents, MCP integrations and the safety scaffolding around them — for high-stakes, regulated environments.',
+          'Ten years across HealthTech, FinTech, AgriTech and GovTech, from Malawi and Rwanda to Japan and the UK. Most recently I led AI engineering at Irembo, building the assistant behind Rwanda’s national e-government platform for 12M citizens.',
+        ],
+      },
     },
-    experience: [
-      { name: 'IremboAI', role: 'Lead AI Engineer', impact: 'Scaling gov-services for 12M citizens' },
-      { name: 'Baobab Health', role: 'Software Architect', impact: 'Digital health infra for national systems' },
-    ],
+    now: {
+      role: 'AI Engineer @ ICO — the UK data regulator',
+      building: 'responsible Data & AI systems for a national regulator',
+      writing: 'deep dives on agent architecture, memory, tool calling & token economics',
+      open_to: 'contract & full-time AI engineering — agent systems, RAG, LLM products',
+    },
+    focus_areas: ['Agent Architecture', 'RAG Pipelines', 'MCP', 'Generative UI', 'AI Safety', 'Token Economics'],
+    latest_writing: latestWriting,
     creative_engine: {
       alias: 'Liwu',
       genre: 'Gospel Rap',

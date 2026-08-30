@@ -48,9 +48,10 @@ const metadata = merge(
 
 const coverSrc = typeof image === 'string' ? image : (image as ImageMetadata | undefined)?.src;
 
-// Turn the raw markdown body into a few readable paragraphs for the Dev Mode
-// prose block (strips headings, code fences, images, links and inline markup).
-const toPreviewParagraphs = (md: string | undefined, max = 5): string[] => {
+// Turn the raw markdown body into readable paragraphs for the Dev Mode prose
+// block (strips headings, code fences, images, links and inline markup). Renders
+// the full article, not a preview.
+const toProseParagraphs = (md: string | undefined, max = 80): string[] => {
   if (!md) return [];
   return md
     .replace(/```[\s\S]*?```/g, '') // code blocks
@@ -63,7 +64,7 @@ const toPreviewParagraphs = (md: string | undefined, max = 5): string[] => {
     .replace(/&[a-z]+;|&#\d+;/gi, ' ') // html entities
     .split(/\n{2,}/)
     .map((p) => p.replace(/[#>*_`~]/g, ' ').replace(/\s+/g, ' ').trim())
-    .filter((p) => p.length > 80 && !/@\w+|\bhttps?:/.test(p)) // drop tweet/embed lines
+    .filter((p) => p.length > 40 && !/@\w+|\bhttps?:/.test(p)) // drop tweet/embed lines
     .slice(0, max);
 };
 
@@ -85,7 +86,7 @@ const dev = {
       cover: coverSrc ?? null,
       excerpt: post.excerpt ?? null,
     },
-    article: { __type: 'prose', paragraphs: toPreviewParagraphs(post.content) },
+    article: { __type: 'prose', paragraphs: toProseParagraphs(post.content) },
     subscribe: {
       __type: 'form',
       endpoint: '/api/newsletter',
