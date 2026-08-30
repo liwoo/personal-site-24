@@ -367,6 +367,36 @@ import { UI } from '~/utils/config';
       document.querySelector('[data-dmj-nav]')?.classList.remove('open');
     });
 
+    // Click-to-copy body text (bio / article).
+    attachEvent('[data-aj-copy-text]', 'click', function (_, elem) {
+      const body = elem.parentElement?.querySelector('.aj-copy-body');
+      const text = body ? body.innerText : '';
+      const label = elem.querySelector('.aj-copy-i');
+      const done = () => {
+        elem.classList.add('copied');
+        const rest = elem.childNodes[elem.childNodes.length - 1];
+        if (label) label.textContent = '✓';
+        if (rest) rest.textContent = ' copied';
+        setTimeout(() => {
+          elem.classList.remove('copied');
+          if (label) label.textContent = '⧉';
+          if (rest) rest.textContent = ' copy';
+        }, 1600);
+      };
+      if (navigator.clipboard && text) navigator.clipboard.writeText(text).then(done, done);
+      else done();
+    });
+
+    // Expandable CV detail on experience items (tap on mobile; hover on desktop).
+    attachEvent('.aj-more-hint', 'click', function (_, elem) {
+      const item = elem.closest('.aj-item');
+      if (!item) return;
+      const open = item.classList.toggle('open');
+      elem.setAttribute('aria-expanded', open ? 'true' : 'false');
+      const i = elem.querySelector('.aj-more-i');
+      if (i) i.textContent = open ? '−' : '+';
+    });
+
     // Copy-link share button.
     attachEvent('[data-aj-copy]', 'click', function (_, elem) {
       const url = elem.getAttribute('data-aj-copy') || window.location.href;

@@ -70,6 +70,17 @@ function termButton(label: string, href?: string, submit = false): string {
   return `<a class="aj-btn" href="${esc(href || '#')}"${attrs}>${inner}</a>`;
 }
 
+/** Wrap content with a click-to-copy affordance (copies the body's text). */
+function copyable(innerHtml: string, label: string): string {
+  return (
+    `<div class="aj-copyable">` +
+    `<button type="button" class="aj-copy" data-aj-copy-text aria-label="Copy ${esc(label)}">` +
+    `<span class="aj-copy-i">⧉</span> copy</button>` +
+    `<div class="aj-copy-body">${innerHtml}</div>` +
+    `</div>`
+  );
+}
+
 /** A terminal input: `>_ placeholder ▊` with a blinking caret. */
 function termInput(f: Record<string, unknown>): string {
   const name = esc(f.name ?? 'field');
@@ -96,15 +107,14 @@ function renderTyped(node: Typed): string {
       return termButton(String(node.label ?? 'PRESS HERE'), node.href as string | undefined);
     case 'prose': {
       const paras = Array.isArray(node.paragraphs) ? (node.paragraphs as string[]) : [];
-      return (
-        `<div class="aj-prose">` +
-        paras.map((p, i) => `<p class="aj-p"><span class="aj-p-mark">${i === 0 ? '“' : '│'}</span>${esc(p)}</p>`).join('') +
-        `</div>`
-      );
+      const body = paras
+        .map((p, i) => `<p class="aj-p"><span class="aj-p-mark">${i === 0 ? '“' : '│'}</span>${esc(p)}</p>`)
+        .join('');
+      return copyable(`<div class="aj-prose">${body}</div>`, 'bio');
     }
     case 'richtext':
       // Pre-rendered themed HTML (from richMarkdown.ts) — already escaped there.
-      return `<div class="aj-article">${String(node.html ?? '')}</div>`;
+      return copyable(`<div class="aj-article">${String(node.html ?? '')}</div>`, 'article');
     case 'share': {
       const url = String(node.url ?? '');
       const text = String(node.text ?? '');
@@ -214,7 +224,13 @@ function arrayItems(arr: Val[]): string {
         const obj = item as Record<string, Val>;
         const titleKey = TITLE_KEYS.find((k) => typeof obj[k] === 'string');
         const title = titleKey ? obj[titleKey] : undefined;
-        const rest = Object.entries(obj).filter(([k, v]) => k !== titleKey && present(['', v]));
+        // An inset `logo` (image) sits beside the title; `more` (string[]) is a
+        // hover/tap-revealed detail block pulled from the CV.
+        const logo = typeof obj.logo === 'string' ? (obj.logo as string) : undefined;
+        const moreArr = Array.isArray(obj.more) ? (obj.more as string[]).filter(Boolean) : [];
+        const rest = Object.entries(obj).filter(
+          ([k, v]) => k !== titleKey && k !== 'logo' && k !== 'more' && present(['', v])
+        );
         const lines = rest
           .map(([k, v]) => {
             if (isTyped(v))
@@ -224,12 +240,22 @@ function arrayItems(arr: Val[]): string {
             return `<div class="aj-line"><span class="aj-lk">${esc(k)}</span>: ${fmt(v, k)}</div>`;
           })
           .join('');
+        const insetLogo = logo
+          ? `<span class="aj-item-logo"><img src="${esc(logo)}" alt="${esc(String(title ?? 'logo'))}" loading="lazy" /></span>`
+          : '';
+        const moreBlock = moreArr.length
+          ? `<div class="aj-more-hint" role="button" tabindex="0" aria-expanded="false"><span class="aj-more-i">+</span> more from cv</div>` +
+            `<div class="aj-item-more">${moreArr.map((m) => `<div class="aj-more-line">${esc(m)}</div>`).join('')}</div>`
+          : '';
         return (
-          `<div class="aj-item"><div class="aj-item-tick"></div>` +
+          `<div class="aj-item${moreArr.length ? ' aj-item--expandable' : ''}"><div class="aj-item-tick"></div>` +
           `<div class="aj-brace-sm">{</div>` +
           `<div class="aj-item-body">` +
+          `<div class="aj-item-head">${insetLogo}` +
           (title !== undefined ? `<div class="aj-item-title">"${esc(title)}"</div>` : '') +
+          `</div>` +
           lines +
+          moreBlock +
           `</div>` +
           `<div class="aj-brace-sm">}${comma}</div></div>`
         );
@@ -323,7 +349,8 @@ const footLink = (l: FooterLink, label?: string): string => {
 };
 
 /** The footer, rendered as a beautified terminal card (see the reference mock). */
-export function renderFooterCard(footer: FooterData): string {
+export function renderFooterCard(footer: FooterData, avatar?: string): string {
+  const avatarFig = avatar ? `<div class="aj-footer-avatar">${fmt(avatar, 'portrait')}</div>` : '';
   const cols = (footer.links ?? [])
     .map(
       (group) =>
@@ -341,7 +368,7 @@ export function renderFooterCard(footer: FooterData): string {
     `<footer class="aj-card aj-footer aj-reveal">` +
     `<div class="aj-card-wm">EOF</div>` +
     `<div class="aj-eyebrow">footer</div>` +
-    `<div class="aj-fgrid">${cols}</div>` +
+    `<div class="aj-footer-top">${avatarFig}<div class="aj-fgrid">${cols}</div></div>` +
     `<div class="aj-frow"><span class="aj-lk">social</span><span class="aj-punc">: [</span>${socials}<span class="aj-punc">]</span></div>` +
     (secondary ? `<div class="aj-frow aj-fsecondary">${secondary}</div>` : '') +
     (note ? `<div class="aj-fnote">// ${note}</div>` : '') +

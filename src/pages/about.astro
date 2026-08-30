@@ -46,22 +46,23 @@ const dev = {
         'He holds an M.Eng from Doshisha University in Kyoto, Japan — focused on Natural Language Processing — and a BSc from the Malawi University of Business and Applied Sciences. Off the clock, he records gospel rap as Liwu.',
       ],
     },
-    experience: workExperience.map((w) => ({
-      company: w.title,
-      role: w.position,
-      location: w.location,
-      duration: w.duration,
-      impact: Array.isArray(w.description) ? w.description[0] : w.description,
-    })),
+    experience: workExperience.map((w) => {
+      const desc = Array.isArray(w.description) ? w.description : [w.description].filter(Boolean);
+      return {
+        company: w.title,
+        logo: logoSrc(w.image),
+        role: w.position,
+        location: w.location,
+        duration: w.duration,
+        impact: desc[0],
+        more: desc.slice(1),
+      };
+    }),
     skills: techStack
       .slice()
       .sort((a, b) => b.experience - a.experience)
       .slice(0, 10)
       .map((s) => s.title),
-    companies: {
-      __type: 'logos',
-      items: workExperience.map((w) => ({ label: w.title, src: logoSrc(w.image) })),
-    },
   },
 };
 ---

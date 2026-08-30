@@ -26,6 +26,13 @@ const latestWriting = (await findPostsByCategory('tech')).slice(0, 4).map((p) =>
 
 // Dev Mode: the artistic-JSON portrait of the home page.
 const dev = {
+  banner: `
+ ##  ###    #### #  #  ### ### #  # #### #### ###
+#  #  #     #    ## # #     #  ## # #    #    #  #
+####  #     ###  # ## # ##  #  # ## ###  ###  ###
+#  #  #     #    #  # #  #  #  #  # #    #    # #
+#  # ###    #### #  #  ### ### #  # #### #### #  #
+`,
   front: [
     { key: 'status', value: '"Building production-grade Agentic Systems"', strong: true },
     { key: 'role', value: '"AI Engineering Lead @ Irembo"' },

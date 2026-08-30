@@ -937,6 +937,210 @@ const navItems = [
     margin-top: 0;
   }
 
+  /* --- ASCII banner (home) --------------------------------------------- */
+  .aj-ascii {
+    margin: 0 0 2.5rem;
+    color: #22d3ee;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: clamp(5px, 1.5vw, 13px);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    white-space: pre;
+    overflow-x: auto;
+    text-shadow: 0 0 14px rgba(34, 211, 238, 0.25);
+  }
+
+  /* --- Footer avatar (SEO image) --------------------------------------- */
+  .aj-footer-top {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 1.75rem;
+    align-items: flex-start;
+    margin-bottom: 1.75rem;
+  }
+  .aj-footer-avatar {
+    flex: none;
+  }
+  .aj-footer-avatar .aj-figure {
+    width: 6rem;
+    height: 6rem;
+    margin: 0;
+  }
+  .aj-footer-avatar .aj-figure img {
+    width: 6rem;
+    height: 6rem;
+    object-fit: cover;
+  }
+  .aj-footer-top .aj-fgrid {
+    flex: 1;
+    margin-bottom: 0;
+  }
+  @media (max-width: 640px) {
+    .aj-footer-top {
+      flex-direction: column;
+    }
+  }
+
+  /* --- Inset company logo + hover-reveal CV detail --------------------- */
+  .aj-item-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.3rem;
+  }
+  .aj-item-head .aj-item-title {
+    margin: 0;
+  }
+  .aj-item-logo {
+    flex: none;
+  }
+  .aj-item-logo img {
+    width: 2.4rem;
+    height: 2.4rem;
+    object-fit: contain;
+    padding: 0.3rem;
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 0.4rem;
+    background: #f4f4f5;
+    filter: grayscale(1);
+    transition: filter 0.3s ease;
+  }
+  .aj-item:hover .aj-item-logo img {
+    filter: none;
+  }
+  .aj-more-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.6rem;
+    color: #4b5563;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    user-select: none;
+  }
+  .aj-more-hint:hover {
+    color: #22d3ee;
+  }
+  .aj-more-i {
+    color: #f59e0b;
+    font-weight: 700;
+  }
+  .aj-item-more {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, margin-top 0.35s ease;
+  }
+  .aj-more-line {
+    position: relative;
+    padding: 0.15rem 0 0.15rem 1rem;
+    color: #9ca3af;
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+  .aj-more-line::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: #22d3ee;
+  }
+  .aj-item.open .aj-item-more {
+    max-height: 30rem;
+    margin-top: 0.4rem;
+  }
+  @media (hover: hover) {
+    .aj-item--expandable:hover .aj-item-more {
+      max-height: 30rem;
+      margin-top: 0.4rem;
+    }
+    .aj-item--expandable:hover .aj-more-hint {
+      color: #22d3ee;
+    }
+  }
+
+  /* --- Click-to-copy affordance ---------------------------------------- */
+  .aj-copyable {
+    position: relative;
+  }
+  .aj-copy {
+    position: absolute;
+    top: -0.4rem;
+    right: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.55rem;
+    font: 11px/1 ui-monospace, SFMono-Regular, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6b7280;
+    background: rgba(10, 10, 12, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.35rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .aj-copyable:hover .aj-copy,
+  .aj-copy:focus-visible {
+    opacity: 1;
+  }
+  .aj-copy:hover {
+    color: #22d3ee;
+    border-color: rgba(34, 211, 238, 0.3);
+  }
+  .aj-copy.copied {
+    opacity: 1;
+    color: #4ade80;
+  }
+  .aj-copy-i {
+    color: #f59e0b;
+  }
+
+  /* --- External-link iconography --------------------------------------- */
+  .aj-link[target='_blank']::after {
+    content: '↗';
+    margin-left: 0.15em;
+    font-size: 0.78em;
+    color: #f59e0b;
+    vertical-align: 0.08em;
+  }
+
+  /* --- Mobile readability: full-width prose, less indentation ---------- */
+  @media (max-width: 640px) {
+    .aj-fields {
+      margin-left: 0.35rem;
+      padding-left: 0.9rem;
+    }
+    .aj-subfields {
+      margin-left: 0.35rem;
+      padding-left: 0.85rem;
+    }
+    .aj-array {
+      padding-top: 0.5rem;
+    }
+    .aj-item-tick {
+      width: 1rem;
+    }
+    .aj-field,
+    .aj-line,
+    .aj-prose,
+    .aj-article {
+      max-width: 100%;
+    }
+    .aj-article {
+      font-size: 1.02rem;
+      line-height: 1.8;
+    }
+    .aj-copy {
+      position: static;
+      opacity: 1;
+      margin-bottom: 0.6rem;
+    }
+  }
+
   /* --- Form status line ------------------------------------------------ */
   .aj-form-status {
     margin-top: 0.75rem;
