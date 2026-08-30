@@ -193,6 +193,8 @@ function arrayItems(arr: Val[]): string {
         const rest = Object.entries(obj).filter(([k, v]) => k !== titleKey && present(['', v]));
         const lines = rest
           .map(([k, v]) => {
+            if (isTyped(v))
+              return `<div class="aj-line"><span class="aj-lk">${esc(k)}</span>: ${renderTyped(v)}</div>`;
             if (isStringArray(v))
               return `<div class="aj-line"><span class="aj-lk">${esc(k)}</span>: ${chips(v)}</div>`;
             return `<div class="aj-line"><span class="aj-lk">${esc(k)}</span>: ${fmt(v, k)}</div>`;

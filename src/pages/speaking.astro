@@ -23,24 +23,37 @@ const formatDate = (date: string | null): string | null => {
   return parsed.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 };
 
+const talkItem = (t: Talk) => ({
+  title: t.title,
+  event: t.event,
+  type: t.type,
+  date: t.date,
+  location: t.location,
+  role: t.role,
+  affiliation: t.affiliation,
+  abstract: t.description,
+  topics: t.topics,
+  event_url: t.eventUrl ? { __type: 'cta', label: 'Event', href: t.eventUrl } : null,
+  recording: t.recordingUrl ? { __type: 'cta', label: 'Watch', href: t.recordingUrl } : null,
+  slides: t.slidesUrl ? { __type: 'cta', label: 'Slides', href: t.slidesUrl } : null,
+});
+
 const dev = {
+  front: [
+    { key: 'status', value: '"Available for talks, panels & workshops"', strong: true },
+    { key: 'topics', value: '["AI Governance", "Agentic AI", "RAG", "GovTech"]' },
+  ],
   data: {
-    talks: talks.map((t) => ({
-      title: t.title,
-      event: t.event,
-      type: t.type,
-      date: t.date,
-      location: t.location,
-      status: t.status,
-      topics: t.topics,
-      link: t.eventUrl ?? t.recordingUrl ?? t.slidesUrl ?? null,
-    })),
+    upcoming: talks.filter((t) => t.status === 'upcoming').map(talkItem),
+    past: talks.filter((t) => t.status !== 'upcoming').map(talkItem),
     community: communityAndHosting.map((c) => ({
       title: c.title,
       role: c.role,
       type: c.type,
       location: c.location,
+      about: c.description,
       topics: c.topics,
+      link: c.eventUrl ? { __type: 'cta', label: 'Visit', href: c.eventUrl } : null,
     })),
   },
 };
