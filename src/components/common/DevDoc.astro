@@ -20,16 +20,20 @@ export interface Props {
   front?: FrontRow[];
   /** Optional chips row appended to the front matter (e.g. a tech stack). */
   chips?: { key: string; items: string[] };
+  /** Optional ASCII banner rendered at the very top (home page). */
+  banner?: string;
 }
 
-const { data, front = [], chips } = Astro.props;
+const SEO_IMAGE = 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/2026.jpg';
+const { data, front = [], chips, banner } = Astro.props;
 const body = renderArtisticJson(data);
-const footer = renderFooterCard(footerData);
+const footer = renderFooterCard(footerData, SEO_IMAGE);
 ---
 
 <div data-dev-json class="aj-doc" aria-hidden="true">
   <div class="aj-grid"></div>
   <div class="aj-shell">
+    {banner && <pre class="aj-ascii aj-reveal" aria-hidden="true">{banner}</pre>}
     {
       (front.length > 0 || chips) && (
         <section class="aj-front aj-reveal">
