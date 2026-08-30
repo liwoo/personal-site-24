@@ -1,0 +1,60 @@
+---
+/**
+ * A full-page artistic JSON document — the Dev Mode view of a whole page.
+ * Rendered by PageLayout as `[data-dev-json]`; the normal page sits in
+ * `[data-dev-normal]`. CSS (in DevModeSkin.astro) hides one and shows the other
+ * based on `html.dev-mode`. Styling classes are `.aj-*`.
+ */
+import { renderArtisticJson } from '~/utils/artisticJson';
+
+export interface FrontRow {
+  key: string;
+  value: string;
+  strong?: boolean;
+}
+
+export interface Props {
+  data: Record<string, unknown>;
+  /** YAML-style front matter rows shown above the document. */
+  front?: FrontRow[];
+  /** Optional chips row appended to the front matter (e.g. a tech stack). */
+  chips?: { key: string; items: string[] };
+}
+
+const { data, front = [], chips } = Astro.props;
+const body = renderArtisticJson(data);
+---
+
+<div data-dev-json class="aj-doc" aria-hidden="true">
+  <div class="aj-grid"></div>
+  <div class="aj-shell">
+    {
+      (front.length > 0 || chips) && (
+        <section class="aj-front aj-reveal">
+          <div class="aj-front-rule" />
+          <div class="aj-dashes">---</div>
+          <div class="aj-meta">
+            {front.map((row) => (
+              <Fragment>
+                <span class="aj-fkey">{row.key}:</span>
+                <span class:list={['aj-fval', { strong: row.strong }]}>{row.value}</span>
+              </Fragment>
+            ))}
+            {chips && (
+              <Fragment>
+                <span class="aj-fkey">{chips.key}:</span>
+                <div class="aj-chips">
+                  {chips.items.map((c) => (
+                    <span class="aj-chip">{c}</span>
+                  ))}
+                </div>
+              </Fragment>
+            )}
+          </div>
+          <div class="aj-dashes">---</div>
+        </section>
+      )
+    }
+    <div class="aj-json" set:html={body} />
+  </div>
+</div>

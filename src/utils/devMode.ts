@@ -3,8 +3,8 @@ import { getPermalink } from '~/utils/permalinks';
 
 /**
  * Helpers that summarize the data behind an index page into a compact,
- * serializable shape. Dev Mode renders these as prettified JSON in a
- * text-editor style panel (see `DevJson.astro`).
+ * serializable shape. Dev Mode feeds these to the artistic JSON renderer
+ * (see `artisticJson.ts` / `DevDoc.astro`).
  */
 
 const isoDate = (date?: Date): string | undefined =>

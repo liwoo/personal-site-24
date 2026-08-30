@@ -11,7 +11,6 @@ import { techStack } from '~/data/stack';
 import { shuffle } from '~/utils';
 import ProjectCards from '~/components/widgets/ProjectCards.astro';
 import { projects } from '~/data/projects';
-import DevJson from '~/components/common/DevJson.astro';
 import { projectIndexJson } from '~/utils/devMode';
 
 export const prerender = true;
@@ -19,6 +18,8 @@ export const prerender = true;
 const metadata = {
   title: 'My Projects',
 };
+
+const dev = { data: projectIndexJson(projects) };
 
 export const getStaticPaths = (() => {
   return [];
@@ -44,7 +45,7 @@ const tabs = [
 ];
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={metadata} dev={dev}>
   <Hero2>
     <Fragment slot="title">My <span class="underlined">Portfolio</span></Fragment>
 
@@ -63,23 +64,21 @@ const tabs = [
     </div>
   </div> -->
   <section class="py-12 sm:py-16 lg:py-20 container-lg relative" id="server-projects">
-    <DevJson label="projects" data={projectIndexJson(projects)}>
-      <div class="projects-grid grid grid-cols-1 md:grid-cols-2 gap-y-4 lg:gap-y-8">
-        {
-          projects.map((project, index) => (
-            <div class="project-card-wrapper" style={`transition-delay: ${0.1 + index * 0.1}s`}>
-              <ProjectCard
-                company={project.company?.name}
-                slug={project.slug}
-                title={project.title}
-                logo={project.company?.logo}
-                thumbnail={project.image?.src}
-              />
-            </div>
-          ))
-        }
-      </div>
-    </DevJson>
+    <div class="projects-grid grid grid-cols-1 md:grid-cols-2 gap-y-4 lg:gap-y-8">
+      {
+        projects.map((project, index) => (
+          <div class="project-card-wrapper" style={`transition-delay: ${0.1 + index * 0.1}s`}>
+            <ProjectCard
+              company={project.company?.name}
+              slug={project.slug}
+              title={project.title}
+              logo={project.company?.logo}
+              thumbnail={project.image?.src}
+            />
+          </div>
+        ))
+      }
+    </div>
 
     <div class="stack-section my-8 lg:my-12">
       <div class="stack-headline">

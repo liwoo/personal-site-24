@@ -9,7 +9,6 @@ import Hero2 from '~/components/widgets/Hero2.astro';
 import { ListItem } from '~/components/blog/ListItem.tsx';
 import Tabs from '~/components/ui/Tabs.astro';
 import SignupForm from '~/components/widgets/SignupForm.astro';
-import DevJson from '~/components/common/DevJson.astro';
 import { postIndexJson } from '~/utils/devMode';
 
 export const prerender = true;
@@ -55,9 +54,17 @@ const tabs = [
     label: 'General',
   },
 ];
+
+const dev = {
+  data: postIndexJson({
+    title: 'blog',
+    posts: page.data,
+    page: { currentPage: page.currentPage, lastPage: page.lastPage, total: page.total },
+  }),
+};
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={metadata} dev={dev}>
   <Hero2>
     <Fragment slot="title">Blog & <span class="underlined">Articles</span></Fragment>
     <Fragment slot="subtitle">
@@ -95,22 +102,13 @@ const tabs = [
     </div>
   </div>
   <section class="py-12 sm:py-16 lg:py-20 container-lg relative" id="server-posts" hx-swap-oob="true">
-    <DevJson
-      label="blog"
-      data={postIndexJson({
-        title: 'blog',
-        posts: page.data,
-        page: { currentPage: page.currentPage, lastPage: page.lastPage, total: page.total },
-      })}
-    >
-      <div class="blog-list flex flex-col gap-y-4 lg:gap-y-8">
-        {page.data.map((post, index) => (
-          <div class="blog-item" style={`transition-delay: ${0.1 + index * 0.05}s`}>
-            <ListItem post={post} extended />
-          </div>
-        ))}
-      </div>
-    </DevJson>
+    <div class="blog-list flex flex-col gap-y-4 lg:gap-y-8">
+      {page.data.map((post, index) => (
+        <div class="blog-item" style={`transition-delay: ${0.1 + index * 0.05}s`}>
+          <ListItem post={post} extended />
+        </div>
+      ))}
+    </div>
     <div class="blog-pagination">
       <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
     </div>

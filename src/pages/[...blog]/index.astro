@@ -45,9 +45,26 @@ const metadata = merge(
   },
   { ...(post?.metadata ? { ...post.metadata, canonical: post.metadata?.canonical || url } : {}) }
 ) as MetaData;
+
+const coverSrc = typeof image === 'string' ? image : (image as ImageMetadata | undefined)?.src;
+const dev = {
+  data: {
+    post: {
+      title: post.title,
+      slug: post.slug,
+      permalink: getPermalink(post.permalink, 'post'),
+      publishDate: post.publishDate instanceof Date ? post.publishDate.toISOString().slice(0, 10) : post.publishDate,
+      category: post.category ?? null,
+      tags: post.tags ?? [],
+      readingTime: post.readingTime ?? null,
+      cover: coverSrc ?? null,
+      excerpt: post.excerpt ?? null,
+    },
+  },
+};
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={metadata} dev={dev}>
   <Hero2>
     <Fragment slot="title">
       <div class="z-10 relative">

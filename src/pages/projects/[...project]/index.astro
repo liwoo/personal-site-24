@@ -24,9 +24,27 @@ const metadata = merge(
     }
   }
 ) as MetaData;
+
+const dev = {
+  data: {
+    project: {
+      title: projectDetails?.title ?? null,
+      slug: projectDetails?.slug ?? null,
+      company: projectDetails?.company?.name ?? null,
+      role: projectDetails?.role ?? null,
+      duration: projectDetails?.duration ?? null,
+      stack: projectDetails?.stack ?? [],
+      cover: typeof projectDetails?.image?.src === 'string' ? projectDetails.image.src : null,
+      liveUrl: projectDetails?.projectLink ?? null,
+      sourceUrl: projectDetails?.sourceLink ?? null,
+      summary: projectDetails?.description ?? null,
+      methods: (projectDetails?.methods ?? []).map((m) => ({ title: m.title, detail: m.description })),
+    },
+  },
+};
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={metadata} dev={dev}>
   <Hero2>
     <Fragment slot="title">
       <div class="z-10 relative">

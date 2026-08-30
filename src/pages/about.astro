@@ -5,6 +5,8 @@ import { ProfileSidebar } from '~/components/widgets/ProfileSidebar.tsx';
 import Hero2 from '~/components/widgets/Hero2.astro';
 import Layout from '~/layouts/PageLayout.astro';
 import Button from '~/components/ui/Button.astro';
+import { workExperience } from '~/data/work-experience';
+import { techStack } from '~/data/stack';
 
 export const prerender = true;
 
@@ -13,9 +15,37 @@ const metadata = {
   description:
     'AI engineer building trustworthy AI for high-stakes, regulated environments. Ten years shipping production systems across Malawi, Rwanda, Japan and the UK — from national health platforms to a govtech assistant serving 12M citizens, now inside a UK data regulator.',
 };
+
+const dev = {
+  front: [
+    { key: 'status', value: '"Trustworthy AI for high-stakes, regulated environments"', strong: true },
+    { key: 'current', value: '"AI Engineer @ ICO — the UK data regulator"' },
+    { key: 'based', value: '["Manchester, UK"]' },
+  ],
+  chips: { key: 'focus', items: ['Responsible AI', 'RAG', 'Agents', 'AI Governance', 'LLM Apps'] },
+  data: {
+    profile: {
+      name: 'Jeremiah Chienda',
+      headline: 'Governance-grade AI engineer',
+      mission: 'I build trustworthy AI for high-stakes, regulated environments — the kind where being wrong has consequences.',
+    },
+    experience: workExperience.map((w) => ({
+      company: w.title,
+      role: w.position,
+      location: w.location,
+      duration: w.duration,
+      impact: Array.isArray(w.description) ? w.description[0] : w.description,
+    })),
+    skills: techStack
+      .slice()
+      .sort((a, b) => b.experience - a.experience)
+      .slice(0, 10)
+      .map((s) => s.title),
+  },
+};
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={metadata} dev={dev}>
   <Hero2 tagline="Trustworthy AI for the places tech forgets">
     <Fragment slot="title"><span class="underlined">About</span> Me</Fragment>
 
