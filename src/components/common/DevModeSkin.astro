@@ -14,14 +14,11 @@ const navItems = [
 ];
 ---
 
+<!-- Keyboard: skip straight to the page content (visible only on focus). -->
+<a href="#dev-main" class="dmj-skip" data-dmj-skip>skip to content</a>
+
 <!-- Left tmux-style navigation index (fixed; hamburger toggles it on mobile) -->
-<button
-  type="button"
-  class="dmj-hamburger"
-  data-dmj-hamburger
-  aria-label="Toggle navigation"
-  aria-expanded="false"
->
+<button type="button" class="dmj-hamburger" data-dmj-hamburger aria-label="Toggle navigation" aria-expanded="false">
   <span></span><span></span><span></span>
 </button>
 <aside class="dmj-nav" data-dmj-nav aria-label="Dev Mode navigation">
@@ -32,6 +29,7 @@ const navItems = [
         <a class="dmj-nav-item" href={item.href} data-route={item.href}>
           <span class="dmj-nav-idx">{String(i).padStart(2, '0')}</span>
           <span class="dmj-nav-name">~/{item.label}</span>
+          {i < 9 && <kbd class="dmj-nav-key">⌘⇧{i + 1}</kbd>}
         </a>
       ))
     }
@@ -41,6 +39,9 @@ const navItems = [
     <nav class="dmj-nav-sections" data-dmj-sections></nav>
   </div>
   <div class="dmj-nav-foot">
+    <button type="button" class="dmj-nav-help" data-dmj-help-open>
+      press <kbd>?</kbd> for shortcuts
+    </button>
     <div>dev_mode // tmux</div>
     <div class="dmj-nav-path">~ / <b data-dmj-path>index</b>.json</div>
   </div>
@@ -195,11 +196,35 @@ const navItems = [
   }
   .aj-chip--link {
     text-decoration: none;
-    transition: background 0.15s ease, color 0.15s ease;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
   }
   .aj-chip--link:hover {
     background: #22d3ee;
     color: #0a0a0c;
+  }
+
+  /* --- Front-matter call-to-action buttons ----------------------------- */
+  .aj-front-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+  .aj-front-cta {
+    margin-top: 0;
+  }
+  /* The first CTA reads as the primary action (filled). */
+  .aj-front-cta:first-child {
+    background: #22d3ee;
+    color: #0a0a0c;
+  }
+  .aj-front-cta:first-child .aj-btn-br {
+    color: #0a0a0c;
+  }
+  .aj-front-cta:first-child:hover {
+    background: #67e8f9;
   }
 
   /* --- Root + sections -------------------------------------------------- */
@@ -448,7 +473,10 @@ const navItems = [
     right: 0;
     z-index: 2;
     padding: 1px 6px;
-    font: 9px/1.4 ui-monospace, SFMono-Regular, monospace;
+    font:
+      9px/1.4 ui-monospace,
+      SFMono-Regular,
+      monospace;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: #0a0a0c;
@@ -463,7 +491,10 @@ const navItems = [
     max-width: 100%;
     box-sizing: border-box;
     padding: 2px 6px;
-    font: 10px/1.4 ui-monospace, SFMono-Regular, monospace;
+    font:
+      10px/1.4 ui-monospace,
+      SFMono-Regular,
+      monospace;
     color: #22d3ee;
     background: rgba(0, 0, 0, 0.7);
     white-space: nowrap;
@@ -497,7 +528,10 @@ const navItems = [
     padding: 1.5rem 1rem;
     background: #08080a;
     border-right: 1px solid rgba(34, 211, 238, 0.15);
-    font: 12px/1.5 ui-monospace, SFMono-Regular, monospace;
+    font:
+      12px/1.5 ui-monospace,
+      SFMono-Regular,
+      monospace;
     transform: translateX(0);
     transition: transform 0.25s ease;
     overflow-y: auto;
@@ -527,7 +561,9 @@ const navItems = [
     border-radius: 0.3rem;
     color: #6b7280;
     text-decoration: none;
-    transition: color 0.15s ease, background 0.15s ease;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
   }
   .dmj-nav-item:hover {
     color: #e5e7eb;
@@ -708,7 +744,9 @@ const navItems = [
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
   }
   .aj-btn:hover {
     background: #22d3ee;
@@ -1113,7 +1151,10 @@ const navItems = [
   }
   .aj-code-lang {
     color: #f59e0b;
-    font: 11px/1 ui-monospace, SFMono-Regular, monospace;
+    font:
+      11px/1 ui-monospace,
+      SFMono-Regular,
+      monospace;
     letter-spacing: 0.05em;
   }
   .aj-code-actions {
@@ -1122,7 +1163,10 @@ const navItems = [
   }
   .aj-code-btn {
     padding: 0.2rem 0.55rem;
-    font: 10px/1 ui-monospace, SFMono-Regular, monospace;
+    font:
+      10px/1 ui-monospace,
+      SFMono-Regular,
+      monospace;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: #6b7280;
@@ -1130,7 +1174,9 @@ const navItems = [
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 0.3rem;
     cursor: pointer;
-    transition: color 0.2s ease, border-color 0.2s ease;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
   }
   .aj-code-btn:hover {
     color: #22d3ee;
@@ -1225,7 +1271,9 @@ const navItems = [
   .aj-item-more {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.35s ease, margin-top 0.35s ease;
+    transition:
+      max-height 0.35s ease,
+      margin-top 0.35s ease;
   }
   .aj-more-line {
     position: relative;
@@ -1266,7 +1314,10 @@ const navItems = [
     align-items: center;
     gap: 0.3rem;
     padding: 0.25rem 0.55rem;
-    font: 11px/1 ui-monospace, SFMono-Regular, monospace;
+    font:
+      11px/1 ui-monospace,
+      SFMono-Regular,
+      monospace;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: #6b7280;
@@ -1275,7 +1326,10 @@ const navItems = [
     border-radius: 0.35rem;
     cursor: pointer;
     opacity: 0;
-    transition: opacity 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease;
   }
   .aj-copyable:hover .aj-copy,
   .aj-copy:focus-visible {
@@ -1357,8 +1411,11 @@ const navItems = [
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1.5rem;
+    /* Wider tracks + a generous column gap so the link columns breathe. As the
+       card narrows, columns drop from 3 → 2 → 1 (each staying comfortably wide)
+       rather than staying cramped side by side. */
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 1.75rem 3rem;
     margin-bottom: 1.75rem;
   }
   .aj-fcol-title {
@@ -1410,7 +1467,10 @@ const navItems = [
     right: 1rem;
     z-index: 10000;
     padding: 0.4rem 0.7rem;
-    font: 11px/1 ui-monospace, SFMono-Regular, monospace;
+    font:
+      11px/1 ui-monospace,
+      SFMono-Regular,
+      monospace;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #0a0a0c;
@@ -1429,7 +1489,10 @@ const navItems = [
     bottom: 1.1rem;
     z-index: 9998;
     pointer-events: none;
-    font: 10px/1.6 ui-monospace, SFMono-Regular, monospace;
+    font:
+      10px/1.6 ui-monospace,
+      SFMono-Regular,
+      monospace;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     text-align: right;
@@ -1522,14 +1585,186 @@ const navItems = [
     .aj-article {
       max-width: 100%;
     }
-    /* footer link columns: two columns on mobile */
+    /* footer link columns on mobile: keep tracks wide (min 8.5rem) so they fill
+       the row two-up when they fit and fall back to one wide column when they
+       don't — never the pinched columns of the old fixed 2-up grid. */
     .aj-fgrid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem 0.75rem;
+      grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+      gap: 1.25rem 1.5rem;
     }
     /* keep the status badge from colliding with content */
     html.dev-mode .dmj-sidebar {
       display: none;
     }
+  }
+
+  /* --- Keyboard: nav shortcut hints ------------------------------------ */
+  .dmj-nav-key {
+    margin-left: auto;
+    padding: 0.05rem 0.3rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.25rem;
+    color: #4b5563;
+    font:
+      9px/1.4 ui-monospace,
+      SFMono-Regular,
+      monospace;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .dmj-nav-item.active .dmj-nav-key {
+    color: #22d3ee;
+    border-color: rgba(34, 211, 238, 0.3);
+  }
+  .dmj-nav-help {
+    display: inline-block;
+    margin-bottom: 0.6rem;
+    padding: 0;
+    color: #4b5563;
+    background: none;
+    border: none;
+    font: inherit;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    text-align: left;
+  }
+  .dmj-nav-help:hover {
+    color: #22d3ee;
+  }
+  .dmj-nav-help kbd {
+    padding: 0 0.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.2rem;
+    color: #9ca3af;
+  }
+
+  /* --- Keyboard: skip-to-content link ---------------------------------- */
+  .dmj-skip {
+    display: none;
+  }
+  html.dev-mode .dmj-skip {
+    position: fixed;
+    top: -3rem;
+    left: 1rem;
+    z-index: 10002;
+    display: inline-block;
+    padding: 0.5rem 0.9rem;
+    color: #0a0a0c;
+    background: #22d3ee;
+    border-radius: 0.4rem;
+    font:
+      12px/1 ui-monospace,
+      SFMono-Regular,
+      monospace;
+    text-decoration: none;
+    transition: top 0.15s ease;
+  }
+  html.dev-mode .dmj-skip:focus {
+    top: 1rem;
+  }
+
+  /* --- Keyboard: visible focus rings ----------------------------------- */
+  html.dev-mode .dmj-nav-item:focus-visible,
+  html.dev-mode .dmj-nav-sec:focus-visible,
+  html.dev-mode .dmj-exit:focus-visible,
+  html.dev-mode .dmj-hamburger:focus-visible,
+  html.dev-mode .dmj-nav-help:focus-visible,
+  html.dev-mode .aj-link:focus-visible,
+  html.dev-mode .aj-btn:focus-visible,
+  html.dev-mode .aj-chip--link:focus-visible,
+  html.dev-mode .aj-copy:focus-visible,
+  html.dev-mode .aj-more-hint:focus-visible,
+  html.dev-mode .aj-code-btn:focus-visible,
+  html.dev-mode .aj-input-line:focus-within,
+  html.dev-mode [data-aj-blog-search]:focus-visible {
+    outline: 2px solid #22d3ee;
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+  html.dev-mode #dev-main:focus {
+    outline: none;
+  }
+
+  /* --- Keyboard: shortcuts cheatsheet overlay -------------------------- */
+  .dmj-help {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10003;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    background: rgba(0, 0, 0, 0.82);
+  }
+  .dmj-help.open {
+    display: flex;
+  }
+  .dmj-help-panel {
+    width: 100%;
+    max-width: 30rem;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 1.75rem;
+    background: #0d0d10;
+    border: 1px solid rgba(34, 211, 238, 0.25);
+    border-radius: 0.9rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    font:
+      13px/1.6 ui-monospace,
+      SFMono-Regular,
+      monospace;
+    color: #d1d5db;
+  }
+  .dmj-help-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.1rem;
+    color: #f59e0b;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
+  }
+  .dmj-help-close {
+    padding: 0.2rem 0.5rem;
+    color: #6b7280;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.3rem;
+    cursor: pointer;
+  }
+  .dmj-help-close:hover {
+    color: #22d3ee;
+    border-color: rgba(34, 211, 238, 0.4);
+  }
+  .dmj-help-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+  }
+  .dmj-help-row:last-child {
+    border-bottom: none;
+  }
+  .dmj-help-row span {
+    color: #9ca3af;
+  }
+  .dmj-help kbd {
+    flex: none;
+    padding: 0.15rem 0.45rem;
+    color: #22d3ee;
+    background: rgba(34, 211, 238, 0.08);
+    border: 1px solid rgba(34, 211, 238, 0.25);
+    border-radius: 0.3rem;
+    font:
+      11px/1.4 ui-monospace,
+      SFMono-Regular,
+      monospace;
+    white-space: nowrap;
   }
 </style>
