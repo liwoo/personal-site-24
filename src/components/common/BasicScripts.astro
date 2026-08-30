@@ -258,7 +258,8 @@ import { UI } from '~/utils/config';
   }
 
   const initDevMode = function () {
-    applyDevMode(localStorage.devMode === 'true');
+    // Dev Mode is the default view; only an explicit 'false' opts out.
+    applyDevMode(localStorage.devMode !== 'false');
   };
 
   const initTheme = function () {
@@ -364,6 +365,26 @@ import { UI } from '~/utils/config';
     // Close the mobile nav after following a link (route or in-page section).
     attachEvent('.dmj-nav-item, .dmj-nav-sec', 'click', function () {
       document.querySelector('[data-dmj-nav]')?.classList.remove('open');
+    });
+
+    // Copy-link share button.
+    attachEvent('[data-aj-copy]', 'click', function (_, elem) {
+      const url = elem.getAttribute('data-aj-copy') || window.location.href;
+      const label = elem.querySelector('.aj-btn-label');
+      const done = () => {
+        if (label) {
+          const prev = label.textContent;
+          label.textContent = 'Copied ✓';
+          setTimeout(() => {
+            label.textContent = prev;
+          }, 1600);
+        }
+      };
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(done, done);
+      } else {
+        done();
+      }
     });
 
     attachEvent('[data-aw-social-share]', 'click', function (_, elem) {
