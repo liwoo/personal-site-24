@@ -50,12 +50,95 @@ function chips(items: Array<string | number>): string {
 
 const present = ([, v]: [string, Val]): boolean => v !== null && v !== undefined;
 
+/* ---------------------------------------------------------------------------
+ * Typed nodes — special renditions the Dev Mode theme reaches for:
+ * terminal inputs, `[[ PRESS HERE ]]` buttons, typewriter text and logo walls.
+ * A value opts in by being an object with a string `__type`.
+ * ------------------------------------------------------------------------- */
+interface Typed {
+  __type: string;
+  [k: string]: unknown;
+}
+const isTyped = (v: Val): v is Typed =>
+  !!v && typeof v === 'object' && !Array.isArray(v) && typeof (v as Typed).__type === 'string';
+
+/** A `[[ LABEL ]]` terminal button (also used as a form submit). */
+function termButton(label: string, href?: string, submit = false): string {
+  const inner = `<span class="aj-btn-br">[[</span><span class="aj-btn-label">${esc(label)}</span><span class="aj-btn-br">]]</span>`;
+  if (submit) return `<button type="submit" class="aj-btn">${inner}</button>`;
+  const attrs = href && isExternal(href) ? ' target="_blank" rel="noopener noreferrer"' : '';
+  return `<a class="aj-btn" href="${esc(href || '#')}"${attrs}>${inner}</a>`;
+}
+
+/** A terminal input: `>_ placeholder ▊` with a blinking caret. */
+function termInput(f: Record<string, unknown>): string {
+  const name = esc(f.name ?? 'field');
+  const type = esc(f.type ?? 'text');
+  const ph = esc(f.placeholder ?? f.label ?? '');
+  const req = f.required ? ' required' : '';
+  const tag =
+    type === 'textarea'
+      ? `<textarea name="${name}" rows="3" placeholder="${ph}"${req}></textarea>`
+      : `<input type="${type}" name="${name}" placeholder="${ph}"${req} autocomplete="off" />`;
+  return (
+    `<label class="aj-input">` +
+    (f.label ? `<span class="aj-input-label">${esc(f.label)}</span>` : '') +
+    `<span class="aj-input-line"><span class="aj-prompt">&gt;_</span>${tag}<span class="aj-caret"></span></span>` +
+    `</label>`
+  );
+}
+
+function renderTyped(node: Typed): string {
+  switch (node.__type) {
+    case 'typewriter':
+      return `<span class="aj-type" data-text="${esc(node.value)}">${esc(node.value)}</span>`;
+    case 'cta':
+      return termButton(String(node.label ?? 'PRESS HERE'), node.href as string | undefined);
+    case 'form': {
+      const flds = Array.isArray(node.fields) ? (node.fields as Array<Record<string, unknown>>) : [];
+      const label = String(node.submit ?? 'SUBMIT');
+      // If a submitHref is given (e.g. a mailto:), the inputs are a themed
+      // rendition and the button is a real link; otherwise it's a POST form.
+      if (typeof node.submitHref === 'string') {
+        return (
+          `<div class="aj-form">` +
+          flds.map(termInput).join('') +
+          termButton(label, node.submitHref as string) +
+          `</div>`
+        );
+      }
+      const action = node.action ? ` action="${esc(node.action)}"` : '';
+      const method = ` method="${esc(node.method ?? 'post')}"`;
+      return `<form class="aj-form"${action}${method}>` + flds.map(termInput).join('') + termButton(label, undefined, true) + `</form>`;
+    }
+    case 'logos': {
+      const items = Array.isArray(node.items) ? (node.items as Array<Record<string, unknown>>) : [];
+      const tiles = items
+        .map((it) => {
+          const label = esc(it.label ?? '');
+          const src = typeof it.src === 'string' ? it.src : '';
+          if (src && isImage(src)) {
+            return `<span class="aj-logo"><img src="${esc(src)}" alt="${label}" loading="lazy" /><span class="aj-logo-cap">${label}</span></span>`;
+          }
+          return `<span class="aj-logo aj-logo--mono"><span class="aj-logo-mark">${label.slice(0, 2).toUpperCase()}</span><span class="aj-logo-cap">${label}</span></span>`;
+        })
+        .join('');
+      return `<div class="aj-logos">${tiles}</div>`;
+    }
+    default:
+      return '';
+  }
+}
+
 /** Render the entries of an object as an indented field block. */
 function fields(obj: Record<string, Val>): string {
   const entries = Object.entries(obj).filter(present);
   return entries
     .map(([k, v], i) => {
       const comma = i < entries.length - 1 ? '<span class="aj-punc">,</span>' : '';
+      if (isTyped(v)) {
+        return `<p class="aj-field"><span class="aj-k">"${esc(k)}"</span><span class="aj-punc">:</span> ${renderTyped(v)}${comma}</p>`;
+      }
       if (isStringArray(v)) {
         return `<div class="aj-field aj-field--chips"><span class="aj-k">"${esc(k)}"</span><span class="aj-punc">: [</span>${chips(v)}<span class="aj-punc">]</span>${comma}</div>`;
       }
@@ -116,6 +199,17 @@ function section(key: string, value: Val, index: number, last: boolean): string 
   const comma = last ? '' : '<span class="aj-punc">,</span>';
   const style = `--i:${index}`;
 
+  // Typed sections (forms, CTAs, logo walls) render as beautified terminal cards.
+  if (isTyped(value)) {
+    return (
+      `<section class="aj-section aj-card aj-reveal" style="${style}">` +
+      `<div class="aj-card-wm">${esc(wm)}</div>` +
+      `<div class="aj-eyebrow">${esc(key)}</div>` +
+      `<div class="aj-card-body">${renderTyped(value)}</div>` +
+      `</section>`
+    );
+  }
+
   if (Array.isArray(value)) {
     const body = isStringArray(value) ? chips(value) : arrayItems(value);
     return (
@@ -160,5 +254,50 @@ export function renderArtisticJson(data: Record<string, Val>): string {
     `<div class="aj-brace aj-root-open">{</div>` +
     `<div class="aj-body">${sections}</div>` +
     `<div class="aj-brace aj-root-close">}</div>`
+  );
+}
+
+interface FooterLink {
+  text?: string;
+  href?: string;
+  ariaLabel?: string;
+}
+interface FooterData {
+  links?: Array<{ title?: string; links?: FooterLink[] }>;
+  secondaryLinks?: FooterLink[];
+  socialLinks?: FooterLink[];
+  footNote?: string;
+}
+
+const footLink = (l: FooterLink, label?: string): string => {
+  const href = l.href ?? '#';
+  const attrs = isExternal(href) ? ' target="_blank" rel="noopener noreferrer"' : '';
+  return `<a class="aj-link" href="${esc(href)}"${attrs}>${esc(label ?? l.text ?? l.ariaLabel ?? href)}</a>`;
+};
+
+/** The footer, rendered as a beautified terminal card (see the reference mock). */
+export function renderFooterCard(footer: FooterData): string {
+  const cols = (footer.links ?? [])
+    .map(
+      (group) =>
+        `<div class="aj-fcol"><div class="aj-fcol-title">"${esc(group.title ?? '')}"</div><ul class="aj-flist">` +
+        (group.links ?? []).map((l) => `<li>${footLink(l)}</li>`).join('') +
+        `</ul></div>`
+    )
+    .join('');
+  const socials = (footer.socialLinks ?? [])
+    .map((s) => `<span class="aj-fsocial">${footLink(s, s.ariaLabel)}</span>`)
+    .join('');
+  const secondary = (footer.secondaryLinks ?? []).map((l) => footLink(l)).join('<span class="aj-punc"> · </span>');
+  const note = esc((footer.footNote ?? '').trim());
+  return (
+    `<footer class="aj-card aj-footer aj-reveal">` +
+    `<div class="aj-card-wm">EOF</div>` +
+    `<div class="aj-eyebrow">footer</div>` +
+    `<div class="aj-fgrid">${cols}</div>` +
+    `<div class="aj-frow"><span class="aj-lk">social</span><span class="aj-punc">: [</span>${socials}<span class="aj-punc">]</span></div>` +
+    (secondary ? `<div class="aj-frow aj-fsecondary">${secondary}</div>` : '') +
+    (note ? `<div class="aj-fnote">// ${note}</div>` : '') +
+    `</footer>`
   );
 }

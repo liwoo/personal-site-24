@@ -26,24 +26,20 @@ const { metadata, dev } = Astro.props;
 
 const path = `/${new URL(Astro.url).pathname.replace(/^\/|\/$/g, '')}`;
 
-// Build the routes/social sections automatically so every page's Dev Mode view
-// is navigable (links stay live) even without page-specific data.
-const routes: Record<string, string> = {};
-for (const link of headerData.links) {
-  if (link.href) routes[String(link.text).toLowerCase()] = link.href;
-}
-routes['home'] = '/';
-
-const social: Record<string, string> = {};
-for (const s of footerData.socialLinks) {
-  if (s.href) social[String(s.ariaLabel || 'link').toLowerCase()] = s.href;
-}
-
-const devData: Record<string, unknown> = {
-  ...(dev?.data ?? {}),
-  routes,
-  social,
-};
+// The body is the page's own sections. Navigation lives in the left tmux
+// sidebar (DevModeSkin) and links/socials live in the footer card (DevDoc), so
+// they are no longer injected here. Content-only pages get a small fallback.
+const pageData = dev?.data ?? {};
+const devData: Record<string, unknown> =
+  Object.keys(pageData).length > 0
+    ? pageData
+    : {
+        page: {
+          title: metadata?.title ?? 'Jeremiah Chienda',
+          description: metadata?.description ?? null,
+          route: path === '/' ? '/index' : path,
+        },
+      };
 
 // Front matter (the YAML-style `---` header). Pages can supply their own; the
 // default derives from page metadata so every page reads like a real document.

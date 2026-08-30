@@ -123,6 +123,8 @@ import { UI } from '~/utils/config';
     // to the top so visitors land at the header of the new view.
     if (enabled) {
       updateDevPath();
+      highlightDevNav();
+      runTypewriters();
       window.scrollTo(0, 0);
     }
   }
@@ -135,6 +137,45 @@ import { UI } from '~/utils/config';
     }
     const parts = window.location.pathname.split('/').filter(Boolean);
     target.textContent = parts.length ? parts.join(' / ') : 'index';
+  }
+
+  // Mark the active route in the left tmux nav (parent route matches sub-pages).
+  function highlightDevNav() {
+    const here = window.location.pathname.replace(/\/$/, '') || '/';
+    document.querySelectorAll('.dmj-nav-item').forEach((item) => {
+      const route = (item.getAttribute('data-route') || '').replace(/\/$/, '') || '/';
+      const active = route === '/' ? here === '/' : here === route || here.startsWith(route + '/');
+      item.classList.toggle('active', active);
+    });
+  }
+
+  // Typewriter: type out any [data-text] element (respects reduced motion).
+  function runTypewriters() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.aj-type[data-text]').forEach((el) => {
+      if (el.dataset.typed === '1') {
+        return;
+      }
+      el.dataset.typed = '1';
+      const text = el.getAttribute('data-text') || '';
+      if (reduce) {
+        el.textContent = text;
+        el.classList.add('aj-type--done');
+        return;
+      }
+      el.textContent = '';
+      let i = 0;
+      const tick = () => {
+        el.textContent = text.slice(0, i);
+        i += 1;
+        if (i <= text.length) {
+          setTimeout(tick, 24);
+        } else {
+          el.classList.add('aj-type--done');
+        }
+      };
+      setTimeout(tick, 450);
+    });
   }
 
   const initDevMode = function () {
@@ -232,6 +273,18 @@ import { UI } from '~/utils/config';
       const enabled = !document.documentElement.classList.contains('dev-mode');
       localStorage.devMode = enabled ? 'true' : 'false';
       applyDevMode(enabled);
+    });
+
+    attachEvent('[data-dmj-hamburger]', 'click', function (_, elem) {
+      const nav = document.querySelector('[data-dmj-nav]');
+      if (!nav) return;
+      const open = nav.classList.toggle('open');
+      elem.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    // Close the mobile nav after following a link.
+    attachEvent('.dmj-nav-item', 'click', function () {
+      document.querySelector('[data-dmj-nav]')?.classList.remove('open');
     });
 
     attachEvent('[data-aw-social-share]', 'click', function (_, elem) {
