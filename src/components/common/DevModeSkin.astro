@@ -766,6 +766,17 @@ const navItems = [
     z-index: 1;
   }
 
+  /* Wide screens: narrow the article card and center it in the shell so the
+     reading column sits in the middle rather than hugging the left. Text stays
+     left-aligned (ragged right) — the block is centered, not justified. */
+  @media (min-width: 1024px) {
+    .aj-section[data-aj-key='article'] {
+      align-self: center;
+      width: 100%;
+      max-width: 52rem;
+    }
+  }
+
   /* --- Creative logo wall ---------------------------------------------- */
   .aj-logos {
     display: flex;
