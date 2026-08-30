@@ -22,6 +22,71 @@ const figure = (src: string, alt: string): string =>
   `<span class="aj-figure"><img src="${escAttr(src)}" alt="${escAttr(alt)}" loading="lazy" />` +
   `<span class="aj-img-cap">src: "${esc(fileName(src))}"</span></span>`;
 
+const decode = (s: string): string =>
+  s
+    .replace(/&#39;|&rsquo;|&lsquo;/g, "'")
+    .replace(/&quot;|&ldquo;|&rdquo;/g, '"')
+    .replace(/&mdash;/g, '—')
+    .replace(/&ndash;/g, '–')
+    .replace(/&hellip;/g, '…')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&#\d+;/g, ' ');
+
+export interface TweetData {
+  text: string;
+  author?: string;
+  handle?: string;
+  url?: string;
+  date?: string;
+}
+
+/** A featured/embedded tweet, rendered as a themed terminal card. */
+export function renderTweetCard(t: TweetData): string {
+  const url = t.url ? escAttr(t.url.split('?')[0]) : '';
+  const meta = [t.date ? esc(t.date) : '']
+    .filter(Boolean)
+    .join('');
+  const linkHtml = url
+    ? `<a class="aj-tweet-link" href="${url}" target="_blank" rel="noopener noreferrer">view on X ↗${meta ? ' · ' + meta : ''}</a>`
+    : '';
+  return (
+    `<div class="aj-tweet">` +
+    `<div class="aj-tweet-head"><span class="aj-tweet-x">𝕏</span>` +
+    (t.author ? `<span class="aj-tweet-author">${esc(t.author)}</span>` : '') +
+    (t.handle ? `<span class="aj-tweet-handle">@${esc(t.handle)}</span>` : '') +
+    `</div>` +
+    `<div class="aj-tweet-text">${esc(t.text || '')}</div>` +
+    linkHtml +
+    `</div>`
+  );
+}
+
+/** Extract tweet fields from a `<blockquote class="twitter-tweet">` embed. */
+function parseTweet(block: string): TweetData {
+  const pMatch = block.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
+  let text = pMatch ? pMatch[1] : '';
+  text = decode(
+    text
+      .replace(/<br\s*\/?>(\s*<br\s*\/?>)?/gi, ' ')
+      .replace(/<[^>]+>/g, '')
+      .replace(/\{[^}]*\}/g, ' ')
+  )
+    .replace(/\s+/g, ' ')
+    .trim();
+  const am = block.match(/&mdash;\s*([^(<]+?)\s*\(@([A-Za-z0-9_]+)\)/);
+  const anchors = Array.from(block.matchAll(/<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi));
+  let url: string | undefined;
+  let date: string | undefined;
+  for (const a of anchors) {
+    if (/twitter\.com\/[^/]+\/status\//.test(a[1]) || /x\.com\/[^/]+\/status\//.test(a[1])) {
+      url = a[1];
+      date = a[2].replace(/<[^>]+>/g, '').trim();
+    }
+  }
+  return { text, author: am?.[1].trim(), handle: am?.[2].trim(), url, date };
+}
+
 /** Inline markup on a raw (unescaped) span of text. */
 function inline(text: string): string {
   const tokens: string[] = [];
@@ -29,6 +94,9 @@ function inline(text: string): string {
     tokens.push(html);
     return `\uE000${tokens.length - 1}\uE001`;
   };
+  // Strip MDX inline expressions like {' '} or {variable} (never in code — code
+  // blocks bypass inline()).
+  text = text.replace(/\{[^{}]*\}/g, '');
   // Images and links become protected tokens before escaping.
   text = text.replace(/!\[([^\]]*)\]\(([^)\s]+)[^)]*\)/g, (_m, alt, src) => stash(figure(src, alt)));
   text = text.replace(/\[([^\]]+)\]\(([^)\s]+)[^)]*\)/g, (_m, t, u) => stash(link(u, t)));
@@ -43,11 +111,17 @@ function inline(text: string): string {
 
 export function mdToRichHtml(md: string | undefined, maxBlocks = 500): string {
   if (!md) return '';
+  // Tweets become themed cards (extracted before other cleaning so their markup
+  // survives), referenced by @@TWEET<n>@@ markers.
+  const tweets: string[] = [];
   const src = md
     .replace(/<!--[\s\S]*?-->/g, '') // html comments
+    .replace(/<blockquote[^>]*class="[^"]*twitter-tweet[^"]*"[\s\S]*?<\/blockquote>/gi, (m) => {
+      tweets.push(renderTweetCard(parseTweet(m)));
+      return `\n@@TWEET${tweets.length - 1}@@\n`;
+    })
     .replace(/<script[\s\S]*?<\/script>/gi, '') // embed scripts
     .replace(/<style[\s\S]*?<\/style>/gi, '')
-    .replace(/<blockquote[^>]*class="[^"]*twitter-tweet[^"]*"[\s\S]*?<\/blockquote>/gi, '') // tweet embeds
     .replace(/<iframe[\s\S]*?<\/iframe>/gi, '') // iframe embeds
     .replace(/^\s*import\s.*$/gm, '') // mdx imports
     .replace(/^\s*export\s.*$/gm, '') // mdx exports
@@ -66,13 +140,29 @@ export function mdToRichHtml(md: string | undefined, maxBlocks = 500): string {
   while (i < lines.length) {
     const line = lines[i];
 
-    if (/^\s*```/.test(line)) {
+    const tw = line.match(/^\s*@@TWEET(\d+)@@\s*$/);
+    if (tw) {
       flushList();
+      out.push(tweets[Number(tw[1])] ?? '');
+      i++;
+      continue;
+    }
+    const fence = line.match(/^\s*```\s*([A-Za-z0-9+#-]*)/);
+    if (fence) {
+      flushList();
+      const lang = fence[1] || 'code';
       const buf: string[] = [];
       i++;
       while (i < lines.length && !/^\s*```/.test(lines[i])) buf.push(lines[i++]);
       i++;
-      out.push(`<pre class="aj-pre"><code>${esc(buf.join('\n'))}</code></pre>`);
+      // Shareable code block: a copy button (handled in BasicScripts) copies the body.
+      out.push(
+        `<div class="aj-copyable aj-codeblock">` +
+          `<div class="aj-codebar"><span class="aj-code-lang">${esc(lang)}</span>` +
+          `<button type="button" class="aj-copy aj-code-copy" data-aj-copy-text aria-label="Copy code"><span class="aj-copy-i">⧉</span> copy</button></div>` +
+          `<div class="aj-copy-body"><pre class="aj-pre"><code>${esc(buf.join('\n'))}</code></pre></div>` +
+          `</div>`
+      );
       continue;
     }
     const h = line.match(/^(#{1,4})\s+(.*)$/);
@@ -113,7 +203,8 @@ export function mdToRichHtml(md: string | undefined, maxBlocks = 500): string {
     flushList();
     const buf = [line];
     i++;
-    while (i < lines.length && !/^\s*$|^#{1,4}\s|^\s*[-*+]\s|^\s*>\s|^\s*```/.test(lines[i])) buf.push(lines[i++]);
+    while (i < lines.length && !/^\s*$|^#{1,4}\s|^\s*[-*+]\s|^\s*>\s|^\s*```|^\s*@@TWEET\d+@@/.test(lines[i]))
+      buf.push(lines[i++]);
     const text = buf.join(' ').trim();
     if (text) out.push(`<p class="aj-p">${inline(text)}</p>`);
   }

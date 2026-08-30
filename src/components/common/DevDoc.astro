@@ -6,6 +6,7 @@
  * based on `html.dev-mode`. Styling classes are `.aj-*`.
  */
 import { renderArtisticJson, renderFooterCard } from '~/utils/artisticJson';
+import { renderBlockBanner } from '~/utils/asciiBanner';
 import { footerData } from '~/data/navigation';
 
 export interface FrontRow {
@@ -33,7 +34,7 @@ const footer = renderFooterCard(footerData, SEO_IMAGE);
 <div data-dev-json class="aj-doc" aria-hidden="true">
   <div class="aj-grid"></div>
   <div class="aj-shell">
-    {banner && <pre class="aj-ascii aj-reveal" aria-hidden="true">{banner}</pre>}
+    {banner && <div class="aj-reveal" set:html={renderBlockBanner(banner)} />}
     {
       (front.length > 0 || chips) && (
         <section class="aj-front aj-reveal">

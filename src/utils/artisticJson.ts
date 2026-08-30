@@ -8,6 +8,7 @@
  * not a code dump. Output is an HTML string rendered via `set:html` in
  * `DevDoc.astro`; styling lives in `DevModeSkin.astro` (`.aj-*` classes).
  */
+import { renderTweetCard } from '~/utils/richMarkdown';
 
 const esc = (s: unknown): string =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -115,6 +116,14 @@ function renderTyped(node: Typed): string {
     case 'richtext':
       // Pre-rendered themed HTML (from richMarkdown.ts) — already escaped there.
       return copyable(`<div class="aj-article">${String(node.html ?? '')}</div>`, 'article');
+    case 'tweet':
+      return renderTweetCard({
+        text: String(node.text ?? ''),
+        author: node.author as string | undefined,
+        handle: node.handle as string | undefined,
+        url: node.url as string | undefined,
+        date: node.date as string | undefined,
+      });
     case 'share': {
       const url = String(node.url ?? '');
       const text = String(node.text ?? '');
