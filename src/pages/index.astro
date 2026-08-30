@@ -17,6 +17,12 @@ const metadata = {
 
 const name: string = 'Liwu';
 
+// Real company logos for the career highlight.
+const logoGlob = import.meta.glob<{ default: { src: string } }>('/src/assets/images/logos/png/*-symbol.png', {
+  eager: true,
+});
+const logo = (key: string) => logoGlob[`/src/assets/images/logos/png/${key}-symbol.png`]?.default?.src ?? null;
+
 const latestWriting = (await findPostsByCategory('tech')).slice(0, 4).map((p) => ({
   title: p.title,
   permalink: getPermalink(p.permalink, 'post'),
@@ -24,28 +30,28 @@ const latestWriting = (await findPostsByCategory('tech')).slice(0, 4).map((p) =>
   readingTime: p.readingTime ? `${p.readingTime} min` : null,
 }));
 
-// Dev Mode: the artistic-JSON portrait of the home page.
+// Dev Mode: the artistic-JSON portrait of the home page. Front matter is the
+// landing metadata — kept to the highest-signal fields (the role/status detail
+// lives in the career highlight below, so it isn't duplicated here).
 const dev = {
   banner: 'AI ENGINEER',
   front: [
     { key: 'status', value: '"Building production-grade Agentic Systems"', strong: true },
-    { key: 'role', value: '"AI Engineering Lead @ Irembo"' },
-    { key: 'education', value: '"M.Eng @ Doshisha University, Kyoto, Japan"' },
+    { key: 'available', value: '"Open to contract & full-time — agent systems, RAG, LLM products"' },
     { key: 'location', value: '["Manchester, UK", "Kigali, RW"]' },
   ],
-  chips: { key: 'stack', items: ['RAG', 'LLM-Agents', 'Rust', 'Python', 'TypeScript', 'MCP'] },
+  chips: { key: 'stack', items: ['RAG', 'LLM-Agents', 'MCP', 'Rust', 'Python', 'TypeScript'] },
   data: {
     profile: {
       name: 'Jeremiah Chienda',
       portrait: 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/2026.jpg',
       mission: { __type: 'typewriter', value: 'I build AI agents that go past the demo stage.' },
     },
-    now: {
-      role: 'AI Engineer @ ICO — the UK data regulator',
-      building: 'responsible Data & AI systems for a national regulator',
-      writing: 'deep dives on agent architecture, memory, tool calling & token economics',
-      open_to: 'contract & full-time AI engineering — agent systems, RAG, LLM products',
-    },
+    career: [
+      { company: 'Irembo', logo: logo('irembo'), role: 'AI Engineering Lead', impact: 'National AI assistant serving 12M citizens' },
+      { company: 'ICO', logo: logo('ico'), role: 'AI Engineer', impact: "Responsible Data & AI at the UK's data regulator" },
+      { company: 'One Acre Fund', logo: logo('oaf'), role: 'Lead Software Engineer', impact: 'Systems serving 1M+ smallholder farmers' },
+    ],
     focus_areas: ['Agent Architecture', 'RAG Pipelines', 'MCP', 'Generative UI', 'AI Safety', 'Token Economics'],
     latest_writing: latestWriting,
     creative_engine: {

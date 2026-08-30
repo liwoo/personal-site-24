@@ -367,9 +367,10 @@ import { UI } from '~/utils/config';
       document.querySelector('[data-dmj-nav]')?.classList.remove('open');
     });
 
-    // Click-to-copy body text (bio / article).
+    // Click-to-copy body text (bio / article / code).
     attachEvent('[data-aj-copy-text]', 'click', function (_, elem) {
-      const body = elem.parentElement?.querySelector('.aj-copy-body');
+      const container = elem.closest('.aj-copyable, .aj-codeblock');
+      const body = container?.querySelector('.aj-copy-body');
       const text = body ? body.innerText : '';
       const label = elem.querySelector('.aj-copy-i');
       const done = () => {
@@ -385,6 +386,89 @@ import { UI } from '~/utils/config';
       };
       if (navigator.clipboard && text) navigator.clipboard.writeText(text).then(done, done);
       else done();
+    });
+
+    // Share a code snippet as a branded PNG (reproduces the non-Dev toolbar).
+    const AJ_TK = {
+      'tk-com': '#8b949e', 'tk-str': '#a5d6ff', 'tk-num': '#79c0ff',
+      'tk-lit': '#79c0ff', 'tk-kw': '#ff7b72', 'tk-punc': '#c9d1d9',
+    };
+    function extractDevCodeLines(codeEl) {
+      const def = '#c9d1d9';
+      const lines = [[]];
+      const pushText = (text, color) => {
+        const parts = String(text).split('\n');
+        parts.forEach((p, idx) => {
+          if (idx > 0) lines.push([]);
+          if (p) lines[lines.length - 1].push({ text: p, color });
+        });
+      };
+      codeEl.childNodes.forEach((node) => {
+        if (node.nodeType === 3) pushText(node.textContent, def);
+        else if (node.nodeType === 1) pushText(node.textContent, AJ_TK[node.className] || def);
+      });
+      while (lines.length && lines[lines.length - 1].every((t) => !t.text.trim())) lines.pop();
+      return lines;
+    }
+    function renderDevCodeImage(codeEl, label) {
+      const scale = 2;
+      const pad = 40 * scale, lh = 18 * scale, fs = 13 * scale, header = 36 * scale, footer = 30 * scale;
+      const charW = fs * 0.6, maxChars = 74, gutter = 4 * charW, codeX = pad * 0.4 + gutter;
+      const rows = extractDevCodeLines(codeEl);
+      const codeH = rows.length * lh + pad;
+      const w = maxChars * charW + codeX + pad;
+      const h = header + codeH + footer + pad;
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      const font = '"Space Mono","Courier New",monospace';
+      ctx.fillStyle = '#0a0a0c'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#22d3ee'; ctx.fillRect(0, 0, w, header);
+      ctx.fillStyle = '#0a0a0c'; ctx.font = `bold ${11 * scale}px ${font}`; ctx.textBaseline = 'middle';
+      ctx.fillText('> ' + label + '_', pad * 0.6, header / 2);
+      const site = 'chienda.com';
+      ctx.fillText(site, w - pad * 0.6 - ctx.measureText(site).width, header / 2);
+      const cy = header;
+      ctx.fillStyle = '#0d1117'; ctx.fillRect(0, cy, w, codeH);
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = scale;
+      ctx.beginPath(); ctx.moveTo(codeX - charW * 0.5, cy); ctx.lineTo(codeX - charW * 0.5, cy + codeH); ctx.stroke();
+      ctx.font = `${fs}px ${font}`; ctx.textBaseline = 'top';
+      for (let i = 0; i < rows.length; i++) {
+        const y = cy + pad * 0.5 + i * lh;
+        ctx.fillStyle = 'rgba(255,255,255,0.28)';
+        ctx.fillText(String(i + 1).padStart(3, ' '), pad * 0.4, y);
+        let x = codeX;
+        for (const tok of rows[i]) { ctx.fillStyle = tok.color; ctx.fillText(tok.text, x, y); x += tok.text.length * charW; }
+      }
+      ctx.fillStyle = 'rgba(255,255,255,0.35)'; ctx.font = `${10 * scale}px ${font}`; ctx.textBaseline = 'middle';
+      ctx.fillText('// dev_mode · editorial_json', pad * 0.6, h - footer / 2);
+      return new Promise((resolve) => canvas.toBlob((b) => resolve(b), 'image/png'));
+    }
+    attachEvent('[data-aj-code-share]', 'click', async function (_, btn) {
+      const block = btn.closest('.aj-codeblock');
+      const codeEl = block?.querySelector('.aj-copy-body code');
+      if (!codeEl) return;
+      const label = (block.getAttribute('data-language') || 'code').toUpperCase();
+      const prev = btn.textContent;
+      btn.textContent = '…';
+      try {
+        const blob = await renderDevCodeImage(codeEl, label);
+        const file = new File([blob], 'snippet-' + (block.getAttribute('data-language') || 'code') + '.png', { type: 'image/png' });
+        if (navigator.share && navigator.canShare?.({ files: [file] }) && /Mobi|Android/i.test(navigator.userAgent)) {
+          await navigator.share({ files: [file], title: label + ' snippet · chienda.com', url: window.location.href });
+          btn.textContent = prev;
+        } else {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url; a.download = file.name; a.click();
+          URL.revokeObjectURL(url);
+          btn.textContent = 'saved';
+          setTimeout(() => (btn.textContent = prev), 1800);
+        }
+      } catch {
+        btn.textContent = 'failed';
+        setTimeout(() => (btn.textContent = prev), 1800);
+      }
     });
 
     // Expandable CV detail on experience items (tap on mobile; hover on desktop).
