@@ -36,6 +36,10 @@ const navItems = [
       ))
     }
   </nav>
+  <div class="dmj-nav-context" data-dmj-context hidden>
+    <div class="dmj-nav-ctx-title">// on this page</div>
+    <nav class="dmj-nav-sections" data-dmj-sections></nav>
+  </div>
   <div class="dmj-nav-foot">
     <div>dev_mode // tmux</div>
     <div class="dmj-nav-path">~ / <b data-dmj-path>index</b>.json</div>
@@ -518,6 +522,48 @@ const navItems = [
   .dmj-nav-item.active .dmj-nav-idx {
     color: #22d3ee;
   }
+  /* Contextual (in-page) section index — a tmux-like pane list */
+  .dmj-nav-context {
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+    padding-top: 1rem;
+  }
+  .dmj-nav-ctx-title {
+    color: #4b5563;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+  .dmj-nav-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .dmj-nav-sec {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    padding: 0.2rem 0.5rem;
+    border-left: 2px solid transparent;
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 11px;
+  }
+  .dmj-nav-sec:hover {
+    color: #e5e7eb;
+  }
+  .dmj-nav-sec-idx {
+    color: #374151;
+    font-size: 9px;
+  }
+  .dmj-nav-sec.active {
+    color: #f59e0b;
+    border-left-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.06);
+  }
+  .dmj-nav-sec.active .dmj-nav-sec-idx {
+    color: #f59e0b;
+  }
   .dmj-nav-foot {
     margin-top: auto;
     color: #4b5563;
@@ -748,6 +794,38 @@ const navItems = [
   .aj-type.aj-type--done {
     border-right-color: transparent;
     animation: none;
+  }
+
+  /* --- Prose (bios, article body) -------------------------------------- */
+  .aj-prose {
+    max-width: 44rem;
+  }
+  .aj-p {
+    position: relative;
+    margin: 0 0 1.1rem;
+    padding-left: 1.5rem;
+    color: #cbd5e1;
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+  .aj-p-mark {
+    position: absolute;
+    left: 0;
+    color: rgba(34, 211, 238, 0.5);
+  }
+
+  /* --- Form status line ------------------------------------------------ */
+  .aj-form-status {
+    margin-top: 0.75rem;
+    min-height: 1.2rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+  }
+  .aj-form-status.ok {
+    color: #4ade80;
+  }
+  .aj-form-status.err {
+    color: #f87171;
   }
 
   /* --- Footer card ----------------------------------------------------- */
