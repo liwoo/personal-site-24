@@ -14,9 +14,35 @@ const metadata = {
 };
 
 const name: string = 'Liwu';
+
+// Dev Mode: the artistic-JSON portrait of the home page.
+const dev = {
+  front: [
+    { key: 'status', value: '"Building production-grade Agentic Systems"', strong: true },
+    { key: 'role', value: '"AI Engineering Lead @ Irembo"' },
+    { key: 'education', value: '"M.Eng @ Doshisha University, Kyoto, Japan"' },
+    { key: 'location', value: '["Manchester, UK", "Kigali, RW"]' },
+  ],
+  chips: { key: 'stack', items: ['RAG', 'LLM-Agents', 'Rust', 'Python', 'TypeScript', 'MCP'] },
+  data: {
+    profile: {
+      name: 'Jeremiah Chienda',
+      mission: 'I build AI agents that go past the demo stage.',
+    },
+    experience: [
+      { name: 'IremboAI', role: 'Lead AI Engineer', impact: 'Scaling gov-services for 12M citizens' },
+      { name: 'Baobab Health', role: 'Software Architect', impact: 'Digital health infra for national systems' },
+    ],
+    creative_engine: {
+      alias: 'Liwu',
+      genre: 'Gospel Rap',
+      highlights: ['UMP Cypha 2018', 'Machine Minder'],
+    },
+  },
+};
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={metadata} dev={dev}>
   <HomeHero socialLinks={footerData.socialLinks} title="AI Engineer" name="Jeremiah Chienda">
     <Fragment slot="description">
       <span class="hidden md:inline"

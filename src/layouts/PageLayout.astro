@@ -2,6 +2,8 @@
 import Layout from '~/layouts/Layout.astro';
 import Header from '~/components/widgets/Header.astro';
 import Footer from '~/components/widgets/Footer.astro';
+import DevDoc from '~/components/common/DevDoc.astro';
+import type { FrontRow } from '~/components/common/DevDoc.astro';
 import { NewsletterBanner } from '~/components/widgets/NewsletterBanner';
 import { headerData, footerData } from '~/data/navigation';
 
@@ -9,20 +11,62 @@ import type { MetaData } from '~/types';
 
 export interface Props {
   metadata?: MetaData;
+  /** Dev Mode: the artistic-JSON representation of this page. */
+  dev?: {
+    /** Page-specific sections rendered before the auto routes/social sections. */
+    data?: Record<string, unknown>;
+    /** Watermark/path label. */
+    label?: string;
+    front?: FrontRow[];
+    chips?: { key: string; items: string[] };
+  };
 }
 
-const { metadata } = Astro.props;
+const { metadata, dev } = Astro.props;
+
+const path = `/${new URL(Astro.url).pathname.replace(/^\/|\/$/g, '')}`;
+
+// Build the routes/social sections automatically so every page's Dev Mode view
+// is navigable (links stay live) even without page-specific data.
+const routes: Record<string, string> = {};
+for (const link of headerData.links) {
+  if (link.href) routes[String(link.text).toLowerCase()] = link.href;
+}
+routes['home'] = '/';
+
+const social: Record<string, string> = {};
+for (const s of footerData.socialLinks) {
+  if (s.href) social[String(s.ariaLabel || 'link').toLowerCase()] = s.href;
+}
+
+const devData: Record<string, unknown> = {
+  ...(dev?.data ?? {}),
+  routes,
+  social,
+};
+
+// Front matter (the YAML-style `---` header). Pages can supply their own; the
+// default derives from page metadata so every page reads like a real document.
+const defaultFront = [
+  { key: 'title', value: JSON.stringify(metadata?.title ?? 'Jeremiah Chienda') },
+  ...(metadata?.description ? [{ key: 'description', value: JSON.stringify(metadata.description) }] : []),
+  { key: 'route', value: JSON.stringify(path === '/' ? '/index' : path) },
+];
+const front = dev?.front ?? defaultFront;
 ---
 
 <Layout metadata={metadata}>
-  <NewsletterBanner client:load />
-  <slot name="header">
-    <Header {...headerData} isSticky showToggleTheme />
-  </slot>
-  <main>
-    <slot />
-  </main>
-  <slot name="footer">
-    <Footer {...footerData} />
-  </slot>
+  <div data-dev-normal>
+    <NewsletterBanner client:load />
+    <slot name="header">
+      <Header {...headerData} isSticky showToggleTheme />
+    </slot>
+    <main>
+      <slot />
+    </main>
+    <slot name="footer">
+      <Footer {...footerData} />
+    </slot>
+  </div>
+  <DevDoc data={devData} front={front} chips={dev?.chips} />
 </Layout>

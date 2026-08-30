@@ -9,8 +9,6 @@ import { Calendly } from '~/components/widgets/Calendly.tsx';
 import Button from '../ui/Button.astro';
 import { ListItem } from '../blog/ListItem';
 import { findPostsByCategory } from '../../utils/blog';
-import DevJson from '~/components/common/DevJson.astro';
-import { postIndexJson } from '~/utils/devMode';
 
 type Props = {
   count?: number;
@@ -57,15 +55,13 @@ const signupInputs: Input[] = [
   </div>
   <div class="scroll-fade-in delay-200 flex flex-col lg:flex-row container-lg my-8 gap-x-8">
     <div class="flex-1 flex flex-col gap-y-4">
-      <DevJson label="home-articles" data={postIndexJson({ title: 'home/latest-tech', posts: postSubset })}>
-        {
-          postSubset.map((post, index) => (
-            <div class="scroll-fade-in-item" style={`transition-delay: ${0.3 + index * 0.1}s`}>
-              <ListItem post={post} />
-            </div>
-          ))
-        }
-      </DevJson>
+      {
+        postSubset.map((post, index) => (
+          <div class="scroll-fade-in-item" style={`transition-delay: ${0.3 + index * 0.1}s`}>
+            <ListItem post={post} />
+          </div>
+        ))
+      }
     </div>
     <div class="scroll-fade-in-item delay-300 flex-1 my-4 lg:my-0 flex flex-col gap-y-8">
       <div class="text-center flex flex-col gap-y-3">
