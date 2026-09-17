@@ -7,6 +7,16 @@ const resend = new Resend(import.meta.env.RESEND_API_KEY);
 const defaultTo = "jeremiah@chienda.com";
 const defaultFrom = import.meta.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 
+const escapeHtml = (value: unknown) =>
+  String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+
+const headerText = (value: string) => value.replace(/[\r\n]/g, ' ').trim();
+
 // Send email via Resend
 export async function sendEmail(
   subject: string,
@@ -42,8 +52,8 @@ export function convertDataToHtml(data: Record<string, string>): string {
   let html = '<ul style="list-style-type: none; padding: 0;">';
 
   for (const key in data) {
-    if (data.hasOwnProperty(key)) {
-      html += `<li><strong>${key}:</strong> ${data[key]}</li>`;
+    if (Object.prototype.hasOwnProperty.call(data, key)) {
+      html += `<li><strong>${escapeHtml(key)}:</strong> ${escapeHtml(data[key])}</li>`;
     }
   }
 
@@ -54,6 +64,8 @@ export function convertDataToHtml(data: Record<string, string>): string {
 
 export async function sendConfirmationEmail(email: string, name: string, category?: string) {
   const from = import.meta.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+  const safeName = headerText(name);
+  const safeCategory = headerText(category || 'All').toUpperCase();
 
   if (!import.meta.env.RESEND_API_KEY) {
     throw new Error('Resend API key is not configured');
@@ -62,9 +74,9 @@ export async function sendConfirmationEmail(email: string, name: string, categor
   // Build welcome email HTML
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h1>Welcome, ${name}!</h1>
+      <h1>Welcome, ${escapeHtml(safeName)}!</h1>
       <p>Thank you for signing up for our newsletter.</p>
-      <p>You're now subscribed to updates in the <strong>${category ? category.toUpperCase() : 'All'}</strong> category.</p>
+      <p>You're now subscribed to updates in the <strong>${escapeHtml(safeCategory)}</strong> category.</p>
       <p>We're excited to keep you informed with our latest content!</p>
       <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
       <p style="color: #666; font-size: 14px;">If you have any questions, feel free to reach out.</p>
@@ -75,7 +87,7 @@ export async function sendConfirmationEmail(email: string, name: string, categor
     const { data, error } = await resend.emails.send({
       from,
       to: email,
-      subject: `Welcome to our newsletter, ${name}!`,
+      subject: `Welcome to our newsletter, ${safeName}!`,
       html
     });
 

@@ -1,9 +1,10 @@
-import { GoogleReCaptcha, GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { Toaster } from '~/components/ui/toaster.tsx';
 import type { DrowpdownOption, Input } from '~/types';
 import clsx from 'clsx';
-import React, { type FormEvent, useCallback, useRef, useState } from 'react';
+import React, { type FormEvent, useRef, useState } from 'react';
 import { toast } from '~/components/ui/use-toast.tsx';
+import { NEWSLETTER_RECAPTCHA_ACTION } from '~/utils/newsletter';
 
 interface SignInProps {
   inputs: Input[];
@@ -14,18 +15,27 @@ interface SignInProps {
 function SignUp({ inputs, buttonLabel, inline = true }: SignInProps) {
   const formRef = useRef<HTMLFormElement | undefined>();
 
-  const [token, setToken] = useState<string>();
-  const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!executeRecaptcha) {
+      toast({
+        variant: 'destructive',
+        title: 'Security check loading',
+        description: 'Please wait a moment and try again.',
+      });
+      return;
+    }
+
     setFormLoading(true);
     const form = new FormData(formRef.current);
     const email = form.get('email');
     const category = form.get('category');
     const name = form.get('name');
     try {
+      const token = await executeRecaptcha(NEWSLETTER_RECAPTCHA_ACTION);
       const response = await fetch('/signup-form', {
         method: 'POST',
         body: JSON.stringify({ email, category, name, token }),
@@ -54,13 +64,8 @@ function SignUp({ inputs, buttonLabel, inline = true }: SignInProps) {
       });
     } finally {
       setFormLoading(false);
-      setRefreshReCaptcha(true);
     }
   };
-
-  const onVerify = useCallback((token: string) => {
-    setToken(token);
-  }, []);
 
   const clearForm = () => {
     formRef.current?.reset();
@@ -68,7 +73,6 @@ function SignUp({ inputs, buttonLabel, inline = true }: SignInProps) {
 
   return (
     <>
-      <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
       <form ref={formRef} className={'flex flex-col gap-y-2'} onSubmit={onSubmit}>
         <div
           className={clsx(
