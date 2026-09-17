@@ -1,6 +1,7 @@
 import { X, Mail, Send } from 'lucide-react';
-import { useEffect, useState, useCallback } from 'react';
-import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useEffect, useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { NEWSLETTER_RECAPTCHA_ACTION } from '~/utils/newsletter';
 
 interface NewsletterModalProps {
   isOpen: boolean;
@@ -12,8 +13,7 @@ export function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
   const [name, setName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const [token, setToken] = useState<string>();
-  const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -33,16 +33,20 @@ export function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
     };
   }, [isOpen, onClose]);
 
-  const onVerify = useCallback((token: string) => {
-    setToken(token);
-  }, []);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!executeRecaptcha) {
+      setSubmitMessage({ type: 'error', text: 'Security check is still loading. Please try again.' });
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitMessage(null);
 
     try {
+      // Generate the token at submit time: reCAPTCHA v3 tokens expire quickly
+      // and can only be verified once.
+      const token = await executeRecaptcha(NEWSLETTER_RECAPTCHA_ACTION);
       const response = await fetch('/api/newsletter', {
         method: 'POST',
         headers: {
@@ -76,7 +80,6 @@ export function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
       });
     } finally {
       setIsSubmitting(false);
-      setRefreshReCaptcha(true);
     }
   };
 
@@ -110,10 +113,6 @@ export function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
             Get the latest articles, updates, and exclusive content delivered straight to your inbox.
           </p>
         </div>
-
-        {import.meta.env.PUBLIC_RECAPTCHA_KEY && (
-          <GoogleReCaptcha onVerify={onVerify} refreshReCaptcha={refreshReCaptcha} />
-        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

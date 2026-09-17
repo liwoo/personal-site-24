@@ -1,8 +1,10 @@
 ---
 import { UI } from '~/utils/config';
+
+const recaptchaKey = import.meta.env.PUBLIC_RECAPTCHA_KEY;
 ---
 
-<script is:inline define:vars={{ defaultTheme: UI.theme }}>
+<script is:inline define:vars={{ defaultTheme: UI.theme, recaptchaKey }}>
   (function () {
   if (window.basic_script) {
     return;
@@ -432,6 +434,20 @@ import { UI } from '~/utils/config';
   }
 
   // Functional Dev Mode forms — submit via fetch to their data-aj-endpoint.
+  // This form exists outside React, so obtain an Enterprise token directly.
+  function getRecaptchaToken(action) {
+    return new Promise((resolve, reject) => {
+      const enterprise = window.grecaptcha && window.grecaptcha.enterprise;
+      if (!recaptchaKey || !enterprise || typeof enterprise.ready !== 'function') {
+        reject(new Error('reCAPTCHA is unavailable'));
+        return;
+      }
+      enterprise.ready(() => {
+        enterprise.execute(recaptchaKey, { action }).then(resolve, reject);
+      });
+    });
+  }
+
   function handleDevFormSubmit(e) {
     const form = e.target;
     if (!form || !form.matches || !form.matches('form[data-aj-endpoint]')) return;
@@ -451,11 +467,14 @@ import { UI } from '~/utils/config';
       }
     };
     setStatus('', '> sending…');
-    fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    })
+    getRecaptchaToken('newsletter_signup')
+      .then((token) =>
+        fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...payload, token }),
+        })
+      )
       .then(async (r) => {
         const data = await r.json().catch(() => ({}));
         if (r.ok) {
