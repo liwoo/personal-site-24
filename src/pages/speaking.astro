@@ -130,17 +130,41 @@ const history = talks.filter((t) => t.status !== 'upcoming' && !t.featured);
                         </span>
                       ))}
                     </div>
-                    {talk.eventUrl && (
-                      <div class="mt-4">
-                        <a
-                          href={talk.eventUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
-                        >
-                          Event details
-                          <Icon name="tabler:external-link" class="w-4 h-4" />
-                        </a>
+                    {(talk.slidesUrl || talk.recordingUrl || talk.eventUrl) && (
+                      <div class="mt-4 flex flex-wrap items-center gap-4 border-t border-slate-100 dark:border-slate-800 pt-4">
+                        {talk.slidesUrl && (
+                          <a
+                            href={talk.slidesUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center gap-1.5 rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-secondary/90"
+                          >
+                            <Icon name="tabler:presentation" class="w-4 h-4" />
+                            View slides
+                          </a>
+                        )}
+                        {talk.recordingUrl && (
+                          <a
+                            href={talk.recordingUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
+                          >
+                            <Icon name="tabler:player-play" class="w-4 h-4" />
+                            Watch
+                          </a>
+                        )}
+                        {talk.eventUrl && (
+                          <a
+                            href={talk.eventUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
+                          >
+                            Event details
+                            <Icon name="tabler:external-link" class="w-4 h-4" />
+                          </a>
+                        )}
                       </div>
                     )}
                   </details>
@@ -215,10 +239,10 @@ const history = talks.filter((t) => t.status !== 'upcoming' && !t.featured);
                           href={talk.slidesUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
+                          class="inline-flex items-center gap-1.5 rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-secondary/90"
                         >
                           <Icon name="tabler:presentation" class="w-4 h-4" />
-                          Slides
+                          View slides
                         </a>
                       )}
                       {talk.eventUrl && !talk.recordingUrl && (
