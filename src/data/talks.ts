@@ -45,7 +45,7 @@ export const talks: Talk[] = [
     topics: ['AI governance', 'agentic AI', 'responsible AI', 'LLM agents', 'evals'],
     eventUrl: 'https://datadecoded.com/mcr/speakers/',
     recordingUrl: null,
-    slidesUrl: null,
+    slidesUrl: 'https://governance-house.vercel.app/',
     featured: true,
   },
   {
