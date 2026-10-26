@@ -1,0 +1,168 @@
+/* Shared character layer for review concepts, not production Flutter styles. */
+@font-face {
+  font-family: Numans;
+  src: url('fonts/Numans-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: Nokora;
+  src: url('fonts/Nokora-Variable.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+:root {
+  --brand-edge: #16223b;
+  --brand-cream: #fff4d6;
+  --brand-lilac: #e8e4ff;
+  --brand-mint: #e4f2e3;
+  --brand-peach: #ffe6d9;
+  --retro-depth: 4px 4px 0 var(--brand-edge);
+}
+.phone:not(.before) {
+  font-family: Nokora, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.phone .appbar b,
+.phone .content h2,
+.phone .menu-title h2,
+.phone .section-title h2,
+.phone .brand-heading {
+  font-family: Numans, sans-serif;
+  font-weight: 400;
+}
+.phone .content h2 { font-size: 24px; }
+.action, .primary, .cart-bar, .retro-button {
+  background: #2e5bff;
+  color: #fff;
+  border: 2px solid var(--brand-edge);
+  border-radius: 12px;
+  box-shadow: var(--retro-depth);
+  font-family: Numans, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.4;
+  min-height: 52px;
+  padding: 12px 14px;
+  margin-bottom: 4px;
+}
+button.retro-button, button.primary, button.cart-bar {
+  cursor: pointer;
+  transition: transform 100ms ease-out, box-shadow 100ms ease-out, background-color 100ms ease-out;
+}
+button.retro-button:hover:not(:disabled):not([aria-disabled="true"]), button.primary:hover:not(:disabled):not([aria-disabled="true"]), button.cart-bar:hover:not(:disabled):not([aria-disabled="true"]) {
+  background: #264fe5;
+}
+button.retro-button:active:not(:disabled):not([aria-disabled="true"]), button.primary:active:not(:disabled):not([aria-disabled="true"]), button.cart-bar:active:not(:disabled):not([aria-disabled="true"]),
+.retro-button.is-pressed {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--brand-edge);
+}
+button.retro-button:focus-visible, button.primary:focus-visible, button.cart-bar:focus-visible,
+.retro-button.is-focused {
+  outline: 3px solid #2e5bff;
+  outline-offset: 6px;
+}
+.action.disabled, .retro-button:disabled {
+  background: #e3e7ef;
+  color: #566277;
+  border-color: #8b95a6;
+  box-shadow: none;
+  transform: none;
+  cursor: default;
+}
+.retro-button[aria-busy="true"] {
+  cursor: progress;
+  background: #2e5bff;
+  color: #fff;
+  border-color: var(--brand-edge);
+  box-shadow: none;
+}
+.retro-button.secondary {
+  background: white;
+  color: #234bd8;
+  border: 1px solid #7c879c;
+  box-shadow: none;
+}
+.retro-button.secondary:hover:not(:disabled):not([aria-disabled="true"]) { background: #edf1ff; }
+.retro-button.secondary:active:not(:disabled):not([aria-disabled="true"]) { transform: none; box-shadow: none; }
+.busy-mark {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  vertical-align: -3px;
+  margin-right: 8px;
+}
+.phone .secondary-action { font-family: Numans, sans-serif; font-weight: 400; }
+.phone .brand-mark {
+  border: 2px solid var(--brand-edge);
+  box-shadow: 3px 3px 0 var(--brand-edge);
+  border-radius: 14px;
+}
+.phone .avatar {
+  font-family: Numans, sans-serif;
+  background: var(--brand-cream);
+  color: var(--brand-edge);
+  border: 1px solid var(--brand-edge);
+}
+.phone .search, .phone .search-link, .phone .search-input {
+  background: #fff;
+  border-color: #7c879c;
+}
+.phone .input { background: #fff; }
+.phone .chip.selected {
+  background: var(--brand-lilac);
+  border-color: #6573a1;
+}
+.phone .nav-item.active svg {
+  background: var(--brand-lilac);
+  border-radius: 8px;
+  padding: 3px;
+  width: 28px;
+  height: 28px;
+}
+.phone .nav-item { gap: 3px; }
+.brand-illustration { object-fit: contain; display: block; }
+.phone .service .service-icon {
+  background: var(--brand-lilac);
+  border: 1px solid #8791b3;
+  border-radius: 16px;
+  box-shadow: 2px 2px 0 #8791b3;
+}
+.phone .service:nth-child(2) .service-icon { background: var(--brand-mint); }
+.phone .service:nth-child(3) .service-icon { background: var(--brand-cream); }
+.phone .service:nth-child(4) .service-icon { background: var(--brand-peach); }
+.phone .service-icon img { width: 36px; height: 36px; }
+.phone .category-tile .brand-illustration { width: 40px; height: 40px; }
+.phone .category-tile:nth-child(1) { background: #f1eeff; }
+.phone .category-tile:nth-child(2) { background: #edf6ec; }
+.phone .category-tile:nth-child(3) { background: #fff7e2; }
+.phone .category-tile:nth-child(4) { background: #fff0e8; }
+.phone .store-art { background: var(--brand-mint); color: var(--brand-edge); }
+.phone .store-art .brand-illustration { width: 76px; height: 76px; }
+.phone .store-art span { font-family: Numans, sans-serif; font-size: 16px; }
+.phone .tiles > div:nth-child(1) { background: #edf6ec; }
+.phone .tiles > div:nth-child(2) { background: #fff7e2; }
+.phone .tiles > div:nth-child(3) { background: #f1eeff; }
+.phone .tiles .brand-illustration { width: 35px; height: 35px; }
+.phone .offer {
+  background: var(--brand-cream);
+  border: 1px dashed #94752d;
+  border-left: 5px solid #d6a32d;
+  border-radius: 12px;
+}
+.phone .offer > svg { color: #805400; }
+.phone .offer b { font-family: Numans, sans-serif; font-weight: 400; }
+.phone .cart-bar { bottom: 26px; }
+@media (prefers-reduced-motion: reduce) {
+  button.retro-button, button.primary, button.cart-bar { transition: none; }
+  button.retro-button:active:not(:disabled):not([aria-disabled="true"]), button.primary:active:not(:disabled):not([aria-disabled="true"]), button.cart-bar:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: none;
+    box-shadow: var(--retro-depth);
+    background: #2345ca;
+  }
+}

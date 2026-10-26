@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Doorbell — Character and feedback</title>
+  <link rel="stylesheet" href="character.css">
+  <link rel="stylesheet" href="../assets/brand.css">
+</head>
+<body>
+  <nav class="review-nav" aria-label="Review navigation">
+    <b>doorbell / character & feedback</b>
+    <a href="../home-page/index.html">Home & search</a>
+    <a href="../app-consistency/index.html">All journeys</a>
+    <a href="README.md">Review guide</a>
+  </nav>
+  <main>
+    <section class="board" id="character-board">
+      <header>
+        <p class="eyebrow">Design refinement · Keep the signature</p>
+        <h1>Same clarity. More Doorbell.</h1>
+        <p class="intro">Retro actions, familiar type and expressive service illustrations. Quiet surfaces give the character room to work.</p>
+      </header>
+      <div class="comparison">
+        <article>
+          <h2 class="column-label">01 · Earlier layout study</h2>
+          <img class="screen" src="assets/checkout-earlier.png" alt="Earlier proposed checkout with a flat blue primary button and system typography">
+          <p class="caption">Clear task structure, but a generic button and typography. This is the previous proposal, not the production app.</p>
+        </article>
+        <article>
+          <h2 class="column-label revised">02 · Revised Doorbell direction</h2>
+          <img class="screen" src="assets/checkout-revised.png" alt="Revised checkout with Numans heading and action, Nokora body, and a blue button with a dark outline and hard offset shadow">
+          <p class="caption"><b>Keep the hierarchy; restore the feel.</b> A 2px outline and 4px hard shadow make the main action recognisable. Reading surfaces stay calm.</p>
+        </article>
+        <aside class="feedback">
+          <h2 class="column-label revised">03 · Feel it respond</h2>
+          <div class="try-panel">
+            <p class="small-title">Primary action / ready</p>
+            <h2>A button with a little weight.</h2>
+            <p>Press with a mouse, touch, Enter or Space. The button settles into its shadow, keeps its label while busy, and blocks repeat activation.</p>
+            <button class="retro-button" id="feedback-demo" type="button">Try the button feel</button>
+            <p id="demo-status" class="demo-status" role="status" aria-live="polite">Local feedback demo only. No order or payment is created.</p>
+          </div>
+          <div class="state-grid">
+            <div class="state-example">
+              <h3>Pressed</h3>
+              <div class="retro-button is-pressed" aria-label="Illustration of a pressed button">Place order</div>
+              <p>2px travel; shadow shortens. Release returns to rest.</p>
+            </div>
+            <div class="state-example">
+              <h3>Keyboard focus</h3>
+              <div class="retro-button is-focused" aria-label="Illustration of a focused button">Place order</div>
+              <p>A separate outer ring. Focus never depends on movement.</p>
+            </div>
+            <div class="state-example">
+              <h3>Loading</h3>
+              <button class="retro-button" disabled aria-busy="true"><span class="busy-mark" aria-hidden="true"></span>Placing order…</button>
+              <p>Readable action + progress. Repeat activation is blocked.</p>
+            </div>
+            <div class="state-example">
+              <h3>Disabled</h3>
+              <button class="retro-button" disabled>Place order</button>
+              <p>Choose a delivery address to continue. No raised shadow.</p>
+            </div>
+          </div>
+          <div class="rule-note">
+            <b>Character has a job.</b>
+            <p>Raised primary action. Outlined secondary action. Quiet fields and rows. Status text stays explicit, including pending and unknown.</p>
+            <div class="secondary-example">Change address <span>Secondary / no raised shadow</span></div>
+          </div>
+        </aside>
+      </div>
+      <footer class="board-foot"><span>Numans for actions & selected headings · Nokora for reading · existing Doorbell illustrations</span><span>Proposed layouts · illustrative data · no production transactions</span></footer>
+    </section>
+    <section class="brand-strip" aria-labelledby="discovery-title">
+      <div><p class="eyebrow">Room for play</p><h2 id="discovery-title">More expression in discovery. More restraint in forms.</h2><p>Service colours and illustrated icons carry the personality between the important actions.</p></div>
+      <div class="service-samples">
+        <div><img src="../assets/illustrations/restaurants.svg" alt=""><b>Restaurants</b></div>
+        <div><img src="../assets/illustrations/groceries.svg" alt=""><b>Groceries</b></div>
+        <div><img src="../assets/illustrations/errands.svg" alt=""><b>Errands</b></div>
+        <div><img src="../assets/illustrations/shops.svg" alt=""><b>Local shops</b></div>
+      </div>
+      <p>See the revised <a href="../home-page/index.html">Home, search and menu</a> and <a href="../app-consistency/index.html">twelve journey concepts</a>. Reduced-motion mode keeps colour and focus feedback while removing press movement.</p>
+    </section>
+  </main>
+  <script>
+    const button = document.querySelector('#feedback-demo');
+    const status = document.querySelector('#demo-status');
+    let busy = false;
+    button.addEventListener('click', () => {
+      if (busy) return;
+      busy = true;
+      button.setAttribute('aria-disabled', 'true');
+      button.setAttribute('aria-busy', 'true');
+      button.innerHTML = '<span class="busy-mark" aria-hidden="true"></span>Previewing feedback…';
+      status.textContent = 'Demo feedback in progress. The action label stays visible.';
+      window.setTimeout(() => {
+        busy = false;
+        button.removeAttribute('aria-disabled');
+        button.removeAttribute('aria-busy');
+        button.textContent = 'Try the button feel';
+        status.textContent = '✓ Demo complete. Button ready again. No order or payment was created.';
+      }, 1200);
+    });
+  </script>
+</body>
+</html>
