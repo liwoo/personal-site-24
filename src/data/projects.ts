@@ -2,6 +2,49 @@ import type { Project } from '~/types';
 
 export const projects: Project[] = [
   {
+    title: 'IremboAI',
+    subtitle:
+      'A trilingual AI assistant that gives citizens instant, source-grounded answers about iremboGov services — in Kinyarwanda, English, or French.',
+    description:
+      "IremboAI reimagines how Rwandans get help with government services. Instead of waiting in a call center queue, citizens can simply ask — in Kinyarwanda, English, or French — and get instant, reliable answers about paying a traffic fine, checking an application status, renewing a visa, transferring land ownership and more. Rather than starting from a blank slate, the agent was built on the lived knowledge of Irembo's call center: every response was engineered and evaluated for both technical accuracy and the helpful, human tone people actually expect.",
+    slug: 'irembo-ai',
+    company: {
+      name: 'Irembo',
+      logo: 'irembo',
+    },
+    image: {
+      src: 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/Gemini_Generated_Image_cgaca7cgaca7cgac.png',
+      alt: 'IremboAI',
+    },
+    projectLink: 'https://irembo.gov.rw/home/citizen/all_services?lang=en',
+    duration: 'Jan 2024 - Aug 2025',
+    role: 'AI Engineer',
+    stack: ['Python', 'React', 'LangChain', 'LangFuse'],
+    category: 'webApp',
+    methods: [
+      {
+        title: 'Understanding the Call Center',
+        description:
+          "Started by studying how Irembo's call center actually answers customers. This meant categorizing the topics citizens ask about most, mapping the questions to iremboGov services, and codifying the template answers agents rely on — turning years of tacit human knowledge into a structured foundation the AI could be built on.",
+      },
+      {
+        title: 'Building a Human Evaluation Dataset',
+        description:
+          'Curated an evaluation dataset from real human responses to the most common questions coming through the call center. This golden set of question–answer pairs became the behavioural yardstick the agent would be measured against, grounding every later decision in what good, trusted human help looks like.',
+      },
+      {
+        title: 'Building & Evaluating the AI Agent',
+        description:
+          'Built the AI agent and held it to a dual standard. Technically, it was measured on retrieval quality — document relevance, grounding, and faithfulness to source material. Behaviourally, it was scored against the human evaluation dataset to ensure its answers matched the accuracy and tone citizens expect, across all three languages.',
+      },
+      {
+        title: 'Iterating to Internal Benchmarks',
+        description:
+          'Ran a tight loop of measurement and refinement — tuning retrieval, prompts, and guardrails while tracking every change with LangFuse — until the product consistently cleared the internal benchmarks set for accuracy, relevance, and trustworthiness before reaching citizens.',
+      },
+    ],
+  },
+  {
     title: 'Master Health Facility Registry',
     subtitle:
       "Malawi's implementation of OpenHIEs Facility Registry, as part of the Interoperability Layer; implemented in collaboration with the Ministry of Health.",
@@ -109,49 +152,6 @@ export const projects: Project[] = [
       testimony:
         'We have been consistently impressed with the excellence with which Jeremiah delivers his services. His attention to detail is unparalleled, as he displays a profound understanding of our requirements.',
     },
-  },
-  {
-    title: 'IremboAI',
-    subtitle:
-      'A trilingual AI assistant that gives citizens instant, source-grounded answers about iremboGov services — in Kinyarwanda, English, or French.',
-    description:
-      "IremboAI reimagines how Rwandans get help with government services. Instead of waiting in a call center queue, citizens can simply ask — in Kinyarwanda, English, or French — and get instant, reliable answers about paying a traffic fine, checking an application status, renewing a visa, transferring land ownership and more. Rather than starting from a blank slate, the agent was built on the lived knowledge of Irembo's call center: every response was engineered and evaluated for both technical accuracy and the helpful, human tone people actually expect.",
-    slug: 'irembo-ai',
-    company: {
-      name: 'Irembo',
-      logo: 'irembo',
-    },
-    image: {
-      src: 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/Gemini_Generated_Image_cgaca7cgaca7cgac.png',
-      alt: 'IremboAI',
-    },
-    projectLink: 'https://irembo.gov.rw/home/citizen/all_services?lang=en',
-    duration: 'Jan 2024 - Aug 2025',
-    role: 'AI Engineer',
-    stack: ['Python', 'React', 'LangChain', 'LangFuse'],
-    category: 'webApp',
-    methods: [
-      {
-        title: 'Understanding the Call Center',
-        description:
-          "Started by studying how Irembo's call center actually answers customers. This meant categorizing the topics citizens ask about most, mapping the questions to iremboGov services, and codifying the template answers agents rely on — turning years of tacit human knowledge into a structured foundation the AI could be built on.",
-      },
-      {
-        title: 'Building a Human Evaluation Dataset',
-        description:
-          'Curated an evaluation dataset from real human responses to the most common questions coming through the call center. This golden set of question–answer pairs became the behavioural yardstick the agent would be measured against, grounding every later decision in what good, trusted human help looks like.',
-      },
-      {
-        title: 'Building & Evaluating the AI Agent',
-        description:
-          'Built the AI agent and held it to a dual standard. Technically, it was measured on retrieval quality — document relevance, grounding, and faithfulness to source material. Behaviourally, it was scored against the human evaluation dataset to ensure its answers matched the accuracy and tone citizens expect, across all three languages.',
-      },
-      {
-        title: 'Iterating to Internal Benchmarks',
-        description:
-          'Ran a tight loop of measurement and refinement — tuning retrieval, prompts, and guardrails while tracking every change with LangFuse — until the product consistently cleared the internal benchmarks set for accuracy, relevance, and trustworthiness before reaching citizens.',
-      },
-    ],
   },
   {
     title: 'GeniYanga',

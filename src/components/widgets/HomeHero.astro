@@ -40,8 +40,8 @@ const heroBg = 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/web-hero.m4v
     <div id="hero-card" class="relative bg-white/90 dark:bg-[#1a1a1a]/95 backdrop-blur-xl backdrop-saturate-150 border border-gray-300/40 dark:border-gray-600/30 mx-4 md:ml-20 lg:m-0 text-base md:text-lg shadow-lg overflow-hidden">
       <!-- Invisible sizer — reserves height per viewport -->
       <div class="p-6 md:p-8 invisible font-semibold" aria-hidden="true">
-        <span class="md:hidden">&gt; I build AI agents that go past the demo stage.</span>
-        <span class="hidden md:inline">&gt; Hi, I'm Jeremiah. I build AI agents that go past the demo stage. Let's connect if that sort of thing interests you</span>
+        <span class="md:hidden">&gt; I built IremboAI, the AI assistant 12M Rwandans can ask about their government.</span>
+        <span class="hidden md:inline">&gt; Hi, I'm Jeremiah. I built IremboAI, the AI assistant 12 million Rwandans can ask about their government.</span>
       </div>
       <!-- Visible typewriter — positioned over sizer -->
       <div class="absolute inset-0 p-6 md:p-8 font-semibold text-gray-900 dark:text-gray-100">
@@ -135,14 +135,14 @@ const heroBg = 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/web-hero.m4v
     // Define segments: plain text or styled spans
     const segments = isMobile
       ? [
-          { text: 'I build ' },
-          { text: 'AI agents', cls: 'underlined' },
-          { text: ' that go past the demo stage.' },
+          { text: 'I built ' },
+          { text: 'IremboAI', cls: 'underlined', href: '/ai-for-12-million-citizens' },
+          { text: ', the AI assistant 12M Rwandans can ask about their government.' },
         ]
       : [
-          { text: "Hi, I'm Jeremiah. I build " },
-          { text: 'AI agents', cls: 'underlined' },
-          { text: " that go past the demo stage. Let's connect if that sort of thing interests you" },
+          { text: "Hi, I'm Jeremiah. I built " },
+          { text: 'IremboAI', cls: 'underlined', href: '/ai-for-12-million-citizens' },
+          { text: ', the AI assistant 12 million Rwandans can ask about their government.' },
         ];
 
     let segIdx = 0;
@@ -151,8 +151,9 @@ const heroBg = 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/web-hero.m4v
     ctaEl.style.opacity = '0';
 
     // Pre-create span elements for each segment
-    const spanEls: HTMLSpanElement[] = segments.map(seg => {
-      const span = document.createElement('span');
+    const spanEls: HTMLElement[] = segments.map((seg: { text: string; cls?: string; href?: string }) => {
+      const span = document.createElement(seg.href ? 'a' : 'span');
+      if (seg.href) span.setAttribute('href', seg.href);
       if (seg.cls) span.className = seg.cls;
       outEl.appendChild(span);
       return span;

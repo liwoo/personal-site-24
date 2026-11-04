@@ -61,6 +61,23 @@ const decode = (s: string): string =>
     .replace(/&amp;/g, '&')
     .replace(/&#\d+;/g, ' ');
 
+/** Shareable, syntax-highlighted code block (copy + share handled in BasicScripts). */
+export function renderCodeBlock(code: string, lang = '', label?: string, share = true): string {
+  const name = label ?? (LANG_LABELS[lang] || (lang ? lang.toUpperCase() : 'Code'));
+  return (
+    `<div class="aj-codeblock" data-language="${esc(lang || 'code')}">` +
+    `<div class="aj-codebar"><span class="aj-code-lang">&gt; ${esc(name)}_</span>` +
+    `<span class="aj-code-actions">` +
+    `<button type="button" class="aj-code-btn aj-code-copy" data-aj-copy-text aria-label="Copy code">copy</button>` +
+    (share
+      ? `<button type="button" class="aj-code-btn aj-code-share" data-aj-code-share aria-label="Share snippet">share</button>`
+      : '') +
+    `</span></div>` +
+    `<div class="aj-copy-body"><pre class="aj-pre"><code>${highlightCode(code)}</code></pre></div>` +
+    `</div>`
+  );
+}
+
 export interface TweetData {
   text: string;
   author?: string;
@@ -213,17 +230,7 @@ export function mdToRichHtml(md: string | undefined, maxBlocks = 500): string {
       i++;
       while (i < lines.length && !/^\s*```/.test(lines[i])) buf.push(lines[i++]);
       i++;
-      // Shareable, syntax-highlighted code block (copy + share handled in BasicScripts).
-      out.push(
-        `<div class="aj-codeblock" data-language="${esc(lang || 'code')}">` +
-          `<div class="aj-codebar"><span class="aj-code-lang">&gt; ${esc(label)}_</span>` +
-          `<span class="aj-code-actions">` +
-          `<button type="button" class="aj-code-btn aj-code-copy" data-aj-copy-text aria-label="Copy code">copy</button>` +
-          `<button type="button" class="aj-code-btn aj-code-share" data-aj-code-share aria-label="Share snippet">share</button>` +
-          `</span></div>` +
-          `<div class="aj-copy-body"><pre class="aj-pre"><code>${highlightCode(buf.join('\n'))}</code></pre></div>` +
-          `</div>`
-      );
+      out.push(renderCodeBlock(buf.join('\n'), lang, label));
       continue;
     }
     const h = line.match(/^(#{1,4})\s+(.*)$/);

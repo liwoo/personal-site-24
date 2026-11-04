@@ -3,11 +3,13 @@ import Layout from '~/layouts/PageLayout.astro';
 
 import HomeHero from '~/components/widgets/HomeHero.astro';
 import HomeAbout from '~/components/widgets/HomeAbout.astro';
+import HomeFlagship from '~/components/widgets/HomeFlagship.astro';
 import { footerData } from '~/data/navigation';
 import HomeArticles from '~/components/widgets/HomeArticles.astro';
 import Button from '~/components/ui/Button.astro';
 import { findPostsByCategory } from '~/utils/blog';
 import { getPermalink } from '~/utils/permalinks';
+import { projects } from '~/data/projects';
 
 export const prerender = true;
 
@@ -23,6 +25,9 @@ const logoGlob = import.meta.glob<{ default: { src: string } }>('/src/assets/ima
 });
 const logo = (key: string) => logoGlob[`/src/assets/images/logos/png/${key}-symbol.png`]?.default?.src ?? null;
 
+const iremboProject = projects.find((p) => p.slug === 'irembo-ai');
+const iremboCover = typeof iremboProject?.image?.src === 'string' ? iremboProject.image.src : null;
+
 const latestWriting = (await findPostsByCategory('tech')).slice(0, 4).map((p) => ({
   title: p.title,
   permalink: getPermalink(p.permalink, 'post'),
@@ -36,7 +41,7 @@ const latestWriting = (await findPostsByCategory('tech')).slice(0, 4).map((p) =>
 const dev = {
   banner: 'AI ENGINEER',
   front: [
-    { key: 'status', value: '"Building production-grade Agentic Systems"', strong: true },
+    { key: 'status', value: '"I built IremboAI, currently serving 12M citizens in Rwanda"', strong: true, href: '/ai-for-12-million-citizens' },
     { key: 'location', value: '["Manchester, UK", "Kigali, RW"]' },
   ],
   chips: { key: 'stack', items: ['Microsoft Fabric', 'Azure AI Foundry', 'MAF', 'LangChain', 'Langfuse'] },
@@ -46,18 +51,21 @@ const dev = {
     { label: 'X / @liwucodes', href: 'https://x.com/liwucodes' },
     { label: 'YouTube / @liwucodes', href: 'https://www.youtube.com/@liwucodes' },
   ],
-  ctas: [
-    { label: 'Get in touch', href: '/contact' },
-    { label: 'Find out more', href: '/about' },
-  ],
+  ctas: [{ label: 'Get in touch', href: '/contact' }],
   data: {
     profile: {
       name: 'Jeremiah Chienda',
       portrait: 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/2026.jpg',
       mission: { __type: 'typewriter', value: 'I build AI agents that go past the demo stage.' },
     },
+    irembo_ai: {
+      role: 'Led the AI team that built it',
+      benchmark: "95% on accuracy & tone, scored against the call center's own answers",
+      cover: iremboCover,
+      story: { __type: 'link', label: 'How we built it', href: '/ai-for-12-million-citizens' },
+    },
     career: [
-      { company: 'Irembo', logo: logo('irembo'), role: 'AI Engineering Lead', impact: 'National AI assistant serving 12M citizens' },
+      { company: 'Irembo', logo: logo('irembo'), role: 'AI Engineering Lead', impact: 'Built IremboAI (12M citizens)' },
       { company: 'ICO', logo: logo('ico'), role: 'AI Engineer', impact: "Responsible Data & AI at the UK's data regulator" },
       { company: 'One Acre Fund', logo: logo('oaf'), role: 'Lead Software Engineer', impact: 'Systems serving 1M+ smallholder farmers' },
     ],
@@ -87,12 +95,13 @@ const dev = {
   <HomeHero socialLinks={footerData.socialLinks} title="AI Engineer" name="Jeremiah Chienda">
     <Fragment slot="description">
       <span class="hidden md:inline"
-        >Hi 👋🏽, I'm Jeremiah. I build <span class="underlined">AI agents</span> that go past the demo stage. <a
-          href="/contact">Let's connect</a
-        > if that sort of thing interests you</span
-      ><span class="md:hidden">I build <span class="underlined">AI agents</span> that go past the demo stage.</span>
+        >Hi 👋🏽, I'm Jeremiah. I built <a href="/ai-for-12-million-citizens" class="underlined">IremboAI</a>, the AI
+        assistant 12 million Rwandans can ask about their government.</span
+      ><span class="md:hidden">I built <a href="/ai-for-12-million-citizens" class="underlined">IremboAI</a>, the AI
+        assistant 12M Rwandans can ask about their government.</span>
     </Fragment>
   </HomeHero>
+  <HomeFlagship />
   <div class="scroll-fade-in">
     <HomeAbout />
   </div>
