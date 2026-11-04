@@ -8,7 +8,7 @@
  * not a code dump. Output is an HTML string rendered via `set:html` in
  * `DevDoc.astro`; styling lives in `DevModeSkin.astro` (`.aj-*` classes).
  */
-import { renderTweetCard } from '~/utils/richMarkdown';
+import { renderCodeBlock, renderTweetCard } from '~/utils/richMarkdown';
 
 const esc = (s: unknown): string =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -196,6 +196,8 @@ function renderTyped(node: Typed): string {
         `<span class="aj-caret"></span></span>` +
         `<div class="aj-search-count" data-aj-search-count></div></div>`
       );
+    case 'code':
+      return renderCodeBlock(String(node.value ?? ''), String(node.lang ?? ''), undefined, false);
     case 'link': {
       const href = String(node.href ?? '#');
       const ext = isExternal(href) ? ' target="_blank" rel="noopener noreferrer"' : '';
@@ -241,6 +243,11 @@ function fields(obj: Record<string, Val>): string {
     .map(([k, v], i) => {
       const comma = i < entries.length - 1 ? '<span class="aj-punc">,</span>' : '';
       if (isTyped(v)) {
+        // Code blocks are block-level (can't sit in a <p>) and drop the comma,
+        // which would otherwise dangle on its own line under the block.
+        if (v.__type === 'code') {
+          return `<div class="aj-field"><span class="aj-k">"${esc(k)}"</span><span class="aj-punc">:</span> ${renderTyped(v)}</div>`;
+        }
         return `<p class="aj-field"><span class="aj-k">"${esc(k)}"</span><span class="aj-punc">:</span> ${renderTyped(v)}${comma}</p>`;
       }
       if (isStringArray(v)) {
