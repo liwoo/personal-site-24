@@ -180,6 +180,7 @@ const navItems = [
   .aj-fval.strong {
     font-weight: 600;
   }
+
   .aj-chips {
     display: flex;
     flex-wrap: wrap;
@@ -524,6 +525,9 @@ const navItems = [
     display: block;
     width: 100%;
     height: auto;
+    /* Opt out of the global `img { content-visibility: auto }` (Layout.astro):
+       with height:auto it size-contains off-screen images to 0x0 for good. */
+    content-visibility: visible;
     filter: grayscale(0.5) contrast(1.05);
     transition: filter 0.35s ease;
   }

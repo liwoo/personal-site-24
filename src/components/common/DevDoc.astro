@@ -13,6 +13,8 @@ export interface FrontRow {
   key: string;
   value: string;
   strong?: boolean;
+  /** Optional link for the value. */
+  href?: string;
 }
 
 export interface Props {
@@ -49,7 +51,13 @@ const footer = renderFooterCard(footerData, SEO_IMAGE);
             {front.map((row) => (
               <Fragment>
                 <span class="aj-fkey">{row.key}:</span>
-                <span class:list={['aj-fval', { strong: row.strong }]}>{row.value}</span>
+                {row.href ? (
+                  <a class:list={['aj-fval aj-link', { strong: row.strong }]} href={row.href}>
+                    {row.value}
+                  </a>
+                ) : (
+                  <span class:list={['aj-fval', { strong: row.strong }]}>{row.value}</span>
+                )}
               </Fragment>
             ))}
             {chips && (

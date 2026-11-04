@@ -167,8 +167,15 @@ export function AboutTabs() {
           — a data regulator.
         </p>
         <p>
+          I built{' '}
+          <a href="/projects/irembo-ai" className="underline">
+            <strong>IremboAI</strong>
+          </a>
+          , the assistant 12 million Rwandans can ask about government services in Kinyarwanda, English or French.
+        </p>
+        <p>
           Ten years, four countries, national scale: builder, regulator and responsible-AI practitioner in one — from
-          health data in Malawi to a govtech assistant serving 12 million Rwandans.
+          health data in Malawi to Rwanda's national e-government platform.
         </p>
       </TabsContent>
       <TabsContent value="pictures" className="py-4">

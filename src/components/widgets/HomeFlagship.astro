@@ -1,0 +1,51 @@
+---
+import Button from '~/components/ui/Button.astro';
+import { projects } from '~/data/projects';
+
+// IremboAI, the build recruiters ask about first. The cover comes from the
+// project entry so the two never drift.
+const irembo = projects.find((p) => p.slug === 'irembo-ai');
+const cover = typeof irembo?.image?.src === 'string' ? irembo.image.src : undefined;
+const story = '/ai-for-12-million-citizens';
+---
+
+<section id="flagship" class="container py-16 lg:py-24 border-b border-muted">
+  <div class="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
+    {
+      cover && (
+        <a href={story} class="flagship-cover block w-full lg:w-1/2 shrink-0" data-astro-prefetch>
+          <img
+            src={cover}
+            alt="An Irembo agent helping a citizen at a service desk"
+            class="w-full aspect-[4/3] object-cover rounded shadow-primary bg-gray-400 dark:bg-slate-700"
+            loading="eager"
+            width="800"
+            height="600"
+          />
+        </a>
+      )
+    }
+    <div class="w-full lg:w-1/2">
+      <h2 class="text-4xl md:text-6xl font-bold leading-tighter tracking-tighter font-heading text-heading">
+        IremboAI
+      </h2>
+      <p class="mt-6 text-lg md:text-xl text-muted">
+        12 million Rwandans can ask their government a question in Kinyarwanda, English or French, and get an answer
+        straight away.
+      </p>
+      <p class="mt-4 text-lg md:text-xl text-default">I led the AI team that built it.</p>
+      <div class="mt-8">
+        <Button href={story} variant="tertiary" class="px-0 md:px-0">How we built it</Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .flagship-cover img {
+    transition: transform 0.4s ease-out;
+  }
+  .flagship-cover:hover img {
+    transform: translateY(-4px);
+  }
+</style>
