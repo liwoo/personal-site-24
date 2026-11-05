@@ -14,24 +14,6 @@ const metadata = {
     'Open-source skills for coding agents by Jeremiah Chienda: a governance scorecard for AI agents, and truescreen, product videos built from your real UI.',
 };
 
-const howItWorks = [
-  {
-    title: 'Install',
-    detail:
-      "A skill is a folder with a SKILL.md in it: instructions, reference docs and a few scripts. It sits in your repo or your agent's skills directory.",
-  },
-  {
-    title: 'Ask',
-    detail:
-      'When what you ask for matches the skill, your coding agent loads it. Claude Code, Cursor, Codex and Copilot all read them.',
-  },
-  {
-    title: 'Run',
-    detail:
-      'The agent makes the judgement calls. Small scripts handle the parts that have to be exact, like mapping a repo or rendering a report.',
-  },
-];
-
 const resolved = await Promise.all(
   skills.map(async (s) => ({ ...s, img: (await findImage(s.image.src)) as ImageMetadata }))
 );
@@ -41,24 +23,20 @@ const dev = {
     { key: 'status', value: `"${skills.length} open-source skills for coding agents"`, strong: true },
     { key: 'license', value: '"MIT"' },
   ],
-  data: {
-    how_it_works: howItWorks,
-    ...Object.fromEntries(
-      resolved.map((s) => [
-        s.slug === 'agent-governance-scorecard' ? 'scorecard' : s.slug,
-        {
-          skill: s.skillName,
-          does: s.tagline,
-          cover: s.img?.src ?? null,
-          install: { __type: 'code', lang: 'bash', value: s.install },
-          ask: s.ask,
-          steps: s.steps,
-          proof: s.proof,
-          repo: { __type: 'cta', label: 'GitHub', href: s.repo },
-        },
-      ])
-    ),
-  },
+  data: Object.fromEntries(
+    resolved.map((s) => [
+      s.slug === 'agent-governance-scorecard' ? 'scorecard' : s.slug,
+      {
+        skill: s.skillName,
+        does: s.tagline,
+        proof: s.proof,
+        cover: s.img?.src ?? null,
+        install: { __type: 'code', lang: 'bash', value: s.install },
+        ask: s.ask,
+        repo: { __type: 'cta', label: 'GitHub', href: s.repo },
+      },
+    ])
+  ),
 };
 ---
 
@@ -66,54 +44,30 @@ const dev = {
   <Hero2>
     <Fragment slot="title">Agent <span class="underlined">Skills</span></Fragment>
 
-    <Fragment slot="subtitle">
-      Open-source skills I've written for coding agents. Install one, then ask for what you want in plain English.
-    </Fragment>
-    <Fragment slot="content">
-      <a href="https://github.com/liwoo">&gt;&gt; github.com/liwoo</a>
-    </Fragment>
+    <Fragment slot="subtitle">Open-source skills for coding agents. Install one, then ask.</Fragment>
   </Hero2>
 
-  <section class="container pb-8">
-    <h2 class="text-sm font-bold uppercase tracking-widest text-muted mb-6">How a skill works</h2>
-    <ol class="grid grid-cols-1 md:grid-cols-3 gap-8">
+  <section class="container pb-20">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12">
       {
-        howItWorks.map((step, i) => (
-          <li class="border-t border-muted pt-4">
-            <p class="font-mono text-primary text-sm">0{i + 1}</p>
-            <h3 class="mt-1 text-xl font-bold font-heading text-heading">{step.title}</h3>
-            <p class="mt-2 text-muted">{step.detail}</p>
-          </li>
-        ))
-      }
-    </ol>
-  </section>
-
-  {
-    resolved.map((skill) => (
-      <section id={skill.slug} class="container py-16 lg:py-20 border-t border-muted">
-        <div class="flex flex-col lg:flex-row gap-10 lg:gap-16">
-          <div class="w-full lg:w-1/2 shrink-0">
+        resolved.map((skill) => (
+          <article id={skill.slug} class="flex flex-col">
             <a href={skill.repo} target="_blank" rel="noopener noreferrer" class="block">
               <Image
                 src={skill.img}
                 alt={skill.image.alt}
-                class="w-full rounded shadow-primary bg-gray-400 dark:bg-slate-700"
+                class="w-full aspect-[16/10] object-cover object-top rounded shadow-primary bg-gray-400 dark:bg-slate-700"
                 width={960}
                 loading="lazy"
               />
             </a>
-          </div>
-          <div class="w-full lg:w-1/2">
-            <p class="font-mono text-sm text-muted">skill: {skill.skillName}</p>
-            <h2 class="mt-2 text-3xl md:text-5xl font-bold leading-tighter tracking-tighter font-heading text-heading">
-              {skill.name}
-            </h2>
-            <p class="mt-4 text-lg md:text-xl text-default">{skill.tagline}</p>
-            <p class="mt-4 text-muted">{skill.description}</p>
 
-            <div class="mt-8">
-              <div class="skill-code relative rounded border border-muted bg-black/5 dark:bg-white/5">
+            <h2 class="mt-8 text-3xl font-bold tracking-tighter font-heading text-heading">{skill.name}</h2>
+            <p class="mt-3 text-lg text-default">{skill.tagline}</p>
+            <p class="mt-2 text-muted">{skill.proof}</p>
+
+            <div class="mt-auto pt-8">
+              <div class="relative rounded border border-muted bg-black/5 dark:bg-white/5">
                 <button
                   type="button"
                   class="absolute top-2 right-2 text-xs uppercase tracking-widest text-muted hover:text-primary"
@@ -123,41 +77,18 @@ const dev = {
                 </button>
                 <pre class="overflow-x-auto p-4 pt-8 md:pt-4 md:pr-16 text-sm font-mono"><code>{skill.install}</code></pre>
               </div>
-              <p class="mt-4 text-muted">
-                Then ask your agent: <span class="text-default font-semibold">"{skill.ask}"</span>
+              <p class="mt-3 text-sm text-muted">
+                Then ask: <span class="text-default">"{skill.ask}"</span>
               </p>
+              <a href={skill.repo} target="_blank" rel="noopener noreferrer" class="btn-tertiary inline-block mt-6">
+                View on GitHub
+              </a>
             </div>
-          </div>
-        </div>
-
-        <div class="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-10">
-          <div class="lg:col-span-2">
-            <h3 class="text-sm font-bold uppercase tracking-widest text-muted mb-4">What happens</h3>
-            <ol class="flex flex-col gap-4">
-              {skill.steps.map((step) => (
-                <li class="grid grid-cols-[6rem_1fr] gap-4">
-                  <span class="font-mono text-primary">{step.title}</span>
-                  <span class="text-muted">{step.detail}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-          <div>
-            <h3 class="text-sm font-bold uppercase tracking-widest text-muted mb-4">See it work</h3>
-            <p class="text-default">{skill.proof}</p>
-            <a
-              href={skill.repo}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-tertiary inline-block mt-6"
-            >
-              View on GitHub
-            </a>
-          </div>
-        </div>
-      </section>
-    ))
-  }
+          </article>
+        ))
+      }
+    </div>
+  </section>
 </Layout>
 
 <script>
