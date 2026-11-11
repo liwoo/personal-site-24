@@ -45,4 +45,18 @@ export const skills: AgentSkill[] = [
       alt: "A frame from truescreen's example reveal: the real customers list, a fingertip about to tap a row",
     },
   },
+  {
+    slug: 'evidence-explainer',
+    name: 'evidence-explainer',
+    skillName: 'evidence-explainer',
+    tagline: 'Turns a voice note into a 1-minute vertical explainer that proves every claim.',
+    proof: 'A 4-min voice memo becomes a 60s TikTok with 10 real website screenshots, 9 logos, and a diagram.',
+    repo: 'https://github.com/liwoo/evidence-explainer',
+    install: 'git clone https://github.com/liwoo/evidence-explainer ~/.claude/skills/evidence-explainer\n~/.claude/skills/evidence-explainer/scripts/setup_whisper.sh',
+    ask: 'Make a 1-minute explainer from this voice note, with website evidence and logos.',
+    image: {
+      src: '~/assets/images/skills/evidence-explainer.jpg',
+      alt: "A contact sheet of evidence-explainer's example video: zoomed website screenshots, logos, and a diagram explaining how Malawian apps issue Visa cards",
+    },
+  },
 ];
