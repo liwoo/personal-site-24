@@ -538,8 +538,8 @@ const recaptchaKey = import.meta.env.PUBLIC_RECAPTCHA_KEY;
   }
 
   const initDevMode = function () {
-    // Dev Mode is the default view; only an explicit 'false' opts out.
-    applyDevMode(localStorage.devMode !== 'false');
+    // Dev Mode is opt-in; only an explicit 'true' turns it on.
+    applyDevMode(localStorage.devMode === 'true');
   };
 
   const initTheme = function () {

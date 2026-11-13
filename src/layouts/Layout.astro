@@ -12,6 +12,7 @@ import SiteVerification from '~/components/common/SiteVerification.astro';
 import Analytics from '~/components/common/Analytics.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
 import DevModeSkin from '~/components/common/DevModeSkin.astro';
+import CookieConsent from '~/components/common/CookieConsent.astro';
 
 // Uncomment line below to activate View Transitions
 import {ClientRouter} from 'astro:transitions';
@@ -85,7 +86,8 @@ const {language, textDirection} = I18N;
           "https://linkedin.com/in/jchienda",
           "https://github.com/liwoo",
           "https://twitter.com/liwucodes",
-          "https://www.youtube.com/@liwucodes"
+          "https://www.youtube.com/@liwucodes",
+          "https://www.tiktok.com/@liwucodes"
         ]
       },
       {
@@ -113,6 +115,7 @@ const {language, textDirection} = I18N;
 <slot/>
 
 <DevModeSkin/>
+<CookieConsent/>
 
 <!-- Global subtle scanline overlay -->
 <div class="fixed inset-0 pointer-events-none z-[9999]" aria-hidden="true" style="background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.03) 3px, rgba(0,0,0,0.03) 4px); mix-blend-mode: multiply;"></div>

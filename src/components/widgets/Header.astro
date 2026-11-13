@@ -4,6 +4,7 @@ import Logo from '~/components/Logo.astro';
 import ToggleTheme from '~/components/common/ToggleTheme.astro';
 import ToggleDevMode from '~/components/common/ToggleDevMode.astro';
 import ToggleMenu from '~/components/common/ToggleMenu.astro';
+import { quickCall } from '~/data/booking';
 
 import { getHomePermalink } from '~/utils/permalinks';
 import { trimSlash, getAsset } from '~/utils/permalinks';
@@ -60,7 +61,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       aria-label="Main navigation"
     >
       <ul
-        class="dark:bg-[#0f0f0f]/80 bg-[#fafafa]/80 border border-gray-500/30 flex flex-col md:flex-row md:self-center w-full md:w-auto text-xl md:text-xs tracking-widest font-medium px-4 uppercase"
+        class="glass flex flex-col md:flex-row md:self-center w-full md:w-auto text-xl md:text-xs tracking-widest font-medium px-4 uppercase"
       >
         {
           links.map(({ text, href, links }) => (
@@ -115,6 +116,14 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
         <div class="flex">
           {showToggleTheme && <ToggleTheme iconClass="w-6 h-6 md:w-5 md:h-5 md:inline-block" />}
           {showToggleTheme && <ToggleDevMode iconClass="w-6 h-6 md:w-5 md:h-5 md:inline-block" />}
+          <a
+            href={quickCall.href}
+            class="btn-primary !px-4 !py-1.5 text-xs ml-2 hidden lg:inline-flex self-center"
+            data-open-book-me
+            aria-haspopup="dialog"
+          >
+            Book_me
+          </a>
           {
             showRssFeed && (
               <a

@@ -1,0 +1,73 @@
+---
+/**
+ * Cookie consent bar. Choice is stored in localStorage (`cookieConsent` =
+ * 'all' | 'essential') and broadcast as a `cookie-consent` event on window, so
+ * any optional script (analytics, embeds) can wait for `all` before loading:
+ *
+ *   if (window.__cookieConsent === 'all') load();
+ *   window.addEventListener('cookie-consent', (e) => e.detail === 'all' && load());
+ */
+---
+
+<div
+  id="cookie-consent"
+  class="glass glass-sheen fixed z-[60] bottom-3 inset-x-3 sm:inset-x-auto sm:left-4 sm:bottom-4 sm:max-w-md rounded-xl px-4 py-3 text-sm hidden"
+  role="region"
+  aria-label="Cookie consent"
+>
+  <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+    <p class="text-muted text-xs leading-relaxed flex-1">
+      I use cookies for spam protection and, with your OK, anonymous analytics.
+      <a href="/privacy" class="underline underline-offset-2 hover:text-primary">Privacy</a>
+    </p>
+    <div class="flex gap-2 shrink-0">
+      <button type="button" class="btn-secondary !px-3 !py-1.5 text-[0.65rem] rounded-md" data-consent="essential">
+        Essential
+      </button>
+      <button type="button" class="btn-primary !px-3 !py-1.5 text-[0.65rem] rounded-md" data-consent="all">
+        Accept
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var KEY = 'cookieConsent';
+    var stored = null;
+    try {
+      stored = localStorage.getItem(KEY);
+    } catch (e) {}
+    window.__cookieConsent = stored;
+
+    function show() {
+      var bar = document.getElementById('cookie-consent');
+      if (!bar) return;
+      var choice = null;
+      try {
+        choice = localStorage.getItem(KEY);
+      } catch (e) {}
+      bar.classList.toggle('hidden', !!choice);
+      bar.querySelectorAll('[data-consent]').forEach(function (btn) {
+        if (btn.dataset.bound) return;
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', function () {
+          var value = btn.getAttribute('data-consent');
+          try {
+            localStorage.setItem(KEY, value);
+          } catch (e) {}
+          window.__cookieConsent = value;
+          window.dispatchEvent(new CustomEvent('cookie-consent', { detail: value }));
+          bar.classList.add('hidden');
+        });
+      });
+    }
+
+    show();
+    // Inline scripts re-run after client-side navigation; register once.
+    if (!window.__cookieConsentBound) {
+      window.__cookieConsentBound = true;
+      document.addEventListener('astro:page-load', show);
+    }
+  })();
+</script>

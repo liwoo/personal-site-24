@@ -9,16 +9,16 @@ const cover = typeof irembo?.image?.src === 'string' ? irembo.image.src : undefi
 const story = '/ai-for-12-million-citizens';
 ---
 
-<section id="flagship" class="container py-16 lg:py-24 border-b border-muted">
-  <div class="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
+<section id="flagship" class="container py-16 lg:py-24">
+  <div class="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center">
     {
       cover && (
-        <a href={story} class="flagship-cover block w-full lg:w-1/2 shrink-0" data-astro-prefetch>
+        <a href={story} class="flagship-cover glass glass-sheen block w-full lg:w-1/2 shrink-0 rounded-xl p-1.5" data-astro-prefetch>
           <img
             src={cover}
             alt="An Irembo agent helping a citizen at a service desk"
-            class="w-full aspect-[4/3] object-cover rounded shadow-primary bg-gray-400 dark:bg-slate-700"
-            loading="eager"
+            class="w-full aspect-[4/3] object-cover rounded-lg bg-gray-400 dark:bg-slate-700"
+            loading="lazy"
             width="800"
             height="600"
           />
@@ -26,15 +26,19 @@ const story = '/ai-for-12-million-citizens';
       )
     }
     <div class="w-full lg:w-1/2">
-      <h2 class="text-4xl md:text-6xl font-bold leading-tighter tracking-tighter font-heading text-heading">
+      <p class="terminal-label">flagship</p>
+      <h2 class="mt-3 text-4xl md:text-6xl font-bold leading-tighter tracking-tighter font-heading text-heading">
         IremboAI
       </h2>
-      <p class="mt-6 text-lg md:text-xl text-muted">
-        12 million Rwandans can ask their government a question in Kinyarwanda, English or French, and get an answer
-        straight away.
+      <p class="mt-4 text-base md:text-xl text-muted">
+        Rwanda's government, answerable in Kinyarwanda, English or French. I led the AI team that built it.
       </p>
-      <p class="mt-4 text-lg md:text-xl text-default">I led the AI team that built it.</p>
-      <div class="mt-8">
+      <ul class="mt-6 flex flex-wrap gap-2 text-xs">
+        <li class="glass px-3 py-1">12M citizens</li>
+        <li class="glass px-3 py-1">3 languages</li>
+        <li class="glass px-3 py-1">95% accuracy &amp; tone</li>
+      </ul>
+      <div class="mt-6">
         <Button href={story} variant="tertiary" class="px-0 md:px-0">How we built it</Button>
       </div>
     </div>
@@ -42,10 +46,10 @@ const story = '/ai-for-12-million-citizens';
 </section>
 
 <style>
-  .flagship-cover img {
+  .flagship-cover {
     transition: transform 0.4s ease-out;
   }
-  .flagship-cover:hover img {
+  .flagship-cover:hover {
     transform: translateY(-4px);
   }
 </style>

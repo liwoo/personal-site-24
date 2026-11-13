@@ -1,145 +1,63 @@
 ---
-import Headline from '~/components/ui/Headline.astro';
 import { APP_BLOG } from '~/utils/config';
-import { findLatestPosts } from '~/utils/blog';
-import FormContainer from '~/components/ui/Form.astro';
-import type { Input } from '~/types';
-import Envelope from '../icons/Envelope.astro';
-import { Calendly } from '~/components/widgets/Calendly.tsx';
-import Button from '../ui/Button.astro';
-import { ListItem } from '../blog/ListItem';
-import { findPostsByCategory } from '../../utils/blog';
+import { findPostsByCategory } from '~/utils/blog';
+import { getPermalink } from '~/utils/permalinks';
+import { getFormattedDate } from '~/utils/utils';
 
 type Props = {
   count?: number;
 };
 
-const { count = 4 } = Astro.props;
-const posts = APP_BLOG.isEnabled ? await findPostsByCategory('tech') : [];
-const postSubset = posts.length > count ? posts.slice(0, count) : posts;
-const signupInputs: Input[] = [
-  {
-    name: 'name',
-    label: 'Name',
-    type: 'text',
-    placeholder: 'Enter your name',
-  },
-  {
-    name: 'email',
-    label: 'Email',
-    type: 'email',
-    placeholder: 'Enter your email address to signup',
-  },
-];
+const { count = 5 } = Astro.props;
+const posts = APP_BLOG.isEnabled ? (await findPostsByCategory('tech')).slice(0, count) : [];
 ---
 
-<div id="blog-section" class="py-20">
-  <div class="scroll-fade-in">
-    <Headline
-      tagline="Writing about AI Agent Engineering in practice."
-      subtitle="I break down agent architectures, memory systems, tool calling patterns, and the real tradeoffs of building LLM-powered products — from token economics to safety, from MCP integrations to generative UI."
-    />
-  </div>
-  <div class="scroll-fade-in delay-100 container-article my-20">
-    <FormContainer
-      title="Don't miss out on some great content!"
-      inputs={signupInputs}
-      description="Get notified when I publish new deep dives on AI agent engineering."
-      disclaimer={{ label: 'No spam. Unsubscribe at any time.' }}
-      button="Signup"
-    >
-      <Fragment slot="icon">
-        <Envelope className="stroke-default" />
-      </Fragment>
-    </FormContainer>
-  </div>
-  <div class="scroll-fade-in delay-200 flex flex-col lg:flex-row container-lg my-8 gap-x-8">
-    <div class="flex-1 flex flex-col gap-y-4">
-      {
-        postSubset.map((post, index) => (
-          <div class="scroll-fade-in-item" style={`transition-delay: ${0.3 + index * 0.1}s`}>
-            <ListItem post={post} />
-          </div>
-        ))
-      }
+<section id="blog-section" class="container-lg py-16 lg:py-20">
+  <div class="flex items-end justify-between gap-4 mb-6">
+    <div>
+      <p class="terminal-label">writing</p>
+      <h2 class="mt-2 text-2xl md:text-3xl font-bold tracking-tight text-heading">AI agent engineering, in practice</h2>
     </div>
-    <div class="scroll-fade-in-item delay-300 flex-1 my-4 lg:my-0 flex flex-col gap-y-8">
-      <div class="text-center flex flex-col gap-y-3">
-        <h4>Book a Call</h4>
-        <p class="text-muted text-sm w-2/3 mx-auto">
-          Whether you're evaluating agent architectures, hiring an AI engineer, or working through an LLM problem — I'm happy to chat for 30 minutes.
-        </p>
-        <Calendly client:visible />
-        <div>
-          <Button variant="primary" href="https://cal.com/liwu-codes/30min">Schedule a Call</Button>
-        </div>
-      </div>
-    </div>
+    <a href="/blog" class="btn-link text-xs hidden sm:inline-flex shrink-0">All articles</a>
   </div>
-  <div class="scroll-fade-in delay-400 container flex justify-center mb-8">
-    <Button href="/blog" variant="tertiary">View all my Articles</Button>
+
+  <details class="see-more mb-6">
+    <summary><span class="see-more-label">See</span></summary>
+    <p class="mt-3 text-sm text-muted max-w-2xl">
+      Agent architectures, memory, tool calling, RAG, MCP and generative UI, plus the trade-offs that only show up in
+      production: token economics, evals and safety.
+    </p>
+  </details>
+
+  <ul class="glass rounded-xl divide-y divide-gray-500/15 overflow-hidden">
+    {
+      posts.map((post) => (
+        <li>
+          <a
+            href={getPermalink(post.permalink, 'post')}
+            class="post-row group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 px-4 sm:px-6 py-4 transition-colors"
+            data-astro-prefetch
+          >
+            <time datetime={String(post.publishDate)} class="text-xs text-muted shrink-0 sm:w-32 tabular-nums">
+              {getFormattedDate(post.publishDate)}
+            </time>
+            <span class="flex-1 font-semibold text-default group-hover:text-primary transition-colors leading-snug">
+              {post.title}
+            </span>
+            {post.readingTime && <span class="hidden sm:inline text-xs text-muted shrink-0">{post.readingTime} min</span>}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="mt-6 sm:hidden">
+    <a href="/blog" class="btn-link text-xs">All articles</a>
   </div>
-</div>
+</section>
 
 <style>
-  .scroll-fade-in,
-  .scroll-fade-in-item {
-    opacity: 0;
-    transform: translateY(20px);
-    transition:
-      opacity 0.6s ease-out,
-      transform 0.6s ease-out;
-  }
-
-  .scroll-fade-in.is-visible,
-  .scroll-fade-in-item.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .delay-100 {
-    transition-delay: 0.1s;
-  }
-
-  .delay-200 {
-    transition-delay: 0.2s;
-  }
-
-  .delay-300 {
-    transition-delay: 0.3s;
-  }
-
-  .delay-400 {
-    transition-delay: 0.4s;
+  .post-row:hover {
+    background: rgb(216 145 33 / 0.06);
   }
 </style>
-
-<script>
-  const observerCallback = (entries: IntersectionObserverEntry[]) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-      }
-    });
-  };
-
-  const observerOptions = {
-    threshold: 0.15,
-    rootMargin: '0px 0px -30px 0px',
-  };
-
-  const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-  const initAnimations = () => {
-    const animatedElements = document.querySelectorAll(
-      '#blog-section .scroll-fade-in, #blog-section .scroll-fade-in-item'
-    );
-    animatedElements.forEach((element) => observer.observe(element));
-  };
-
-  // Initial load
-  initAnimations();
-
-  // Re-observe on Astro page transitions
-  document.addEventListener('astro:page-load', initAnimations);
-</script>

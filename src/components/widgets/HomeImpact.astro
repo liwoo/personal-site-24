@@ -1,0 +1,55 @@
+---
+/** Impact strip that closes the home hero: four numbers, one line each. */
+const stats = [
+  { value: '10+ years', label: 'shipping production software' },
+  { value: '12M citizens', label: 'can access IremboAI in Rwanda', href: '/ai-for-12-million-citizens' },
+  { value: '2x Founder', label: '$500+ ARR', href: '/projects/geniyanga' },
+  { value: '1M+ farmers', label: 'served by systems I led at One Acre Fund' },
+];
+---
+
+<div class="impact grid grid-cols-2 lg:grid-cols-4 border-y border-gray-500/25" aria-label="Impact">
+  {
+    stats.map(({ value, label, href }) => {
+      const Tag = href ? 'a' : 'div';
+      return (
+        <Tag
+          href={href}
+          class:list={['impact-cell py-5 lg:py-7 px-4 lg:px-8 first:pl-0', href && 'group']}
+        >
+          <p class="text-xl md:text-2xl font-bold tracking-tight text-heading group-hover:text-primary transition-colors">
+            {value}
+          </p>
+          <p class="mt-1 text-xs md:text-sm text-muted leading-snug">{label}</p>
+        </Tag>
+      );
+    })
+  }
+</div>
+
+<style>
+  /* Vertical dividers between cells (2-up on mobile, 4-up on desktop). */
+  .impact-cell {
+    border-color: rgb(128 128 128 / 0.25);
+  }
+  .impact-cell:nth-child(even) {
+    border-left-width: 1px;
+  }
+  .impact-cell:nth-child(n + 3) {
+    border-top-width: 1px;
+  }
+  .impact-cell:nth-child(3) {
+    padding-left: 0;
+  }
+  @media (min-width: 1024px) {
+    .impact-cell:not(:first-child) {
+      border-left-width: 1px;
+    }
+    .impact-cell:nth-child(n + 3) {
+      border-top-width: 0;
+    }
+    .impact-cell:nth-child(3) {
+      padding-left: 2rem;
+    }
+  }
+</style>
