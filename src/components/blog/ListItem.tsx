@@ -22,7 +22,7 @@ export function ListItem({ post, extended = false }: ListItemProps) {
     <div
       className={twMerge(
         extended ? 'flex-col md:flex-row gap-x-4 lg:h-52' : 'flex-col',
-        'group flex gap-y-2 rounded-xl transition-all ease-in delay-25 hover:dark:bg-[#1e1e1e] hover:bg-[#e0e0e0] p-4'
+        'group flex gap-y-2 rounded-xl border border-transparent transition-all ease-in delay-25 hover:border-white/70 dark:hover:border-white/10 hover:bg-white/50 dark:hover:bg-white/[0.04] hover:backdrop-blur-md hover:shadow-[0_10px_30px_-14px_rgba(0,0,0,0.25)] p-4'
       )}
     >
       <div className="w-full md:w-1/2 flex md:flex-col justify-between md:justify-start items-center md:items-start">
@@ -66,8 +66,8 @@ export function ListItem({ post, extended = false }: ListItemProps) {
         <a href={getPermalink(post.permalink, 'post')} data-astro-prefetch>
           <h3 className="text-xl">{post.title}</h3>
         </a>
-        <p className="text-muted leading-6 line-clamp-2">{post.excerpt}</p>
-        <a className="btn-link" href={post.slug}>
+        <p className="hidden sm:block text-muted leading-6 line-clamp-2">{post.excerpt}</p>
+        <a className="btn-link hidden sm:inline-flex" href={getPermalink(post.permalink, 'post')} data-astro-prefetch>
           Read More
         </a>
       </div>

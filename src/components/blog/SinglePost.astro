@@ -6,7 +6,7 @@ import { Icon } from 'astro-icon/components';
 
 import type { Post } from '~/types';
 import Bio from '../widgets/Bio.astro';
-import SignupForm from '../widgets/SignupForm.astro';
+import { NewsletterInline } from '../widgets/NewsletterInline';
 import Related from './Related.astro';
 
 export interface Props {
@@ -43,6 +43,14 @@ const { Content } = post;
         )
       }
     </header>
+    <div class="post-newsletter max-w-full lg:max-w-[900px] mx-auto px-4 lg:px-0 mt-6">
+      <NewsletterInline
+        client:visible
+        category={post.category ?? 'general'}
+        title="Enjoying this? Get the next one."
+        blurb="New deep dives in your inbox. No spam, unsubscribe anytime."
+      />
+    </div>
     <div
       class="post-meta mx-auto px-6 sm:px-6 max-w-3xl w-2/3 md:w-1/2 mt-8 flex justify-between flex-col items-center sm:flex-row z-20 sticky top-0 lg:top-10 bg-card/80 py-4 lg:py-2 backdrop-blur-xl border border-gray-500/20"
     >
@@ -73,8 +81,6 @@ const { Content } = post;
       <Bio />
     </div>
     <div class="post-extras container-lg">
-      <SignupForm />
-
       <Related tags={post.tags} postId={post.id} />
     </div>
   </article>

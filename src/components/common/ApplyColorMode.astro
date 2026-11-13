@@ -31,10 +31,10 @@ import { UI } from '~/utils/config';
     applyTheme('light');
   }
 
-  // Dev Mode (the artistic JSON view) is the DEFAULT for visitors; apply it
-  // early so the normal page never flashes before it takes over. Visitors who
-  // exit persist devMode='false'. Crawlers (no JS) keep the normal HTML.
-  if (localStorage.devMode !== 'false') {
+  // Dev Mode (the artistic JSON view) is OPT-IN: visitors get the normal site
+  // unless they've switched Dev Mode on (persisted as devMode='true'). Applied
+  // early so an opted-in visitor never sees the normal page flash first.
+  if (localStorage.devMode === 'true') {
     document.documentElement.classList.add('dev-mode');
   }
 </script>

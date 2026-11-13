@@ -9,7 +9,7 @@ import { getPermalink } from '~/utils/permalinks';
 import Hero2 from '~/components/widgets/Hero2.astro';
 import { ListItem } from '~/components/blog/ListItem.tsx';
 import Tabs from '~/components/ui/Tabs.astro';
-import SignupForm from '~/components/widgets/SignupForm.astro';
+import { NewsletterInline } from '~/components/widgets/NewsletterInline';
 import { summarizePost } from '~/utils/devMode';
 
 export const prerender = true;
@@ -149,8 +149,8 @@ const dev = {
       <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
     </div>
 
-    <div class="blog-signup">
-      <SignupForm />
+    <div class="blog-signup my-16">
+      <NewsletterInline client:visible />
     </div>
   </section>
 </Layout>

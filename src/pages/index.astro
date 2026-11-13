@@ -7,6 +7,8 @@ import HomeFlagship from '~/components/widgets/HomeFlagship.astro';
 import { footerData } from '~/data/navigation';
 import HomeArticles from '~/components/widgets/HomeArticles.astro';
 import Button from '~/components/ui/Button.astro';
+import { NewsletterInline } from '~/components/widgets/NewsletterInline';
+import { quickCall } from '~/data/booking';
 import { findPostsByCategory } from '~/utils/blog';
 import { getPermalink } from '~/utils/permalinks';
 import { projects } from '~/data/projects';
@@ -50,6 +52,7 @@ const dev = {
     { label: 'GitHub (150+ followers)', href: 'https://github.com/liwoo' },
     { label: 'X / @liwucodes', href: 'https://x.com/liwucodes' },
     { label: 'YouTube / @liwucodes', href: 'https://www.youtube.com/@liwucodes' },
+    { label: 'TikTok / @liwucodes', href: 'https://www.tiktok.com/@liwucodes' },
   ],
   ctas: [{ label: 'Get in touch', href: '/contact' }],
   data: {
@@ -92,15 +95,10 @@ const dev = {
 ---
 
 <Layout metadata={metadata} dev={dev}>
-  <HomeHero socialLinks={footerData.socialLinks} title="AI Engineer" name="Jeremiah Chienda">
-    <Fragment slot="description">
-      <span class="hidden md:inline"
-        >Hi 👋🏽, I'm Jeremiah. I built <a href="/ai-for-12-million-citizens" class="underlined">IremboAI</a>, the AI
-        assistant 12 million Rwandans can ask about their government.</span
-      ><span class="md:hidden">I built <a href="/ai-for-12-million-citizens" class="underlined">IremboAI</a>, the AI
-        assistant 12M Rwandans can ask about their government.</span>
-    </Fragment>
-  </HomeHero>
+  <HomeHero socialLinks={footerData.socialLinks} title="AI Engineer" name="Jeremiah Chienda" />
+  <section class="container pt-10 lg:pt-14">
+    <NewsletterInline client:visible />
+  </section>
   <HomeFlagship />
   <div class="scroll-fade-in">
     <HomeAbout />
@@ -109,13 +107,16 @@ const dev = {
     <HomeArticles />
   </div>
   <div class="scroll-fade-in">
-    <section class="container py-16 text-center">
-      <h2 class="text-2xl font-semibold mb-3">Looking for an AI Engineer?</h2>
-      <p class="text-muted max-w-xl mx-auto mb-6">
-        I'm open to contract and full-time AI engineering opportunities — agent systems, RAG pipelines, LLM
-        applications, and AI product strategy.
-      </p>
-      <Button href="/contact" variant="primary">Let's Talk</Button>
+    <section class="container pb-20">
+      <div class="glass glass-sheen rounded-2xl px-6 py-10 md:py-14 text-center">
+        <p class="terminal-label">hire</p>
+        <h2 class="mt-3 text-2xl md:text-3xl font-bold tracking-tight text-heading">Looking for an AI engineer?</h2>
+        <p class="mt-3 text-sm text-muted">Contract or full-time · agents, RAG, LLM products</p>
+        <div class="mt-6 flex flex-wrap justify-center gap-3">
+          <Button href={quickCall.href} variant="primary" class="rounded-md" data-open-book-me aria-haspopup="dialog">Book_me</Button>
+          <Button href="/contact" variant="secondary" class="rounded-md">Let's_Talk</Button>
+        </div>
+      </div>
     </section>
   </div>
 </Layout>

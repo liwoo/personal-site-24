@@ -68,6 +68,7 @@ export const footerData = {
     { ariaLabel: 'Github', icon: 'tabler:brand-github', href: 'https://github.com/liwoo' },
     { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: 'https://linkedin.com/in/jchienda' },
     { ariaLabel: 'YouTube', icon: 'tabler:brand-youtube', href: 'https://www.youtube.com/@liwucodes' },
+    { ariaLabel: 'TikTok', icon: 'tabler:brand-tiktok', href: 'https://www.tiktok.com/@liwucodes' },
   ],
   cryptoLinks: [
     {
@@ -92,7 +93,5 @@ export const footerData = {
       qrCode: 'https://minio-api.dartsmw.com/chienda.com/qr-solana.png', // Optional: Add QR code image
     },
   ],
-  footNote: `
-    © ${new Date().getFullYear()}. Crafted with ❤️ by Jeremiah Chienda. All rights reserved.
-  `,
+  footNote: `© ${new Date().getFullYear()} Jeremiah Chienda. All rights reserved.`,
 };

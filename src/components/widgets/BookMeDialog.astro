@@ -1,0 +1,123 @@
+---
+import { Icon } from 'astro-icon/components';
+import { quickCall, paidSessions, BOOKING_SHOP_URL } from '~/data/booking';
+
+// Any element with `data-open-book-me` opens this dialog (see script below);
+// give triggers a real href too so they still work without JS.
+---
+
+<dialog id="book-me" class="glass-dialog glass glass-sheen rounded-xl" aria-labelledby="book-me-title">
+  <div class="p-6 sm:p-8">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <p class="terminal-label">book_me</p>
+        <h2 id="book-me-title" class="mt-2 text-xl font-bold text-heading">Let's work together</h2>
+      </div>
+      <button
+        type="button"
+        class="-mr-2 -mt-1 p-2 text-muted hover:text-primary transition-colors"
+        aria-label="Close"
+        data-close-book-me
+      >
+        <Icon name="tabler:x" class="w-5 h-5" />
+      </button>
+    </div>
+
+    <a
+      href={quickCall.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="book-opt book-opt--featured mt-6"
+    >
+      <Icon name={quickCall.icon} class="w-5 h-5 shrink-0 text-primary" />
+      <span class="flex-1 min-w-0">
+        <span class="block font-bold text-sm">{quickCall.title}</span>
+        <span class="block text-xs text-muted">{quickCall.meta}</span>
+      </span>
+      <span class="book-price">{quickCall.price}</span>
+    </a>
+
+    <p class="mt-6 mb-2 text-[0.65rem] uppercase tracking-[0.2em] text-muted">Paid sessions</p>
+    <div class="flex flex-col gap-2">
+      {
+        paidSessions.map((o) => (
+          <a href={o.href} target="_blank" rel="noopener noreferrer" class="book-opt">
+            <Icon name={o.icon} class="w-5 h-5 shrink-0 text-muted" />
+            <span class="flex-1 min-w-0">
+              <span class="block font-bold text-sm">{o.title}</span>
+              <span class="block text-xs text-muted">{o.meta}</span>
+            </span>
+            <span class="book-price">{o.price}</span>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="mt-6 flex items-center justify-between gap-4 text-xs">
+      <a href="/contact" class="text-muted hover:text-primary transition-colors">Something else? Get in touch</a>
+      <a href={BOOKING_SHOP_URL} target="_blank" rel="noopener noreferrer" class="btn-link text-xs whitespace-nowrap">All options</a>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .book-opt {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid rgb(128 128 128 / 0.22);
+    border-radius: 0.6rem;
+    background: rgb(255 255 255 / 0.35);
+    transition:
+      border-color 0.15s,
+      transform 0.15s,
+      background 0.15s;
+  }
+  :global(.dark) .book-opt {
+    background: rgb(255 255 255 / 0.03);
+  }
+  .book-opt:hover,
+  .book-opt:focus-visible {
+    border-color: var(--aw-color-primary);
+    transform: translateY(-1px);
+  }
+  .book-opt--featured {
+    border-color: rgb(216 145 33 / 0.55);
+    background: rgb(216 145 33 / 0.08);
+  }
+  .book-price {
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+    color: var(--aw-color-secondary);
+  }
+</style>
+
+<script>
+  const bindBookMe = () => {
+    const dialog = document.getElementById('book-me') as HTMLDialogElement | null;
+    if (!dialog || dialog.dataset.bound) return;
+    dialog.dataset.bound = 'true';
+
+    // Click outside the panel (on the backdrop) closes it.
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.querySelectorAll('[data-close-book-me]').forEach((el) => el.addEventListener('click', () => dialog.close()));
+  };
+
+  // Delegated so triggers added by later page swaps keep working.
+  document.addEventListener('click', (e) => {
+    const trigger = (e.target as HTMLElement | null)?.closest('[data-open-book-me]');
+    if (!trigger) return;
+    const dialog = document.getElementById('book-me') as HTMLDialogElement | null;
+    if (!dialog?.showModal) return; // no <dialog> support: fall through to the link's href
+    e.preventDefault();
+    bindBookMe();
+    dialog.showModal();
+  });
+
+  bindBookMe();
+  document.addEventListener('astro:page-load', bindBookMe);
+</script>
