@@ -1,0 +1,6 @@
+#!/bin/sh
+# Pushed commits must already be on a gated local branch (from Claude Code), and
+# any commit not seen before gets a secret scan. See scripts/ref-gate.mjs.
+export GIT_NO_REPLACE_OBJECTS=1 # see the real objects, not `git replace` decoys
+command -v node >/dev/null 2>&1 || { echo "commit-gate: node isn't available; refusing push." >&2; exit 1; }
+exec node "$(git rev-parse --show-toplevel)/scripts/ref-gate.mjs" pre-push

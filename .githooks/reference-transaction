@@ -1,0 +1,10 @@
+#!/bin/sh
+# Runs on every ref update (commit, reset, merge, rebase, am, fetch,
+# update-ref...); `git commit --no-verify` doesn't skip it. Only the "prepared"
+# state can abort. See scripts/ref-gate.mjs.
+export GIT_NO_REPLACE_OBJECTS=1 # see the real objects, not `git replace` decoys
+[ "$1" = "prepared" ] || exit 0
+input=$(cat)
+printf '%s\n' "$input" | grep -qE ' (HEAD|refs/(heads|remotes|tags|replace)/[^ ]+)$' || exit 0
+command -v node >/dev/null 2>&1 || { echo "commit-gate: node isn't available; refusing ref update." >&2; exit 1; }
+printf '%s\n' "$input" | exec node "$(git rev-parse --show-toplevel)/scripts/ref-gate.mjs" ref-tx
