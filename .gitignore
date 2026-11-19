@@ -23,3 +23,9 @@ package-lock.json
 
 .astro
 .vercel
+.env.*
+!.env.example
+
+# Claude review sign-offs (local, per staged tree)
+.claude/reviews/
+.claude/settings.local.json

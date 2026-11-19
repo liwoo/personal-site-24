@@ -10,7 +10,11 @@
     "preview": "astro preview",
     "astro": "astro",
     "format": "prettier -w .",
-    "lint:eslint": "eslint . --ext .js,.ts,.astro"
+    "lint:eslint": "eslint . --ext .js,.ts,.astro",
+    "prepare": "git config core.hooksPath .githooks || true",
+    "secret-scan": "node scripts/secret-scan.mjs",
+    "secret-scan:tree": "node scripts/secret-scan.mjs --tree",
+    "secret-scan:history": "node scripts/secret-scan.mjs --history"
   },
   "dependencies": {
     "@astro-community/astro-embed-twitter": "^0.5.3",
