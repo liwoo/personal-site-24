@@ -23,7 +23,7 @@ export const workExperience: Array<WorkExperience> = [
   },
   {
     title: 'Bestseller',
-    location: 'Aarhus, DK',
+    location: 'Remote',
     position: 'Software Developer',
     duration: 'Dec 2022 - Jul 2023',
     image: 'bestseller',
