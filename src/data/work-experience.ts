@@ -7,7 +7,7 @@ export const workExperience: Array<WorkExperience> = [
     position: 'AI Engineer',
     duration: 'Sept 2025 - Present',
     image: 'ico',
-    description: ['Building responsible Data and AI solutions at the UKs chief data regulator.'],
+    description: ["Building responsible data and AI solutions at the UK's data regulator."],
   },
   {
     title: 'Irembo',
@@ -16,8 +16,9 @@ export const workExperience: Array<WorkExperience> = [
     duration: 'Aug 2023 - Aug 2025',
     image: 'irembo',
     description: [
-      "Leading AI and mobile engineering. Building LLM-powered agent systems, RAG pipelines, and AI-driven features for Rwanda's national e-government platform",
-      "Organized Irembo's first AI hackathon",
+      "Led AI and mobile engineering for Rwanda's national e-government platform.",
+      'Built LLM agents, RAG pipelines and AI features, including IremboAI.',
+      "Organised Irembo's first AI hackathon.",
     ],
   },
   {
@@ -27,7 +28,7 @@ export const workExperience: Array<WorkExperience> = [
     duration: 'Dec 2022 - Jul 2023',
     image: 'bestseller',
     description: [
-      "Built software for one of Europe's largest fashion companies. Full-stack development across internal tooling and supply chain systems",
+      "Full-stack work on internal tooling and supply chain systems at one of Europe's largest fashion companies.",
     ],
   },
   {
@@ -37,8 +38,8 @@ export const workExperience: Array<WorkExperience> = [
     duration: 'Oct 2019 - Nov 2022',
     image: 'oaf',
     description: [
-      'Led engineering team building mobile and web applications serving 1M+ smallholder farmers across East Africa',
-      'Data pipelines, automation systems, and agricultural supply chain software',
+      'Led the team building mobile and web apps for 1M+ smallholder farmers across East Africa.',
+      'Data pipelines, automation and agricultural supply chain software.',
     ],
   },
   {
@@ -48,8 +49,8 @@ export const workExperience: Array<WorkExperience> = [
     duration: 'Aug 2017 - Aug 2019',
     image: 'bht',
     description: [
-      'Architected health information systems for the Malawi Ministry of Health, including the national Master Health Facility Register',
-      'Led technical decisions across multiple product teams',
+      "Architected health information systems for Malawi's Ministry of Health, including the national Master Health Facility Register.",
+      'Led technical decisions across several product teams.',
     ],
   },
   {
@@ -58,6 +59,6 @@ export const workExperience: Array<WorkExperience> = [
     position: 'Systems Developer',
     duration: 'Jun 2013 - Aug 2014',
     image: 'nbs',
-    description: ['Full-stack development on core banking systems. Built internal tools and reporting dashboards'],
+    description: ['Full-stack work on core banking systems, internal tools and reporting dashboards.'],
   },
 ];

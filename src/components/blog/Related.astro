@@ -1,27 +1,30 @@
 ---
-import { getPostsFromTags } from '~/utils/blog';
-import { ListItem } from './ListItem';
+import BlogPostList from './BlogPostList.astro';
+import type { Post } from '~/types';
 
 type Props = {
-  tags?: string[];
-  postId?: string;
+  /** Already picked and trimmed by the page, so Dev Mode shows the same list. */
+  posts?: Post[];
 };
 
-const { tags = [], postId = 1 } = Astro.props;
-
-const articles = await getPostsFromTags(tags);
-const filtered = articles.filter((article) => article.id !== postId);
+const { posts = [] } = Astro.props;
 ---
 
 {
-  filtered.length ? (
-    <div>
-      <h3 class="text-xl text-center my-4">You may also be interested in</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 grid-gap-4">
-        {filtered.map((article) => (
-          <ListItem post={article} />
-        ))}
+  posts.length > 0 && (
+    <section aria-labelledby="related-title">
+      <div class="flex items-end justify-between gap-4 mb-6">
+        <div>
+          <p class="terminal-label">related</p>
+          <h2 id="related-title" class="mt-2 text-2xl md:text-3xl font-bold tracking-tight text-heading">
+            Keep reading
+          </h2>
+        </div>
+        <a href="/blog" class="btn-link text-xs shrink-0">
+          All articles
+        </a>
       </div>
-    </div>
-  ) : null
+      <BlogPostList posts={posts} />
+    </section>
+  )
 }

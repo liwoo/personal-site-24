@@ -1,24 +1,35 @@
 ---
-import Layout from '~/layouts/Layout.astro';
+import Layout from '~/layouts/PageLayout.astro';
+import PageHeader from '~/components/widgets/PageHeader.astro';
+import HomeArticles from '~/components/widgets/HomeArticles.astro';
+import Button from '~/components/ui/Button.astro';
 import { getHomePermalink } from '~/utils/permalinks';
 
-const title = `Error 404`;
+const metadata = { title: 'Page not found', robots: { index: false } };
+
+const dev = {
+  front: [
+    { key: 'status', value: '404', strong: true },
+    { key: 'route', value: JSON.stringify(Astro.url.pathname) },
+  ],
+  data: {
+    error: {
+      code: 404,
+      message: 'That link is broken or the page moved.',
+      home: { __type: 'cta', label: 'Go_Home', href: getHomePermalink() },
+      articles: { __type: 'cta', label: 'Articles', href: '/blog' },
+    },
+  },
+};
 ---
 
-<Layout metadata={{ title }}>
-  <section class="flex items-center h-full p-16">
-    <div class="container flex flex-col items-center justify-center px-5 mx-auto my-8">
-      <div class="max-w-md text-center">
-        <h2 class="mb-8 font-bold text-9xl">
-          <span class="sr-only">Error</span>
-          <span class="text-primary">404</span>
-        </h2>
-        <p class="text-3xl font-semibold md:text-3xl">Sorry, we couldn't find this page.</p>
-        <p class="mt-4 mb-8 text-lg text-muted dark:text-slate-400">
-          But dont worry, you can find plenty of other things on our homepage.
-        </p>
-        <a rel="noopener noreferrer" href={getHomePermalink()} class="btn ml-4">Back to homepage</a>
-      </div>
-    </div>
-  </section>
+<Layout metadata={metadata} dev={dev}>
+  <PageHeader label="404" title="Page not found" subtitle="That link is broken or the page moved." width="container-lg">
+    <Fragment slot="actions">
+      <Button href={getHomePermalink()} variant="primary" class="rounded-md">Go_Home</Button>
+      <Button href="/blog" variant="secondary" class="rounded-md">Articles</Button>
+    </Fragment>
+  </PageHeader>
+
+  <HomeArticles count={3} />
 </Layout>

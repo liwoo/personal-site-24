@@ -1,48 +1,36 @@
 ---
-
+/**
+ * Author card at the end of every post. Static, no third-party script.
+ */
+import { Image } from 'astro:assets';
+import Button from '~/components/ui/Button.astro';
+import { quickCall } from '~/data/booking';
+import avatar from '~/assets/images/dp.png';
 ---
 
-<div class="container-article my-8 border-t border-b border-muted py-8">
-  <div class="tweets dark">
-    <blockquote class="twitter-tweet" data-theme="dark">
-      <p lang="en" dir="ltr">
-        Hi 👋 I&#39;m Jeremiah. I&#39;m Mobile and <a href="https://twitter.com/hashtag/AI?src=hash&ref_src=twsrc%5Etfw"
-          >#AI</a
-        > 🪄 Lead at <a href="https://twitter.com/IremboGov?ref_src=twsrc%5Etfw">@IremboGov</a> by ☀️ and create <a
-          href="https://t.co/sZ4UrAssGl">https://t.co/sZ4UrAssGl</a
-        > by 🌙 <br /><br />I love to <a href="https://twitter.com/hashtag/buildinpublic?src=hash&ref_src=twsrc%5Etfw"
-          >#buildinpublic</a
-        > and share my failers and occasional wins on <a href="https://t.co/nAroIneVbE">https://t.co/nAroIneVbE</a>. Let’s
-        <a href="https://twitter.com/hashtag/connect?src=hash&ref_src=twsrc%5Etfw">#connect</a> if interested in <a
-          href="https://twitter.com/hashtag/softwareengineering?src=hash&ref_src=twsrc%5Etfw">#softwareengineering</a
-        >
-        <a href="https://twitter.com/hashtag/blockchain?src=hash&ref_src=twsrc%5Etfw">#blockchain</a>
-        <a href="https://twitter.com/hashtag/startups?src=hash&ref_src=twsrc%5Etfw">#startups</a>
-      </p>&mdash; Chienda (@liwucodes) <a
-        href="https://twitter.com/liwucodes/status/1746224748067987458?ref_src=twsrc%5Etfw">January 13, 2024</a
-      >
-    </blockquote>
+<aside class="glass rounded-xl px-4 sm:px-6 py-5" aria-labelledby="author-name">
+  <p class="terminal-label">author</p>
+  <div class="mt-3 flex flex-col sm:flex-row sm:items-center gap-4">
+    <div class="flex items-center gap-4 flex-1 min-w-0">
+      <Image
+        src={avatar}
+        alt="Jeremiah Chienda"
+        width={56}
+        height={56}
+        densities={[1, 2]}
+        class="w-14 h-14 shrink-0 rounded object-cover bg-gray-400 dark:bg-gray-700"
+        loading="lazy"
+      />
+      <div class="min-w-0">
+        <p id="author-name" class="font-semibold text-default leading-snug">Jeremiah Chienda</p>
+        <p class="mt-0.5 text-sm text-muted leading-snug">AI engineer. I built IremboAI for 12M Rwandans.</p>
+      </div>
+    </div>
+    <div class="flex flex-wrap items-center gap-4 shrink-0">
+      <Button href={quickCall.href} variant="primary" class="rounded-md" data-open-book-me aria-haspopup="dialog">
+        Book_me
+      </Button>
+      <a href="/about" class="btn-link text-xs">About</a>
+    </div>
   </div>
-  <div class="tweets hidden light">
-    <blockquote class="twitter-tweet" data-theme="light">
-      <p lang="en" dir="ltr">
-        Hi 👋 I&#39;m Jeremiah. I&#39;m Mobile and <a href="https://twitter.com/hashtag/AI?src=hash&ref_src=twsrc%5Etfw"
-          >#AI</a
-        > 🪄 Lead at <a href="https://twitter.com/IremboGov?ref_src=twsrc%5Etfw">@IremboGov</a> by ☀️ and create <a
-          href="https://t.co/sZ4UrAssGl">https://t.co/sZ4UrAssGl</a
-        > by 🌙 <br /><br />I love to <a href="https://twitter.com/hashtag/buildinpublic?src=hash&ref_src=twsrc%5Etfw"
-          >#buildinpublic</a
-        > and share my failers and occasional wins on <a href="https://t.co/nAroIneVbE">https://t.co/nAroIneVbE</a>. Let’s
-        <a href="https://twitter.com/hashtag/connect?src=hash&ref_src=twsrc%5Etfw">#connect</a> if interested in <a
-          href="https://twitter.com/hashtag/softwareengineering?src=hash&ref_src=twsrc%5Etfw">#softwareengineering</a
-        >
-        <a href="https://twitter.com/hashtag/blockchain?src=hash&ref_src=twsrc%5Etfw">#blockchain</a>
-        <a href="https://twitter.com/hashtag/startups?src=hash&ref_src=twsrc%5Etfw">#startups</a>
-      </p>&mdash; Chienda (@liwucodes) <a
-        href="https://twitter.com/liwucodes/status/1746224748067987458?ref_src=twsrc%5Etfw">January 13, 2024</a
-      >
-    </blockquote>
-  </div>
-</div>
-
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</aside>

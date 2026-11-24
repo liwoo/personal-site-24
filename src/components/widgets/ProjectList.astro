@@ -1,0 +1,77 @@
+---
+/**
+ * Compact project list: one glass container, one row per project (logo,
+ * title, one-line subtitle, role and years as small meta). Same row pattern as
+ * `HomeArticles`. Pass `limit` to show the first N.
+ *
+ * The logo tile is white in both modes on purpose: several brand marks are
+ * dark on transparent and vanish on the dark glass otherwise.
+ */
+import { Image } from 'astro:assets';
+import type { Project } from '~/types';
+import { projectLogo, projectYears } from '~/utils/projects';
+
+export interface Props {
+  projects: Project[];
+  limit?: number;
+}
+
+const { projects, limit } = Astro.props;
+const rows = (limit ? projects.slice(0, limit) : projects)
+  .filter((p) => p.slug)
+  .map((p) => ({
+    href: `/projects/${p.slug}`,
+    title: p.title,
+    subtitle: p.subtitle,
+    role: p.role,
+    years: projectYears(p.duration),
+    logo: projectLogo(p.company?.logo),
+  }));
+---
+
+<ul class="glass rounded-xl divide-y divide-gray-500/15 overflow-hidden">
+  {
+    rows.map((row) => (
+      <li>
+        <a
+          href={row.href}
+          class="project-row group flex items-start sm:items-center gap-4 px-4 sm:px-6 py-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+          data-astro-prefetch
+        >
+          {row.logo ? (
+            <Image
+              src={row.logo}
+              alt=""
+              width={40}
+              height={40}
+              class="w-10 h-10 shrink-0 rounded border border-gray-500/20 bg-white object-contain"
+              loading="lazy"
+            />
+          ) : (
+            <span class="w-10 h-10 shrink-0 rounded border border-gray-500/20" aria-hidden="true" />
+          )}
+          <span class="flex-1 min-w-0">
+            <span class="block font-semibold text-default group-hover:text-primary transition-colors leading-snug">
+              {row.title}
+            </span>
+            {row.subtitle && <span class="mt-0.5 block text-sm text-muted leading-snug">{row.subtitle}</span>}
+            <span class="mt-1 flex sm:hidden flex-wrap gap-x-2 text-xs uppercase tracking-widest text-muted">
+              {row.role && <span>{row.role}</span>}
+              {row.years && <span class="whitespace-nowrap tabular-nums">{row.years}</span>}
+            </span>
+          </span>
+          <span class="hidden sm:block shrink-0 w-48 text-right text-xs uppercase tracking-widest text-muted">
+            {row.role && <span class="block leading-snug">{row.role}</span>}
+            {row.years && <span class="mt-1 block tabular-nums">{row.years}</span>}
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .project-row:hover {
+    background: rgb(216 145 33 / 0.06);
+  }
+</style>

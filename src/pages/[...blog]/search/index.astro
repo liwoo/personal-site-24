@@ -1,59 +1,72 @@
 ---
-import { ListItem } from '~/components/blog/ListItem';
+/**
+ * htmx partial for the /blog search box (see `BlogFilters`). Renders into
+ * `#blog-results` with the same rows as the page itself, and updates the
+ * sr-only `#blog-search-status` live region out of band.
+ *
+ *   ?q=rag        matches (title, excerpt, tags), first 5
+ *   ?c=tech       latest in a category (kept for old links)
+ *   ?page=2       no query: restore that page of /blog
+ */
+import BlogPostList from '~/components/blog/BlogPostList.astro';
 import Pagination from '~/components/blog/Pagination.astro';
 import type { Post } from '~/types';
-import { findLatestPosts, findPostsByCategory } from '~/utils/blog';
-import { getPostsLength } from '~/utils/blog';
-import { findPostsByQuery } from '~/utils/blog';
+import { blogPostsPerPage, fetchPosts, findPostsByCategory, findPostsByQuery } from '~/utils/blog';
+import { getBlogPermalink } from '~/utils/permalinks';
+
 export const partial = true;
-//get Astro params
+
 const params = Astro.url.searchParams;
-const q = params.get('q');
-const c = params.get('c');
+const q = params.get('q')?.trim() ?? '';
+const c = params.get('c')?.trim() ?? '';
+const perPage = blogPostsPerPage || 6;
+
 let posts: Post[] = [];
-let postCount = 6;
-const isSearch = q !== null && q !== '';
-const isCategory = c !== null && c !== '';
-if (isSearch) {
-  postCount = 5;
-  posts = await findPostsByQuery(q!);
-} else if (isCategory) {
-  posts = await findPostsByCategory(c!);
+let prevUrl: string | undefined;
+let nextUrl: string | undefined;
+let currentPage = 1;
+let lastPage = 1;
+
+if (q) {
+  posts = await findPostsByQuery(q);
+} else if (c) {
+  posts = await findPostsByCategory(c);
 } else {
-  postCount = await getPostsLength();
-  posts = await findLatestPosts({ count: postCount, offset: 0 });
+  const all = await fetchPosts();
+  lastPage = Math.max(1, Math.ceil(all.length / perPage));
+  currentPage = Math.min(Math.max(1, Number(params.get('page')) || 1), lastPage);
+  posts = all.slice((currentPage - 1) * perPage, currentPage * perPage);
+  const base = getBlogPermalink().replace(/\/$/, '');
+  if (currentPage > 1) prevUrl = currentPage === 2 ? getBlogPermalink() : `${base}/${currentPage - 1}`;
+  if (currentPage < lastPage) nextUrl = `${base}/${currentPage + 1}`;
 }
+
+const label = q ? `“${q}”` : c ? c.replaceAll('-', ' ') : '';
+const status = q || c ? `${posts.length} ${posts.length === 1 ? 'match' : 'matches'}${label ? ` for ${label}` : ''}` : '';
 ---
 
+<p id="blog-search-status" class="sr-only" aria-live="polite" hx-swap-oob="true">{status}</p>
+
 {
-  isSearch && posts.length > 0 && (
-    <div>
-      Search Results for <span class="text-default italic">"{q}"</span>
-      {' - '}({posts.length})
+  (q || c) && (
+    <div class="mb-4 flex flex-wrap items-center gap-3">
+      <p class="terminal-label">results</p>
+      <span class="glass px-3 py-1 text-xs tabular-nums">{status}</span>
     </div>
   )
 }
-{
-  isCategory && posts.length > 0 && (
-    <div>
-      Latest from Category: <span class="text-default font-bold">{c.toLocaleUpperCase()}</span>
-    </div>
-  )
-}
+
 {
   posts.length > 0 ? (
-    <div class="flex flex-col">
-      {posts.map((post) => (
-        <ListItem post={post} extended />
-      ))}
-    </div>
+    <BlogPostList posts={posts} showCategory={!c} />
   ) : (
-    <div class="flex flex-col justify-center items-center my-8 gap-y-2">
-      <p class="text-6xl">📭</p>
-      <p class="text-lg text-muted">
-        No results found for {isCategory ? c.toLocaleUpperCase() : `Search Results :"${q}"`}
-      </p>
+    <div class="glass rounded-xl px-4 sm:px-6 py-6 flex flex-wrap items-center justify-between gap-3">
+      <p class="text-sm text-muted">Nothing matches {label}. Try a shorter word.</p>
+      <a href={getBlogPermalink()} class="btn-link text-xs">
+        All articles
+      </a>
     </div>
   )
 }
-{postCount > 6 && <Pagination nextUrl={'/blog/2'} />}
+
+{!q && !c && <Pagination prevUrl={prevUrl} nextUrl={nextUrl} currentPage={currentPage} lastPage={lastPage} />}

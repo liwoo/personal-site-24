@@ -3,44 +3,34 @@ import { getPermalink } from '~/utils/permalinks';
 
 import { APP_BLOG } from '~/utils/config';
 import type { Post } from '~/types';
-import Button from '../ui/Button.astro';
 
 export interface Props {
   tags: Post['tags'];
   class?: string;
-  title?: string | undefined;
   isCategory?: boolean;
 }
 
-const { tags, class: className = 'text-sm', title = undefined, isCategory = false } = Astro.props;
+const { tags, class: className, isCategory = false } = Astro.props;
+const linked = isCategory ? APP_BLOG?.category?.isEnabled : APP_BLOG?.tag?.isEnabled;
 ---
 
 {
-  tags && Array.isArray(tags) && (
-    <>
-      <>
-        {title !== undefined && (
-          <span class="align-super font-normal underline underline-offset-4 decoration-2 dark:text-slate-400">
-            {title}
-          </span>
-        )}
-      </>
-      <ul class={className}>
-        {tags.map((tag) => (
-          <li class="inline-block mr-2 rtl:mr-0 mb-2 py-0.5 px-1 lowercase font-medium">
-            {!APP_BLOG?.tag?.isEnabled ? (
-              tag
-            ) : (
-              <Button
-              class="py-1 px-4 text-muted"
-                href={getPermalink(tag, isCategory ? 'category' : 'tag')}
-              >
-                {tag}
-              </Button>
-            )}
-          </li>
-        ))}
-      </ul>
-    </>
+  tags && tags.length > 0 && (
+    <ul class:list={['flex flex-wrap gap-2 text-xs', className]} aria-label={isCategory ? 'Categories' : 'Tags'}>
+      {tags.map((tag) => (
+        <li>
+          {linked ? (
+            <a
+              href={getPermalink(tag, isCategory ? 'category' : 'tag')}
+              class="glass inline-block px-3 py-1 text-muted hover:text-primary focus-visible:text-primary transition-colors"
+            >
+              #{tag}
+            </a>
+          ) : (
+            <span class="glass inline-block px-3 py-1 text-muted">#{tag}</span>
+          )}
+        </li>
+      ))}
+    </ul>
   )
 }

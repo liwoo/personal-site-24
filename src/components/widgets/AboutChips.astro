@@ -1,0 +1,35 @@
+---
+/** A small-caps heading over a row of glass link chips. Used for the /about expertise groups. */
+import type { ExpertiseGroup } from '~/data/about';
+
+export interface Props {
+  group: ExpertiseGroup;
+  class?: string;
+}
+
+const { group, class: className } = Astro.props;
+const isExternal = (href?: string) => !!href && /^https?:\/\//.test(href);
+---
+
+<div class={className}>
+  <h3 class="text-xs uppercase tracking-widest text-muted">{group.title}</h3>
+  <ul class="mt-3 flex flex-wrap gap-2 text-xs">
+    {
+      group.items.map((i) => (
+        <li>
+          {i.href ? (
+            <a
+              href={i.href}
+              {...(isExternal(i.href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              class="glass inline-block px-3 py-1 hover:text-primary focus-visible:text-primary transition-colors"
+            >
+              {i.label}
+            </a>
+          ) : (
+            <span class="glass inline-block px-3 py-1">{i.label}</span>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</div>

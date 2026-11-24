@@ -1,0 +1,76 @@
+---
+/**
+ * Lean page header for every page that isn't home. Same anatomy as a home
+ * section: terminal-label eyebrow, compact h1, one-line subtitle. Optional
+ * back link, a meta row (glass chips) and an actions row (1 primary, at most
+ * 1 secondary).
+ *
+ *   <PageHeader label="projects" title="Things I've built" subtitle="One line." />
+ *
+ *   <PageHeader label="project" back={{ href: '/projects', text: 'All projects' }} width="container-lg">
+ *     <Fragment slot="title">GeniYanga</Fragment>
+ *     <ul slot="meta" class="flex flex-wrap gap-2 text-xs"><li class="glass px-3 py-1">2024–now</li></ul>
+ *     <Fragment slot="actions"><Button variant="primary" class="rounded-md" href="…">View_Live</Button></Fragment>
+ *   </PageHeader>
+ *
+ * Props win over slots of the same name. `title` and `subtitle` are rendered
+ * as HTML, so keep them to trusted strings from `src/data/` or the page.
+ */
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  /** Eyebrow, snake_case source text: `projects`, `book_me`. Rendered as "// PROJECTS". */
+  label?: string;
+  title?: string;
+  subtitle?: string;
+  /** Small "← text" link above the eyebrow. */
+  back?: { href: string; text?: string };
+  /** Match the width of the content below. */
+  width?: 'container' | 'container-lg' | 'container-article';
+  class?: string;
+}
+
+const {
+  label,
+  back,
+  width = 'container',
+  class: className,
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+} = Astro.props;
+
+// Render (not just `has`) so a slot passed conditionally but empty leaves no gap.
+const meta = Astro.slots.has('meta') ? (await Astro.slots.render('meta')).trim() : '';
+const actions = Astro.slots.has('actions') ? (await Astro.slots.render('actions')).trim() : '';
+---
+
+<header class:list={['page-header not-prose pt-24 md:pt-28 lg:pt-36 pb-8 md:pb-10', width, className]}>
+  {
+    back && (
+      <a
+        href={back.href}
+        class="mb-4 inline-flex items-center gap-1 text-xs uppercase tracking-widest text-muted hover:text-primary focus-visible:text-primary transition-colors"
+      >
+        <Icon name="tabler:arrow-left" class="w-4 h-4" aria-hidden="true" />
+        {back.text ?? 'Back'}
+      </a>
+    )
+  }
+  {label && <p class="terminal-label">{label}</p>}
+  {
+    title && (
+      <h1
+        class="mt-2 text-3xl md:text-4xl font-bold tracking-tight leading-tight text-heading"
+        set:html={title}
+      />
+    )
+  }
+  {subtitle && <p class="mt-3 max-w-2xl text-sm md:text-base text-muted leading-relaxed" set:html={subtitle} />}
+  {
+    meta && <div class="mt-5" set:html={meta} />
+  }
+  {
+    actions && <div class="mt-6 flex flex-wrap items-center gap-3" set:html={actions} />
+  }
+  <slot />
+</header>

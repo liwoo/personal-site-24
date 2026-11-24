@@ -2,14 +2,13 @@
 import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
 
 import Layout from '~/layouts/PageLayout.astro';
+import PageHeader from '~/components/widgets/PageHeader.astro';
+import BlogFilters from '~/components/blog/BlogFilters.astro';
+import BlogPostList from '~/components/blog/BlogPostList.astro';
 import Pagination from '~/components/blog/Pagination.astro';
-// import PostTags from "~/components/blog/Tags.astro";
+import { NewsletterInline } from '~/components/widgets/NewsletterInline';
 import { blogListRobots, getStaticPathsBlogList, fetchPosts } from '~/utils/blog';
 import { getPermalink } from '~/utils/permalinks';
-import Hero2 from '~/components/widgets/Hero2.astro';
-import { ListItem } from '~/components/blog/ListItem.tsx';
-import Tabs from '~/components/ui/Tabs.astro';
-import { NewsletterInline } from '~/components/widgets/NewsletterInline';
 import { summarizePost } from '~/utils/devMode';
 
 export const prerender = true;
@@ -24,10 +23,10 @@ const { page } = Astro.props as Props;
 
 const currentPage = page.currentPage || 1;
 
-
 const metadata = {
-  title: `AI Agent Engineering Blog${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
-  description: 'Deep dives on AI agent architecture, memory systems, tool calling, MCP, token economics, generative UI, and production safety patterns.',
+  title: `AI Agent Engineering Blog${currentPage > 1 ? `: page ${currentPage}` : ''}`,
+  description:
+    'Deep dives on AI agent architecture, memory systems, tool calling, MCP, token economics, generative UI, and production safety patterns.',
   robots: {
     index: blogListRobots?.index && currentPage === 1,
     follow: blogListRobots?.follow,
@@ -37,27 +36,9 @@ const metadata = {
   },
 };
 
-const tabs = [
-  {
-    action: '/blog/search?s=',
-    label: 'All',
-  },
-  {
-    action: '/blog/search?c=tech',
-    label: 'Tech',
-  },
-  {
-    action: '/blog/search?c=videos',
-    label: 'Videos',
-  },
-  {
-    action: '/blog/search?c=general',
-    label: 'General',
-  },
-];
-
 const allPosts = await fetchPosts();
 const allCategories = [...new Set(allPosts.map((p) => p.category).filter(Boolean))] as string[];
+const totalMinutes = allPosts.reduce((sum, p) => sum + (p.readingTime ?? 0), 0);
 const tagCounts: Record<string, number> = {};
 allPosts.forEach((p) => (p.tags ?? []).forEach((t) => (tagCounts[t] = (tagCounts[t] ?? 0) + 1)));
 const topTags = Object.entries(tagCounts)
@@ -69,10 +50,12 @@ const dev = {
   front: [
     { key: 'total_articles', value: String(allPosts.length), strong: true },
     { key: 'categories', value: String(allCategories.length) },
+    { key: 'reading_minutes', value: String(totalMinutes) },
   ],
   data: {
     index: 'blog',
     count: allPosts.length,
+    pagination: { currentPage, lastPage: page.lastPage, total: page.total },
     // Live, debounced client-side filter over the full list below (no button).
     filter: { __type: 'search', placeholder: 'search all articles…' },
     categories: {
@@ -85,7 +68,7 @@ const dev = {
       endpoint: '/api/newsletter',
       category: 'tech',
       submit: 'Subscribe',
-      success: 'subscribed — new deep dives in your inbox',
+      success: 'subscribed, new deep dives in your inbox',
       fields: [
         { name: 'name', label: '"name"', placeholder: 'Your name', type: 'text' },
         { name: 'email', label: '"email"', placeholder: 'you@domain.com', type: 'email', required: true },
@@ -101,151 +84,32 @@ const dev = {
 ---
 
 <Layout metadata={metadata} dev={dev}>
-  <Hero2>
-    <Fragment slot="title">Blog & <span class="underlined">Articles</span></Fragment>
-    <Fragment slot="subtitle">
-      My freestyle got a little rust coz all of my free time I be learning Rust and Go / Used to be a top 4 guy now I
-      just celebrate my wins like Arsenal
-    </Fragment>
-    <Fragment slot="content">
-      <a href="https://www.youtube.com/watch?v=EvM0_D7IPUI&lc=UgwHHYDfhpnd8SAWMsJ4AaABAg"
-        >&gt;&gt; Liwu, Verdansk Freestyle</a
-      >
-    </Fragment>
-  </Hero2>
-  <div
-    class="blog-controls container mt-8 items-center flex flex-col md:flex-row-reverse gap-y-8 gap-x-4 md:gap-y-0 justify-between relative z-10"
+  <PageHeader
+    label="writing"
+    title="AI agent engineering, in practice"
+    subtitle="Notes from shipping agents, RAG and LLM products to production."
+    width="container-lg"
   >
-    <div class="blog-tabs w-full lg:w-1/3" id="blog-tabs" hx-swap-oob="true">
-      <!-- <Categories client:only /> -->
-      <Tabs swapTarget="#server-posts" tabs={tabs} activeTab="all" />
-    </div>
-    <div class="blog-search w-full md:w-1/2 lg:w-1/4">
-      <form hx-post="/blog/tabs" hx-trigger="click" hx-target="#blog-tabs">
-        <input type="hidden" name="activeTab" value={"all"} />
-        <input type="hidden" name="swapTarget" value={"#server-posts"} />
-        <input type="hidden" name="tabs" value={JSON.stringify(tabs)} />
-        <input
-          type="text"
-          name="q"
-          hx-get="/blog/search"
-          hx-trigger="keyup changed delay:500ms, search"
-          hx-target="#server-posts"
-          placeholder="🔍  Search from all my articles and blogs"
-          class="py-3 px-4 block w-full text-md rounded-lg bg-card"
-        />
-      </form>
-    </div>
-  </div>
-  <section class="py-12 sm:py-16 lg:py-20 container-lg relative" id="server-posts" hx-swap-oob="true">
-    <div class="blog-list flex flex-col gap-y-4 lg:gap-y-8">
-      {page.data.map((post, index) => (
-        <div class="blog-item" style={`transition-delay: ${0.1 + index * 0.05}s`}>
-          <ListItem post={post} extended />
-        </div>
-      ))}
-    </div>
-    <div class="blog-pagination">
-      <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
-    </div>
+    <ul slot="meta" class="flex flex-wrap gap-2 text-xs tabular-nums">
+      <li class="glass px-3 py-1">{allPosts.length} articles</li>
+      <li class="glass px-3 py-1">{Math.round(totalMinutes / 60)} hrs of reading</li>
+    </ul>
+  </PageHeader>
 
-    <div class="blog-signup my-16">
-      <NewsletterInline client:visible />
+  <section class="container-lg pb-12 lg:pb-16" aria-label="Articles">
+    <BlogFilters active="all" search currentPage={currentPage} />
+    <div id="blog-results">
+      <BlogPostList posts={page.data} />
+      <Pagination
+        prevUrl={page.url.prev}
+        nextUrl={page.url.next}
+        currentPage={currentPage}
+        lastPage={page.lastPage}
+      />
     </div>
   </section>
+
+  <div class="container-lg pb-16 lg:pb-24">
+    <NewsletterInline client:visible />
+  </div>
 </Layout>
-
-<style>
-  .blog-controls {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  }
-
-  .blog-controls.animate-in {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .blog-search {
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: opacity 0.6s ease-out 0.1s, transform 0.6s ease-out 0.1s;
-  }
-
-  .blog-controls.animate-in .blog-search {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .blog-tabs {
-    opacity: 0;
-    transform: translateX(20px);
-    transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
-  }
-
-  .blog-controls.animate-in .blog-tabs {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .blog-item {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-
-  .blog-item.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .blog-pagination,
-  .blog-signup {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-
-  .blog-pagination.is-visible,
-  .blog-signup.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>
-
-<script>
-  const initBlogListAnimations = () => {
-    // Immediate animation for controls
-    const blogControls = document.querySelector('.blog-controls');
-
-    setTimeout(() => {
-      blogControls?.classList.add('animate-in');
-    }, 150);
-
-    // Scroll-based animations for list items and other elements
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-        }
-      });
-    };
-
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px',
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-    const scrollElements = document.querySelectorAll('.blog-item, .blog-pagination, .blog-signup');
-    scrollElements.forEach((element) => observer.observe(element));
-  };
-
-  // Initial load
-  window.addEventListener('load', initBlogListAnimations);
-
-  // Re-initialize on Astro page transitions
-  document.addEventListener('astro:page-load', initBlogListAnimations);
-</script>

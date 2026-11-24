@@ -1,0 +1,75 @@
+---
+/**
+ * One row in a /speaking glass list: title, one muted meta line, side meta
+ * (type and date, or a role), optional links, and the abstract, affiliation
+ * and topics behind "See more". Render inside
+ * `<ul class="glass rounded-xl divide-y divide-gray-500/15 overflow-hidden">`.
+ */
+export interface Props {
+  title: string;
+  meta?: string;
+  side?: Array<string | null | undefined>;
+  description?: string;
+  note?: string | null;
+  topics?: string[];
+  links?: Array<{ label: string; href: string }>;
+}
+
+const { title, meta, side = [], description, note, topics = [], links = [] } = Astro.props;
+const sideItems = side.filter(Boolean) as string[];
+const hasMore = !!description || !!note || topics.length > 0;
+---
+
+<li class="talk-row flex items-start gap-4 px-4 sm:px-6 py-4">
+  <div class="flex-1 min-w-0">
+    <h3 class="font-semibold text-default leading-snug">{title}</h3>
+    {
+      sideItems.length > 0 && (
+        <p class="mt-1 flex sm:hidden flex-wrap gap-x-2 text-xs uppercase tracking-widest text-muted tabular-nums">
+          {sideItems.map((s) => (
+            <span>{s}</span>
+          ))}
+        </p>
+      )
+    }
+    {meta && <p class="mt-1 text-sm text-muted leading-snug">{meta}</p>}
+    {
+      links.length > 0 && (
+        <p class="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+          {links.map((l) => (
+            <a href={l.href} target="_blank" rel="noopener noreferrer" class="btn-link text-xs">
+              {l.label}
+            </a>
+          ))}
+        </p>
+      )
+    }
+    {
+      hasMore && (
+        <details class="see-more mt-2">
+          <summary>
+            <span class="see-more-label">See</span>
+          </summary>
+          {description && <p class="mt-2 text-sm text-muted leading-relaxed">{description}</p>}
+          {note && <p class="mt-2 text-xs uppercase tracking-widest text-muted">{note}</p>}
+          {topics.length > 0 && (
+            <ul class="mt-3 flex flex-wrap gap-2 text-xs" aria-label="Topics">
+              {topics.map((t) => (
+                <li class="glass px-3 py-1 text-muted">{t}</li>
+              ))}
+            </ul>
+          )}
+        </details>
+      )
+    }
+  </div>
+  {
+    sideItems.length > 0 && (
+      <div class="hidden sm:block shrink-0 w-40 text-right text-xs uppercase tracking-widest text-muted tabular-nums">
+        {sideItems.map((s, i) => (
+          <span class:list={['block leading-snug', i > 0 && 'mt-1']}>{s}</span>
+        ))}
+      </div>
+    )
+  }
+</li>

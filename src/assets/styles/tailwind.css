@@ -92,10 +92,6 @@
   }
 }
 
-.project-table > div > div {
-  @apply flex items-start flex-col my-8 md:flex-row;
-}
-
 /* ═══ Inline Code ═══ */
 .post-content :where(code):not(:where(pre code, [class~="not-prose"],[class~="not-prose"] *)) {
   background: var(--aw-color-card-bg);

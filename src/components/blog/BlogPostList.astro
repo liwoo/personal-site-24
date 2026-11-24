@@ -1,0 +1,48 @@
+---
+/**
+ * Compact post list: one glass container, one row per post (date, title,
+ * category and reading time). Same row pattern as `HomeArticles`, shared by
+ * /blog, category, tag, the htmx search partial and "Keep reading" on posts.
+ *
+ * The hover tint is a Tailwind class (no scoped <style>) so rows swapped in by
+ * the htmx search partial, which ships no CSS of its own, look identical.
+ */
+import type { Post } from '~/types';
+import { getPermalink } from '~/utils/permalinks';
+import { getFormattedDate } from '~/utils/utils';
+
+export interface Props {
+  posts: Post[];
+  /** Show the category next to the reading time. Off on category pages. */
+  showCategory?: boolean;
+  class?: string;
+}
+
+const { posts, showCategory = true, class: className } = Astro.props;
+const isoDate = (d: Date) => (d instanceof Date ? d.toISOString().slice(0, 10) : String(d));
+---
+
+<ul class:list={['glass rounded-xl divide-y divide-gray-500/15 overflow-hidden', className]}>
+  {
+    posts.map((post) => (
+      <li>
+        <a
+          href={getPermalink(post.permalink, 'post')}
+          class="group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 px-4 sm:px-6 py-4 transition-colors hover:bg-[rgb(216_145_33/0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+          data-astro-prefetch
+        >
+          <time datetime={isoDate(post.publishDate)} class="text-xs text-muted shrink-0 sm:w-32 tabular-nums">
+            {getFormattedDate(post.publishDate)}
+          </time>
+          <span class="flex-1 min-w-0 font-semibold text-default group-hover:text-primary transition-colors leading-snug">
+            {post.title}
+          </span>
+          <span class="flex gap-x-3 shrink-0 text-xs uppercase tracking-widest text-muted">
+            {showCategory && post.category && <span>{post.category.replaceAll('-', ' ')}</span>}
+            {post.readingTime && <span class="tabular-nums normal-case tracking-normal">{post.readingTime} min</span>}
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ul>

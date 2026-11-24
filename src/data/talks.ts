@@ -135,10 +135,10 @@ export const talks: Talk[] = [
   },
   {
     title: 'Blockchain & The Future of Digital Transformation',
-    event: 'Emerging Tech Talk (February Edition) — MUBAS Innovation Hub',
+    event: 'Emerging Tech Talk (February Edition), MUBAS Innovation Hub',
     type: 'talk',
     date: null,
-    location: 'Malawi University of Business and Applied Sciences (MUBAS), Blantyre, Malawi',
+    location: 'MUBAS, Blantyre, Malawi',
     status: 'past',
     role: 'Speaker ("Blockchain Enthusiast")',
     affiliation: null,

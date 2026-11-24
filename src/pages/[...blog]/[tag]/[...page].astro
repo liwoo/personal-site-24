@@ -3,10 +3,10 @@ import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
 import { blogTagRobots, getStaticPathsBlogTag } from '~/utils/blog';
 
 import Layout from '~/layouts/PageLayout.astro';
+import PageHeader from '~/components/widgets/PageHeader.astro';
+import BlogPostList from '~/components/blog/BlogPostList.astro';
 import Pagination from '~/components/blog/Pagination.astro';
-import {ListItem} from '~/components/blog/ListItem.tsx';
-import Hero2 from '~/components/widgets/Hero2.astro';
-import ToBlogLink from '~/components/blog/ToBlogLink.astro';
+import { getBlogPermalink } from '~/utils/permalinks';
 import { postIndexJson } from '~/utils/devMode';
 
 export const prerender = true;
@@ -22,7 +22,7 @@ const { page, tag } = Astro.props as Props;
 const currentPage = page.currentPage ?? 1;
 
 const metadata = {
-  title: `Posts by tag '${tag}'${currentPage > 1 ? ` — Page ${currentPage} ` : ''}`,
+  title: `Articles tagged ${tag}${currentPage > 1 ? `: page ${currentPage}` : ''}`,
   robots: {
     index: blogTagRobots?.index,
     follow: blogTagRobots?.follow,
@@ -30,6 +30,10 @@ const metadata = {
 };
 
 const dev = {
+  front: [
+    { key: 'tag', value: JSON.stringify(tag), strong: true },
+    { key: 'articles', value: String(page.total) },
+  ],
   data: postIndexJson({
     title: 'blog/tag',
     tag,
@@ -40,16 +44,20 @@ const dev = {
 ---
 
 <Layout metadata={metadata} dev={dev}>
-  <Hero2>
-    <Fragment slot="title">
-      <div class="z-30 relative">
-        <ToBlogLink />
-      </div>
-      Tag: <span class="underlined">{tag}</span>
-    </Fragment>
-  </Hero2>
-  <section class="container-lg my-32 flex flex-col justify-between relative z-10">
-    {page.data.map((post) => <ListItem post={post} />)}
-    <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
+  <PageHeader label="tag" back={{ href: getBlogPermalink(), text: 'All articles' }} width="container-lg">
+    <Fragment slot="title">#{tag}</Fragment>
+    <ul slot="meta" class="flex flex-wrap gap-2 text-xs tabular-nums">
+      <li class="glass px-3 py-1">{page.total} {page.total === 1 ? 'article' : 'articles'}</li>
+    </ul>
+  </PageHeader>
+
+  <section class="container-lg pb-16 lg:pb-24" aria-label={`Articles tagged ${tag}`}>
+    <BlogPostList posts={page.data} />
+    <Pagination
+      prevUrl={page.url.prev}
+      nextUrl={page.url.next}
+      currentPage={currentPage}
+      lastPage={page.lastPage}
+    />
   </section>
 </Layout>
