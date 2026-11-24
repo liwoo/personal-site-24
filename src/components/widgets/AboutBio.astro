@@ -3,6 +3,8 @@
  * The /about pitch: 2 short first-person lines, with the full third-person bio
  * (the one event organisers ask for) behind "See more".
  */
+import { MUSIC_URL } from '~/data/navigation';
+
 const ext = { target: '_blank', rel: 'noopener noreferrer' };
 ---
 
@@ -58,7 +60,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' };
         GovTech award platforms. He <a href="/blog">writes about AI agent engineering</a> and <a href="/speaking"
           >speaks internationally</a
         > on trustworthy AI and GovTech. Off the clock he's a gospel hip-hop artist, performing as <a
-          href="https://getalinafe.com"
+          href={MUSIC_URL}
           {...ext}>Liwu</a
         >.
       </p>
