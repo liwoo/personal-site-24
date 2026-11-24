@@ -12,224 +12,81 @@ import Related from './Related.astro';
 export interface Props {
   post: Post;
   url: string | URL;
+  /** Picked by the page (shared with its Dev Mode `dev` object). */
+  related?: Post[];
 }
 
-const { post, url } = Astro.props;
+const { post, url, related = [] } = Astro.props;
 const { Content } = post;
 ---
 
-<section class="py-8 lg:py-12 mx-auto">
-  <article>
-    <header class={`post-header ${post.image ? '' : ''}`}>
-      {
-        post.image ? (
-          <div class="crt-scanlines max-w-full lg:max-w-[900px] mx-auto mb-6">
-            <Image
-              src={post.image}
-              class="w-full bg-gray-400 dark:bg-slate-700 border border-gray-500/20"
-              widths={[400, 900]}
-              sizes="(max-width: 900px) 400px, 900px"
-              alt={post?.excerpt || ''}
-              width={900}
-              height={506}
-              loading="eager"
-              decoding="async"
-            />
-          </div>
-        ) : (
-          <div class="max-w-3xl mx-auto px-4 sm:px-6">
-            <div class="accent-bar-strong" />
-          </div>
-        )
-      }
-    </header>
-    <div class="post-newsletter max-w-full lg:max-w-[900px] mx-auto px-4 lg:px-0 mt-6">
-      <NewsletterInline
-        client:visible
-        category={post.category ?? 'general'}
-        title="Enjoying this? Get the next one."
-        blurb="New deep dives in your inbox. No spam, unsubscribe anytime."
-      />
-    </div>
-    <div
-      class="post-meta mx-auto px-6 sm:px-6 max-w-3xl w-2/3 md:w-1/2 mt-8 flex justify-between flex-col items-center sm:flex-row z-20 sticky top-0 lg:top-10 bg-card/80 py-4 lg:py-2 backdrop-blur-xl border border-gray-500/20"
-    >
-      <PostTags tags={post.tags} class="hidden lg:block mr-5 rtl:mr-0 rtl:ml-5" />
-      <SocialShare
-        url={url}
-        text={post.title}
-        class="mt-5 sm:mt-1 align-middle flex justify-center items-center text-default"
-      />
-    </div>
-    <div
-      class="post-content drop-cap container-article prose prose-lg lg:prose-xl code-block prose-pre:pt-12 prose-pre:border prose-pre:border-gray-500/20 dark:prose-invert prose-headings:text-primary prose-img:w-full prose-img:border prose-img:border-gray-500/20 prose-img:hover:border-primary prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-primary prose-a:underline-offset-4 mt-8 prose-headings:scroll-mt-[80px] prose-blockquote:bg-card prose-blockquote:p-4 prose-blockquote:border-primary/50 prose-h3:text-default prose-h4:text-muted prose-hr:border-primary/20"
-    >
-      {Content ? <Content /> : <Fragment set:html={post.content || ''} />}
-    </div>
-    <div class="post-footer container-article">
-      <div class="my-8 lg:w-1/2">
-        <!--Discuss on X Button-->
-        {post.commentLink && (
-          <a href={post.commentLink} class="btn flex gap-x-3 items-center">
-            Discuss on <Icon name="tabler:brand-x" class="w-5 h-5" />
-          </a>
-        )}
+<article>
+  {
+    post.image && (
+      <div class="container-article pb-8">
+        <div class="glass glass-sheen rounded-xl p-1.5">
+          <Image
+            src={post.image}
+            class="w-full aspect-[16/9] object-cover rounded-lg bg-gray-400 dark:bg-gray-700"
+            widths={[400, 768]}
+            sizes="(max-width: 768px) 100vw, 768px"
+            alt={post?.excerpt || ''}
+            width={768}
+            height={432}
+            loading="eager"
+            decoding="async"
+          />
+        </div>
       </div>
-      <PostTags tags={post.tags} class="lg:hidden mr-5 my-4 rtl:mr-0 rtl:ml-5" />
+    )
+  }
+
+  <div class="container-article">
+    <NewsletterInline
+      client:visible
+      category={post.category ?? 'general'}
+      title="Enjoying this? Get the next one."
+      blurb="New deep dives in your inbox. No spam, unsubscribe anytime."
+    />
+  </div>
+
+  <div
+    class="post-content drop-cap container-article prose prose-lg lg:prose-xl code-block prose-pre:pt-12 prose-pre:border prose-pre:border-gray-500/20 dark:prose-invert prose-headings:text-primary prose-img:w-full prose-img:border prose-img:border-gray-500/20 prose-img:hover:border-primary prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-primary prose-a:underline-offset-4 mt-10 prose-headings:scroll-mt-[80px] prose-blockquote:bg-card prose-blockquote:p-4 prose-blockquote:border-primary/50 prose-h3:text-default prose-h4:text-muted prose-hr:border-primary/20"
+  >
+    {Content ? <Content /> : <Fragment set:html={post.content || ''} />}
+  </div>
+
+  <footer class="container-article mt-12 flex flex-col gap-6">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <PostTags tags={post.tags} />
+      <SocialShare url={url} text={post.title} class="flex items-center shrink-0 text-default" />
     </div>
-    <div class="post-bio">
-      <Bio />
-    </div>
-    <div class="post-extras container-lg">
-      <Related tags={post.tags} postId={post.id} />
-    </div>
-  </article>
-</section>
+    {
+      post.commentLink && (
+        <a
+          href={post.commentLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="self-start inline-flex items-center gap-2 text-xs uppercase tracking-widest text-secondary hover:text-primary focus-visible:text-primary transition-colors"
+        >
+          Discuss on <Icon name="tabler:brand-x" class="w-4 h-4" aria-hidden="true" />
+          <span class="sr-only">(X)</span>
+        </a>
+      )
+    }
+    <Bio />
+  </footer>
 
-<style>
-  .post-header {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  {
+    related.length > 0 && (
+      <div class="container-lg pt-16 lg:pt-20">
+        <Related posts={related} />
+      </div>
+    )
   }
-
-  .post-header.animate-in {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .post-meta {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
-  }
-
-  .post-meta.animate-in {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .post-content {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out 0.3s, transform 0.8s ease-out 0.3s;
-  }
-
-  .post-content.animate-in {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .post-footer,
-  .post-bio,
-  .post-extras {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-
-  .post-footer.is-visible,
-  .post-bio.is-visible,
-  .post-extras.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Markdown content animations */
-  .post-content :global(h2),
-  .post-content :global(h3),
-  .post-content :global(h4),
-  .post-content :global(h5),
-  .post-content :global(h6) {
-    opacity: 0;
-    transform: translateY(15px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-
-  .post-content :global(h2.is-visible),
-  .post-content :global(h3.is-visible),
-  .post-content :global(h4.is-visible),
-  .post-content :global(h5.is-visible),
-  .post-content :global(h6.is-visible) {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .post-content :global(p),
-  .post-content :global(ul),
-  .post-content :global(ol),
-  .post-content :global(blockquote) {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-  }
-
-  .post-content :global(p.is-visible),
-  .post-content :global(ul.is-visible),
-  .post-content :global(ol.is-visible),
-  .post-content :global(blockquote.is-visible) {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .post-content :global(pre),
-  .post-content :global(img),
-  .post-content :global(video) {
-    opacity: 0;
-    transform: scale(0.98);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-
-  .post-content :global(pre.is-visible),
-  .post-content :global(img.is-visible),
-  .post-content :global(video.is-visible) {
-    opacity: 1;
-    transform: scale(1);
-  }
-</style>
+</article>
 
 <script>
-  const initPostAnimations = () => {
-    // Immediate animations for header, meta, and content
-    const postHeader = document.querySelector('.post-header');
-    const postMeta = document.querySelector('.post-meta');
-    const postContent = document.querySelector('.post-content');
-
-    setTimeout(() => {
-      postHeader?.classList.add('animate-in');
-      postMeta?.classList.add('animate-in');
-      postContent?.classList.add('animate-in');
-    }, 150);
-
-    // Scroll-based animations for footer and extras
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-        }
-      });
-    };
-
-    const observerOptions = {
-      threshold: 0.15,
-      rootMargin: '0px 0px -50px 0px',
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-    // Observe footer, bio, and extras
-    const scrollElements = document.querySelectorAll('.post-footer, .post-bio, .post-extras');
-    scrollElements.forEach((element) => observer.observe(element));
-
-    // Observe markdown elements within post-content
-    const markdownElements = document.querySelectorAll(
-      '.post-content h2, .post-content h3, .post-content h4, .post-content h5, .post-content h6, ' +
-      '.post-content p, .post-content ul, .post-content ol, .post-content blockquote, ' +
-      '.post-content pre, .post-content img, .post-content video'
-    );
-    markdownElements.forEach((element) => observer.observe(element));
-  };
-
   // Extract syntax-highlighted tokens from Shiki DOM
   type Token = { text: string; color: string };
   type TokenLine = Token[];
@@ -539,16 +396,9 @@ const { Content } = post;
     });
   }
 
-  // Initial load
-  window.addEventListener('load', () => {
-    initPostAnimations();
-    initCodeToolbars();
-    initQuoteToolbars();
-  });
-
-  // Re-initialize on Astro page transitions
+  // astro:page-load fires on the first load and after every client-side
+  // navigation. Both init functions skip blocks they've already processed.
   document.addEventListener('astro:page-load', () => {
-    initPostAnimations();
     initCodeToolbars();
     initQuoteToolbars();
   });

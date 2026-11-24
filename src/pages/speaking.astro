@@ -1,27 +1,65 @@
 ---
-import Hero2 from '~/components/widgets/Hero2.astro';
 import Layout from '~/layouts/PageLayout.astro';
-import Headline from '~/components/ui/Headline.astro';
-import { Icon } from 'astro-icon/components';
+import PageHeader from '~/components/widgets/PageHeader.astro';
+import TalkRow from '~/components/widgets/TalkRow.astro';
+import Button from '~/components/ui/Button.astro';
 import { talks, communityAndHosting, type Talk } from '~/data/talks';
 
 export const prerender = true;
 
 const metadata = {
-  title: 'Speaking — Jeremiah Chienda | AI Governance, Agents & GovTech Talks',
+  title: 'Speaking | AI Governance, Agents & GovTech Talks',
   description:
-    'Talks, panels and workshops by Jeremiah Chienda on AI governance, agentic AI, RAG, LLM quantization and GovTech at national scale — across Africa and Europe.',
+    'Talks, panels and workshops by Jeremiah Chienda on AI governance, agentic AI, RAG, LLM quantization and GovTech at national scale, across Africa and Europe.',
 };
 
+const typeLabel: Record<Talk['type'], string> = {
+  talk: 'Talk',
+  panel: 'Panel',
+  webinar: 'Webinar',
+  workshop: 'Workshop',
+};
+
+/** "2026-10-14" -> "14 Oct 2026", "2024" -> "2024", null -> null. */
 const formatDate = (date: string | null): string | null => {
   if (!date) return null;
-  // Year only, e.g. "2024"
   if (/^\d{4}$/.test(date)) return date;
-  // Full ISO date, e.g. "2026-10-14"
   const parsed = new Date(`${date}T00:00:00`);
   if (Number.isNaN(parsed.getTime())) return date;
-  return parsed.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  return parsed.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 };
+
+// A talk marked upcoming whose date has passed (as of the build) is listed with
+// the past talks, so the page never advertises an event that already happened.
+const today = new Date().toISOString().slice(0, 10);
+const isUpcoming = (t: Talk) => t.status === 'upcoming' && (!t.date || t.date.length < 10 || t.date >= today);
+
+const upcoming = talks.filter(isUpcoming);
+const featured = talks.filter((t) => !isUpcoming(t) && t.featured);
+const earlier = talks.filter((t) => !isUpcoming(t) && !t.featured);
+
+const countries = new Set(
+  [...talks, ...communityAndHosting]
+    .map((t) => (t.location.split(',').pop() ?? '').replace(/\(.*?\)/g, '').trim())
+    .filter((c) => c && !/^online/i.test(c))
+);
+
+const talkLinks = (t: Talk) =>
+  [
+    t.recordingUrl && { label: 'Watch', href: t.recordingUrl },
+    t.slidesUrl && { label: 'Slides', href: t.slidesUrl },
+    t.eventUrl && t.eventUrl !== t.recordingUrl && { label: 'Event', href: t.eventUrl },
+  ].filter(Boolean) as Array<{ label: string; href: string }>;
+
+const talkRow = (t: Talk) => ({
+  title: t.title,
+  meta: `${t.event} · ${t.location}`,
+  side: [typeLabel[t.type], formatDate(t.date)],
+  description: t.description,
+  note: t.affiliation ? `${t.role}, ${t.affiliation}` : t.role,
+  topics: t.topics,
+  links: talkLinks(t),
+});
 
 const talkItem = (t: Talk) => ({
   title: t.title,
@@ -41,11 +79,14 @@ const talkItem = (t: Talk) => ({
 const dev = {
   front: [
     { key: 'status', value: '"Available for talks, panels & workshops"', strong: true },
+    { key: 'talks', value: String(talks.length) },
+    { key: 'countries', value: JSON.stringify([...countries]) },
     { key: 'topics', value: '["AI Governance", "Agentic AI", "RAG", "GovTech"]' },
   ],
   data: {
-    upcoming: talks.filter((t) => t.status === 'upcoming').map(talkItem),
-    past: talks.filter((t) => t.status !== 'upcoming').map(talkItem),
+    upcoming: upcoming.map(talkItem),
+    talks: featured.map(talkItem),
+    earlier: earlier.map(talkItem),
     community: communityAndHosting.map((c) => ({
       title: c.title,
       role: c.role,
@@ -55,342 +96,106 @@ const dev = {
       topics: c.topics,
       link: c.eventUrl ? { __type: 'cta', label: 'Visit', href: c.eventUrl } : null,
     })),
+    invite: { __type: 'cta', label: "Let's_Talk", href: '/contact' },
   },
 };
-
-const typeLabel: Record<Talk['type'], string> = {
-  talk: 'Talk',
-  panel: 'Panel',
-  webinar: 'Webinar',
-  workshop: 'Workshop',
-};
-
-const upcoming = talks.filter((t) => t.status === 'upcoming');
-const featured = talks.filter((t) => t.status !== 'upcoming' && t.featured);
-const history = talks.filter((t) => t.status !== 'upcoming' && !t.featured);
 ---
 
 <Layout metadata={metadata} dev={dev}>
-  <Hero2>
-    <Fragment slot="title"><span class="underlined">Speaking</span> & Talks</Fragment>
-
-    <Fragment slot="subtitle">
-      AI governance, agents and GovTech at national scale — from Kigali to Manchester.
+  <PageHeader
+    label="speaking"
+    title="Talks"
+    subtitle="AI governance, agents and GovTech at national scale, from Kigali to Manchester."
+    width="container-lg"
+  >
+    <ul slot="meta" class="flex flex-wrap gap-2 text-xs tabular-nums">
+      <li class="glass px-3 py-1">{talks.length} talks</li>
+      <li class="glass px-3 py-1">{countries.size} countries</li>
+      <li class="glass px-3 py-1">{communityAndHosting.length} community roles</li>
+    </ul>
+    <Fragment slot="actions">
+      <Button href="/contact" variant="primary" class="rounded-md">Let's_Talk</Button>
     </Fragment>
-    <Fragment slot="content">
-      <a href="/contact">&gt;&gt; Invite me to speak</a>
-    </Fragment>
-  </Hero2>
+  </PageHeader>
 
-  <section class="container py-12 sm:py-16">
-    {
-      upcoming.length > 0 && (
-        <div class="talks-section mb-16">
-          <h2 class="text-2xl font-bold font-heading text-heading mb-6 flex items-center gap-2">
-            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            Upcoming
-          </h2>
-          <div class="grid grid-cols-1 gap-6">
-            {upcoming.map((talk, index) => (
-              <div class="talk-card" style={`transition-delay: ${0.1 + index * 0.1}s`}>
-                <article class="relative h-full rounded-2xl border border-emerald-500/40 bg-card p-6 md:p-8 shadow-sm">
-                  <span class="absolute top-6 right-6 inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-600 dark:text-emerald-400">
-                    Upcoming
-                  </span>
-                  <p class="text-sm font-medium text-secondary dark:text-blue-200">
-                    {typeLabel[talk.type]} · {talk.event}
-                  </p>
-                  <h3 class="mt-2 text-xl md:text-2xl font-bold font-heading text-heading pr-24">{talk.title}</h3>
-                  <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted">
-                    {formatDate(talk.date) && (
-                      <span class="inline-flex items-center gap-1.5">
-                        <Icon name="tabler:calendar" class="w-4 h-4" />
-                        {formatDate(talk.date)}
-                      </span>
-                    )}
-                    <span class="inline-flex items-center gap-1.5">
-                      <Icon name="tabler:map-pin" class="w-4 h-4" />
-                      {talk.location}
-                    </span>
-                  </div>
-                  <details class="talk-more group mt-4">
-                    <summary class="flex w-fit cursor-pointer items-center gap-1 text-sm font-semibold text-secondary hover:underline">
-                      <span class="group-open:hidden">More</span>
-                      <span class="hidden group-open:inline">Less</span>
-                      <Icon name="tabler:chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180" />
-                    </summary>
-                    <p class="mt-3 text-muted">{talk.description}</p>
-                    {talk.affiliation && (
-                      <p class="mt-3 text-sm text-muted italic">{talk.role} — {talk.affiliation}</p>
-                    )}
-                    <div class="mt-4 flex flex-wrap gap-2">
-                      {talk.topics.map((topic) => (
-                        <span class="rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs text-muted">
-                          {topic}
-                        </span>
-                      ))}
-                    </div>
-                    {(talk.slidesUrl || talk.recordingUrl || talk.eventUrl) && (
-                      <div class="mt-4 flex flex-wrap items-center gap-4 border-t border-slate-100 dark:border-slate-800 pt-4">
-                        {talk.slidesUrl && (
-                          <a
-                            href={talk.slidesUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="inline-flex items-center gap-1.5 rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-secondary/90"
-                          >
-                            <Icon name="tabler:presentation" class="w-4 h-4" />
-                            View slides
-                          </a>
-                        )}
-                        {talk.recordingUrl && (
-                          <a
-                            href={talk.recordingUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
-                          >
-                            <Icon name="tabler:player-play" class="w-4 h-4" />
-                            Watch
-                          </a>
-                        )}
-                        {talk.eventUrl && (
-                          <a
-                            href={talk.eventUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
-                          >
-                            Event details
-                            <Icon name="tabler:external-link" class="w-4 h-4" />
-                          </a>
-                        )}
-                      </div>
-                    )}
-                  </details>
-                </article>
+  {
+    upcoming.length > 0 && (
+      <section class="container-lg pb-12 lg:pb-16">
+        {upcoming.map((t) => (
+          <article class="glass glass-sheen rounded-xl px-4 sm:px-6 py-5 mb-4 last:mb-0">
+            <p class="terminal-label">upcoming</p>
+            <h2 class="mt-2 text-xl md:text-2xl font-bold tracking-tight text-heading">{t.title}</h2>
+            <p class="mt-1 text-sm text-muted">
+              {typeLabel[t.type]} · {t.event}
+            </p>
+            <ul class="mt-4 flex flex-wrap gap-2 text-xs tabular-nums">
+              {formatDate(t.date) && <li class="glass px-3 py-1">{formatDate(t.date)}</li>}
+              <li class="glass px-3 py-1">{t.location}</li>
+            </ul>
+            <details class="see-more mt-4">
+              <summary>
+                <span class="see-more-label">See</span>
+              </summary>
+              <p class="mt-2 text-sm text-muted leading-relaxed">{t.description}</p>
+            </details>
+            {(t.slidesUrl || t.eventUrl) && (
+              <div class="mt-5 flex flex-wrap items-center gap-4">
+                {t.slidesUrl && (
+                  <Button href={t.slidesUrl} variant="secondary" class="rounded-md" target="_blank">
+                    Slides
+                  </Button>
+                )}
+                {t.eventUrl && (
+                  <a href={t.eventUrl} target="_blank" rel="noopener noreferrer" class="btn-link text-xs">
+                    Event
+                  </a>
+                )}
               </div>
-            ))}
-          </div>
-        </div>
-      )
-    }
+            )}
+          </article>
+        ))}
+      </section>
+    )
+  }
 
-    <div class="talks-section mb-16">
-      <Headline
-        tagline="On-brand"
-        title="Featured Talks"
-        subtitle="AI governance, agents, LLMs and GovTech — the work I'm building toward now."
-        classes={{ container: 'max-w-3xl text-left md:mx-0', title: 'text-2xl md:text-3xl', subtitle: 'text-base md:text-lg' }}
-      />
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {
-          featured.map((talk, index) => (
-            <div class="talk-card" style={`transition-delay: ${0.1 + index * 0.1}s`}>
-              <article class="flex h-full flex-col rounded-2xl border border-slate-200 dark:border-slate-800 bg-card p-6 md:p-7 shadow-sm transition-shadow hover:shadow-md">
-                <p class="text-sm font-medium text-secondary dark:text-blue-200">
-                  {typeLabel[talk.type]} · {talk.event}
-                </p>
-                <h3 class="mt-2 text-lg md:text-xl font-bold font-heading text-heading">{talk.title}</h3>
-                <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted">
-                  {formatDate(talk.date) && (
-                    <span class="inline-flex items-center gap-1.5">
-                      <Icon name="tabler:calendar" class="w-4 h-4" />
-                      {formatDate(talk.date)}
-                    </span>
-                  )}
-                  <span class="inline-flex items-center gap-1.5">
-                    <Icon name="tabler:map-pin" class="w-4 h-4" />
-                    {talk.location}
-                  </span>
-                </div>
-                <details class="talk-more group mt-4">
-                  <summary class="flex w-fit cursor-pointer items-center gap-1 text-sm font-semibold text-secondary hover:underline">
-                    <span class="group-open:hidden">More</span>
-                    <span class="hidden group-open:inline">Less</span>
-                    <Icon name="tabler:chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180" />
-                  </summary>
-                  <p class="mt-3 text-muted">{talk.description}</p>
-                  {talk.affiliation && (
-                    <p class="mt-3 text-sm text-muted italic">{talk.role} — {talk.affiliation}</p>
-                  )}
-                  <div class="mt-4 flex flex-wrap gap-2">
-                    {talk.topics.map((topic) => (
-                      <span class="rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs text-muted">
-                        {topic}
-                      </span>
-                    ))}
-                  </div>
-                  {(talk.recordingUrl || talk.slidesUrl || talk.eventUrl) && (
-                    <div class="mt-4 flex flex-wrap gap-4 border-t border-slate-100 dark:border-slate-800 pt-4">
-                      {talk.recordingUrl && (
-                        <a
-                          href={talk.recordingUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
-                        >
-                          <Icon name="tabler:player-play" class="w-4 h-4" />
-                          Watch
-                        </a>
-                      )}
-                      {talk.slidesUrl && (
-                        <a
-                          href={talk.slidesUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="inline-flex items-center gap-1.5 rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-secondary/90"
-                        >
-                          <Icon name="tabler:presentation" class="w-4 h-4" />
-                          View slides
-                        </a>
-                      )}
-                      {talk.eventUrl && !talk.recordingUrl && (
-                        <a
-                          href={talk.eventUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline"
-                        >
-                          <Icon name="tabler:external-link" class="w-4 h-4" />
-                          Event
-                        </a>
-                      )}
-                    </div>
-                  )}
-                </details>
-              </article>
-            </div>
-          ))
-        }
-      </div>
-    </div>
+  <section class="container-lg pb-12 lg:pb-16">
+    <p class="terminal-label">talks</p>
+    <h2 class="mt-2 text-2xl md:text-3xl font-bold tracking-tight text-heading">AI, agents and GovTech</h2>
+    <ul class="mt-6 glass rounded-xl divide-y divide-gray-500/15 overflow-hidden">
+      {featured.map((t) => <TalkRow {...talkRow(t)} />)}
+    </ul>
+  </section>
 
-    {
-      history.length > 0 && (
-        <div class="talks-section mb-16">
-          <Headline
-            tagline="Full history"
-            title="Earlier Talks"
-            subtitle="Web3, blockchain and developer-community sessions from earlier chapters."
-            classes={{ container: 'max-w-3xl text-left md:mx-0', title: 'text-2xl md:text-3xl', subtitle: 'text-base md:text-lg' }}
+  {
+    earlier.length > 0 && (
+      <section class="container-lg pb-12 lg:pb-16">
+        <p class="terminal-label">earlier</p>
+        <h2 class="mt-2 text-2xl md:text-3xl font-bold tracking-tight text-heading">Web3 and dev community</h2>
+        <ul class="mt-6 glass rounded-xl divide-y divide-gray-500/15 overflow-hidden">
+          {earlier.map((t) => (
+            <TalkRow {...talkRow(t)} />
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <section class="container-lg pb-16 lg:pb-24">
+    <p class="terminal-label">community</p>
+    <h2 class="mt-2 text-2xl md:text-3xl font-bold tracking-tight text-heading">Rooms I've run</h2>
+    <ul class="mt-6 glass rounded-xl divide-y divide-gray-500/15 overflow-hidden">
+      {
+        communityAndHosting.map((c) => (
+          <TalkRow
+            title={c.title}
+            meta={c.location}
+            side={[c.role]}
+            description={c.description}
+            topics={c.topics}
+            links={c.eventUrl ? [{ label: 'Visit', href: c.eventUrl }] : []}
           />
-          <div class="divide-y divide-slate-200 dark:divide-slate-800 rounded-2xl border border-slate-200 dark:border-slate-800 bg-card">
-            {history.map((talk) => (
-              <div class="talk-row p-6">
-                <div class="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-                  <h3 class="text-base font-bold font-heading text-heading">{talk.title}</h3>
-                  <span class="text-sm text-muted whitespace-nowrap">
-                    {typeLabel[talk.type]}
-                    {formatDate(talk.date) ? ` · ${formatDate(talk.date)}` : ''}
-                  </span>
-                </div>
-                <p class="mt-1 text-sm font-medium text-secondary dark:text-blue-200">{talk.event}</p>
-                <p class="mt-1 text-sm text-muted inline-flex items-center gap-1.5">
-                  <Icon name="tabler:map-pin" class="w-4 h-4" />
-                  {talk.location}
-                </p>
-                <details class="talk-more group mt-3">
-                  <summary class="flex w-fit cursor-pointer items-center gap-1 text-sm font-semibold text-secondary hover:underline">
-                    <span class="group-open:hidden">More</span>
-                    <span class="hidden group-open:inline">Less</span>
-                    <Icon name="tabler:chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180" />
-                  </summary>
-                  <p class="mt-3 text-sm text-muted">{talk.description}</p>
-                </details>
-              </div>
-            ))}
-          </div>
-        </div>
-      )
-    }
-
-    <div class="talks-section">
-      <Headline
-        tagline="Beyond the stage"
-        title="Community & Hosting"
-        subtitle="Building and running the rooms, not just speaking in them."
-        classes={{ container: 'max-w-3xl text-left md:mx-0', title: 'text-2xl md:text-3xl', subtitle: 'text-base md:text-lg' }}
-      />
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {
-          communityAndHosting.map((entry, index) => (
-            <div class="talk-card" style={`transition-delay: ${0.1 + index * 0.1}s`}>
-              <article class="flex h-full flex-col rounded-2xl border border-slate-200 dark:border-slate-800 bg-card p-6 md:p-7 shadow-sm">
-                <span class="inline-flex w-fit items-center gap-1.5 rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-secondary">
-                  {entry.role}
-                </span>
-                <h3 class="mt-3 text-lg font-bold font-heading text-heading">{entry.title}</h3>
-                <p class="mt-1 text-sm text-muted inline-flex items-center gap-1.5">
-                  <Icon name="tabler:map-pin" class="w-4 h-4" />
-                  {entry.location}
-                </p>
-                <details class="talk-more group mt-4">
-                  <summary class="flex w-fit cursor-pointer items-center gap-1 text-sm font-semibold text-secondary hover:underline">
-                    <span class="group-open:hidden">More</span>
-                    <span class="hidden group-open:inline">Less</span>
-                    <Icon name="tabler:chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180" />
-                  </summary>
-                  <p class="mt-3 text-muted">{entry.description}</p>
-                  <div class="mt-4 flex flex-wrap gap-2">
-                    {entry.topics.map((topic) => (
-                      <span class="rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs text-muted">
-                        {topic}
-                      </span>
-                    ))}
-                  </div>
-                </details>
-              </article>
-            </div>
-          ))
-        }
-      </div>
-    </div>
+        ))
+      }
+    </ul>
   </section>
 </Layout>
-
-<style>
-  .talk-card,
-  .talk-row {
-    opacity: 0;
-    transform: translateY(30px);
-    transition:
-      opacity 0.6s ease-out,
-      transform 0.6s ease-out;
-  }
-
-  .talk-card.is-visible,
-  .talk-row.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .talk-more summary {
-    list-style: none;
-  }
-
-  .talk-more summary::-webkit-details-marker {
-    display: none;
-  }
-</style>
-
-<script>
-  const initSpeakingAnimations = () => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-    );
-
-    document.querySelectorAll('.talk-card, .talk-row').forEach((el) => observer.observe(el));
-  };
-
-  window.addEventListener('load', initSpeakingAnimations);
-  document.addEventListener('astro:page-load', initSpeakingAnimations);
-</script>

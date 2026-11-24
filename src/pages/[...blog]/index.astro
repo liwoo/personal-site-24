@@ -5,9 +5,9 @@ import merge from 'lodash.merge';
 import type { ImageMetadata } from 'astro';
 import Layout from '~/layouts/PageLayout.astro';
 import SinglePost from '~/components/blog/SinglePost.astro';
-import ToBlogLink from '~/components/blog/ToBlogLink.astro';
+import PageHeader from '~/components/widgets/PageHeader.astro';
 
-import { getCanonical, getPermalink } from '~/utils/permalinks';
+import { getBlogPermalink, getCanonical, getPermalink } from '~/utils/permalinks';
 import { mdToRichHtml } from '~/utils/richMarkdown';
 
 // Resolve imported post images (e.g. `<Image src={foo}/>`) to real URLs so Dev
@@ -29,13 +29,13 @@ const resolveContentImages = (md: string | undefined): string | undefined => {
   }
   return md.replace(/src=\{(\w+)\}/g, (full, v) => (vars[v] ? `src="${vars[v]}"` : full));
 };
-import { getStaticPathsBlogPost, blogPostRobots, getPostsFromTags } from '~/utils/blog';
+import { getStaticPathsBlogPost, blogPostRobots, fetchPosts } from '~/utils/blog';
 import { categoryLink, tagLinks } from '~/utils/devMode';
 import { findImage } from '~/utils/images';
 import type { MetaData } from '~/types';
-import Hero2 from '~/components/widgets/Hero2.astro';
 
 import { getFormattedDate } from '~/utils/utils';
+import { splitFirstSentence } from '~/utils/projects';
 
 export const prerender = true;
 
@@ -70,16 +70,26 @@ const metadata = merge(
 
 const coverSrc = typeof image === 'string' ? image : (image as ImageMetadata | undefined)?.src;
 
-// Related articles that share tags with this one (excluding itself).
-const relatedPosts = (await getPostsFromTags(post.tags ?? []))
-  .filter((p) => p.slug !== post.slug)
-  .slice(0, 3)
-  .map((p) => ({
-    title: p.title,
-    permalink: getPermalink(p.permalink, 'post'),
-    category: categoryLink(p.category),
-    readingTime: p.readingTime ? `${p.readingTime} min` : null,
-  }));
+// Related: other posts sharing the most tags with this one, newest first on ties.
+const tags = post.tags ?? [];
+const related = tags.length
+  ? (await fetchPosts())
+      .filter((p) => p.slug !== post.slug)
+      .map((p) => ({ p, shared: (p.tags ?? []).filter((t) => tags.includes(t)).length }))
+      .filter((r) => r.shared > 0)
+      .sort((a, b) => b.shared - a.shared)
+      .slice(0, 3)
+      .map((r) => r.p)
+  : [];
+const relatedPosts = related.map((p) => ({
+  title: p.title,
+  permalink: getPermalink(p.permalink, 'post'),
+  category: categoryLink(p.category),
+  readingTime: p.readingTime ? `${p.readingTime} min` : null,
+}));
+
+// Header subtitle is the excerpt's first sentence; the full excerpt stays the meta description.
+const [lede] = splitFirstSentence(post.excerpt ?? '');
 
 const dev = {
   front: [
@@ -108,7 +118,7 @@ const dev = {
       endpoint: '/api/newsletter',
       category: post.category ?? 'general',
       submit: 'Subscribe',
-      success: 'subscribed — new deep dives land in your inbox',
+      success: 'subscribed, new deep dives land in your inbox',
       fields: [
         { name: 'name', label: '"name"', placeholder: 'Your name', type: 'text' },
         { name: 'email', label: '"email"', placeholder: 'you@domain.com', type: 'email', required: true },
@@ -119,37 +129,34 @@ const dev = {
 ---
 
 <Layout metadata={metadata} dev={dev}>
-  <Hero2>
-    <Fragment slot="title">
-      <div class="z-10 relative">
-        <ToBlogLink />
-      </div>
-      {post.title}
-    </Fragment>
+  <PageHeader
+    label={post.category ?? 'writing'}
+    back={{ href: getBlogPermalink(), text: 'All articles' }}
+    width="container-article"
+  >
+    <Fragment slot="title">{post.title}</Fragment>
+    {lede && <Fragment slot="subtitle">{lede}</Fragment>}
+    <ul slot="meta" class="flex flex-wrap gap-2 text-xs" aria-label="Article details">
+      <li class="glass px-3 py-1 tabular-nums">
+        <time datetime={post.publishDate instanceof Date ? post.publishDate.toISOString().slice(0, 10) : String(post.publishDate)}>{getFormattedDate(post.publishDate)}</time>
+      </li>
+      {post.readingTime && <li class="glass px-3 py-1 tabular-nums">{post.readingTime} min read</li>}
+      {
+        post.category && (
+          <li>
+            <a
+              href={getPermalink(post.category, 'category')}
+              class="glass inline-block px-3 py-1 capitalize text-muted hover:text-primary focus-visible:text-primary transition-colors"
+            >
+              {post.category.replaceAll('-', ' ')}
+            </a>
+          </li>
+        )
+      }
+    </ul>
+  </PageHeader>
 
-    <Fragment slot="subtitle" class="relative z-10">{post.excerpt}</Fragment>
-    <Fragment slot="content">
-      <div class="flex justify-between flex-col sm:flex-row mt-0 mb-2 text-secondary z-10 relative">
-        <p>
-          {'⏰ '}
-          <time datetime={String(post.publishDate)} class="inline-block">{getFormattedDate(post.publishDate)}</time>
-          {
-            post.category && (
-              <>
-                {' '}
-                ·{' '}
-                <a class="capitalize hover:underline inline-block" href={getPermalink(post.category, 'category')}>
-                  {post.category.replaceAll('-', ' ')}
-                </a>
-              </>
-            )
-          }
-          {post.readingTime && <> · {post.readingTime} min read</>}
-        </p>
-      </div>
-    </Fragment>
-  </Hero2>
-  <div class="relative">
-    <SinglePost post={{ ...post, image: image }} url={url} />
+  <div class="pb-16 lg:pb-24">
+    <SinglePost post={{ ...post, image: image }} url={url} related={related} />
   </div>
 </Layout>

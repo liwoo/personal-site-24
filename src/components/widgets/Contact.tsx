@@ -1,14 +1,10 @@
 import React, {
   type FormEvent,
-  type LegacyRef,
-  type MutableRefObject,
-  useCallback,
-  useEffect,
   useRef,
   useState
 } from 'react';
-import Envelope from "~/components/icons/Envelope.tsx";
-import {GoogleReCaptcha, useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import {CONTACT_RECAPTCHA_ACTION} from "~/utils/contact";
 import {useToast} from "~/components/ui/use-toast.tsx";
 import {clsx} from "clsx";
 
@@ -52,8 +48,8 @@ interface DecisionTree {
 }
 
 const tree: DecisionTree = {
-  title: "Let's do some amazing stuff together!",
-  description: "Feel free to select from any of the options below to figure out how best I can be of value to you",
+  title: "Send a message",
+  description: "Pick a topic. The fields change to match.",
   paths: {
     "General Enquiries": {
       options: [
@@ -72,7 +68,7 @@ const tree: DecisionTree = {
                 required: false,
                 inputType: "text",
                 name: "enquirerName",
-                placeholder: "Enter Your Name"
+                placeholder: "Your name"
               }
             },
             {
@@ -84,7 +80,7 @@ const tree: DecisionTree = {
                 required: true,
                 inputType: "email",
                 name: "enquirerEmail",
-                placeholder: "Enter Your Email Address"
+                placeholder: "you@domain.com"
               }
             }
           ]
@@ -115,7 +111,7 @@ const tree: DecisionTree = {
             id: "enquirerMessage",
             inputType: "textArea",
             name: "enquirerMessage",
-            placeholder: "Enter your message here"
+            placeholder: "What's on your mind?"
           }
         }
       ]
@@ -142,7 +138,7 @@ const tree: DecisionTree = {
                     inputType: "text",
                     required: true,
                     name: "schoolStaffName",
-                    placeholder: "Enter School Name"
+                    placeholder: "Your name"
                   }
                 },
                 {
@@ -154,7 +150,7 @@ const tree: DecisionTree = {
                     inputType: "email",
                     required: true,
                     name: "schoolStaffEmail",
-                    placeholder: "Enter School Email"
+                    placeholder: "you@school.edu"
                   }
                 }
               ]
@@ -174,7 +170,7 @@ const tree: DecisionTree = {
                     inputType: "text",
                     required: true,
                     name: "techPresident",
-                    placeholder: "Enter Tech Club President Name"
+                    placeholder: "Your name"
                   }
                 },
                 {
@@ -186,7 +182,7 @@ const tree: DecisionTree = {
                     inputType: "email",
                     required: true,
                     name: "techPresidentEmail",
-                    placeholder: "Enter Tech President Email"
+                    placeholder: "you@domain.com"
                   }
                 }
               ]
@@ -202,11 +198,11 @@ const tree: DecisionTree = {
                   order: 1,
                   title: "Event Organizer Name",
                   input: {
-                    id: "eventOrganizer",
+                    id: "eventOrganizerName",
                     inputType: "text",
                     required: true,
-                    name: "eventOrganizer",
-                    placeholder: "Enter Event Organizer Name"
+                    name: "eventOrganizerName",
+                    placeholder: "Your name"
                   }
                 },
                 {
@@ -214,11 +210,11 @@ const tree: DecisionTree = {
                   order: 2,
                   title: "Event Organizer Email",
                   input: {
-                    id: "eventOrganizer",
+                    id: "eventOrganizerEmail",
                     inputType: "email",
                     required: true,
-                    name: "eventOrganizer",
-                    placeholder: "Enter Event Organizer Name"
+                    name: "eventOrganizerEmail",
+                    placeholder: "you@domain.com"
                   }
                 }
               ]
@@ -262,7 +258,7 @@ const tree: DecisionTree = {
                 inputType: "date",
                 required: true,
                 name: "preferredDate",
-                placeholder: "Select Preferred Date"
+                placeholder: "Date"
               }
             },
             {
@@ -274,7 +270,7 @@ const tree: DecisionTree = {
                 required: true,
                 inputType: "time",
                 name: "preferredTime",
-                placeholder: "Select Preferred Time"
+                placeholder: "Time"
               }
             },
           ]
@@ -288,7 +284,7 @@ const tree: DecisionTree = {
             required: false,
             inputType: "textArea",
             name: "additionalNotes",
-            placeholder: "Let me know if you have additional comments"
+            placeholder: "Audience, format, anything else"
           }
         },
         // Add more top-level options as needed
@@ -310,7 +306,7 @@ const tree: DecisionTree = {
                 required: true,
                 inputType: "text",
                 name: "individualName",
-                placeholder: "Enter Your Name"
+                placeholder: "Your name"
               }
             },
             {
@@ -322,7 +318,7 @@ const tree: DecisionTree = {
                 required: true,
                 inputType: "text",
                 name: "companyName",
-                placeholder: "Enter Company Name"
+                placeholder: "Company name"
               }
             }
           ]
@@ -361,7 +357,7 @@ const tree: DecisionTree = {
             required: true,
             inputType: "textArea",
             name: "projectDetails",
-            placeholder: "Tell us more about your project"
+            placeholder: "What are you building?"
           }
         },
         {
@@ -380,7 +376,7 @@ const tree: DecisionTree = {
                 inputType: "number",
                 name: "budgetStart",
                 min: 0,
-                placeholder: "Budget Start"
+                placeholder: "From"
               }
             },
             {
@@ -393,7 +389,7 @@ const tree: DecisionTree = {
                 inputType: "number",
                 name: "budgetEnd",
                 min: 0,
-                placeholder: "Budget End"
+                placeholder: "To"
               }
             }
           ]
@@ -407,7 +403,7 @@ const tree: DecisionTree = {
             required: true,
             inputType: "email",
             name: "email",
-            placeholder: "Enter your Email Here"
+            placeholder: "you@domain.com"
           }
         }
       ]
@@ -429,7 +425,7 @@ const tree: DecisionTree = {
                 required: true,
                 inputType: "text",
                 name: "recruiterName",
-                placeholder: "Enter Your Name"
+                placeholder: "Your name"
               }
             },
             {
@@ -441,7 +437,7 @@ const tree: DecisionTree = {
                 inputType: "email",
                 required: true,
                 name: "recruiterEmail",
-                placeholder: "Enter Your Email"
+                placeholder: "you@domain.com"
               }
             },
           ]
@@ -519,6 +515,18 @@ const tree: DecisionTree = {
   }
 };
 
+// Shared field styles, matching the home newsletter input.
+const fieldClass =
+  "block w-full rounded-md border border-gray-400/50 dark:border-gray-500/40 bg-white/70 dark:bg-black/30 px-3 py-2 text-sm text-default placeholder:text-muted focus:border-primary focus:ring-1 focus:ring-primary outline-none dark:[color-scheme:dark]";
+const labelClass = "mb-1 block text-xs uppercase tracking-widest text-muted";
+
+// Option keys double as field names for the nested selects, so they can hold
+// spaces and apostrophes. Element ids get a sanitised copy; names don't change.
+const fieldId = (key: string) => `cf${key.replace(/[^A-Za-z0-9_-]+/g, '-')}`;
+
+const RequiredMark = ({show}: { show?: boolean }) =>
+  show ? <span className="text-primary" aria-hidden="true">* </span> : null;
+
 const DynamicForm = () => {
   // State to manage the current path and selections
   const [currentPath, setCurrentPath] = useState<Path | undefined>("General Enquiries");
@@ -549,13 +557,14 @@ const DynamicForm = () => {
       // Check if the option has staggerInputs enabled
       if (option.staggerInputs && option.options) {
         return (
-          <div key={optionKey} className="grid grid-cols-2 gap-4">
+          <div key={optionKey} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {option.options.map(subOption => {
               const subOptionKey = `${optionKey}-${subOption.title}`;
               return (
                 <div key={subOptionKey}>
-                  <label htmlFor={subOptionKey}>{subOption.input && subOption.input.required &&
-                    <span className={"text-primary"}>*</span>} {subOption.title}</label>
+                  <label htmlFor={fieldId(subOptionKey)} className={labelClass}>
+                    <RequiredMark show={subOption.input?.required}/>{subOption.title}
+                  </label>
                   {subOption.input ? renderInput(subOption.input, subOptionKey) : null}
                 </div>
               );
@@ -564,26 +573,29 @@ const DynamicForm = () => {
         );
       } else {
         return (
-          <div key={optionKey}>
-            <label htmlFor={optionKey}>{option.input && option.input.required &&
-              <span className={"text-primary"}>*</span>} {option.title}</label>
-            {option.input
-              ? renderInput(option.input, optionKey)
-              : (
-                <select
-                  required={true}
-                  id={optionKey}
-                  name={optionKey}
-                  className="form-select w-full py-2 px-4 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
-                  onChange={(e) => handleInputChange(optionKey, e)}
-                >
-                  <option value="">Select an option</option>
-                  {option.options?.map(subOption => (
-                    <option key={subOption.title} value={subOption.title}>{subOption.title}</option>
-                  ))}
-                </select>
-              )
-            }
+          <div key={optionKey} className="flex flex-col gap-4">
+            <div>
+              <label htmlFor={fieldId(optionKey)} className={labelClass}>
+                <RequiredMark show={option.input ? option.input.required : true}/>{option.title}
+              </label>
+              {option.input
+                ? renderInput(option.input, optionKey)
+                : (
+                  <select
+                    required={true}
+                    id={fieldId(optionKey)}
+                    name={optionKey}
+                    className={fieldClass}
+                    onChange={(e) => handleInputChange(optionKey, e)}
+                  >
+                    <option value="">Select an option</option>
+                    {option.options?.map(subOption => (
+                      <option key={subOption.title} value={subOption.title}>{subOption.title}</option>
+                    ))}
+                  </select>
+                )
+              }
+            </div>
 
             {/* Render nested options if applicable */}
             {option.options && selectedOptions[optionKey] && renderOptions(option.options, optionKey)}
@@ -605,20 +617,23 @@ const DynamicForm = () => {
         return (
           <input
             key={optionKey}
+            id={fieldId(optionKey)}
             type={input.inputType}
             name={input.name}
             required={input.required}
             placeholder={input.placeholder}
-            className="py-2 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
+            autoComplete={input.inputType === 'email' ? 'email' : undefined}
+            className={fieldClass}
           />
         );
       case 'select':
         return (
           <select
             key={optionKey}
+            id={fieldId(optionKey)}
             required={input.required}
             name={input.name}
-            className="form-select w-full py-2 px-4 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
+            className={fieldClass}
           >
             {input.options?.map(opt => (
               <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -629,25 +644,22 @@ const DynamicForm = () => {
         return (
           <textarea
             key={optionKey}
+            id={fieldId(optionKey)}
             required={input.required}
             name={input.name}
             placeholder={input.placeholder}
-            className="py-2 px-4 block w-full text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
+            rows={4}
+            className={fieldClass}
           />
         )
       default:
         return null;
     }
   };
-  const [token, setToken] = useState<string>();
-  const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
+  const {executeRecaptcha} = useGoogleReCaptcha();
 
   const formRef = useRef<HTMLFormElement | undefined>();
-
-  const onVerify = useCallback((token: string) => {
-    setToken(token);
-  }, []);
 
   const clearForm = () => {
     formRef.current?.reset();
@@ -657,69 +669,76 @@ const DynamicForm = () => {
 
   const onSubmitForm = async (e: FormEvent) => {
     e.preventDefault();
+    if (!executeRecaptcha) {
+      toast({
+        variant: "destructive",
+        title: "Not sent",
+        description: "The security check is still loading. Try again in a second.",
+      })
+      return;
+    }
     setFormLoading(true);
-    const formData = new FormData(formRef.current);
-    if (formData) {
-      const data = Object.fromEntries(formData);
+    const data = Object.fromEntries(new FormData(formRef.current));
 
-      try {
-        const response = await fetch('/submit-contact', {
-          method: "POST",
-          body: JSON.stringify({data, token})
-        });
+    try {
+      const token = await executeRecaptcha(CONTACT_RECAPTCHA_ACTION);
+      const response = await fetch('/submit-contact', {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({data, token})
+      });
 
-        if (response.status === 200) {
-          toast({
-            variant: "success",
-            title: "Form Submitted!",
-            description: "Thank you for getting in touch with me. I'll get back to you in the next 24-48 hours",
-          })
-          clearForm();
-        } else {
-          toast({
-            variant: "destructive",
-            title: "Hmmm 🤔",
-            description: "Something happened while processing your Form. Please try again later.",
-          })
-        }
-      } catch (err) {
+      if (response.ok) {
+        toast({
+          variant: "success",
+          title: "Message sent",
+          description: "Thanks for getting in touch. I usually reply within 24h.",
+        })
+        clearForm();
+      } else {
+        // 400/413 carry a short, safe reason (e.g. a field is too long); anything else stays generic.
+        const reason = response.status === 400 || response.status === 413
+          ? ((await response.json().catch(() => ({}))) as { message?: string }).message
+          : undefined;
         toast({
           variant: "destructive",
-          title: "Error",
-          description: "An unknown error happened on our side. If it continues, please reach out to me directly",
+          title: "Not sent",
+          description: reason || "Something went wrong on my side. Please try again in a minute.",
         })
-      } finally {
-        setFormLoading(false);
-        setRefreshReCaptcha(true);
       }
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Not sent",
+        description: "Couldn't reach the server. If it keeps happening, use Book_me instead.",
+      })
+    } finally {
+      setFormLoading(false);
     }
   }
 
   return (
     <>
-      <GoogleReCaptcha
-        onVerify={onVerify}
-        refreshReCaptcha={refreshReCaptcha}
-      />
       <form
         ref={formRef}
         onSubmit={onSubmitForm}
         method={"POST"}
-        className={clsx(formLoading ? "opacity-20" : "", "md:w-2/3 md:mx-auto lg:w-full flex flex-col rounded-lg dark:bg-[#1e1e1e] bg-[#e0e0e0] p-4 gap-y-2 my-8")}>
-        <div className={"flex"}>
-          <Envelope className={"mr-4"}/>
-          <p className="font-semibold flex items-center gap-x-2">
-            {tree.title}
-          </p>
-        </div>
+        aria-labelledby="contact-form-title"
+        aria-busy={formLoading}
+        className={clsx(formLoading ? "opacity-60" : "", "glass glass-sheen rounded-xl flex flex-col gap-4 px-4 py-5 sm:px-6 sm:py-6 transition-opacity")}>
         <div>
-          <p className="text-muted">{tree.description}</p>
+          <p className="terminal-label">message</p>
+          <h2 id="contact-form-title" className="mt-1 text-lg font-bold text-heading">{tree.title}</h2>
+          <p className="mt-1 text-xs text-muted">{tree.description}</p>
         </div>
-        <div className="grid grid-cols-1 gap-4 items-center my-4">
-          {/* Path Selection */}
+
+        {/* Path Selection */}
+        <div>
+          <label htmlFor="contact-topic" className={labelClass}>Topic</label>
           <select
+            id="contact-topic"
             name="category"
-            className="form-select w-full py-2 px-4 block text-md border border-slate-900 dark:border-slate-300 rounded-lg bg-card"
+            className={fieldClass}
             onChange={handlePathChange}
           >
             {currentPath == undefined &&
@@ -730,18 +749,18 @@ const DynamicForm = () => {
               <option key={path} value={path}>{path}</option>
             ))}
           </select>
+        </div>
 
-          {/* Render dynamic fields based on the current path */}
-          {currentPath && renderOptions(tree.paths[currentPath].options)}
+        {/* Render dynamic fields based on the current path */}
+        {currentPath && renderOptions(tree.paths[currentPath].options)}
 
-          {/* Submit Button */}
-          <div>
-            <button type="submit" className="w-full btn-primary"
-                    disabled={currentPath == undefined || formLoading}>
-              {currentPath == "General Enquiries" ? `Submit Enquiry` : `Enquire Availability`}
-            </button>
-            <p className={"text-primary my-4"}>* Required</p>
-          </div>
+        {/* Submit Button */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-1">
+          <p className="text-xs text-muted"><span className="text-primary" aria-hidden="true">*</span> Required</p>
+          <button type="submit" className="btn-primary rounded-md w-full sm:w-auto"
+                  disabled={currentPath == undefined || formLoading}>
+            {formLoading ? 'Sending…' : currentPath == "General Enquiries" ? `Send_Message` : `Check_Availability`}
+          </button>
         </div>
       </form>
     </>

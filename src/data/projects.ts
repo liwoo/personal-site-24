@@ -4,9 +4,9 @@ export const projects: Project[] = [
   {
     title: 'IremboAI',
     subtitle:
-      'A trilingual AI assistant that gives citizens instant, source-grounded answers about iremboGov services — in Kinyarwanda, English, or French.',
+      "A trilingual AI assistant that answers citizens' questions about iremboGov services.",
     description:
-      "IremboAI reimagines how Rwandans get help with government services. Instead of waiting in a call center queue, citizens can simply ask — in Kinyarwanda, English, or French — and get instant, reliable answers about paying a traffic fine, checking an application status, renewing a visa, transferring land ownership and more. Rather than starting from a blank slate, the agent was built on the lived knowledge of Irembo's call center: every response was engineered and evaluated for both technical accuracy and the helpful, human tone people actually expect.",
+      "Citizens used to queue on the call center for help with government services. With IremboAI they ask in Kinyarwanda, English or French and get an answer straight away: paying a traffic fine, checking an application, renewing a visa, transferring land. We built it on the call center's own knowledge, and scored every answer for accuracy and tone.",
     slug: 'irembo-ai',
     company: {
       name: 'Irembo',
@@ -18,38 +18,38 @@ export const projects: Project[] = [
     },
     projectLink: 'https://irembo.gov.rw/home/citizen/all_services?lang=en',
     duration: 'Jan 2024 - Aug 2025',
-    role: 'AI Engineer',
-    stack: ['Python', 'React', 'LangChain', 'LangFuse'],
+    role: 'AI Engineering Lead',
+    stack: ['Python', 'React', 'LangChain', 'Langfuse'],
     category: 'webApp',
     methods: [
       {
-        title: 'Understanding the Call Center',
+        title: 'Mapping the call center',
         description:
-          "Started by studying how Irembo's call center actually answers customers. This meant categorizing the topics citizens ask about most, mapping the questions to iremboGov services, and codifying the template answers agents rely on — turning years of tacit human knowledge into a structured foundation the AI could be built on.",
+          'Sorted the questions citizens ask most, mapped them to iremboGov services and wrote down the template answers agents rely on.',
       },
       {
-        title: 'Building a Human Evaluation Dataset',
+        title: 'A human evaluation set',
         description:
-          'Curated an evaluation dataset from real human responses to the most common questions coming through the call center. This golden set of question–answer pairs became the behavioural yardstick the agent would be measured against, grounding every later decision in what good, trusted human help looks like.',
+          'Built a golden set of real call center answers to the most common questions. It became the yardstick for every decision after.',
       },
       {
-        title: 'Building & Evaluating the AI Agent',
+        title: 'Building and scoring the agent',
         description:
-          'Built the AI agent and held it to a dual standard. Technically, it was measured on retrieval quality — document relevance, grounding, and faithfulness to source material. Behaviourally, it was scored against the human evaluation dataset to ensure its answers matched the accuracy and tone citizens expect, across all three languages.',
+          'Scored retrieval for relevance, grounding and faithfulness, and scored answers against the golden set for accuracy and tone, in all 3 languages.',
       },
       {
-        title: 'Iterating to Internal Benchmarks',
+        title: 'Iterating to the benchmark',
         description:
-          'Ran a tight loop of measurement and refinement — tuning retrieval, prompts, and guardrails while tracking every change with LangFuse — until the product consistently cleared the internal benchmarks set for accuracy, relevance, and trustworthiness before reaching citizens.',
+          'Tuned retrieval, prompts and guardrails, tracked every change in Langfuse, and shipped once it cleared the internal benchmarks.',
       },
     ],
   },
   {
     title: 'Master Health Facility Registry',
     subtitle:
-      "Malawi's implementation of OpenHIEs Facility Registry, as part of the Interoperability Layer; implemented in collaboration with the Ministry of Health.",
+      "Malawi's register of every health facility, built with the Ministry of Health on OpenHIE.",
     description:
-      'At its very core, the MFL is a comprehensive database of all the Health Facilities in the country (Malawi). From Private Hospitals to Village Clinics, the system keeps track of resources, utilities and services available in each one of these facilities just to mention a few.',
+      "The MFL is a database of every health facility in Malawi, from private hospitals to village clinics, with the resources, utilities and services each one has. It's the facility registry in Malawi's OpenHIE interoperability layer.",
     slug: 'zipatala',
     company: {
       name: 'Baobab Health Trust',
@@ -63,28 +63,28 @@ export const projects: Project[] = [
     sourceLink: 'https://github.com/BaobabHealthTrust/master-facility-list',
     duration: '2018 - 2020',
     role: 'Software Architect',
-    stack: ['React', 'Node.js', 'Javascript', 'FHIR'],
+    stack: ['React', 'Node.js', 'JavaScript', 'FHIR'],
     category: 'webApp',
     methods: [
       {
-        title: 'Stakeholder Collaboration',
+        title: 'Stakeholder collaboration',
         description:
-          "Engaged with Project Managers, District Health Officers, and Development Partners to gather comprehensive requirements. Facilitated open communication channels, ensuring every stakeholder's voice was heard and integrated into the project vision.",
+          'Gathered requirements with project managers, District Health Officers and development partners.',
       },
       {
-        title: 'Technical Feasibility and FHIR Standardization',
+        title: 'FHIR, with OpenHIE',
         description:
-          'Collaborated closely with the OpenHIE community to align the Registry with FHIR standards. Conducted thorough research and feasibility studies to ensure technical viability and future scalability.',
+          'Worked with the OpenHIE community to align the registry with FHIR, and checked feasibility before building.',
       },
       {
-        title: 'Agile Design and Implementation',
+        title: 'Agile delivery',
         description:
-          'Implemented Agile methodologies for project management. Organized and led design and implementation sprints, ensuring adherence to deadlines while maintaining flexibility to adapt to changing project needs.',
+          'Ran the design and build sprints, holding deadlines while the requirements moved.',
       },
       {
-        title: 'Community Engagement',
+        title: 'Community engagement',
         description:
-          'Initiated and led community workshops to populate the Registry with accurate data. Worked in close collaboration with Ministry members, facilitating community involvement and ensuring the long-term success and relevance of the Registry.',
+          'Led workshops with the Ministry and communities to fill the registry with accurate data.',
       },
     ],
     testimony: {
@@ -102,9 +102,9 @@ export const projects: Project[] = [
   {
     title: 'Centenary Bank Malawi Website',
     subtitle:
-      'A modern, sleek and blazingly fast website for Centenary Bank Malawi, redesigned and developed after Centenary Bank acquired MyBucks Bank.',
+      "Centenary Bank Malawi's new website after it acquired MyBucks Bank. 95+ on Lighthouse.",
     description:
-      "The website was designed to be a modern, responsive, and user-friendly platform for the bank's customers. It includes a comprehensive set of features, such as a loan calculator, branch locator, and a secure online banking portal. The website was built with a focus on performance, ensuring a seamless user experience across all devices achieving a Lighthouse score of 95+ across all metrics.",
+      "A responsive site for the bank's customers, with a loan calculator, a branch locator and a secure online banking portal. Built for speed: 95+ on every Lighthouse metric.",
     slug: 'centenary-bank',
     company: {
       name: 'Centenary Bank Malawi',
@@ -117,28 +117,28 @@ export const projects: Project[] = [
     projectLink: 'https://www.centenarybank.co.mw/',
     duration: 'Jan 2023 - April 2023',
     role: 'Software Engineer',
-    stack: ['React', 'Next.js', 'Typescript', 'Tailwind', 'GraphQL'],
+    stack: ['React', 'Next.js', 'TypeScript', 'Tailwind', 'GraphQL'],
     category: 'website',
     methods: [
       {
-        title: 'Requirements Gathering',
+        title: 'Requirements',
         description:
-          "Conducted in-depth discussions with Centenary Bank stakeholders to identify and prioritize key website features. This process involved analyzing the bank's needs and customer feedback to ensure the final product would meet their expectations and enhance user experience.",
+          "Worked through feature priorities with the bank's stakeholders, using customer feedback to decide what made the cut.",
       },
       {
-        title: 'Website Design',
+        title: 'Design',
         description:
-          "Developed the website design from initial mockups to high-fidelity FIGMA files. This phase focused on creating a user-friendly interface that aligns with the bank's branding and ethos. The design process was iterative, allowing for feedback and refinements to ensure the highest quality outcome.",
+          "Took the design from rough mockups to high-fidelity Figma files in the bank's branding, iterating on feedback.",
       },
       {
-        title: 'Implementation',
+        title: 'Build',
         description:
-          'Managed the website implementation process, including creating a detailed schedule and conducting regular check-ins. This method ensured that the project stayed on track and any issues were promptly addressed. Emphasis was placed on efficient development practices to meet the project timeline.',
+          'Ran the build on a fixed schedule with regular check-ins, so issues surfaced early.',
       },
       {
         title: 'Training',
         description:
-          "Provided comprehensive training to the Centenary Bank staff on how to use the new content management system (CMS). This training ensured that the bank's team was fully equipped to manage and update the website independently, maintaining its relevance and effectiveness over time.",
+          "Trained the bank's team on the CMS so they can run the site themselves.",
       },
     ],
     testimony: {
@@ -156,17 +156,17 @@ export const projects: Project[] = [
   {
     title: 'GeniYanga',
     subtitle:
-      'A mobile point-of-sale system built for how Malawian businesses actually trade — inventory, cashiers, customers, payments and online selling in one MRA-compliant platform.',
+      'A till on your phone that turns a small business\'s sales history into stock credit for its next order.',
     description:
-      "GeniYanga (Gulitsani ngati Madolo) is a mobile till built for the realities of Malawian commerce. Retail shops, restaurants, salons, pharmacies, car-parts dealers and event organisers use it to track inventory and cashiers, remember which customers owe what, and sell online beyond WhatsApp through dedicated storefronts. It keeps merchants compliant with the Malawi Revenue Authority's EIS mandate by issuing compliant receipts, works offline when the network drops, syncs across multiple stores, and handles barcode scanning, lay-bye, ticketing and OneKhusa payments. The goal was simple: give a shop owner real-time visibility into their business from a phone in their pocket.",
+      "GeniYanga turns 3 months of sales rung up on a phone into a trading history a lender can approve against. The till is live today; stock credit is in pilot with lenders and suppliers. It matters because Malawi's 1.6 million small businesses carry about 40% of the economy, yet about 1 in 10 can get a loan.",
     slug: 'geniyanga',
     company: {
       name: 'GeniYanga',
       logo: 'geniyanga',
     },
     image: {
-      src: 'https://pub-a0f6f56fff3c42b9bb30bd2143c99754.r2.dev/geni-yanga-hero.jpg',
-      alt: 'GeniYanga — the mobile till built for Malawi',
+      src: 'https://geniyanga.mw/mobile/og.jpg',
+      alt: 'A market trader taking a payment on GeniYanga',
     },
     projectLink: 'https://geniyanga.mw',
     duration: '2024 - Present',
@@ -175,24 +175,24 @@ export const projects: Project[] = [
     category: 'webApp',
     methods: [
       {
-        title: 'Understanding How Merchants Actually Trade',
+        title: 'Sale: a till that fits the counter',
         description:
-          'Spent time with real Malawian merchants to understand the messy realities of day-to-day trade: customers buying on credit, sales happening over WhatsApp, stock spread across more than one store, and cash that rarely reconciles at close of day. Those observations shaped a product that fits existing habits instead of fighting them.',
+          'Tap or scan, take cash, Airtel Money or Mpamba, and issue MRA EIS receipts. Works offline, syncs across stores, and covers lay-bye, storefronts, bookings and event tickets.',
       },
       {
-        title: 'MRA EIS Compliance by Default',
+        title: 'Approve: sales history as credit score',
         description:
-          "Engineered the receipting pipeline around the Malawi Revenue Authority's Electronic Invoicing System mandate, so every transaction produces a compliant receipt without the merchant having to think about it. Compliance became a built-in feature rather than a burden bolted on after the fact.",
+          '3 months of till data plus a TPIN give a lender a trader they can actually see. A partners portal opens that view to banks, MFIs, SACCOs and digital lenders.',
       },
       {
-        title: 'Offline-First, Multi-Store Architecture',
+        title: 'Restock: credit paid as stock',
         description:
-          'Designed the app to keep selling when connectivity disappears, queuing transactions locally and syncing across multiple store locations once the network returns. A Golang backend handles synchronisation and reconciliation so owners get one accurate, real-time view of every branch.',
+          'Approved credit goes to partner suppliers as stock, so it lands where it grows the business.',
       },
       {
-        title: 'Online Storefronts & Integrated Payments',
+        title: 'Grow: repay from every sale',
         description:
-          'Built dedicated online storefronts and wired in OneKhusa payments so businesses could take orders and money beyond WhatsApp threads. Added ticketing, lay-bye and discounts on top, turning a point-of-sale tool into a full commerce platform for small merchants.',
+          'Repayment is a small share of each sale on the till, so it moves with the trader\'s cash flow.',
       },
     ],
     testimony: {
@@ -208,11 +208,92 @@ export const projects: Project[] = [
     },
   },
   {
+    title: 'Eh Khristu',
+    subtitle:
+      'Church giving in 9 African countries: mobile money, card or bank app, every gift in one place.',
+    description:
+      'Most churches still count offerings by hand and reconcile mobile money from screenshots. Eh Khristu gives each church one giving link or QR code. Members give without an account, and treasurers see every gift land in a live dashboard, split by fund and campaign. It takes no cut of offerings on any plan.',
+    slug: 'eh-khristu',
+    company: {
+      name: 'Eh Khristu',
+      logo: 'ehkhristu',
+    },
+    image: {
+      src: 'https://pub-aae4f72dd7e642ba8de3e090625bee40.r2.dev/eh-khristu-main.jpg',
+      alt: 'Eh Khristu: church giving across Africa',
+    },
+    projectLink: 'https://ehkhristu.org',
+    duration: '2026 - Present',
+    role: 'Founder & Engineer',
+    stack: ['Golang', 'Goravel', 'React', 'Inertia'],
+    category: 'webApp',
+    methods: [
+      {
+        title: 'One link, no account',
+        description:
+          'A giving link or QR code per church. Members pay with whatever works in their country, without signing up.',
+      },
+      {
+        title: 'Every gift in one ledger',
+        description:
+          'Online gifts post when the provider confirms; cash is recorded against a member, fund and method, so the books close on one screen.',
+      },
+      {
+        title: 'Funds, campaigns and statements',
+        description:
+          'Tithe, building, missions and more, with goals and dates, plus giving statements and CSV, Excel and PDF exports.',
+      },
+      {
+        title: 'Multi-country payments',
+        description:
+          'Each church connects its own provider account: OneKhusa in Malawi, DPO Pay across the other 8 markets.',
+      },
+    ],
+  },
+  {
+    title: 'Roomcast',
+    subtitle:
+      'Walk a 3D "after" of your room before you build it, with a priced shopping list down to the hinges.',
+    description:
+      "Homeowners pick finishes from flat pictures and find out at the till what the room really costs. Roomcast starts from photos and a few measurements, builds a 3D model you can walk through in a browser, and counts every item in it into a BuildSheet priced at UK and US stores. It's in early access.",
+    slug: 'roomcast',
+    company: {
+      name: 'Roomcast',
+      logo: 'roomcast',
+    },
+    image: {
+      src: 'https://roomcast.ai/assets/og.jpg',
+      alt: 'Roomcast: a walkable 3D preview of a renovated kitchen',
+    },
+    projectLink: 'https://roomcast.ai',
+    duration: '2026 - Present',
+    role: 'Founder & Engineer',
+    stack: ['Three.js', 'Blender', 'Python'],
+    category: 'webApp',
+    methods: [
+      {
+        title: 'Snap the room',
+        description:
+          'A phone scan or a few photos plus tape-measure numbers. LiDAR helps but isn\'t required.',
+      },
+      {
+        title: 'Walk the "after"',
+        description:
+          'Eye-height free roam in any browser, a Today/After toggle, doors that open and a dusk mode for the lighting plan.',
+      },
+      {
+        title: 'The model writes the list',
+        description:
+          'Quantities are counted from the 3D model: 16 doors means 32 hinges. Paint, tile and flooring carry a waste allowance, and lines that need a qualified trade are flagged.',
+      },
+    ],
+  },
+  {
     title: 'Signal',
     subtitle:
-      'A narrative coding game that teaches the Go programming language — write real Go to break cryptographer Dr. Maya Chen out of a locked-down facility.',
+      'A narrative coding game: write real Go to break Dr. Maya Chen out of a locked-down facility.',
     description:
-      "Signal turns learning Go into an escape. You play the person on the outside helping Maya Chen, a cryptography researcher trapped inside a compromised facility, and the only way out runs through the terminal. Every door you open, every message you intercept, every security system you bypass is a real Go program that compiles and runs on the official Go Playground. An AI tutor nudges you toward the answer when you get stuck instead of handing it over, multi-file 'boss fights' put you under time pressure, and a Zen system rewards idiomatic Go with bonus points. The curriculum spans four acts, carrying players from variables, loops and slices all the way to goroutines, channels, HTTP, JSON, databases and CLI tools.",
+      'You play the person on the outside helping Maya Chen, a cryptographer trapped in a compromised facility. Every door you open and every system you bypass is a real Go program, run on the official Go Playground. 4 acts take you from variables and slices to goroutines, channels, HTTP, JSON, databases and CLI tools.',
     slug: 'signal',
     company: {
       name: 'Signal',
@@ -220,7 +301,7 @@ export const projects: Project[] = [
     },
     image: {
       src: 'https://www.playsignal.xyz/og.jpg',
-      alt: 'Signal — learn Go by saving Dr. Maya Chen',
+      alt: 'Signal: learn Go by saving Dr. Maya Chen',
     },
     projectLink: 'https://www.playsignal.xyz/',
     duration: '2025 - Present',
@@ -229,24 +310,24 @@ export const projects: Project[] = [
     category: 'webApp',
     methods: [
       {
-        title: 'Story-First Curriculum Design',
+        title: 'Story-first curriculum',
         description:
-          'Built the entire Go syllabus around a single escape narrative, so each new concept arrives because the story needs it. Variables, slices, goroutines and channels are introduced as tools to unlock the next door rather than as a checklist of language features, which keeps learners pulled forward by curiosity.',
+          'Each Go concept arrives because the story needs it, so goroutines and channels show up as tools for the next door.',
       },
       {
-        title: 'Real Compiler Integration',
+        title: 'A real compiler',
         description:
-          'Wired the game directly into the official Go Playground so every line a player writes actually compiles and runs. There is no simulated sandbox or fake output: learners build real muscle memory against the real toolchain, mistakes and all.',
+          'Every line compiles and runs on the official Go Playground, so learners build muscle memory on the real toolchain, mistakes and all.',
       },
       {
-        title: 'Adaptive AI Tutoring',
+        title: 'An AI tutor that nudges',
         description:
-          "Designed an AI tutor that reads a learner's failing code and guides them toward the fix instead of revealing it. The system meets people where they are stuck, explains the why behind idiomatic Go, and keeps the sense of solving the puzzle yourself intact.",
+          'The tutor reads the failing code and points toward the fix without handing it over.',
       },
       {
-        title: 'Boss Fights & the Zen System',
+        title: 'Boss fights and Zen',
         description:
-          'Created multi-file debugging "boss fights" under time pressure to test whether concepts truly stuck, and a Zen system that rewards clean, idiomatic Go with bonus points. Together they push players past merely-working code toward the patterns real Go engineers are expected to write.',
+          'Timed, multi-file debugging boss fights test what stuck, and the Zen system gives bonus points for idiomatic Go.',
       },
     ],
     testimony: {
@@ -264,9 +345,9 @@ export const projects: Project[] = [
   {
     title: 'Doorbell Mobile App',
     subtitle:
-      'A mobile app that allows users to order food and groceries from their favorite stores and restaurants and have them delivered to their doorstep.',
+      "Food and grocery delivery from Malawi's stores and restaurants, to your door.",
     description:
-      "Doorbell is Malawi's leading on-demand delivery service, connecting customers with their favorite restaurants and stores. The app was designed to be user-friendly, intuitive, and efficient, allowing customers to place orders with just a few taps. The app also includes a comprehensive set of features, such as real-time order tracking, secure payment options, and a seamless communication channel with delivery agents.",
+      "Doorbell is Malawi's leading on-demand delivery service. Customers order from restaurants and stores in a few taps, pay how they like and track the order in real time.",
     slug: 'doorbell',
     company: {
       name: 'Doorbell',
@@ -283,29 +364,29 @@ export const projects: Project[] = [
     category: 'app',
     methods: [
       {
-        title: 'Intuitive User Interface Design',
+        title: 'Ordering in a few taps',
         description:
-          'Crafted a user-friendly interface for the Doorbell app, enabling customers to effortlessly place orders. The design focused on simplicity and ease of navigation, ensuring a seamless experience from browsing to order placement.',
+          'A short path from browsing to checkout.',
       },
       {
-        title: 'Real-Time Order Tracking System',
+        title: 'Real-time tracking',
         description:
-          'Integrated a real-time tracking feature, allowing customers to monitor their orders from pickup to delivery. This feature provided transparency and peace of mind, enhancing the overall customer experience.',
+          'Live order tracking from pickup to the door.',
       },
       {
-        title: 'Secure Payment Integration',
+        title: 'Payments',
         description:
-          'Implemented a variety of secure payment options to cater to different customer preferences. This included credit/debit cards, mobile money, and other digital payment methods, ensuring convenience and security in transactions.',
+          'Cards, mobile money and other digital payments.',
       },
       {
-        title: 'Seamless Communication with Delivery Agents',
+        title: 'Talking to the rider',
         description:
-          'Established a direct and efficient communication channel within the app between customers and delivery agents. This feature enabled quick resolution of queries and special instructions, improving service efficiency.',
+          'In-app messaging between customers and delivery agents for questions and special instructions.',
       },
       {
-        title: 'Performance Optimization and Scalability',
+        title: 'Speed and scale',
         description:
-          "Focused on optimizing the app's performance for a fast, responsive, and reliable user experience. Ensured scalability to handle increasing user loads and maintain smooth operation during peak demand times.",
+          'Tuned for fast loads and built to hold up at peak demand.',
       },
     ],
     testimony: {
@@ -323,9 +404,9 @@ export const projects: Project[] = [
   {
     title: 'Presidential Elections Dashboard',
     subtitle:
-      'Real-time election results dashboard covering the 2025 Malawian Presidential and Parliamentary Elections with minute-by-minute updates and comprehensive historical analysis.',
+      "Live results for Malawi's 2025 presidential and parliamentary elections, with historical context.",
     description:
-      'A cutting-edge interactive dashboard that provided comprehensive coverage of the 2025 Malawian elections. The platform delivered real-time election results as they were announced, featuring advanced data visualizations, interactive maps, and detailed breakdowns at national, regional, district, and constituency levels. The dashboard became the primary source for election information, handling millions of requests during the election period while maintaining exceptional performance and accuracy.',
+      'An interactive dashboard for the 2025 Malawian elections. Results landed as they were announced, with maps and breakdowns at national, regional, district and constituency level. It handled millions of requests over the election period.',
     slug: 'times-elections-dashboard',
     company: {
       name: 'Times Group',
@@ -342,29 +423,29 @@ export const projects: Project[] = [
     category: 'webApp',
     methods: [
       {
-        title: 'Real-time Data Architecture',
+        title: 'Real-time pipeline',
         description:
-          'Designed and implemented a robust real-time data pipeline using WebSockets to ensure election results were displayed within seconds of official announcements. Built failover mechanisms and data validation layers to guarantee accuracy and reliability during peak traffic.',
+          'A WebSocket pipeline put results on screen within seconds of the official announcement, with failover and validation for accuracy under peak load.',
       },
       {
-        title: 'Interactive Geospatial Visualization',
+        title: 'Maps',
         description:
-          'Integrated MapBox to create dynamic, interactive maps showing election results at various administrative levels. Users could drill down from national overviews to specific polling stations, with color-coded visualizations indicating party performance and voter turnout.',
+          'MapBox maps coloured by party and turnout, drilling down from the national view to individual polling stations.',
       },
       {
-        title: 'Historical Analysis Integration',
+        title: 'History',
         description:
-          'Developed comprehensive historical comparison features allowing users to analyze voting patterns across multiple election cycles. Implemented sophisticated data models to track demographic trends, swing constituencies, and party performance evolution.',
+          'Voting patterns across election cycles, including swing constituencies and party trends.',
       },
       {
-        title: 'Responsive Design & Performance',
+        title: 'Phones to broadcast screens',
         description:
-          'Created a fully responsive interface optimized for devices ranging from mobile phones to large broadcast displays. Implemented aggressive caching strategies and CDN distribution to handle millions of concurrent users while maintaining sub-second load times.',
+          'Responsive from mobile up to TV displays, with caching and a CDN for sub-second loads.',
       },
       {
-        title: 'Broadcast Integration',
+        title: 'Broadcast views',
         description:
-          'Designed special views optimized for live television broadcasts, including animated transitions and presenter-friendly layouts. Worked closely with the Times TV production team to ensure seamless integration with their broadcast systems.',
+          'Presenter-friendly layouts and animated transitions, built with the Times TV production team.',
       },
     ],
     testimony: {
@@ -382,9 +463,9 @@ export const projects: Project[] = [
   {
     title: 'MTL Smart App',
     subtitle:
-      'A comprehensive mobile application for MTL customers to manage their mobile services including airtime top-ups, data bundles, balance checks, and advanced account management features.',
+      "MTL's self-service app for airtime, data bundles, balances and sharing.",
     description:
-      'The MTL Smart App is a feature-rich mobile application that empowers MTL customers with complete control over their mobile services. Built with security at its core, the app allows users to easily top up airtime, purchase various data bundles, check their balance and data usage, share airtime and bundles with friends and family, and access detailed transaction history. The application features biometric authentication, end-to-end encryption, and fraud detection mechanisms to ensure the highest level of security for financial transactions. With an intuitive interface and real-time updates, the MTL Smart App has become an essential tool for millions of MTL customers across the network.',
+      'The MTL Smart App lets customers top up airtime, buy data bundles, check balance and usage, share airtime and bundles, and see their transaction history. Biometric login, end-to-end encryption and fraud detection protect every transaction.',
     slug: 'mtl-smart-app',
     company: {
       name: 'MTL',
@@ -401,29 +482,29 @@ export const projects: Project[] = [
     category: 'app',
     methods: [
       {
-        title: 'Secure Transaction Architecture',
+        title: 'Secure transactions',
         description:
-          'Implemented multi-layered security architecture featuring biometric authentication, end-to-end encryption, and real-time fraud detection. Integrated secure payment gateways with PCI-DSS compliance, ensuring all financial transactions are protected against unauthorized access and fraudulent activities.',
+          'Biometric auth, end-to-end encryption, real-time fraud detection and PCI-DSS compliant payment gateways.',
       },
       {
-        title: 'Real-Time Service Management',
+        title: 'Real-time services',
         description:
-          'Developed a robust real-time system for instant airtime top-ups, bundle purchases, and balance inquiries. Implemented WebSocket connections for live updates, ensuring customers receive immediate confirmation of transactions and accurate account information at all times.',
+          'Instant top-ups, bundle purchases and balance checks, confirmed live over WebSockets.',
       },
       {
-        title: 'Intuitive User Experience Design',
+        title: 'Built for every user',
         description:
-          'Crafted a user-centric interface that simplifies complex telecommunications operations into intuitive workflows. Conducted extensive user research and testing to ensure the app is accessible to users of all technical backgrounds, from first-time smartphone users to power users.',
+          'User research and testing so first-time smartphone users and power users both get through quickly.',
       },
       {
-        title: 'Advanced Bundle & Airtime Sharing',
+        title: 'Sharing',
         description:
-          'Created innovative features allowing users to share airtime and data bundles with other MTL users seamlessly. Implemented smart recipient management, transaction history, and scheduling capabilities to enhance the sharing experience and promote community connectivity.',
+          'Send airtime and bundles to other MTL users, with saved recipients, history and scheduling.',
       },
       {
-        title: 'Performance Optimization & Scalability',
+        title: 'Low-end devices, slow networks',
         description:
-          'Optimized the app for performance across various device specifications and network conditions, ensuring smooth operation even on low-end devices or slow networks. Implemented offline capabilities for critical features and built scalable backend infrastructure to handle millions of concurrent users during peak periods.',
+          'Runs on low-end phones and weak connections, with offline support for key features and a backend that scales through peaks.',
       },
     ],
     testimony: {

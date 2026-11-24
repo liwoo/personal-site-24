@@ -1,34 +1,55 @@
 ---
-import { Bio } from '~/components/widgets/Bio.tsx';
-import { AboutTabs } from '~/components/widgets/AboutTabs.tsx';
-import { ProfileSidebar } from '~/components/widgets/ProfileSidebar.tsx';
-import Hero2 from '~/components/widgets/Hero2.astro';
+import { Image } from 'astro:assets';
 import Layout from '~/layouts/PageLayout.astro';
+import PageHeader from '~/components/widgets/PageHeader.astro';
+import HomeImpact from '~/components/widgets/HomeImpact.astro';
+import AboutBio from '~/components/widgets/AboutBio.astro';
+import AboutChips from '~/components/widgets/AboutChips.astro';
 import Button from '~/components/ui/Button.astro';
 import { workExperience } from '~/data/work-experience';
-import { techStack } from '~/data/stack';
+import { certifications, education, expertise, headshots } from '~/data/about';
+import { quickCall } from '~/data/booking';
+import { projectLogo, projectYears } from '~/utils/projects';
+import doshishaLogo from '~/assets/images/logos/png/doshisha-symbol.gif';
+import mubasLogo from '~/assets/images/logos/png/mubas-symbol.png';
 
 export const prerender = true;
 
-// Resolve the real company symbol logos so Dev Mode can render them creatively.
-const logoGlob = import.meta.glob<{ default: { src: string } }>(
-  '/src/assets/images/logos/png/*-symbol.png',
-  { eager: true }
-);
-const logoSrc = (key?: string): string | undefined =>
-  key ? logoGlob[`/src/assets/images/logos/png/${key}-symbol.png`]?.default?.src : undefined;
+const linkedIn = 'https://linkedin.com/in/jchienda';
+const schoolLogos = { doshisha: doshishaLogo, mubas: mubasLogo };
+
+const career = workExperience.map((w) => {
+  const [lead = '', ...more] = w.description ?? [];
+  return {
+    company: w.title,
+    role: w.position,
+    location: w.location,
+    years: projectYears(w.duration),
+    logo: projectLogo(w.image),
+    lead,
+    more,
+  };
+});
+
+// AI is the headline; the rest of the toolbox sits behind "See more".
+const [expertiseLead, ...expertiseRest] = expertise;
 
 const metadata = {
-  title: 'About Jeremiah Chienda — Governance-Grade AI Engineer | National-Scale AI',
+  title: 'About Jeremiah Chienda | Governance-Grade AI Engineer',
   description:
-    'AI engineer building trustworthy AI for high-stakes, regulated environments. Ten years shipping production systems across Malawi, Rwanda, Japan and the UK — from national health platforms to a govtech assistant serving 12M citizens, now inside a UK data regulator.',
+    'AI engineer building trustworthy AI for high-stakes, regulated environments. 10+ years shipping production systems in Malawi, Rwanda and the UK, from national health platforms to a govtech assistant serving 12M citizens. M.Eng from Japan. Now at a UK data regulator.',
 };
 
 const dev = {
   front: [
-    { key: 'status', value: '"I built IremboAI, currently serving 12M citizens in Rwanda"', strong: true, href: '/ai-for-12-million-citizens' },
+    {
+      key: 'status',
+      value: '"I built IremboAI, currently serving 12M citizens in Rwanda"',
+      strong: true,
+      href: '/ai-for-12-million-citizens',
+    },
     { key: 'focus', value: '"Trustworthy AI for high-stakes, regulated environments"' },
-    { key: 'current', value: '"AI Engineer @ ICO — the UK data regulator"' },
+    { key: 'current', value: '"AI Engineer @ ICO, the UK data regulator"' },
     { key: 'based', value: '["Manchester, UK"]' },
   ],
   chips: { key: 'focus', items: ['Responsible AI', 'RAG', 'Agents', 'AI Governance', 'LLM Apps'] },
@@ -36,90 +57,258 @@ const dev = {
     profile: {
       name: 'Jeremiah Chienda',
       headline: 'Governance-grade AI engineer',
-      mission: 'I build trustworthy AI for high-stakes, regulated environments — the kind where being wrong has consequences.',
-    },
-    featured_tweet: {
-      __type: 'tweet',
-      author: 'Chienda',
-      handle: 'liwucodes',
-      url: 'https://twitter.com/liwucodes/status/1746224748067987458',
-      date: 'Jan 13, 2024',
-      text: "Hi 👋 I'm Jeremiah. I'm Mobile and #AI 🪄 Lead at @IremboGov by ☀️ and create by 🌙. I love to #buildinpublic and share my failures and occasional wins. Let's #connect if interested in #softwareengineering #blockchain #startups",
+      mission: "I build trustworthy AI for high-stakes, regulated environments, currently at the UK's data regulator.",
+      impact: ['10+ years', '12M citizens', '2x Founder', '1M+ farmers'],
+      linkedin: { __type: 'cta', label: 'LinkedIn', href: linkedIn },
     },
     bio: {
       __type: 'prose',
       paragraphs: [
-        'Jeremiah is a seasoned software engineer with over a decade of experience shipping production systems across HealthTech, FinTech, AgriTech and GovTech — from Malawi and Rwanda to Japan and the UK.',
-        'He built IremboAI, the assistant 12M Rwandans can ask about government services in Kinyarwanda, English or French, while leading AI and mobile engineering at Irembo. He now builds responsible Data and AI systems at the ICO, the UK’s data regulator.',
-        'Earlier, he helped over 1M smallholder farmers across nine African countries while at One Acre Fund, and built Malawi’s National Master Health Facility Registry with the Ministry of Health at Baobab Health Trust.',
-        'He holds an M.Eng from Doshisha University in Kyoto, Japan — focused on Natural Language Processing — and a BSc from the Malawi University of Business and Applied Sciences. Off the clock, he records gospel rap as Liwu.',
+        "Jeremiah builds trustworthy AI for high-stakes, regulated environments. He's a Malawian software and AI engineer based in the UK, building data and AI solutions at the ICO, the UK's data regulator.",
+        "He built IremboAI, the assistant 12M Rwandans can ask about government services in Kinyarwanda, English or French. He also built Malawi's real-time 2025 elections dashboard, the Doorbell delivery app (£440k+ processed) and Malawi's national Master Health Facility Register.",
+        'Earlier: Lead Software Engineer at One Acre Fund (1M+ farmers), Software Developer at Bestseller (remote), Software Architect at Baobab Health Trust (Malawi).',
+        'M.Eng from Doshisha University in Kyoto, Japan. Off the clock he records gospel rap as Liwu.',
       ],
     },
-    experience: workExperience.map((w) => {
-      const desc = Array.isArray(w.description) ? w.description : [w.description].filter(Boolean);
-      return {
-        company: w.title,
-        logo: logoSrc(w.image),
-        role: w.position,
-        location: w.location,
-        duration: w.duration,
-        impact: desc[0],
-        more: desc.slice(1),
-      };
-    }),
-    skills: techStack
-      .slice()
-      .sort((a, b) => b.experience - a.experience)
-      .slice(0, 10)
-      .map((s) => s.title),
+    experience: career.map((c) => ({
+      company: c.company,
+      logo: c.logo?.src ?? null,
+      role: c.role,
+      location: c.location,
+      years: c.years,
+      impact: c.lead,
+      more: c.more,
+    })),
+    education: [
+      ...education.map((e) => ({ degree: e.degree, school: e.school, place: e.place, note: e.note ?? null })),
+      ...certifications.map((c) => ({ certification: `${c.code}: ${c.title}`, status: c.status })),
+    ],
+    expertise: Object.fromEntries(expertise.map((g) => [g.title, g.items.map((i) => i.label)])),
+    headshots: headshots.length,
+    hire: { __type: 'cta', label: 'Book_me', href: quickCall.href },
   },
 };
 ---
 
 <Layout metadata={metadata} dev={dev}>
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@graph": [
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'ProfilePage',
+          '@id': 'https://chienda.com/about#profilepage',
+          url: 'https://chienda.com/about',
+          name: metadata.title,
+          description: metadata.description,
+          mainEntity: { '@id': 'https://chienda.com/#person' },
+          isPartOf: { '@id': 'https://chienda.com/#website' },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://chienda.com' },
+            { '@type': 'ListItem', position: 2, name: 'About', item: 'https://chienda.com/about' },
+          ],
+        },
+      ],
+    })}
+  />
+
+  <PageHeader
+    label="about"
+    title="Jeremiah Chienda"
+    subtitle="Governance-grade AI engineer. I build AI for places where being wrong has consequences."
+    width="container-lg"
+  >
+    <ul slot="meta" class="flex flex-wrap gap-2 text-xs" aria-label="At a glance">
+      <li class="glass px-3 py-1">AI Engineer @ ICO</li>
+      <li class="glass px-3 py-1">Manchester, UK</li>
+      <li>
+        <a
+          href="https://getalinafe.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="glass inline-block px-3 py-1 hover:text-primary focus-visible:text-primary transition-colors"
+          >Gospel rap as Liwu</a
+        >
+      </li>
+    </ul>
+    <Fragment slot="actions">
+      <Button href={quickCall.href} variant="primary" class="rounded-md" data-open-book-me aria-haspopup="dialog"
+        >Book_me</Button
+      >
+      <Button href={linkedIn} variant="secondary" class="rounded-md" target="_blank" icon="tabler:brand-linkedin"
+        >LinkedIn</Button
+      >
+    </Fragment>
+  </PageHeader>
+
+  <div class="container-lg">
+    <HomeImpact />
+  </div>
+
+  <section class="container-lg pt-10 pb-12 lg:pt-12 lg:pb-16" aria-label="Bio">
+    <AboutBio />
+  </section>
+
+  <section class="container-lg pb-12 lg:pb-16">
+    <p class="terminal-label">experience</p>
+    <h2 class="mt-2 text-2xl md:text-3xl font-bold tracking-tight text-heading">Where I've worked</h2>
+    <ul class="mt-6 glass rounded-xl divide-y divide-gray-500/15 overflow-hidden">
       {
-        "@type": "ProfilePage",
-        "@id": "https://chienda.com/about#profilepage",
-        "url": "https://chienda.com/about",
-        "name": metadata.title,
-        "description": metadata.description,
-        "mainEntity": { "@id": "https://chienda.com/#person" },
-        "isPartOf": { "@id": "https://chienda.com/#website" }
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://chienda.com" },
-          { "@type": "ListItem", "position": 2, "name": "About", "item": "https://chienda.com/about" }
-        ]
+        career.map((c) => (
+          <li class="flex items-start gap-4 px-4 sm:px-6 py-4">
+            {c.logo ? (
+              <Image
+                src={c.logo}
+                alt=""
+                width={40}
+                height={40}
+                class="w-10 h-10 shrink-0 rounded border border-gray-500/20 bg-white object-contain"
+                loading="lazy"
+              />
+            ) : (
+              <span class="w-10 h-10 shrink-0 rounded border border-gray-500/20" aria-hidden="true" />
+            )}
+            <div class="flex-1 min-w-0">
+              <h3 class="font-semibold text-default leading-snug">{c.company}</h3>
+              <p class="mt-1 flex sm:hidden flex-wrap gap-x-2 text-xs uppercase tracking-widest text-muted">
+                <span>{c.role}</span>
+                {c.years && <span class="whitespace-nowrap tabular-nums">{c.years}</span>}
+                <span>{c.location}</span>
+              </p>
+              {c.lead && <p class="mt-1 text-sm text-muted leading-snug">{c.lead}</p>}
+              {c.more.length > 0 && (
+                <details class="see-more mt-2">
+                  <summary>
+                    <span class="see-more-label">See</span>
+                  </summary>
+                  <ul class="mt-2 space-y-1 text-sm text-muted">
+                    {c.more.map((m) => (
+                      <li>{m}</li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+            </div>
+            <div class="hidden sm:block shrink-0 w-48 text-right text-xs uppercase tracking-widest text-muted">
+              <span class="block leading-snug">{c.role}</span>
+              {c.years && <span class="mt-1 block tabular-nums">{c.years}</span>}
+              <span class="mt-1 block">{c.location}</span>
+            </div>
+          </li>
+        ))
       }
-    ]
-  })} />
-  <Hero2 tagline="Trustworthy AI for the places tech forgets">
-    <Fragment slot="title"><span class="underlined">About</span> Me</Fragment>
+    </ul>
+  </section>
 
-    <Fragment slot="subtitle">
-      I build trustworthy AI for high-stakes, regulated environments — the kind where being wrong has consequences.
-    </Fragment>
-    <Fragment slot="content">
-      <a href="/ai-for-12-million-citizens">&gt;&gt; Built IremboAI</a>
-      <br />
-      <a href="https://getalinafe.com">&gt;&gt; Also a gospel rapper — Liwu</a>
-    </Fragment>
-  </Hero2>
+  <section class="container-lg pb-12 lg:pb-16">
+    <p class="terminal-label">education</p>
+    <h2 class="mt-2 text-2xl md:text-3xl font-bold tracking-tight text-heading">Degrees and certs</h2>
+    <ul class="mt-6 glass rounded-xl divide-y divide-gray-500/15 overflow-hidden">
+      {
+        education.map((e) => (
+          <li class="flex items-center gap-4 px-4 sm:px-6 py-4">
+            <Image
+              src={schoolLogos[e.logo]}
+              alt=""
+              width={40}
+              height={40}
+              class="w-10 h-10 shrink-0 rounded border border-gray-500/20 bg-white object-contain"
+              loading="lazy"
+            />
+            <div class="flex-1 min-w-0">
+              <h3 class="font-semibold text-default leading-snug">{e.degree}</h3>
+              <p class="mt-0.5 text-sm text-muted leading-snug">
+                {e.school}, {e.place}
+                {e.note && <span> ({e.note})</span>}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <ul class="mt-4 flex flex-wrap gap-2 text-xs" aria-label="Certifications">
+      {
+        certifications.map((c) => (
+          <li>
+            <a
+              href={c.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={c.title}
+              class="glass inline-block px-3 py-1 hover:text-primary focus-visible:text-primary transition-colors"
+            >
+              {c.code} <span class="text-muted">· {c.status}</span>
+              <span class="sr-only">: {c.title}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
 
-  <div class="flex flex-col lg:flex-row relative container my-12 gap-x-4 lg:gap-x-12">
-    <div class="w-full lg:w-3/5">
-      <AboutTabs client:visible />
-      <div class="mt-8">
-        <Button href="/contact" variant="primary">Want to work together? Get in Touch</Button>
+  <section class="container-lg pb-12 lg:pb-16">
+    <p class="terminal-label">expertise</p>
+    <h2 class="mt-2 text-2xl md:text-3xl font-bold tracking-tight text-heading">What I work with</h2>
+    {expertiseLead && <AboutChips group={expertiseLead} class="mt-6" />}
+    {
+      expertiseRest.length > 0 && (
+        <details class="see-more mt-4">
+          <summary>
+            <span class="see-more-label">See</span>
+          </summary>
+          {expertiseRest.map((g) => (
+            <AboutChips group={g} class="mt-4" />
+          ))}
+        </details>
+      )
+    }
+  </section>
+
+  <section class="container-lg pb-12 lg:pb-16">
+    <p class="terminal-label">photos</p>
+    <h2 class="mt-2 text-2xl md:text-3xl font-bold tracking-tight text-heading">Headshots</h2>
+    <p class="mt-2 text-sm text-muted">Tap one for the full 1024px file.</p>
+    <ul class="mt-6 grid grid-cols-3 sm:grid-cols-6 gap-2">
+      {
+        headshots.map((h) => (
+          <li class="glass rounded-xl p-1">
+            <a
+              href={h.src}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
+              <img
+                src={h.src}
+                alt={h.alt}
+                width="1024"
+                height="1024"
+                loading="lazy"
+                decoding="async"
+                class="w-full aspect-square object-cover rounded bg-gray-500/20"
+              />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="container-lg pb-20">
+    <div class="glass glass-sheen rounded-2xl px-6 py-10 md:py-14 text-center">
+      <p class="terminal-label">hire</p>
+      <h2 class="mt-3 text-2xl md:text-3xl font-bold tracking-tight text-heading">Looking for an AI engineer?</h2>
+      <p class="mt-3 text-sm text-muted">Contract or full-time · agents, RAG, LLM products</p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <Button href={quickCall.href} variant="primary" class="rounded-md" data-open-book-me aria-haspopup="dialog"
+          >Book_me</Button
+        >
+        <Button href="/contact" variant="secondary" class="rounded-md">Let's_Talk</Button>
       </div>
     </div>
-    <div class="w-full md:w-2/3 md:mx-auto lg:w-2/5 mt-8 lg:mt-0 min-w-0">
-      <ProfileSidebar client:visible />
-    </div>
-  </div>
+  </section>
 </Layout>

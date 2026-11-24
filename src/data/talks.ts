@@ -56,7 +56,7 @@ export const talks: Talk[] = [
     location: 'Kigali, Rwanda',
     status: 'past',
     role: 'Speaker',
-    affiliation: 'Mobile & AI Engineering Lead, Irembo',
+    affiliation: 'AI Engineering Lead, Irembo',
     description:
       "Featured speaker at Rwanda's national AI & Machine Learning gathering, alongside academics and industry ML leads (Yale/EPFL, University of Rwanda, IBM, Tech Hive Advisory).",
     topics: ['AI', 'machine learning', 'GovTech', 'community'],
@@ -90,7 +90,7 @@ export const talks: Talk[] = [
     location: 'Online (Google Meet)',
     status: 'past',
     role: 'Guest speaker',
-    affiliation: 'Mobile & AI Engineering Lead, Irembo',
+    affiliation: 'AI Engineering Lead, Irembo',
     description:
       'A deep dive into binary quantization on large language models and its impact, plus practical advice on building a career in AI.',
     topics: ['LLMs', 'binary quantization', 'AI careers', 'model efficiency'],
@@ -107,7 +107,7 @@ export const talks: Talk[] = [
     location: 'Rwanda',
     status: 'past',
     role: 'Guest speaker',
-    affiliation: 'Mobile & AI Engineering Lead, Irembo',
+    affiliation: 'AI Engineering Lead, Irembo',
     description:
       "Introduced Irembo's AI-powered tools serving 120+ government services and explained how binary quantization makes RAG efficient and scalable for low-resource environments; advised prioritising functionality before optimization.",
     topics: ['AI', 'RAG', 'binary quantization', 'low-resource ML', 'GovTech'],
@@ -135,10 +135,10 @@ export const talks: Talk[] = [
   },
   {
     title: 'Blockchain & The Future of Digital Transformation',
-    event: 'Emerging Tech Talk (February Edition) — MUBAS Innovation Hub',
+    event: 'Emerging Tech Talk (February Edition), MUBAS Innovation Hub',
     type: 'talk',
     date: null,
-    location: 'Malawi University of Business and Applied Sciences (MUBAS), Blantyre, Malawi',
+    location: 'MUBAS, Blantyre, Malawi',
     status: 'past',
     role: 'Speaker ("Blockchain Enthusiast")',
     affiliation: null,

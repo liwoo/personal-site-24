@@ -1,36 +1,44 @@
 ---
 import { Icon } from 'astro-icon/components';
 import { getPermalink } from '~/utils/permalinks';
-import Button from '~/components/ui/Button.astro';
 
 export interface Props {
   prevUrl?: string;
   nextUrl?: string;
   prevText?: string;
   nextText?: string;
+  /** Shown as "2 / 6" between the links when both are set. */
+  currentPage?: number;
+  lastPage?: number;
 }
 
-const { prevUrl, nextUrl, prevText = 'Newer posts', nextText = 'Older posts' } = Astro.props;
+const { prevUrl, nextUrl, prevText = 'Newer', nextText = 'Older', currentPage, lastPage } = Astro.props;
+const link =
+  'inline-flex items-center gap-1 text-xs uppercase tracking-widest text-muted hover:text-primary focus-visible:text-primary transition-colors';
 ---
 
 {
   (prevUrl || nextUrl) && (
-    <div class="container flex" id="pagination">
-      <div class="flex flex-row mx-auto container justify-between my-8 lg:my-12">
-        <Button
-          variant="secondary"
-          class={`md:px-3 px-3 mr-2 ${!prevUrl ? 'invisible' : ''}`}
-          href={getPermalink(prevUrl)}
-        >
-          <Icon name="tabler:chevron-left" class="w-6 h-6" />
-          <p class="ml-2">{prevText}</p>
-        </Button>
-
-        <Button variant="secondary" class={`md:px-3 px-3 ${!nextUrl ? 'invisible' : ''}`} href={getPermalink(nextUrl)}>
-          <span class="mr-2">{nextText}</span>
-          <Icon name="tabler:chevron-right" class="w-6 h-6" />
-        </Button>
-      </div>
-    </div>
+    <nav class="mt-6 grid grid-cols-3 items-center gap-4" aria-label="Pagination">
+      {prevUrl ? (
+        <a href={getPermalink(prevUrl)} class={`${link} justify-self-start`} rel="prev">
+          <Icon name="tabler:arrow-left" class="w-4 h-4" aria-hidden="true" />
+          {prevText}
+        </a>
+      ) : (
+        <span aria-hidden="true" />
+      )}
+      {currentPage && lastPage && (
+        <span class="col-start-2 text-center text-xs text-muted tabular-nums">
+          {currentPage} / {lastPage}
+        </span>
+      )}
+      {nextUrl ? (
+        <a href={getPermalink(nextUrl)} class={`${link} col-start-3 justify-self-end`} rel="next">
+          {nextText}
+          <Icon name="tabler:arrow-right" class="w-4 h-4" aria-hidden="true" />
+        </a>
+      ) : null}
+    </nav>
   )
 }

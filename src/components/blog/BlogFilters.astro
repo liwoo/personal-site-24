@@ -1,0 +1,80 @@
+---
+/**
+ * Category filter (plain links to the real category pages, so it works with
+ * JS off and every filter has a URL) plus, on /blog, a live search box that
+ * swaps results into `#blog-results` via the htmx partial at /blog/search.
+ *
+ * Only categories with 2+ posts get a filter; the rest stay reachable from
+ * each post's category chip.
+ */
+import { fetchPosts } from '~/utils/blog';
+import { getBlogPermalink, getPermalink } from '~/utils/permalinks';
+
+export interface Props {
+  /** Category slug of the current page, or 'all' on /blog. */
+  active?: string;
+  /** Render the search box. Needs a `#blog-results` container on the page. */
+  search?: boolean;
+  /** Current /blog page, so clearing the search restores the same page. */
+  currentPage?: number;
+}
+
+const { active = 'all', search = false, currentPage = 1 } = Astro.props;
+
+const posts = await fetchPosts();
+const counts = new Map<string, number>();
+posts.forEach((p) => p.category && counts.set(p.category, (counts.get(p.category) ?? 0) + 1));
+
+const filters = [
+  { key: 'all', label: 'All', count: posts.length, href: getBlogPermalink() },
+  ...[...counts.entries()]
+    .filter(([, n]) => n > 1)
+    .sort((a, b) => b[1] - a[1])
+    .map(([c, n]) => ({ key: c, label: c.replaceAll('-', ' '), count: n, href: getPermalink(c, 'category') })),
+];
+---
+
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+  <nav aria-label="Filter by category" class="glass rounded-xl inline-flex self-start p-1">
+    {
+      filters.map((f) => (
+        <a
+          href={f.href}
+          aria-current={f.key === active ? 'page' : undefined}
+          class:list={[
+            'px-3 py-1.5 text-xs uppercase tracking-widest transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+            f.key === active ? 'bg-[rgb(216_145_33/0.14)] text-primary font-bold' : 'text-muted hover:text-primary',
+          ]}
+        >
+          {f.label} <span class="tabular-nums opacity-70">{f.count}</span>
+        </a>
+      ))
+    }
+  </nav>
+
+  {
+    search && (
+      <form
+        role="search"
+        class="sm:w-64"
+        hx-get="/blog/search"
+        hx-target="#blog-results"
+        hx-trigger="submit, input delay:400ms"
+      >
+        <label for="blog-search" class="sr-only">
+          Search articles
+        </label>
+        <input
+          id="blog-search"
+          type="search"
+          name="q"
+          autocomplete="off"
+          placeholder="Search articles"
+          class="w-full rounded-md border border-gray-400/50 dark:border-gray-500/40 bg-white/70 dark:bg-black/30 px-3 py-2 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+        />
+        <input type="hidden" name="page" value={currentPage} />
+        <p id="blog-search-status" class="sr-only" aria-live="polite" />
+      </form>
+    )
+  }
+</div>

@@ -1,0 +1,79 @@
+---
+/**
+ * The /about pitch: 2 short first-person lines, with the full third-person bio
+ * (the one event organisers ask for) behind "See more".
+ */
+const ext = { target: '_blank', rel: 'noopener noreferrer' };
+---
+
+<div class="about-bio max-w-3xl text-base text-default leading-relaxed">
+  <p>
+    I build trustworthy AI for high-stakes, regulated environments, currently at the UK's <a
+      href="https://ico.org.uk/"
+      {...ext}>Information Commissioner's Office</a
+    >, the data regulator.
+  </p>
+  <p class="mt-3">
+    I built <a href="/projects/irembo-ai">IremboAI</a>, the assistant 12M Rwandans can ask about government services in
+    Kinyarwanda, English or French.
+  </p>
+
+  <details class="see-more mt-4">
+    <summary><span class="see-more-label">See</span></summary>
+    <div class="mt-3 space-y-3 text-sm text-muted">
+      <p>
+        Jeremiah Chienda builds trustworthy AI for high-stakes, regulated environments: the places where being wrong has
+        consequences, and often the places tech forgets. A Malawian software and AI engineer based in the UK, he builds
+        data and AI solutions at the <a href="https://ico.org.uk/" {...ext}>Information Commissioner's Office</a> (ICO),
+        where governance, PII and audit are the daily default.
+      </p>
+      <p>
+        Across 10+ years and 4 countries (work in Malawi, Rwanda and the UK, study in Japan) he has shipped production
+        software at national scale. He built the first
+        version of <a href="/projects/irembo-ai">IremboAI</a>, the trilingual assistant on Rwanda's national
+        e-government platform, evaluated to a 95% internal benchmark for accuracy and tone. He built the real-time <a
+          href="/projects/times-elections-dashboard">Presidential Elections Dashboard</a
+        > that became a primary results source on national TV during Malawi's 2025 elections, the <a
+          href="/projects/doorbell">Doorbell</a
+        > delivery app (over £440k processed for Malawian merchants) and the pharma and clinic module of mboraMAX. Earlier,
+        he architected Malawi's national <a href="https://zipatala.health.gov.mw/" {...ext}
+          >Master Health Facility Register</a
+        >.
+      </p>
+      <p>
+        He was Lead Software Engineer at <a href="https://oneacrefund.org/" {...ext}>One Acre Fund</a>, leading a team
+        building mobile and web apps for 1M+ smallholder farmers across East Africa. Before that: Software Developer at <a
+          href="https://bestseller.com/"
+          {...ext}>Bestseller</a
+        > (remote) and Software Architect at <a href="https://www.facebook.com/Baobabhealthtrust/" {...ext}
+          >Baobab Health Trust</a
+        > in Malawi.
+      </p>
+      <p>
+        He holds a Master of Engineering from <a href="https://www.doshisha.ac.jp/en/" {...ext}>Doshisha University</a> in
+        Kyoto, Japan, and is working towards Microsoft DP-700 (Fabric Data Engineer) and AI-102 (Azure AI Engineer).
+      </p>
+      <p>
+        His work has been recognised through EU/GOPA-supported consulting, a UN digital-health approach and international
+        GovTech award platforms. He <a href="/blog">writes about AI agent engineering</a> and <a href="/speaking"
+          >speaks internationally</a
+        > on trustworthy AI and GovTech. Off the clock he's a gospel hip-hop artist, performing as <a
+          href="https://getalinafe.com"
+          {...ext}>Liwu</a
+        >.
+      </p>
+    </div>
+  </details>
+</div>
+
+<style>
+  .about-bio a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgb(216 145 33 / 0.55);
+  }
+  .about-bio a:hover,
+  .about-bio a:focus-visible {
+    color: var(--aw-color-primary);
+  }
+</style>
