@@ -1,10 +1,10 @@
 import React, {
   type FormEvent,
-  useCallback,
   useRef,
   useState
 } from 'react';
-import {GoogleReCaptcha, useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import {CONTACT_RECAPTCHA_ACTION} from "~/utils/contact";
 import {useToast} from "~/components/ui/use-toast.tsx";
 import {clsx} from "clsx";
 
@@ -198,10 +198,10 @@ const tree: DecisionTree = {
                   order: 1,
                   title: "Event Organizer Name",
                   input: {
-                    id: "eventOrganizer",
+                    id: "eventOrganizerName",
                     inputType: "text",
                     required: true,
-                    name: "eventOrganizer",
+                    name: "eventOrganizerName",
                     placeholder: "Your name"
                   }
                 },
@@ -210,10 +210,10 @@ const tree: DecisionTree = {
                   order: 2,
                   title: "Event Organizer Email",
                   input: {
-                    id: "eventOrganizer",
+                    id: "eventOrganizerEmail",
                     inputType: "email",
                     required: true,
-                    name: "eventOrganizer",
+                    name: "eventOrganizerEmail",
                     placeholder: "you@domain.com"
                   }
                 }
@@ -656,15 +656,10 @@ const DynamicForm = () => {
         return null;
     }
   };
-  const [token, setToken] = useState<string>();
-  const [refreshReCaptcha, setRefreshReCaptcha] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
+  const {executeRecaptcha} = useGoogleReCaptcha();
 
   const formRef = useRef<HTMLFormElement | undefined>();
-
-  const onVerify = useCallback((token: string) => {
-    setToken(token);
-  }, []);
 
   const clearForm = () => {
     formRef.current?.reset();
@@ -674,50 +669,56 @@ const DynamicForm = () => {
 
   const onSubmitForm = async (e: FormEvent) => {
     e.preventDefault();
+    if (!executeRecaptcha) {
+      toast({
+        variant: "destructive",
+        title: "Not sent",
+        description: "The security check is still loading. Try again in a second.",
+      })
+      return;
+    }
     setFormLoading(true);
-    const formData = new FormData(formRef.current);
-    if (formData) {
-      const data = Object.fromEntries(formData);
+    const data = Object.fromEntries(new FormData(formRef.current));
 
-      try {
-        const response = await fetch('/submit-contact', {
-          method: "POST",
-          body: JSON.stringify({data, token})
-        });
+    try {
+      const token = await executeRecaptcha(CONTACT_RECAPTCHA_ACTION);
+      const response = await fetch('/submit-contact', {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({data, token})
+      });
 
-        if (response.status === 200) {
-          toast({
-            variant: "success",
-            title: "Message sent",
-            description: "Thanks for getting in touch. I usually reply within 24h.",
-          })
-          clearForm();
-        } else {
-          toast({
-            variant: "destructive",
-            title: "Not sent",
-            description: "Something went wrong on my side. Please try again in a minute.",
-          })
-        }
-      } catch (err) {
+      if (response.ok) {
+        toast({
+          variant: "success",
+          title: "Message sent",
+          description: "Thanks for getting in touch. I usually reply within 24h.",
+        })
+        clearForm();
+      } else {
+        // 400/413 carry a short, safe reason (e.g. a field is too long); anything else stays generic.
+        const reason = response.status === 400 || response.status === 413
+          ? ((await response.json().catch(() => ({}))) as { message?: string }).message
+          : undefined;
         toast({
           variant: "destructive",
           title: "Not sent",
-          description: "Couldn't reach the server. If it keeps happening, use Book_me instead.",
+          description: reason || "Something went wrong on my side. Please try again in a minute.",
         })
-      } finally {
-        setFormLoading(false);
-        setRefreshReCaptcha(true);
       }
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Not sent",
+        description: "Couldn't reach the server. If it keeps happening, use Book_me instead.",
+      })
+    } finally {
+      setFormLoading(false);
     }
   }
 
   return (
     <>
-      <GoogleReCaptcha
-        onVerify={onVerify}
-        refreshReCaptcha={refreshReCaptcha}
-      />
       <form
         ref={formRef}
         onSubmit={onSubmitForm}

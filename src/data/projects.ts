@@ -18,7 +18,7 @@ export const projects: Project[] = [
     },
     projectLink: 'https://irembo.gov.rw/home/citizen/all_services?lang=en',
     duration: 'Jan 2024 - Aug 2025',
-    role: 'AI Engineer',
+    role: 'AI Engineering Lead',
     stack: ['Python', 'React', 'LangChain', 'Langfuse'],
     category: 'webApp',
     methods: [
@@ -158,7 +158,7 @@ export const projects: Project[] = [
     subtitle:
       'A till on your phone that turns a small business\'s sales history into stock credit for its next order.',
     description:
-      "Malawi has about 1.6 million small businesses carrying roughly 40% of the economy, and about 1 in 10 can get a loan. Lenders can't see them. GeniYanga fixes that at the counter: traders ring up sales on their phone, and 3 months of recorded sales become a trading history a lender can approve against. The credit buys stock from partner suppliers and is repaid as a share of each sale. The till is live today. Credit is in pilot with lenders and suppliers.",
+      "GeniYanga turns 3 months of sales rung up on a phone into a trading history a lender can approve against. The till is live today; stock credit is in pilot with lenders and suppliers. It matters because Malawi's 1.6 million small businesses carry about 40% of the economy, yet about 1 in 10 can get a loan.",
     slug: 'geniyanga',
     company: {
       name: 'GeniYanga',
@@ -187,12 +187,12 @@ export const projects: Project[] = [
       {
         title: 'Restock: credit paid as stock',
         description:
-          'Approved credit goes to partner suppliers as stock, not cash, so it lands where it grows the business.',
+          'Approved credit goes to partner suppliers as stock, so it lands where it grows the business.',
       },
       {
         title: 'Grow: repay from every sale',
         description:
-          'Repayment is a small share of each sale on the till, so it moves with the trader\'s cash flow instead of a fixed due date.',
+          'Repayment is a small share of each sale on the till, so it moves with the trader\'s cash flow.',
       },
     ],
     testimony: {
@@ -220,7 +220,7 @@ export const projects: Project[] = [
     },
     image: {
       src: 'https://pub-aae4f72dd7e642ba8de3e090625bee40.r2.dev/eh-khristu-main.jpg',
-      alt: 'Eh Khristu — church giving platform across Africa',
+      alt: 'Eh Khristu: church giving across Africa',
     },
     projectLink: 'https://ehkhristu.org',
     duration: '2026 - Present',
@@ -263,7 +263,7 @@ export const projects: Project[] = [
     },
     image: {
       src: 'https://roomcast.ai/assets/og.jpg',
-      alt: 'Roomcast — walk your renovation before you build it',
+      alt: 'Roomcast: a walkable 3D preview of a renovated kitchen',
     },
     projectLink: 'https://roomcast.ai',
     duration: '2026 - Present',
@@ -301,7 +301,7 @@ export const projects: Project[] = [
     },
     image: {
       src: 'https://www.playsignal.xyz/og.jpg',
-      alt: 'Signal — learn Go by saving Dr. Maya Chen',
+      alt: 'Signal: learn Go by saving Dr. Maya Chen',
     },
     projectLink: 'https://www.playsignal.xyz/',
     duration: '2025 - Present',

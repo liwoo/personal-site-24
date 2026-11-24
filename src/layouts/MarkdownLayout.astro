@@ -9,6 +9,8 @@ export interface Props {
     title?: string;
     /** Optional eyebrow; defaults to `legal` (privacy, terms). */
     label?: string;
+    /** Optional "last updated" date shown under the title, e.g. '24 November 2026'. */
+    updated?: string;
   };
 }
 
@@ -22,6 +24,7 @@ const metadata: MetaData = {
 <Layout metadata={metadata}>
   <PageHeader label={frontmatter?.label ?? 'legal'} width="container-article">
     <Fragment slot="title">{frontmatter?.title}</Fragment>
+    {frontmatter?.updated && <Fragment slot="subtitle">Last updated {frontmatter.updated}</Fragment>}
   </PageHeader>
   <div
     class="markdown-content container-article pb-16 lg:pb-24 prose max-w-3xl dark:prose-invert prose-headings:text-default prose-headings:font-heading prose-headings:tracking-tight prose-headings:font-bold prose-a:text-primary dark:prose-a:text-primary prose-a:underline-offset-4 prose-img:border prose-img:border-gray-500/30"

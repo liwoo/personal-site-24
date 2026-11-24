@@ -12,7 +12,7 @@ export const workExperience: Array<WorkExperience> = [
   {
     title: 'Irembo',
     location: 'Kigali, RW',
-    position: 'AI Engineer',
+    position: 'AI Engineering Lead',
     duration: 'Aug 2023 - Aug 2025',
     image: 'irembo',
     description: [
