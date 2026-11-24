@@ -9,6 +9,7 @@ import Button from '~/components/ui/Button.astro';
 import { workExperience } from '~/data/work-experience';
 import { certifications, education, expertise, headshots } from '~/data/about';
 import { quickCall } from '~/data/booking';
+import { MUSIC_URL } from '~/data/navigation';
 import { projectLogo, projectYears } from '~/utils/projects';
 import doshishaLogo from '~/assets/images/logos/png/doshisha-symbol.gif';
 import mubasLogo from '~/assets/images/logos/png/mubas-symbol.png';
@@ -127,7 +128,7 @@ const dev = {
       <li class="glass px-3 py-1">Manchester, UK</li>
       <li>
         <a
-          href="https://getalinafe.com"
+          href={MUSIC_URL}
           target="_blank"
           rel="noopener noreferrer"
           class="glass inline-block px-3 py-1 hover:text-primary focus-visible:text-primary transition-colors"

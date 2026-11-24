@@ -51,6 +51,7 @@ const { socialLinks = [], links = [], footNote = '', theme = 'light' } = Astro.p
                       class="text-muted hover:text-default hover:underline transition duration-150 ease-in-out"
                       href={href}
                       aria-label={ariaLabel}
+                      {...(/^https?:\/\//.test(href ?? '') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                     >
                       <Fragment set:html={text} />
                     </a>

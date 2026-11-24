@@ -1,5 +1,8 @@
 import { getPermalink } from '../utils/permalinks';
 
+/** Every "Music" link goes to Liwu's album Alinafe on Spotify. */
+export const MUSIC_URL = 'https://open.spotify.com/album/68a5x75242VpODWNkHgwX4';
+
 export const headerData = {
   links: [
     {
@@ -45,7 +48,7 @@ export const footerData = {
       links: [
         { text: 'Projects', href: '/projects' },
         { text: 'Skills', href: '/skills' },
-        { text: 'Music', href: 'https://getalinafe.com' },
+        { text: 'Music', href: MUSIC_URL },
         { text: 'Speaking', href: '/speaking' },
       ],
     },
