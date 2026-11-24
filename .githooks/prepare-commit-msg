@@ -1,0 +1,64 @@
+#!/bin/sh
+# The commit gate. Runs for every commit, including `git commit --no-verify`
+# (which skips pre-commit but not this hook). Installed by `pnpm install`
+# ("prepare" sets core.hooksPath=.githooks).
+#
+# 1. Secret scan of what's being committed (every commit, human or agent).
+# 2. Commits made from Claude Code (CLAUDECODE=1) also need sign-off from both
+#    reviewer agents on this exact tree. `git write-tree` here sees the index
+#    git is really committing (including -a, pathspecs, aliases, anything run
+#    earlier in the same shell command), so there's no command text to parse.
+#
+# $2 is the message source: message | template | merge | squash | commit
+# ("commit" means --amend, -c or -C).
+export GIT_NO_REPLACE_OBJECTS=1 # see the real objects, not `git replace` decoys
+
+root=$(git rev-parse --show-toplevel) || exit 1
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "commit-gate: node isn't available, so the secret scan can't run. Refusing to commit." >&2
+  exit 1
+fi
+node "$root/scripts/secret-scan.mjs" || exit 1
+
+[ -n "$CLAUDECODE" ] || exit 0
+
+# Merges, rebases and cherry-picks are judged by reference-transaction
+# (scripts/ref-gate.mjs), which still enforces sign-offs: a clean merge or an
+# exact copy of an existing commit passes, while conflict resolutions and edits
+# need sign-off. (Deferring only moves where the error shows up.)
+[ "$2" = "merge" ] && exit 0
+parent_args=$(ps -o args= -p "$PPID" 2>/dev/null)
+if [ -d "$(git rev-parse --git-path rebase-merge)" ] || [ -d "$(git rev-parse --git-path rebase-apply)" ] ||
+  printf '%s' "$parent_args" | grep -qE '(^|[[:space:]/])git([[:space:]]+-[^[:space:]]+([[:space:]]+[^-][^[:space:]]*)?)*[[:space:]]+(rebase|cherry-pick|pull)([[:space:]]|$)'; then
+  exit 0
+fi
+
+# `--amend -m` reports $2=message, so also look at the git process's own args
+# (git accepts --am/--ame/--amen as abbreviations).
+if [ "$2" = "commit" ] || printf "%s" "$parent_args" | grep -qE '(^|[[:space:]])--am(e|en|end)?([[:space:]=]|$)'; then
+  echo "commit-gate: no --amend / -c / -C from Claude Code. Reviews cover the staged changes against HEAD; make a new commit." >&2
+  exit 1
+fi
+
+tree=$(git write-tree) || exit 1
+missing=""
+for r in ui-engineer security-reviewer; do
+  f="$root/.claude/reviews/$r"
+  if [ ! -f "$f" ] || [ "$(cut -d' ' -f1 "$f")" != "$tree" ]; then
+    missing="$missing $r"
+  fi
+done
+[ -z "$missing" ] && exit 0
+
+cat >&2 <<MSG
+commit-gate: BLOCKED. The tree being committed ($tree) has no sign-off from:$missing
+
+Stage exactly what you mean to commit, then run these agents in parallel on
+the staged diff (git diff --cached):
+$(for r in $missing; do echo "  - $r"; done)
+Each signs off with: .claude/hooks/approve.sh <agent-name> "<one-line verdict>"
+Then commit plainly. Anything that changes the tree after review (git add,
+commit -a, pathspecs) voids the sign-off.
+MSG
+exit 1
